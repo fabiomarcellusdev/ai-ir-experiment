@@ -1,0 +1,8 @@
+{
+  "unitTests": [".claude/hooks/*.test.mjs", "tools/*.test.mjs"],
+  "pnpmProjects": ["."],
+  "minReleaseAgeMinutes": 86400,
+  "privacyTermsFile": "private-docs/privacy-terms.txt",
+  "privacyAllow": [],
+  "golden": []
+}

@@ -1,0 +1,35 @@
+# pnpm settings: the supply-chain rules of docs/decisions/0001-supply-chain.md.
+# pnpm 12 reads these settings from this file, not from .npmrc. tools/check.mjs fails if one is weakened.
+
+# A version must be published for 60 days (86,400 minutes) before pnpm installs it. This applies to every package a
+# dependency brings in, and pnpm also checks an existing lockfile against it.
+minimumReleaseAge: 86400
+minimumReleaseAgeStrict: true
+
+# Security exceptions: a fix younger than 60 days for a known vulnerability, with the owner's yes. Each entry needs
+# the comment "Remove this entry on or after YYYY-MM-DD"; tools/check.mjs fails after that date.
+# minimumReleaseAgeExclude:
+#   # <package> <old version> has <advisory id> (<severity>). The fix, <version>, was published <date>.
+#   # Remove this entry on or after <date 60 days after the fix>.
+#   - <package>
+
+# Fail if a package's publishing trust level goes down (for example, provenance lost).
+trustPolicy: no-downgrade
+
+# Only direct dependencies may come from git or tarball URLs.
+blockExoticSubdeps: true
+
+# No dependency runs an install script. An unreviewed build script fails the install.
+strictDepBuilds: true
+allowBuilds: {}
+ignoreScripts: true
+
+# Nothing is installed without a command that asks for it.
+verifyDepsBeforeRun: error
+autoInstallPeers: false
+strictPeerDependencies: true
+pmOnFail: error
+
+# Exact versions only; refuse packages that do not support this Node version.
+saveExact: true
+engineStrict: true

@@ -1,0 +1,4 @@
+{
+  "maxWorktrees": 3,
+  "copyFromMain": ["CLAUDE.local.md", ".claude/settings.local.json", ".claude/local"]
+}

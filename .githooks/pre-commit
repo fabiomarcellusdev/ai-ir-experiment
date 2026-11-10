@@ -1,0 +1,6 @@
+#!/bin/sh
+# The commit milestone (docs/testing.md). First the branch and quiet-hours rules (tools/git-guard.mjs), then the
+# checks. A failure stops the commit. Turn the hooks on once per clone: git config core.hooksPath .githooks
+# Never skip them with --no-verify without the owner's yes.
+node tools/git-guard.mjs pre-commit || exit 1
+exec node tools/check.mjs fast

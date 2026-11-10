@@ -1,0 +1,3 @@
+# Every text file is stored and checked out with LF line endings, on every system.
+# Test fixtures that must keep CRLF or a BOM get "-text" rules here (phase 1).
+* text=auto eol=lf

@@ -1,0 +1,119 @@
+{
+  "outputStyle": "ASD-STE100",
+  "permissions": {
+    "deny": [
+      "Bash(gh pr merge*)",
+      "Bash(gh pr review*--approve*)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(npm install*)",
+      "Bash(npm i *)",
+      "Bash(npm ci*)",
+      "Bash(npm add*)",
+      "Bash(npm update*)",
+      "Bash(npm exec*)",
+      "Bash(npx *)",
+      "Bash(yarn *)",
+      "Bash(bun *)",
+      "Bash(bunx *)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Read(**/*.p12)",
+      "Read(**/*.pfx)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.npmrc)",
+      "Read(~/.netrc)",
+      "Read(~/.config/gh/**)"
+    ],
+    "ask": [
+      "Bash(pnpm add*)",
+      "Bash(pnpm install*)",
+      "Bash(pnpm i*)",
+      "Bash(pnpm update*)",
+      "Bash(pnpm up*)",
+      "Bash(pnpm dlx*)",
+      "Bash(pnpm create*)",
+      "Bash(pnpm fetch*)",
+      "Bash(pnpm self-update*)",
+      "Bash(pnpm publish*)",
+      "Bash(pnpx *)",
+      "Bash(corepack *)",
+      "Bash(git remote*)",
+      "Bash(git config*)",
+      "Bash(gh release*)",
+      "Bash(gh repo*)",
+      "Read(./private-docs/**)",
+      "Read(./CLAUDE.local.md)",
+      "Edit(./.claude/**)",
+      "Edit(./tools/**)",
+      "Edit(./.githooks/**)",
+      "Edit(./.gitattributes)",
+      "Edit(./.gitignore)",
+      "Edit(./package.json)",
+      "Edit(./pnpm-workspace.yaml)",
+      "Edit(./tests/golden/**)",
+      "Edit(./.github/**)",
+      "Edit(./.local/**)",
+      "Read(./.local/**)",
+      "Edit(./.git)",
+      "Edit(./.git/**)",
+      "Edit(**/.git)",
+      "Edit(**/.git/**)",
+      "Read(**/private-docs/**)",
+      "Edit(**/private-docs/**)",
+      "Read(**/.local/**)",
+      "Edit(**/.local/**)",
+      "Read(**/CLAUDE.local.md)",
+      "Edit(**/CLAUDE.local.md)"
+    ]
+  },
+  "enableAllProjectMcpServers": false,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/quiet-hours-guard.mjs\"",
+            "timeout": 10,
+            "onFailure": "block",
+            "statusMessage": "Checking the quiet hours"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/package-guard.mjs\"",
+            "timeout": 10,
+            "onFailure": "block",
+            "statusMessage": "Checking for package installs"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash|PowerShell|WebFetch|mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/security-guard.mjs\"",
+            "timeout": 10,
+            "onFailure": "block",
+            "statusMessage": "Checking for private files and outbound data"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true
+  }
+}

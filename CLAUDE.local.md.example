@@ -1,0 +1,29 @@
+# Private notes for this checkout (git-ignored)
+
+<!-- Copy this file to CLAUDE.local.md and fill it in. CLAUDE.local.md is git-ignored; this example is not.
+     Claude Code loads CLAUDE.local.md after CLAUDE.md. Never copy its content into a tracked file. -->
+
+## Private documents
+
+- `private-docs/`: plans and notes that must not be public. Read them only when the owner asks.
+- `private-docs/privacy-terms.txt`: one private term a line (names, internal URLs, other project names, machine
+  details). `node tools/check.mjs fast` fails when one appears in a file that git would publish.
+
+## The owner's working agreements (examples; keep the ones you want)
+
+- **Explain in plain language as you go.** Beside the technical account, say what the change or result means in terms
+  a non-engineer can follow. For highly technical material, use an everyday comparison, define each term the first
+  time, and say what it means for the decision the owner must make and what it does not show.
+- **Match the model to the stage, and stop for the switch.** Before design work, stop and offer the switch to the
+  strongest model. Before the first line of implementation, stop again and offer the switch to a faster one.
+
+## This machine
+
+- **OS, CPU, cores, memory:** <for timing claims>.
+- **Shared with other work?** <If timed benchmarks of another project run here, name the lock or the rule, for
+  example: "check <lock command> before heavy work; run installs, test suites and builds under it.">
+- **Tools not on the path:** <for example: "pnpm runs as `corepack pnpm`">.
+
+## Git identity
+
+<The commit email for this repository, for example a GitHub noreply address set with `git config user.email`.>

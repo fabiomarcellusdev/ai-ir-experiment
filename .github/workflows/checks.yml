@@ -1,0 +1,50 @@
+# The push and pull-request milestone (docs/testing.md), on Windows, macOS and Linux.
+# Security (docs/decisions/0002-agents-and-security.md): read-only token, no secrets, actions pinned by full commit
+# hash, no saved credentials, and "pull_request" (never "pull_request_target"), so code from a fork never runs with
+# write access. Actions are vetted like packages (decision 0001): 60 days old or more, no known advisory, updated by
+# hand. Re-vet the pins below when you adopt the template.
+name: checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 6 1 * *" # monthly: catches advisories published after the last change
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: checks (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-2025, macos-15]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1, 2026-07-20
+        with:
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0, 2026-07-14
+        with:
+          node-version: 24.22.1 # a security release; check for a newer one when you adopt the template
+
+      - name: Install the pinned packages (no scripts)
+        if: hashFiles('pnpm-lock.yaml') != ''
+        env:
+          COREPACK_ENABLE_DOWNLOAD_PROMPT: "0"
+        run: corepack pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Run the push milestone checks
+        run: node tools/check.mjs full

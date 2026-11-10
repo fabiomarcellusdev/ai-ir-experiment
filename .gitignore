@@ -1,0 +1,14 @@
+node_modules/
+*.log
+.env
+.env.*
+# Private, per-checkout files: never committed
+.claude/settings.local.json
+.claude/local/
+.local/
+CLAUDE.local.md
+private-docs/
+# Build and measurement output
+dist/
+out/
+coverage/
