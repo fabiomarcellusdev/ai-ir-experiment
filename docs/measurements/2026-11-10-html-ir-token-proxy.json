@@ -1,0 +1,238 @@
+{
+  "primerTokens": {
+    "A": 112,
+    "B": 109
+  },
+  "total": {
+    "min": 868917,
+    "hir": 842979,
+    "viewHtml": 216097,
+    "viewHir": 207950,
+    "viewHirRefs": 246912
+  },
+  "totalB": {
+    "min": 812543,
+    "hir": 763628,
+    "viewHtml": 187166,
+    "viewHir": 169253,
+    "viewHirRefs": 208215
+  },
+  "results": [
+    {
+      "file": "experiments/html-ir/pages/github/page.html",
+      "bytes": 551451,
+      "tokens": {
+        "min": 205175,
+        "hir": 199833,
+        "viewHtml": 38918,
+        "viewHir": 38964,
+        "viewHirRefs": 48648
+      },
+      "tokensB": {
+        "min": 192032,
+        "hir": 181027,
+        "viewHtml": 33859,
+        "viewHir": 32359,
+        "viewHirRefs": 42043
+      },
+      "removed": {
+        "elements": 72740,
+        "svg": 52712,
+        "class": 16209,
+        "attrs": 75525,
+        "comments": 53
+      },
+      "roundTrip": "PASS",
+      "idempotent": true
+    },
+    {
+      "file": "experiments/html-ir/pages/hackernews/page.html",
+      "bytes": 34001,
+      "tokens": {
+        "min": 11203,
+        "hir": 10564,
+        "viewHtml": 8864,
+        "viewHir": 8907,
+        "viewHirRefs": 10401
+      },
+      "tokensB": {
+        "min": 10318,
+        "hir": 8621,
+        "viewHtml": 7970,
+        "viewHir": 7423,
+        "viewHirRefs": 8917
+      },
+      "removed": {
+        "elements": 111,
+        "svg": 0,
+        "class": 794,
+        "attrs": 749,
+        "comments": 0
+      },
+      "roundTrip": "PASS",
+      "idempotent": true
+    },
+    {
+      "file": "experiments/html-ir/pages/mdn/page.html",
+      "bytes": 189506,
+      "tokens": {
+        "min": 50528,
+        "hir": 50075,
+        "viewHtml": 17681,
+        "viewHir": 17168,
+        "viewHirRefs": 20199
+      },
+      "tokensB": {
+        "min": 40869,
+        "hir": 39221,
+        "viewHtml": 14040,
+        "viewHir": 13012,
+        "viewHirRefs": 16043
+      },
+      "removed": {
+        "elements": 22334,
+        "svg": 4610,
+        "class": 1232,
+        "attrs": 10813,
+        "comments": 2302
+      },
+      "roundTrip": "PASS",
+      "idempotent": true
+    },
+    {
+      "file": "experiments/html-ir/pages/tailwind/page.html",
+      "bytes": 877915,
+      "tokens": {
+        "min": 348022,
+        "hir": 343930,
+        "viewHtml": 11989,
+        "viewHir": 10871,
+        "viewHirRefs": 14275
+      },
+      "tokensB": {
+        "min": 353800,
+        "hir": 348177,
+        "viewHtml": 11094,
+        "viewHir": 9841,
+        "viewHirRefs": 13245
+      },
+      "removed": {
+        "elements": 181134,
+        "svg": 98776,
+        "class": 38327,
+        "attrs": 112984,
+        "comments": 53
+      },
+      "roundTrip": "PASS",
+      "idempotent": true
+    },
+    {
+      "file": "experiments/html-ir/pages/wikipedia/page.html",
+      "bytes": 808690,
+      "tokens": {
+        "min": 248909,
+        "hir": 233905,
+        "viewHtml": 136464,
+        "viewHir": 130080,
+        "viewHirRefs": 150973
+      },
+      "tokensB": {
+        "min": 210913,
+        "hir": 182579,
+        "viewHtml": 118139,
+        "viewHir": 104814,
+        "viewHirRefs": 125707
+      },
+      "removed": {
+        "elements": 37481,
+        "svg": 0,
+        "class": 22728,
+        "attrs": 67023,
+        "comments": 554
+      },
+      "roundTrip": "PASS",
+      "idempotent": true
+    },
+    {
+      "file": "experiments/html-ir/samples/admin-form.html",
+      "bytes": 5589,
+      "tokens": {
+        "min": 1457,
+        "hir": 1280,
+        "viewHtml": 640,
+        "viewHir": 560,
+        "viewHirRefs": 718
+      },
+      "tokensB": {
+        "min": 1279,
+        "hir": 1001,
+        "viewHtml": 594,
+        "viewHir": 469,
+        "viewHirRefs": 627
+      },
+      "removed": {
+        "elements": 111,
+        "svg": 0,
+        "class": 299,
+        "attrs": 333,
+        "comments": 0
+      },
+      "roundTrip": "PASS",
+      "idempotent": true
+    },
+    {
+      "file": "experiments/html-ir/samples/docs-article.html",
+      "bytes": 3539,
+      "tokens": {
+        "min": 957,
+        "hir": 875,
+        "viewHtml": 908,
+        "viewHir": 832,
+        "viewHirRefs": 984
+      },
+      "tokensB": {
+        "min": 904,
+        "hir": 826,
+        "viewHtml": 858,
+        "viewHir": 795,
+        "viewHirRefs": 947
+      },
+      "removed": {
+        "elements": 21,
+        "svg": 0,
+        "class": 17,
+        "attrs": 14,
+        "comments": 0
+      },
+      "roundTrip": "PASS",
+      "idempotent": true
+    },
+    {
+      "file": "experiments/html-ir/samples/tailwind-landing.html",
+      "bytes": 9084,
+      "tokens": {
+        "min": 2666,
+        "hir": 2517,
+        "viewHtml": 633,
+        "viewHir": 568,
+        "viewHirRefs": 714
+      },
+      "tokensB": {
+        "min": 2428,
+        "hir": 2176,
+        "viewHtml": 612,
+        "viewHir": 540,
+        "viewHirRefs": 686
+      },
+      "removed": {
+        "elements": 180,
+        "svg": 317,
+        "class": 1318,
+        "attrs": 460,
+        "comments": 16
+      },
+      "roundTrip": "PASS",
+      "idempotent": true
+    }
+  ]
+}

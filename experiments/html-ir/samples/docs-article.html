@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Configuring retries | Courier docs</title>
+  <link rel="stylesheet" href="/docs.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <nav aria-label="Docs">
+        <ul>
+          <li><a href="/docs/start">Getting started</a></li>
+          <li><a href="/docs/queues">Queues</a></li>
+          <li class="active"><a href="/docs/retries" aria-current="page">Retries</a></li>
+          <li><a href="/docs/dead-letters">Dead letters</a></li>
+          <li><a href="/docs/metrics">Metrics</a></li>
+        </ul>
+      </nav>
+    </aside>
+    <article class="content">
+      <h1>Configuring retries</h1>
+      <p>When a handler throws, Courier puts the message back on the queue and tries again later. This page explains how the delay grows, how to cap the number of attempts, and how to send a message to the <a href="/docs/dead-letters">dead-letter queue</a> when it keeps failing.</p>
+      <h2 id="backoff">Backoff</h2>
+      <p>The delay before attempt <em>n</em> is <code>base * factor^(n-1)</code>, plus a random jitter of up to 20&nbsp;percent. The defaults are a base of 500&nbsp;ms and a factor of 2, so the first five delays are about 0.5, 1, 2, 4 and 8 seconds.</p>
+      <pre><code class="language-js">import { Queue } from '@courier/core';
+
+const queue = new Queue('emails', {
+  retry: {
+    attempts: 5,
+    backoff: { type: 'exponential', base: 500, factor: 2 },
+    jitter: 0.2,
+  },
+});
+</code></pre>
+      <p>Set <code>jitter</code> to <code>0</code> in tests, so that delays are repeatable.</p>
+      <h2 id="limits">Limits</h2>
+      <table>
+        <thead>
+          <tr><th>Option</th><th>Default</th><th>Range</th><th>Meaning</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>attempts</code></td><td>5</td><td>1–100</td><td>Total tries, including the first one</td></tr>
+          <tr><td><code>base</code></td><td>500</td><td>10–60000</td><td>First delay, in milliseconds</td></tr>
+          <tr><td><code>factor</code></td><td>2</td><td>1–10</td><td>Multiplier for each later delay</td></tr>
+          <tr><td><code>maxDelay</code></td><td>300000</td><td>1000–86400000</td><td>Upper bound for any one delay</td></tr>
+          <tr><td><code>jitter</code></td><td>0.2</td><td>0–1</td><td>Fraction of random spread</td></tr>
+        </tbody>
+      </table>
+      <div class="note">
+        <p><strong>Note:</strong> a retry is not free. Each attempt runs the handler again, so the handler must be <a href="/docs/idempotency">idempotent</a>. If it charges a card or sends an email, store a key and check it first.</p>
+      </div>
+      <h2 id="give-up">When to give up</h2>
+      <p>After the last attempt, Courier moves the message to the dead-letter queue. You can also stop early: throw a <code>FatalError</code> and Courier skips the remaining attempts.</p>
+      <ol>
+        <li>Throw <code>FatalError</code> for input that can never succeed, such as a malformed address.</li>
+        <li>Throw any other error for a failure that may pass later, such as a timeout.</li>
+        <li>Watch the <code>courier_dead_letters_total</code> metric and alert when it grows.</li>
+      </ol>
+      <p>See also: <a href="/docs/metrics#dead-letters">dead-letter metrics</a>, <a href="/docs/queues#visibility">visibility timeouts</a>.</p>
+    </article>
+  </div>
+  <footer class="docs-footer">
+    <p>Was this page helpful? <a href="/feedback?page=retries">Tell us</a>.</p>
+  </footer>
+</body>
+</html>

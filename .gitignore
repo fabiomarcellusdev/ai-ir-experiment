@@ -12,3 +12,6 @@ private-docs/
 dist/
 out/
 coverage/
+
+# Fetched public pages for experiments: other people's content, never committed
+experiments/**/pages/
