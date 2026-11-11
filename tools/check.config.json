@@ -1,5 +1,5 @@
 {
-  "unitTests": ["tools/*.test.mjs", "experiments/c03/select-files.test.mjs"],
+  "unitTests": ["tools/*.test.mjs", "experiments/c03/select-files.test.mjs", "experiments/c03/c03.test.mjs"],
   "pnpmProjects": ["."],
   "minReleaseAgeMinutes": 86400,
   "privacyTermsFile": "private-docs/privacy-terms.txt",

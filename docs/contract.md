@@ -321,3 +321,15 @@ The owner approved the corrected text of this amendment on 2026-11-10.
      same outputs on the file set; a test compares them.
   3. C0.1 and C0.2 must still pass before C0.4.
 - **No number changed.** No gate input (file set, task set) was chosen or looked at.
+
+**2026-11-11 (owner): a proxy preview of C0.3 before its gate run.**
+- **Reason:** the owner wants to see an early result before the API key is set up.
+- **The change:**
+  1. All C0.3 inputs and code are committed and frozen first (`experiments/c03/run-inputs.json`).
+  2. A preview counts each path with the POC's two offline proxies on the frozen inputs. It is labelled "PREVIEW, not
+     the gate verdict", and it decides nothing.
+  3. The gate run then uses `count_tokens` on the same commit, and gives the verdict. Rule 4 of "Order of the gates"
+     still holds: the gate run is not repeated.
+  4. A change to any frozen input after the preview needs a dated amendment that says it came after the preview. The
+     report then calls the result weaker.
+- **No number changed.**
