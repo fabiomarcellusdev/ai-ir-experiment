@@ -7,7 +7,7 @@ never after the results are in. A missed gate is recorded as missed, with its nu
 |---|---|---|---|---|
 | C0.1 | 0 | `html_edit` writes exactly the bytes before the node, the new HTML, and the bytes after the node: 0 failures | The task set's edits and 1,000 random edits; an independent HTML5 parser finds each node | Agreed (owner, 2026-11-10) |
 | C0.2 | 0 | Hostile files cause no wrong edit, no forged or stale ref, no path escape and no hang: 0 failures | The hostile file set; a script | Agreed (owner, 2026-11-10); amended (owner, 2026-11-10) |
-| C0.3 | 0 | Ideal-path tokens with the MCP are at most 0.50 of the baseline's cheapest ideal path (median per task) | The file set and the task set; `count_tokens` | Agreed (owner, 2026-11-10); amended twice (owner, 2026-11-10) |
+| C0.3 | 0 | Ideal-path tokens with the MCP are at most 0.50 of the baseline's cheapest ideal path (median per task) | The file set and the task set; `count_tokens` | **FAILED** (2026-11-11): median 0.739, `docs/measurements/2026-11-11-c03-result.md` |
 | C0.4 | 0 | With the MCP, an agent uses at most 0.70 of the baseline's tokens per task (median), and its success rate is not more than 5 points below the baseline's | The file set, the task set, 3 runs per task and arm; Claude Sonnet 5.5 | Agreed (owner, 2026-11-10); amended (owner, 2026-11-10) |
 | C1 | 1 | <...> | <...> | Tentative |
 
@@ -332,4 +332,10 @@ The owner approved the corrected text of this amendment on 2026-11-10.
      still holds: the gate run is not repeated.
   4. A change to any frozen input after the preview needs a dated amendment that says it came after the preview. The
      report then calls the result weaker.
+- **No number changed.**
+
+**2026-11-11 (owner): C0.3 failed; no-go, and a rescope.**
+- **The result:** median 0.739 against 0.50 (`docs/measurements/2026-11-11-c03-result.md`). C0.3 stays failed. By
+  rule 3 of "Order of the gates", C0.1, C0.2 and C0.4 do not run for the server as specified.
+- **The next step:** a new question and a new gate, written in this file before their run (decision 0005).
 - **No number changed.**

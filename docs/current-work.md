@@ -8,11 +8,12 @@ Work branch `p0/feat-hir-viability` (one branch for the milestone; decision 0004
 milestone: a go or no-go answer from gate C0.3.
 
 Gate C0.3 FAILED on 2026-11-11: median ratio 0.739 against 0.50 (`docs/measurements/2026-11-11-c03-result.md`).
-The contract stops the work before the server and the paid gate C0.4.
+The owner recorded the no-go and chose to rescope on this branch (decision 0005). The whole experiment stays on this
+branch until the owner says otherwise.
 
 Waiting for the owner:
-1. Stop (record the no-go), or rescope with a new question and a new gate, written before any run.
-2. A yes to publish the milestone branch and its pull request.
+1. The direction of the rescope, then the new gate's numbers, before any run.
+2. A yes to publish the branch and its pull request, at a milestone.
 
 ## Closed
 
