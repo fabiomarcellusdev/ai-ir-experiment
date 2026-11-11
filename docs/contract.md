@@ -7,7 +7,7 @@ never after the results are in. A missed gate is recorded as missed, with its nu
 |---|---|---|---|---|
 | C0.1 | 0 | `html_edit` writes exactly the bytes before the node, the new HTML, and the bytes after the node: 0 failures | The task set's edits and 1,000 random edits; an independent HTML5 parser finds each node | Agreed (owner, 2026-11-10) |
 | C0.2 | 0 | Hostile files cause no wrong edit, no forged or stale ref, no path escape and no hang: 0 failures | The hostile file set; a script | Agreed (owner, 2026-11-10); amended (owner, 2026-11-10) |
-| C0.3 | 0 | Ideal-path tokens with the MCP are at most 0.50 of the baseline's cheapest ideal path (median per task) | The file set and the task set; `count_tokens` | Agreed (owner, 2026-11-10); amended (owner, 2026-11-10) |
+| C0.3 | 0 | Ideal-path tokens with the MCP are at most 0.50 of the baseline's cheapest ideal path (median per task) | The file set and the task set; `count_tokens` | Agreed (owner, 2026-11-10); amended twice (owner, 2026-11-10) |
 | C0.4 | 0 | With the MCP, an agent uses at most 0.70 of the baseline's tokens per task (median), and its success rate is not more than 5 points below the baseline's | The file set, the task set, 3 runs per task and arm; Claude Sonnet 5.5 | Agreed (owner, 2026-11-10); amended (owner, 2026-11-10) |
 | C1 | 1 | <...> | <...> | Tentative |
 
@@ -33,7 +33,8 @@ The use case is an agent that reads and edits `.html` files in a project (owner,
 
 ### Order of the gates
 
-1. C0.1 and C0.2 must pass before C0.3 and C0.4 run.
+1. C0.3 runs first, on a prototype (amendment of 2026-11-10, "C0.3 first"). C0.1 and C0.2 must pass before C0.4
+   runs.
 2. When a correctness gate (C0.1, C0.2) fails, the miss stays recorded. Each failed case becomes a regression test.
    Then the gate runs again.
 3. When C0.3 fails, the work stops before the paid run. This is the owner's choice to save cost, not a proof that
@@ -306,4 +307,17 @@ The script makes each expected result from the original bytes and the parser's s
      outline alone. The report gives each path's median.
   3. C0.3 counts the edit payloads, and states when each path is valid.
   4. C0.2 has 5 more hostile cases and 3 more negative controls, for `html_find`. The path cases run with each tool.
+- **No number changed.** No gate input (file set, task set) was chosen or looked at.
+
+The owner approved the corrected text of this amendment on 2026-11-10.
+
+**2026-11-10 (owner): C0.3 first, on a prototype, before any gate run.**
+- **Reason:** C0.3 is the cheapest gate that can stop the work, and it needs only the text of the tools' outputs, not
+  a working server. The risk check made C0.3 uncertain, so its answer should come before the cost of a server.
+- **The change:**
+  1. C0.3 runs before C0.1 and C0.2.
+  2. A prototype makes the outputs of `html_outline`, `html_find` and `html_read` from the definitions in this
+     contract, with the independent HTML5 parser. It does not write files. The server, if it is built, must give the
+     same outputs on the file set; a test compares them.
+  3. C0.1 and C0.2 must still pass before C0.4.
 - **No number changed.** No gate input (file set, task set) was chosen or looked at.
