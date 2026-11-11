@@ -6,9 +6,9 @@ never after the results are in. A missed gate is recorded as missed, with its nu
 | Id | Phase | Gate | Judged on | Status |
 |---|---|---|---|---|
 | C0.1 | 0 | `html_edit` writes exactly the bytes before the node, the new HTML, and the bytes after the node: 0 failures | The task set's edits and 1,000 random edits; an independent HTML5 parser finds each node | Agreed (owner, 2026-11-10) |
-| C0.2 | 0 | Hostile files cause no wrong edit, no forged or stale ref, no path escape and no hang: 0 failures | The hostile file set; a script | Agreed (owner, 2026-11-10) |
-| C0.3 | 0 | Ideal-path tokens with the MCP are at most 0.50 of the baseline's cheapest ideal path (median per task) | The file set and the task set; `count_tokens` | Agreed (owner, 2026-11-10) |
-| C0.4 | 0 | With the MCP, an agent uses at most 0.70 of the baseline's tokens per task (median), and its success rate is not more than 5 points below the baseline's | The file set, the task set, 3 runs per task and arm; Claude Sonnet 5.5 | Agreed (owner, 2026-11-10) |
+| C0.2 | 0 | Hostile files cause no wrong edit, no forged or stale ref, no path escape and no hang: 0 failures | The hostile file set; a script | Agreed (owner, 2026-11-10); amended (owner, 2026-11-10) |
+| C0.3 | 0 | Ideal-path tokens with the MCP are at most 0.50 of the baseline's cheapest ideal path (median per task) | The file set and the task set; `count_tokens` | Agreed (owner, 2026-11-10); amended (owner, 2026-11-10) |
+| C0.4 | 0 | With the MCP, an agent uses at most 0.70 of the baseline's tokens per task (median), and its success rate is not more than 5 points below the baseline's | The file set, the task set, 3 runs per task and arm; Claude Sonnet 5.5 | Agreed (owner, 2026-11-10); amended (owner, 2026-11-10) |
 | C1 | 1 | <...> | <...> | Tentative |
 
 Status: **Tentative** means that the owner has not agreed to the gate yet. **Agreed** names the owner and the date.
@@ -45,11 +45,20 @@ The use case is an agent that reads and edits `.html` files in a project (owner,
 Both arms use the same model, the same harness, the same settings and the same prompt. Only the tools differ.
 
 - **Baseline (B):** the harness's file tools Read, Edit, Grep and Glob.
-- **MCP (M):** the MCP server's three tools, plus Grep and Glob:
+- **MCP (M):** the MCP server's four tools, plus Grep and Glob:
   1. `html_outline(file)`: the reading view, one element on each line, with an `@n` ref. It returns pages of at most
      20,000 tokens and a file hash.
-  2. `html_read(file, ref, hash)`: one node, as the bytes of the original file.
-  3. `html_edit(file, ref, hash, html)`: replaces the bytes of one node. It refuses a stale hash and a fragment that
+  2. `html_find(file, text)`: finds `text` as a literal, case-sensitive string. It refuses an empty `text`.
+     - An element's visible text is its text nodes joined in order, with entities decoded and runs of ASCII
+       whitespace as one space. Text inside hidden content (the list in C0.2), `script`, `style`, `svg` and
+       `template` is not visible text.
+     - A match is a deepest element whose visible text contains `text`: no child element of a match also contains it.
+     - For each match, the output holds the outline line of the match and of each ancestor. It holds no line of a
+       descendant. A line that two matches share appears once.
+     - It returns at most 20 matches, in document order, and the total count of matches. Its output is at most 20,000
+       tokens. It also returns the file hash.
+  3. `html_read(file, ref, hash)`: one node, as the bytes of the original file.
+  4. `html_edit(file, ref, hash, html)`: replaces the bytes of one node. It refuses a stale hash and a fragment that
      does not parse to a closed set of nodes.
 
 Both arms have no Bash, no subagent tool, no web tool and no other MCP server. The run plan names the mechanism that
@@ -159,24 +168,37 @@ The script makes each expected result from the original bytes and the parser's s
   8. A 25 MB file.
   9. The two backtracking inputs of the POC's security review: `'<a' + ' x="1"'.repeat(40)` and
      `'<p><a' + ' x="1"'.repeat(40) + ' "bad">l</a></p>'`.
+- **The `html_find` cases:**
+  1. A search text that is only in hidden content. The expected count is 0.
+  2. A search text that matches text in `pre`, where that text looks like an element line with a ref.
+  3. A search text that is in 10,000 elements. The expected count is 10,000, as the oracle counts it.
+  4. A file that holds the literal text `.*(a+)+$` once, and the text `'a'.repeat(30) + '!'` once. The search text
+     is `.*(a+)+$`. The expected count is 1.
+  5. An empty search text.
 - **The stale-ref case:**
-  1. Run `html_outline`.
+  1. Run `html_outline`, and separately `html_find`.
   2. Change the file.
   3. Call `html_edit` with the old hash.
 - **The path cases:** `..`, an absolute path, a UNC path, a Windows device name, an alternate data stream, and a link
-  or junction out of the workspace.
+  or junction out of the workspace. Each case runs with each of the 4 tools.
 - **Pass:** all of these hold.
-  1. Each line of `html_outline` output, after its indent, starts with `@<n> ` (an element) or `| ` (text). Each ref
-     appears once, and names an element that the oracle finds.
+  1. Each line of `html_outline` and `html_find` output, after its indent, starts with `@<n> ` (an element) or `| `
+     (text). In `html_outline`, each ref appears once. Each ref names an element that the oracle finds.
   2. A `<` that comes from text appears as `&lt;` in the view.
-  3. Hidden content (the list above) is left out, or marked `(hidden)`.
-  4. A `data:` URI longer than 100 characters is shortened, with its length named.
-  5. The stale-ref call and every path case fail with a named error. No file changes.
-  6. Each call returns, or fails with a named error, within 2 s. A call that the harness kills counts as a failure.
+  3. Hidden content (the list above) is left out of `html_outline`, or marked `(hidden)`. `html_find` never matches
+     it, and its count leaves it out.
+  4. `html_find` gives the expected count in each of its cases, returns at most 20 matches, and refuses the empty
+     search text with a named error.
+  5. A `data:` URI longer than 100 characters is shortened, with its length named.
+  6. The stale-ref call and every path case fail with a named error. No file changes.
+  7. Each call returns, or fails with a named error, within 2 s. A call that the harness kills counts as a failure.
      Each case runs 5 times. The report names the machine and gives p50 and p99.
-- **Negative controls:**
-  - The POC's current view must fail condition 1 on the nested `pre` case.
-  - A planted backtracking regex must fail condition 6.
+- **Negative controls.** Each of these must make C0.2 fail:
+  - the POC's current view, on the nested `pre` case (condition 1);
+  - a planted backtracking regex (condition 7);
+  - an `html_find` that reads its search text as a regular expression (condition 4);
+  - an `html_find` that matches hidden content (condition 3);
+  - an `html_find` with no limit on matches (condition 4).
 
 **C0.3, ideal-path tokens (no model run; `count_tokens` is free but needs an API key and the owner's yes).**
 
@@ -185,13 +207,22 @@ The script makes each expected result from the original bytes and the parser's s
   - **B:** the cheaper of 2 paths.
     1. Read the whole file, in as many read calls as the harness's read limits need. The run plan names those limits.
     2. One Grep for the quoted words, then one read of the matched lines with 20 lines before and after them.
-  - **M:** `html_outline` (all its pages), then `html_read` of the target.
+  - **M:** the cheaper of 2 paths.
+    1. `html_outline` (all its pages), then `html_read` of the target.
+    2. `html_find` with the quoted words, then `html_read` of the target.
   - **Both:** the path ends with the edit call, or with the `ANSWER:` line for a question. Each path includes the
-    arm's tool definitions.
+    arm's tool definitions and the arm's edit payload: B's Edit sends the old and new strings; `html_edit` sends the
+    new node.
+- **When a path is valid:**
+  - B's path 2 is valid only when Grep finds the quoted words in at least one line, and the read holds the target's
+    start tag.
+  - M's path 2 is valid only when the target is among the matches that `html_find` returns.
+  - An arm with one valid path uses that path.
 - **The ratio:**
   - The ratio of a task is M ÷ B.
   - The gate takes the median over the 40 tasks: the mean of the 20th and 21st values.
 - **Pass:** the median is ≤ 0.50.
+- **The report also gives** the median ratio of each M path alone. It does not change the verdict.
 
 **C0.4, agent tasks (PAID: the lead announces the cost estimate first, and waits for the owner's yes).**
 
@@ -238,9 +269,10 @@ The script makes each expected result from the original bytes and the parser's s
 
 ### Why these numbers
 
-- **C0.3 at 0.50:** on the POC's 5 live pages, the view with refs was 60% smaller (median) than minified HTML. That
-  number used proxy tokens, not Claude's tokenizer, and live pages are not the use case here. An ideal path that does
-  not save half leaves too little for the real path's extra turns.
+- **C0.3 at 0.50:** an ideal path that does not save half leaves too little for the real path's extra turns. When the
+  owner set the number, the evidence was the POC's view: 60% smaller (median) than minified HTML, in proxy tokens, on
+  live pages. After the amendment below, C0.3 judges the server's cheapest path (outline or find), not the outline
+  alone.
 - **C0.4 at 0.70:** the agent's fixed text (its system prompt and tool definitions) repeats on every turn, and the
   number of turns can differ between the arms. Its size is not measured yet; the run plan measures it. A large fixed
   text needs a much larger saving on the file content to save 30% in total.
@@ -256,3 +288,22 @@ The script makes each expected result from the original bytes and the parser's s
 - Hidden content that comes from CSS in a stylesheet or a class. The view cannot see it.
 - Live web pages.
 - Models and harnesses other than the ones in the run plan.
+
+### Amendments
+
+**2026-11-10 (owner): `html_find` added, before any gate run.**
+- **Reason:** a risk check outside the gate's file set (`docs/measurements/2026-11-10-c03-risk-check.md`) showed that
+  the baseline's Grep path is cheap. On 3 small synthetic files (proxy tokens, 50 seeds, with tool definitions and
+  edit payloads):
+  - With the outline as its only way to find a node, the MCP's ideal path cost a median of 0.49 to 0.89 of the
+    baseline. 2 of the 3 files passed 0.50 in no seed.
+  - With a find tool, it cost a median of 0.31 to 0.73. 2 of the 3 files passed in most seeds; 1 failed in most.
+  - So a find tool makes C0.3 uncertain, where the outline alone would probably fail. It does not make C0.3 likely to
+    pass.
+- **The change:**
+  1. M has a fourth tool, `html_find`, with the definition above.
+  2. In C0.3, M's ideal path is the cheaper of outline + read and find + read. C0.3 now judges the server, not the
+     outline alone. The report gives each path's median.
+  3. C0.3 counts the edit payloads, and states when each path is valid.
+  4. C0.2 has 5 more hostile cases and 3 more negative controls, for `html_find`. The path cases run with each tool.
+- **No number changed.** No gate input (file set, task set) was chosen or looked at.
