@@ -168,17 +168,20 @@ secret. When one appears:
 ## The task pipeline (decision 0004)
 
 Every change follows these steps. Automate them; the owner approves twice: once to publish (step 6) and once to
-merge (step 8).
+merge (step 8). Work for one milestone goes on one work branch (decision 0004, amendment of 2026-11-10): each task
+ends with a local commit (steps 1 to 5), and steps 6 to 8 run once, at the milestone.
 
 1. **Quiet hours:** run `node tools/quiet-hours.mjs status`. Inside the hours, stop unless the owner approves this
    instance.
-2. **Branch:** from an up-to-date `main`, `git switch -c p<phase>/<type>-<short-name>`.
+2. **Branch:** continue on the milestone's work branch. Start a new one, from an up-to-date `main`
+   (`git switch -c p<phase>/<type>-<short-name>`), only for a new milestone.
 3. **Build:** make the change, with independent tests where a module needs an oracle. Update the paper trail.
 4. **Run everything locally:** `node tools/check.mjs full` (or `gate`). Every check passes.
 5. **Independent review:** a reviewer that gets the diff and the spec, not your reasoning; a security review when the
    change touches file access, config loading, hooks, CI, dependencies or the network. Fix, then run step 4 again.
-6. **Commit, then publish with one approval:** commit with UTC dates (`TZ=UTC git commit ...`). Then run the push and
-   the pull request as one command, which the owner approves:
+6. **Commit, then publish at the milestone with one approval:** commit each task with UTC dates
+   (`TZ=UTC git commit ...`). At the milestone, run the push and the pull request as one command, which the owner
+   approves:
    `git push -u origin <branch> && gh pr create --base main --title "<why>" --body-file <file>`. The pull request text
    holds nothing private. The git hooks check the branch, every pushed commit, the quiet hours and the checks again.
 7. **CI:** wait until CI passes on all three systems. Fix and push again if it fails.
@@ -271,8 +274,8 @@ merge (step 8).
   guard against mistakes, not against a hostile process. Agents never set them. Branch protection on GitHub is the
   server-side control.
 - **Small commits, one concern each.** The message says why, not what.
-- **Branches:** `main` is protected and always green; changes arrive by pull request and are squash-merged. Each task
-  has a short branch from `main`: `p<phase>/<type>-<short-name>` (types: `feat`, `fix`, `test`, `docs`, `bench`,
+- **Branches:** `main` is protected and always green; changes arrive by pull request and are squash-merged. Each
+  milestone has one work branch from `main`: `p<phase>/<type>-<short-name>` (types: `feat`, `fix`, `test`, `docs`, `bench`,
   `sec`, `chore`), plus `deps/<package>-<version>`, `exp/<name>` (never merged) and `fix/<name>`. Phases are tags
   (`phase-0-done`), not branches. Agents never merge, push to `main` or delete branches.
 - **Parallel checkouts are the default** (decision 0003, amendment "parallel checkouts"). Sessions may work in

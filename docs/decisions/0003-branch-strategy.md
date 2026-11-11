@@ -94,3 +94,6 @@ Option B.
   `.claude/hooks/` no longer exists. The permission rules still ask before an edit of a `.git` file or folder, and
   `check.mjs fast` still fails in a worktree that lacks the owner's local files. The worktree defence is weaker: the
   owner's approval of each push is now the main control.
+- **2026-11-10, one work branch per milestone** (owner; decision 0004, amendment of 2026-11-10). "Each task has a
+  short branch" now reads "each milestone has one work branch". The branch names, the protection of `main` and the
+  owner's merge are unchanged.
