@@ -1,0 +1,806 @@
+{
+ "seed": 20261111,
+ "offsetUnit": "UTF-16 code units of the file as text",
+ "tasks": [
+  {
+   "id": "1-question",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c05/marketing/1-comparison.html",
+   "type": "question",
+   "ref": 81,
+   "tag": "p",
+   "quote": "HeyGen is the fastest, most affordable",
+   "range": [
+    11937,
+    12152
+   ],
+   "attr": "class",
+   "answer": "product-desc",
+   "prompt": "What is the value of the `class` attribute of the `p` element that contains the text \"HeyGen is the fastest, most affordable\"? End your reply with the line `ANSWER: <value>`."
+  },
+  {
+   "id": "1-text",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c05/marketing/1-comparison.html",
+   "type": "text",
+   "ref": 150,
+   "tag": "summary",
+   "quote": "Can I switch between platforms later?",
+   "range": [
+    16031,
+    16087
+   ],
+   "newText": "Updated wording 1",
+   "change": [
+    16040,
+    16077,
+    "Updated wording 1"
+   ],
+   "prompt": "Change the text \"Can I switch between platforms later?\" to \"Updated wording 1\". Change nothing else.",
+   "expectedSha256": "72dab0ea7d4488cb182add0d62994ba52880456710718ed69703a723b5fc0b72"
+  },
+  {
+   "id": "1-attribute",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c05/marketing/1-comparison.html",
+   "type": "attribute",
+   "ref": 100,
+   "tag": "p",
+   "quote": "Synthesia is the industry leader for",
+   "range": [
+    13075,
+    13256
+   ],
+   "attr": "class",
+   "newValue": "updated-value-1",
+   "change": [
+    13078,
+    13098,
+    "class=\"updated-value-1\""
+   ],
+   "prompt": "In the `p` element that contains the text \"Synthesia is the industry leader for\", set the `class` attribute to \"updated-value-1\". Change nothing else.",
+   "expectedSha256": "8c13c4f6f01c95d945c0cb39bcc99351363804634dab351a7bf6639e1fe7f739"
+  },
+  {
+   "id": "1-structure",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c05/marketing/1-comparison.html",
+   "type": "structure",
+   "ref": 76,
+   "tag": "td",
+   "quote": "Localization",
+   "range": [
+    11630,
+    11674
+   ],
+   "op": "remove",
+   "change": [
+    11630,
+    11674,
+    ""
+   ],
+   "prompt": "Remove the `td` element that contains the text \"Localization\".",
+   "expectedSha256": "5a100582a9ec7735c79e148094066217385bb5921df24b7360c5bd125bf36c43"
+  },
+  {
+   "id": "2-question",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c05/marketing/2-index.html",
+   "type": "question",
+   "ref": 194,
+   "tag": "p",
+   "quote": "Merupakan suatu kehormatan dan kebahagiaan bagi",
+   "range": [
+    15986,
+    16754
+   ],
+   "attr": "class",
+   "answer": "h2 subtitle",
+   "prompt": "What is the value of the `class` attribute of the `p` element that contains the text \"Merupakan suatu kehormatan dan kebahagiaan bagi\"? End your reply with the line `ANSWER: <value>`."
+  },
+  {
+   "id": "2-text",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c05/marketing/2-index.html",
+   "type": "text",
+   "ref": 132,
+   "tag": "p",
+   "quote": "Kecamatan XXX, Kota XXX, Provinsi XXX",
+   "range": [
+    10450,
+    10722
+   ],
+   "newText": "Updated wording 2",
+   "change": [
+    10649,
+    10686,
+    "Updated wording 2"
+   ],
+   "prompt": "Change the text \"Kecamatan XXX, Kota XXX, Provinsi XXX\" to \"Updated wording 2\". Change nothing else.",
+   "expectedSha256": "918d2fde9825fc261ac939fee197b95ae2c39fcc484ebd3fa9dfe1d57ab36af0"
+  },
+  {
+   "id": "2-attribute",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c05/marketing/2-index.html",
+   "type": "attribute",
+   "ref": 164,
+   "tag": "p",
+   "quote": "Foto 3",
+   "range": [
+    13667,
+    13735
+   ],
+   "attr": "class",
+   "newValue": "updated-value-2",
+   "change": [
+    13670,
+    13688,
+    "class=\"updated-value-2\""
+   ],
+   "prompt": "In the `p` element that contains the text \"Foto 3\", set the `class` attribute to \"updated-value-2\". Change nothing else.",
+   "expectedSha256": "756f6348343dedf3b5e578ef06aa38d363b2c6216b6a0863b1f5a0e8c30519b6"
+  },
+  {
+   "id": "2-structure",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c05/marketing/2-index.html",
+   "type": "structure",
+   "ref": 91,
+   "tag": "p",
+   "quote": "Assalamu'alaikum Warahmatullahi Wabarakatuh.",
+   "range": [
+    7444,
+    7444
+   ],
+   "op": "insert",
+   "change": [
+    7444,
+    7444,
+    "<p>New text</p>"
+   ],
+   "prompt": "After the `p` element that contains the text \"Assalamu'alaikum Warahmatullahi Wabarakatuh.\", add `<p>New text</p>`.",
+   "expectedSha256": "30540bfd7eb55d25e1ba86a890f62f3ecc7b3cc6e37b9e352c32856c0af48cdb"
+  },
+  {
+   "id": "3-question",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c05/documentation/1-signals.html",
+   "type": "question",
+   "ref": 228,
+   "tag": "a",
+   "quote": "AshOban's guide",
+   "range": [
+    21805,
+    21887
+   ],
+   "attr": "href",
+   "answer": "https://hexdocs.pm/ash_oban/signals.html",
+   "prompt": "What is the value of the `href` attribute of the `a` element that contains the text \"AshOban's guide\"? End your reply with the line `ANSWER: <value>`."
+  },
+  {
+   "id": "3-text",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c05/documentation/1-signals.html",
+   "type": "text",
+   "ref": 215,
+   "tag": "h2",
+   "quote": "What about tests?",
+   "range": [
+    20475,
+    20501
+   ],
+   "newText": "Updated wording 3",
+   "change": [
+    20479,
+    20496,
+    "Updated wording 3"
+   ],
+   "prompt": "Change the text \"What about tests?\" to \"Updated wording 3\". Change nothing else.",
+   "expectedSha256": "d92f88505953b902a30d3a4141b8ee2b125f1f7711c30ffabc4dc8be28c295ac"
+  },
+  {
+   "id": "3-attribute",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c05/documentation/1-signals.html",
+   "type": "attribute",
+   "ref": 36,
+   "tag": "p",
+   "quote": "Every app starts out with nice,",
+   "range": [
+    2139,
+    2780
+   ],
+   "attr": "class",
+   "newValue": "updated-value-3",
+   "change": [
+    2142,
+    2154,
+    "class=\"updated-value-3\""
+   ],
+   "prompt": "In the `p` element that contains the text \"Every app starts out with nice,\", set the `class` attribute to \"updated-value-3\". Change nothing else.",
+   "expectedSha256": "8cc3be7c982c658bac97a8453efd069df4b67677f75a162da68fecbf4ca02375"
+  },
+  {
+   "id": "3-structure",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c05/documentation/1-signals.html",
+   "type": "structure",
+   "ref": 193,
+   "tag": "figcaption",
+   "quote": "lib/my_app/notifications/receipt.ex",
+   "range": [
+    17495,
+    17555
+   ],
+   "op": "remove",
+   "change": [
+    17495,
+    17555,
+    ""
+   ],
+   "prompt": "Remove the `figcaption` element that contains the text \"lib/my_app/notifications/receipt.ex\".",
+   "expectedSha256": "bfc400d665e5c4435102546f5e21ea710c09669d86f7da1efffc08ea47ed07f8"
+  },
+  {
+   "id": "4-question",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c05/documentation/2-index.html",
+   "type": "question",
+   "ref": 29,
+   "tag": "a",
+   "quote": "Templates",
+   "range": [
+    1708,
+    1768
+   ],
+   "attr": "href",
+   "answer": "/learn/templates",
+   "prompt": "What is the value of the `href` attribute of the `a` element that contains the text \"Templates\"? End your reply with the line `ANSWER: <value>`."
+  },
+  {
+   "id": "4-text",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c05/documentation/2-index.html",
+   "type": "text",
+   "ref": 40,
+   "tag": "h1",
+   "quote": "Using events in ampersand",
+   "range": [
+    2488,
+    2555
+   ],
+   "newText": "Updated wording 4",
+   "change": [
+    2525,
+    2550,
+    "Updated wording 4"
+   ],
+   "prompt": "Change the text \"Using events in ampersand\" to \"Updated wording 4\". Change nothing else.",
+   "expectedSha256": "1a25d102a0408d6c2be7077679f0cbb1e61b6771005f45cda93700c3d967c8a5"
+  },
+  {
+   "id": "4-attribute",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c05/documentation/2-index.html",
+   "type": "attribute",
+   "ref": 12,
+   "tag": "a",
+   "quote": "Ampersand.js",
+   "range": [
+    607,
+    663
+   ],
+   "attr": "class",
+   "newValue": "updated-value-4",
+   "change": [
+    610,
+    637,
+    "class=\"updated-value-4\""
+   ],
+   "prompt": "In the `a` element that contains the text \"Ampersand.js\", set the `class` attribute to \"updated-value-4\". Change nothing else.",
+   "expectedSha256": "b19e013085ba7f96289dc0cee79a20fd94c0bcb9dd413c378766696ca593599c"
+  },
+  {
+   "id": "4-structure",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c05/documentation/2-index.html",
+   "type": "structure",
+   "ref": 32,
+   "tag": "a",
+   "quote": "View Conventions",
+   "range": [
+    2006,
+    2006
+   ],
+   "op": "insert",
+   "change": [
+    2006,
+    2006,
+    "<p>New text</p>"
+   ],
+   "prompt": "After the `a` element that contains the text \"View Conventions\", add `<p>New text</p>`.",
+   "expectedSha256": "18d3588fd4da5d5c78188a04b4df2d9a80f0ff27b432e0c16b495356cb39f9f0"
+  },
+  {
+   "id": "5-question",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c05/email/1-build.html",
+   "type": "question",
+   "ref": 89,
+   "tag": "a",
+   "quote": "www.acme-inc.com",
+   "range": [
+    9868,
+    9944
+   ],
+   "attr": "style",
+   "answer": "color:#aaaaaa",
+   "prompt": "What is the value of the `style` attribute of the `a` element that contains the text \"www.acme-inc.com\"? End your reply with the line `ANSWER: <value>`."
+  },
+  {
+   "id": "5-text",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c05/email/1-build.html",
+   "type": "text",
+   "ref": 86,
+   "tag": "span",
+   "quote": "Springfield, MA 12345",
+   "range": [
+    9739,
+    9855
+   ],
+   "newText": "Updated wording 5",
+   "change": [
+    9810,
+    9831,
+    "Updated wording 5"
+   ],
+   "prompt": "Change the text \"Springfield, MA 12345\" to \"Updated wording 5\". Change nothing else.",
+   "expectedSha256": "04827db4bd32a82692ecb41138661c329156a1be2c8a65c89cc9c32a7653b600"
+  },
+  {
+   "id": "5-attribute",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c05/email/1-build.html",
+   "type": "attribute",
+   "ref": 80,
+   "tag": "a",
+   "quote": "email preferences",
+   "range": [
+    9551,
+    9606
+   ],
+   "attr": "href",
+   "newValue": "updated-value-5",
+   "change": [
+    9554,
+    9562,
+    "href=\"updated-value-5\""
+   ],
+   "prompt": "In the `a` element that contains the text \"email preferences\", set the `href` attribute to \"updated-value-5\". Change nothing else.",
+   "expectedSha256": "c60d6feb17b8d962d7a1b15103b406c2e8eb07ce0c5d096eef404c9e48b91a07"
+  },
+  {
+   "id": "5-structure",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c05/email/1-build.html",
+   "type": "structure",
+   "ref": 81,
+   "tag": "a",
+   "quote": "unsubscribe",
+   "range": [
+    9610,
+    9659
+   ],
+   "op": "remove",
+   "change": [
+    9610,
+    9659,
+    ""
+   ],
+   "prompt": "Remove the `a` element that contains the text \"unsubscribe\".",
+   "expectedSha256": "1544a33203a2b570bd8e0052e2de1c0bb83fd5172c2ad6b980a9ce9bd43e5b5a"
+  },
+  {
+   "id": "6-question",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c05/email/2-progress.html",
+   "type": "question",
+   "ref": 93,
+   "tag": "a",
+   "quote": "Contact",
+   "range": [
+    11875,
+    11898
+   ],
+   "attr": "href",
+   "answer": "#",
+   "prompt": "What is the value of the `href` attribute of the `a` element that contains the text \"Contact\"? End your reply with the line `ANSWER: <value>`."
+  },
+  {
+   "id": "6-text",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c05/email/2-progress.html",
+   "type": "text",
+   "ref": 92,
+   "tag": "a",
+   "quote": "View in browser",
+   "range": [
+    11841,
+    11872
+   ],
+   "newText": "Updated wording 6",
+   "change": [
+    11853,
+    11868,
+    "Updated wording 6"
+   ],
+   "prompt": "Change the text \"View in browser\" to \"Updated wording 6\". Change nothing else.",
+   "expectedSha256": "4e56ce6091f38b5f4827acfeb20a84017f292a104cbb7a7186ee2c690f5f14b2"
+  },
+  {
+   "id": "6-attribute",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c05/email/2-progress.html",
+   "type": "attribute",
+   "ref": 94,
+   "tag": "a",
+   "quote": "Unsubscribe",
+   "range": [
+    11901,
+    11928
+   ],
+   "attr": "href",
+   "newValue": "updated-value-6",
+   "change": [
+    11904,
+    11912,
+    "href=\"updated-value-6\""
+   ],
+   "prompt": "In the `a` element that contains the text \"Unsubscribe\", set the `href` attribute to \"updated-value-6\". Change nothing else.",
+   "expectedSha256": "f1864870034095e38a3b6a0d802c9a007464bc73718963a36fde5d70465fe29a"
+  },
+  {
+   "id": "6-structure",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c05/email/2-progress.html",
+   "type": "structure",
+   "ref": 75,
+   "tag": "a",
+   "quote": "Update Account",
+   "range": [
+    10573,
+    10573
+   ],
+   "op": "insert",
+   "change": [
+    10573,
+    10573,
+    "<p>New text</p>"
+   ],
+   "prompt": "After the `a` element that contains the text \"Update Account\", add `<p>New text</p>`.",
+   "expectedSha256": "6beb2a120b175f8ac83c9e57dde5987f565f8059731888f5e506c8ed45f5a7bc"
+  },
+  {
+   "id": "7-question",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c05/app/1-preview.html",
+   "type": "question",
+   "ref": 11,
+   "tag": "code",
+   "quote": "npm install @mdi/font",
+   "range": [
+    5140,
+    5537
+   ],
+   "attr": "id",
+   "answer": "npm",
+   "prompt": "What is the value of the `id` attribute of the `code` element that contains the text \"npm install @mdi/font\"? End your reply with the line `ANSWER: <value>`."
+  },
+  {
+   "id": "7-text",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c05/app/1-preview.html",
+   "type": "text",
+   "ref": 80,
+   "tag": "a",
+   "quote": "NPM @mdi Organization",
+   "range": [
+    8149,
+    8230
+   ],
+   "newText": "Updated wording 7",
+   "change": [
+    8205,
+    8226,
+    "Updated wording 7"
+   ],
+   "prompt": "Change the text \"NPM @mdi Organization\" to \"Updated wording 7\". Change nothing else.",
+   "expectedSha256": "11744df5ce504b46ac9cc22c91d7548170f45f5aa60043176998d6bb85ee2c21"
+  },
+  {
+   "id": "7-attribute",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c05/app/1-preview.html",
+   "type": "attribute",
+   "ref": 57,
+   "tag": "p",
+   "quote": "We do not include the ability",
+   "range": [
+    7172,
+    7323
+   ],
+   "attr": "class",
+   "newValue": "updated-value-7",
+   "change": [
+    7175,
+    7187,
+    "class=\"updated-value-7\""
+   ],
+   "prompt": "In the `p` element that contains the text \"We do not include the ability\", set the `class` attribute to \"updated-value-7\". Change nothing else.",
+   "expectedSha256": "b69bdf66d544cb0ac58deaa70b3623763a297bb2de8b54af347ad80b9a42301f"
+  },
+  {
+   "id": "7-structure",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c05/app/1-preview.html",
+   "type": "structure",
+   "ref": 23,
+   "tag": "h3",
+   "quote": "Size",
+   "range": [
+    5863,
+    5876
+   ],
+   "op": "remove",
+   "change": [
+    5863,
+    5876,
+    ""
+   ],
+   "prompt": "Remove the `h3` element that contains the text \"Size\".",
+   "expectedSha256": "70cb945b5715895850dd7465e99112e705618a2b7c61c58cbe6354769d31b393"
+  },
+  {
+   "id": "8-question",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c05/app/2-playground.html",
+   "type": "question",
+   "ref": 69,
+   "tag": "button",
+   "quote": "Disabled",
+   "range": [
+    4133,
+    4191
+   ],
+   "attr": "class",
+   "answer": "btn btn-primary",
+   "prompt": "What is the value of the `class` attribute of the `button` element that contains the text \"Disabled\"? End your reply with the line `ANSWER: <value>`."
+  },
+  {
+   "id": "8-text",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c05/app/2-playground.html",
+   "type": "text",
+   "ref": 481,
+   "tag": "h3",
+   "quote": "emptyState() — fallback for no results",
+   "range": [
+    30964,
+    31050
+   ],
+   "newText": "Updated wording 8",
+   "change": [
+    31007,
+    31045,
+    "Updated wording 8"
+   ],
+   "prompt": "Change the text \"emptyState() — fallback for no results\" to \"Updated wording 8\". Change nothing else.",
+   "expectedSha256": "1c7cfa9d355e54e90a115aa6c8c05f28d98465408934151cde534b14cde4e235"
+  },
+  {
+   "id": "8-attribute",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c05/app/2-playground.html",
+   "type": "attribute",
+   "ref": 210,
+   "tag": "span",
+   "quote": "Starter",
+   "range": [
+    12018,
+    12051
+   ],
+   "attr": "class",
+   "newValue": "updated-value-8",
+   "change": [
+    12024,
+    12036,
+    "class=\"updated-value-8\""
+   ],
+   "prompt": "In the `span` element that contains the text \"Starter\", set the `class` attribute to \"updated-value-8\". Change nothing else.",
+   "expectedSha256": "8f3b960febe74445faf26c1e93fc5aa449c967083ae325294af461835041b815"
+  },
+  {
+   "id": "8-structure",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c05/app/2-playground.html",
+   "type": "structure",
+   "ref": 316,
+   "tag": "em",
+   "quote": "loading → loaded",
+   "range": [
+    18680,
+    18680
+   ],
+   "op": "insert",
+   "change": [
+    18680,
+    18680,
+    "<p>New text</p>"
+   ],
+   "prompt": "After the `em` element that contains the text \"loading → loaded\", add `<p>New text</p>`.",
+   "expectedSha256": "0488549283046ef5805e312d5981ad96bdcb28163d09f974e22150e3cc50ddf7"
+  },
+  {
+   "id": "9-question",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c05/blog/1-blog.html",
+   "type": "question",
+   "ref": 114,
+   "tag": "a",
+   "quote": "Contact Us",
+   "range": [
+    11805,
+    11854
+   ],
+   "attr": "href",
+   "answer": "#",
+   "prompt": "What is the value of the `href` attribute of the `a` element that contains the text \"Contact Us\"? End your reply with the line `ANSWER: <value>`."
+  },
+  {
+   "id": "9-text",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c05/blog/1-blog.html",
+   "type": "text",
+   "ref": 113,
+   "tag": "a",
+   "quote": "Terms & Conditions",
+   "range": [
+    11731,
+    11788
+   ],
+   "newText": "Updated wording 9",
+   "change": [
+    11766,
+    11784,
+    "Updated wording 9"
+   ],
+   "prompt": "Change the text \"Terms & Conditions\" to \"Updated wording 9\". Change nothing else.",
+   "expectedSha256": "45d042f5155cdec5d1ba163aa77415c8db4f848ef7d6b79852dcc0661a3ff37e"
+  },
+  {
+   "id": "9-attribute",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c05/blog/1-blog.html",
+   "type": "attribute",
+   "ref": 35,
+   "tag": "a",
+   "quote": "Topics",
+   "range": [
+    2673,
+    2983
+   ],
+   "attr": "@click",
+   "newValue": "updated-value-9",
+   "change": [
+    2832,
+    2853,
+    "@click=\"updated-value-9\""
+   ],
+   "prompt": "In the `a` element that contains the text \"Topics\", set the `@click` attribute to \"updated-value-9\". Change nothing else.",
+   "expectedSha256": "11d4f055c9a1954289cb0a245d3ec77804b886b24a02a0a972677d4f62192170"
+  },
+  {
+   "id": "9-structure",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c05/blog/1-blog.html",
+   "type": "structure",
+   "ref": 88,
+   "tag": "p",
+   "quote": "Lorem ipsum dolor sit amet, consectetur",
+   "range": [
+    8473,
+    8658
+   ],
+   "op": "remove",
+   "change": [
+    8473,
+    8658,
+    ""
+   ],
+   "prompt": "Remove the `p` element that contains the text \"Lorem ipsum dolor sit amet, consectetur\".",
+   "expectedSha256": "921cf05d31c9fc684b236e94f290a9ea5502de28a33a1833b4e3a2c942111d90"
+  },
+  {
+   "id": "10-question",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c05/blog/2-Blog1.html",
+   "type": "question",
+   "ref": 266,
+   "tag": "span",
+   "quote": "User",
+   "range": [
+    42136,
+    42212
+   ],
+   "attr": "class",
+   "answer": "text-sm text-colorItemText dark:text-colorDarkText",
+   "prompt": "What is the value of the `class` attribute of the `span` element that contains the text \"User\"? End your reply with the line `ANSWER: <value>`."
+  },
+  {
+   "id": "10-text",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c05/blog/2-Blog1.html",
+   "type": "text",
+   "ref": 9,
+   "tag": "b:comment",
+   "quote": "Index: Search Page Form",
+   "range": [
+    460,
+    506
+   ],
+   "newText": "Updated wording 10",
+   "change": [
+    471,
+    494,
+    "Updated wording 10"
+   ],
+   "prompt": "Change the text \"Index: Search Page Form\" to \"Updated wording 10\". Change nothing else.",
+   "expectedSha256": "67e29e6d97a837cdd028625bf17699458e207be385ac1b3a0b00a908376e45ad"
+  },
+  {
+   "id": "10-attribute",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c05/blog/2-Blog1.html",
+   "type": "attribute",
+   "ref": 266,
+   "tag": "span",
+   "quote": "User",
+   "range": [
+    42136,
+    42212
+   ],
+   "attr": "class",
+   "newValue": "updated-value-10",
+   "change": [
+    42142,
+    42200,
+    "class=\"updated-value-10\""
+   ],
+   "prompt": "In the `span` element that contains the text \"User\", set the `class` attribute to \"updated-value-10\". Change nothing else.",
+   "expectedSha256": "5bf8d82f4b0f6c822bd173aec571fe9e5ef02063015fc9a6b12b3fe5f85cc7d7"
+  },
+  {
+   "id": "10-structure",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c05/blog/2-Blog1.html",
+   "type": "structure",
+   "ref": 9,
+   "tag": "b:comment",
+   "quote": "Index: Search Page Form",
+   "range": [
+    506,
+    506
+   ],
+   "op": "insert",
+   "change": [
+    506,
+    506,
+    "<p>New text</p>"
+   ],
+   "prompt": "After the `b:comment` element that contains the text \"Index: Search Page Form\", add `<p>New text</p>`.",
+   "expectedSha256": "1803ed730fd99cfcaa9627d0b2c9452090721840138297c28a29661d9a0c9648"
+  }
+ ]
+}
