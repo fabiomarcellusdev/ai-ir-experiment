@@ -466,7 +466,7 @@ yes).**
 
 ### Amendments of the rescope
 
-**2026-11-11 (owner, pending the owner's yes): review fixes before any run.** An independent review of the gate text
+**2026-11-11 (owner): review fixes before any run.** The owner approved these fixes on 2026-11-11. An independent review of the gate text
 found 17 points. The changes, before any draw, view or count on the new inputs:
 1. The draw is fixed step by step, its script is committed before its first run, and its hash is recorded. "Or view"
    is back in the commit rule.
