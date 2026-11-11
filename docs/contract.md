@@ -9,7 +9,7 @@ never after the results are in. A missed gate is recorded as missed, with its nu
 | C0.2 | 0 | Hostile files cause no wrong edit, no forged or stale ref, no path escape and no hang: 0 failures | The hostile file set; a script | Agreed (owner, 2026-11-10); amended (owner, 2026-11-10) |
 | C0.3 | 0 | Ideal-path tokens with the MCP are at most 0.50 of the baseline's cheapest ideal path (median per task) | The file set and the task set; `count_tokens` | **FAILED** (2026-11-11): median 0.739, `docs/measurements/2026-11-11-c03-result.md` |
 | C0.4 | 0 | With the MCP, an agent uses at most 0.70 of the baseline's tokens per task (median), and its success rate is not more than 5 points below the baseline's | The file set, the task set, 3 runs per task and arm; Claude Sonnet 5.5 | Not run: C0.3 failed; C0.6 replaces it |
-| C0.5 | 0 | Rescope: ideal-path work tokens (tool definitions and the prompt left out) with the MCP are at most 0.50 of the baseline's (median per task) | A fresh file set and task set; `count_tokens` | Agreed (owner, 2026-11-11) |
+| C0.5 | 0 | Rescope: ideal-path work tokens (tool definitions and the prompt left out) with the MCP are at most 0.50 of the baseline's (median per task) | A fresh file set and task set; `count_tokens` | **PASSED** (2026-11-11): median 0.374, `docs/measurements/2026-11-11-c05-result.md` |
 | C0.6 | 0 | Rescope: C0.4 with the MCP tools added to the baseline's tools: at most 0.70 of the tokens, success not more than 5 points below | The fresh sets, 3 runs per task and arm; Claude Sonnet 5.5 | Agreed (owner, 2026-11-11) |
 | C1 | 1 | <...> | <...> | Tentative |
 
