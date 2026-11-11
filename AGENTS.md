@@ -330,7 +330,11 @@ README. It does not apply to quoted text, labels and headlines, or a lawyer's cl
 
 ## Build and test
 
-<The project's own build and run commands go here.>
+The HTML MCP server (decision 0006) runs with no build step:
+
+```
+node server/main.mjs --root <folder>   # the MCP server on stdio; the tools read and write .html files in <folder>
+```
 
 The milestone checks (`docs/testing.md`), from the repository root, with Node's standard library only:
 

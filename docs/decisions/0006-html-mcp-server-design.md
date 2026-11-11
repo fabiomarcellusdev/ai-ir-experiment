@@ -234,3 +234,22 @@ package, and adding one needs the owner's yes. A new row in `docs/follow-ups.md`
 ## Amendments
 
 - **2026-11-11 (owner):** the owner agreed to the design and its 4 owner decisions.
+- **2026-11-11 (lead, from the code review and the security review of the first build):** these changes hold. The
+  owner is told in the hand-over.
+  1. **The size limit is 2 MB, not 4 MB.** A 4 MB file of dense markup took 1.2 s to parse, so an edit (two parses)
+     could pass the 1.5 s limit. The largest C0.5 file is 296 KB.
+  2. **The edit check compares the trees directly.** The first build parsed the new HTML alone in the parent's
+     context. That parse does not know the document's mode or the open elements, so it refused 1.4% of edits that
+     changed nothing. The server now parses the new file, and checks that the tree outside the parent is equal, and
+     that the siblings before and after the element are equal. Text next to the element may merge with new text.
+  3. **A leading BOM is not content.** parse5 read it as text, which put the document in quirks mode. The server now
+     parses the text after the BOM, and adds 1 to each offset. No gate file starts with a BOM.
+  4. **The read uses one file handle,** and refuses a file with more than one hard link. **The write checks again**
+     that the folder is itself and inside the root, and that the file has the same device and inode as at the read.
+     It keeps the file's mode, and refuses a read-only file.
+  5. **Output limits:** each output line is cut at 10,000 characters, with its length named. `html_find` output stops
+     at 60,000 characters, and its last line says so.
+  6. **Hidden content:** an inline style is read with its CSS comments removed and its CSS escapes decoded.
+  7. **Tag names** escape each character outside letters, digits, `.`, `_`, `:` and `-`.
+  8. **Error texts** name a file-system error by its code only, never by a path.
+  9. **The result of an edit** must not nest deeper than 512 levels.
