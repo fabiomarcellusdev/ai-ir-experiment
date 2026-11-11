@@ -8,7 +8,9 @@ never after the results are in. A missed gate is recorded as missed, with its nu
 | C0.1 | 0 | `html_edit` writes exactly the bytes before the node, the new HTML, and the bytes after the node: 0 failures | The task set's edits and 1,000 random edits; an independent HTML5 parser finds each node | Agreed (owner, 2026-11-10) |
 | C0.2 | 0 | Hostile files cause no wrong edit, no forged or stale ref, no path escape and no hang: 0 failures | The hostile file set; a script | Agreed (owner, 2026-11-10); amended (owner, 2026-11-10) |
 | C0.3 | 0 | Ideal-path tokens with the MCP are at most 0.50 of the baseline's cheapest ideal path (median per task) | The file set and the task set; `count_tokens` | **FAILED** (2026-11-11): median 0.739, `docs/measurements/2026-11-11-c03-result.md` |
-| C0.4 | 0 | With the MCP, an agent uses at most 0.70 of the baseline's tokens per task (median), and its success rate is not more than 5 points below the baseline's | The file set, the task set, 3 runs per task and arm; Claude Sonnet 5.5 | Agreed (owner, 2026-11-10); amended (owner, 2026-11-10) |
+| C0.4 | 0 | With the MCP, an agent uses at most 0.70 of the baseline's tokens per task (median), and its success rate is not more than 5 points below the baseline's | The file set, the task set, 3 runs per task and arm; Claude Sonnet 5.5 | Not run: C0.3 failed; C0.6 replaces it |
+| C0.5 | 0 | Rescope: ideal-path work tokens (tool definitions left out) with the MCP are at most 0.50 of the baseline's (median per task) | A fresh file set and task set; `count_tokens` | Tentative |
+| C0.6 | 0 | Rescope: C0.4 with the MCP tools added to the baseline's tools: at most 0.70 of the tokens, success not more than 5 points below | The fresh sets, 3 runs per task and arm; Claude Sonnet 5.5 | Tentative |
 | C1 | 1 | <...> | <...> | Tentative |
 
 Status: **Tentative** means that the owner has not agreed to the gate yet. **Agreed** names the owner and the date.
@@ -339,3 +341,72 @@ The owner approved the corrected text of this amendment on 2026-11-10.
   rule 3 of "Order of the gates", C0.1, C0.2 and C0.4 do not run for the server as specified.
 - **The next step:** a new question and a new gate, written in this file before their run (decision 0005).
 - **No number changed.**
+
+## Phase 0, rescope: does the reading view cut the work? (decision 0005)
+
+C0.3 failed (median 0.739). A diagnostic after its verdict showed that the tool definitions were 67% to 82% of each
+count, and that the work alone (the calls and their results) cost 0.39 of the baseline's work, in median. That number
+came from the 40 tasks that decided C0.3, so it is a hypothesis. The rescope tests it on fresh inputs, and then with
+real agents.
+
+### Order of the rescope gates
+
+1. C0.5 runs first. It is free.
+2. When C0.5 fails, the rescope stops before the server and the paid run.
+3. When C0.5 passes, the server is built. C0.1 and C0.2 then run on it, on the new file set.
+4. C0.6 runs only after C0.1, C0.2 and C0.5 pass, the lead announces its cost, and the owner says yes.
+5. C0.5 and C0.6 run once each. A run is not repeated to get a better number.
+
+### The new inputs (a fresh draw)
+
+- **The pool:** the candidates of C0.3's committed record (`experiments/c03/file-set.json`) that passed the path
+  rules, at the same pinned commits.
+- **Removed from the pool:** every file in a repository that C0.3 drew from (7 repositories), and the C0.3 file
+  rules (the content rules, then the size limits) as before.
+- **The draw:** for each kind, the script draws a repository with equal chance, then a file in it, until it has 2 files
+  from 2 different repositories. The C0.3 draw was over files, so 1 large repository could give both files; this rule
+  gives more variety. The seed is `20261111`.
+- **The task set:** 4 tasks for each file, 40 in total, from the C0.3 task rules and templates, with the seed
+  `20261111`.
+- The lead commits the record and the task set before any token count on them, as for C0.3.
+
+### How the rescope gates are computed
+
+**C0.5, ideal-path work tokens (no model run; `count_tokens` is free, with the owner's key).**
+
+- **The paths:** the 4 paths of C0.3 (B1, B2, M1, M2), with the same tools, validity rules and closing turn.
+- **The work tokens of a path:** the path's `count_tokens` result, minus the `count_tokens` result of the same arm's
+  tools with only the task's first user message. So the work tokens leave out the tool definitions and the prompt.
+  They hold every call, every result, the final edit or answer and the closing turn.
+- **The ratio:** for each task, M's cheapest valid work tokens ÷ B's cheapest valid work tokens. The gate takes the
+  median over the 40 tasks: the mean of the 20th and 21st values.
+- **Pass:** the median is ≤ 0.50.
+- **Noise:** before the run, the script counts 5 requests 3 times each. When every repeat gives the same number, the
+  run counts each request once. Otherwise it counts each request 3 times and uses the median, and the report says so.
+- **The report also gives:** the median ratio with the tool definitions included (as C0.3 computed it), each arm's
+  fixed cost (the tool definitions), the median ratio of each M path alone, and the result for each task type.
+
+**C0.6, agent tasks with the MCP added (PAID: the lead announces the cost estimate first, and waits for the owner's
+yes).**
+
+- **The rules of C0.4 hold**, with these changes:
+  1. The inputs are the rescope's file set and task set.
+  2. **The MCP arm keeps the baseline's tools.** M has Read, Edit, Grep and Glob, plus the 4 MCP tools. This is how an
+     MCP server is used: it adds tools; it does not remove the harness's tools.
+  3. The report also gives how often each arm reads a whole file, and each arm's fixed text per turn.
+- **Pass:** as C0.4: the median token ratio is ≤ 0.70, M's success rate is ≥ B's − 5 points, and no task type has an
+  M success rate more than 15 points below B's.
+
+### Why these numbers
+
+- **C0.5 at 0.50:** the same aim as C0.3, to halve the cost, applied to the work that the reading view can change.
+  The hypothesis from C0.3's tasks is 0.39, so C0.5 is a check on fresh files, not a hard test.
+- **C0.6 at 0.70:** as C0.4. The MCP arm now pays more fixed text per turn (its 4 tool definitions, about 1,000 tokens
+  measured with `count_tokens` on 2026-11-11). So C0.6 passes only when real agents read much more than the ideal
+  path, for example whole files.
+
+### What the rescope gates do not judge
+
+- The items of "What the gates do not judge" above.
+- A harness that loads MCP tool definitions only when they are used.
+- The dollar cost: C0.6 counts a cached token as one token, as C0.4 does. The report gives the dollar cost.
