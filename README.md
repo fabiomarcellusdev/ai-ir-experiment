@@ -13,10 +13,11 @@ A starting point for software projects built with AI coding agents. It gives a n
   project copies only the sections that apply, so the others cost no tokens.
 - **Supply-chain rules for every ecosystem:** one package manager each, exact pins and a lock file, packages 60 days
   old or more, no known vulnerability above low, no install scripts where the manager can refuse them, and the
-  owner's approval for every install. A guard hook holds the common install commands of more than 30 package
-  managers and installers.
+  owner's approval for every install. This project removed the guard hook that held the common install commands of
+  more than 30 package managers and installers (decision 0002, amendment of 2026-11-10).
 - **Defences against prompt injection:** agents never hold untrusted input, private data and a way out together;
-  guard hooks hold risky commands for the owner; private notes stay out of git.
+  permission rules refuse secret files to the file tools and ask before a push, a pull request and an install;
+  private notes stay out of git.
 - **Checks at every milestone:** one command per level (commit, push, phase gate), run by git hooks and by CI on
   Windows, macOS and Linux. Each check has a negative control that shows it can fail.
 - **A branch strategy:** a protected `main`, short task branches, squash merges, phases as tags.
@@ -45,7 +46,7 @@ Everything runs on Node's standard library. The template installs no package.
 | `CLAUDE.md` | Claude Code: imports `AGENTS.md`; lists the agents, skills and guards |
 | `CLAUDE.local.md.example` | What goes in the git-ignored private notes |
 | `SETUP.md` | The adoption checklist |
-| `.claude/` | Settings, three guard hooks (with tests), seven agents, eleven skills, the ASD-STE100 output style |
+| `.claude/` | Settings, seven agents, eleven skills, the ASD-STE100 output style |
 | `.githooks/` | The commit hook and the push hook: branch and quiet-hours rules (`git-guard.mjs`), then `check.mjs` |
 | `.github/` | CI on three systems, a pull request template, the main-branch ruleset |
 | `tools/` | `check.mjs` (milestone checks), `git-guard.mjs`, `quiet-hours.mjs`, `osv-check.mjs` (known vulnerabilities), `github-security-check.mjs` (GitHub's scanners on or off), `vet-package.mjs`, `voice-lint.mjs`, `contrast.mjs` (WCAG contrast of two colours) |

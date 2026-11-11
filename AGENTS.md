@@ -104,11 +104,12 @@ ecosystem, with its settings and commands. At setup, copy the sections of the pr
    only exception is a fix for a known vulnerability, with the owner's yes and a removal date.
 5. **Install nothing without the owner's explicit yes.** This covers adding, installing, updating and fetching
    packages, one-time runners (`pnpm dlx`, `uvx`, `dnx`), toolchains, global tools and system packages. One yes covers
-   the one install it names. `.claude/hooks/package-guard.mjs` holds the common commands of each ecosystem.
+   the one install it names. In Claude Code, the settings ask before `pnpm add`, `pnpm install` and `pnpm dlx`, and
+   refuse npm installs, npx, Yarn and Bun.
 6. **No install or build scripts from packages,** where the manager can refuse them. Where it cannot (Rust build
    scripts, .NET build files), the vetting step reads them.
-7. **Vet before you ask:** the checklist in decision 0001, and `node tools/vet-package.mjs <name> <version>` for an
-   npm package. Add the package's row to `docs/third-party.md`.
+7. **Vet before you ask:** a short check of the licence, install scripts, age and known vulnerabilities
+   (`node tools/vet-package.mjs <name> <version>` for an npm package). Add the package's row to `docs/third-party.md`.
 8. **Nothing updates by itself.** No automatic update tool and no update pull requests. A monthly review researches
    versions 60 days old or more, reports, and waits for the owner's yes.
 9. **Do not weaken the guards** (the package manager's settings, `.claude/`, `tools/`, `.githooks/`, `.github/`)
@@ -359,7 +360,7 @@ SETUP.md                How to adopt this template
 .gitattributes          LF line endings for every text file
 .githooks/              The commit and push hooks
 .github/                CI, the pull request template, the main-branch ruleset
-.claude/                Claude Code: settings, guard hooks, agents, skills, the ASD-STE100 output style
+.claude/                Claude Code: settings, agents, skills, the ASD-STE100 output style
 tools/                  check.mjs and its config, git-guard.mjs, quiet-hours.mjs, secret-scan.mjs, worktree.mjs and its config,
                         main-checkout.mjs, osv-check.mjs, github-security-check.mjs, vet-package.mjs,
                         voice-lint.mjs, contrast.mjs, and their tests

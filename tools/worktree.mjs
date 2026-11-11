@@ -23,7 +23,7 @@ import { mainCheckout, isLinkedWorktree } from "./main-checkout.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
-/** The task branch names of decision 0003 (the same pattern as the security guard's). */
+/** The task branch names of decision 0003. */
 export const TASK_BRANCH = /^(?:p\d+\/(?:feat|fix|test|docs|bench|sec|chore)-[\w.-]+|deps\/[\w.@-]+|exp\/[\w.-]+|fix\/[\w.-]+)$/;
 
 // A copied path must be a plain relative path, and never a secret, the private files that stay in the main checkout,

@@ -4,11 +4,11 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { guardProblems, hookProblems, gitHookProblems, privateHits, folderDiff } from "./check.mjs";
+import { guardProblems, settingsProblems, REQUIRED_SETTINGS, gitHookProblems, privateHits, folderDiff } from "./check.mjs";
 import { lint, BANNED } from "./voice-lint.mjs";
 import { evaluate, clean } from "./vet-package.mjs";
 
-// ---------------- check.mjs: guardProblems and hookProblems ----------------
+// ---------------- check.mjs: guardProblems and settingsProblems ----------------
 
 const GOOD = {
   packageJson: JSON.stringify({
@@ -45,29 +45,31 @@ test("an expired security exception fails", () => {
   assert.match(guardProblems(GOOD, new Date("2030-01-31T00:00:01Z")).join("\n"), /expired on 2030-01-31/);
 });
 
-const SETTINGS = JSON.stringify({
-  hooks: {
-    PreToolUse: [
-      { matcher: "*", hooks: [{ type: "command", command: 'node "$CLAUDE_PROJECT_DIR/.claude/hooks/quiet-hours-guard.mjs"', onFailure: "block" }] },
-      { matcher: "Bash|PowerShell", hooks: [{ type: "command", command: 'node "$CLAUDE_PROJECT_DIR/.claude/hooks/package-guard.mjs"', onFailure: "block" }] },
-      { matcher: "Bash|PowerShell|WebFetch|mcp__.*", hooks: [{ type: "command", command: 'node "$CLAUDE_PROJECT_DIR/.claude/hooks/security-guard.mjs"', onFailure: "block" }] },
-    ],
-  },
+const SETTINGS = JSON.stringify({ permissions: { deny: [...REQUIRED_SETTINGS.deny], ask: [...REQUIRED_SETTINGS.ask] } });
+
+test("settings with every kept rule give no problems", () => assert.deepEqual(settingsProblems(SETTINGS), []));
+
+// A shorter list would make fewer tests below and still pass, so the sizes are pinned here.
+test("the kept rule lists keep their size (34 deny, 35 ask)", () => {
+  assert.equal(REQUIRED_SETTINGS.deny.length, 34);
+  assert.equal(REQUIRED_SETTINGS.ask.length, 35);
 });
 
-test("intact guard hooks give no problems", () => assert.deepEqual(hookProblems(SETTINGS), []));
+test("bypassPermissions mode is caught", () => {
+  const j = JSON.parse(SETTINGS);
+  j.permissions.defaultMode = "bypassPermissions";
+  assert.equal(settingsProblems(JSON.stringify(j)).length, 1);
+});
 
-const hookWeakenings = {
-  "a removed hook": (s) => s.replace("security-guard.mjs", "x.mjs"),
-  "a matcher that matches nothing": (s) => s.replace('"matcher":"*"', '"matcher":"NoSuchTool"'),
-  "a hook moved to PostToolUse": (s) => { const j = JSON.parse(s); j.hooks.PostToolUse = [j.hooks.PreToolUse.shift()]; return JSON.stringify(j); },
-  "a command that only echoes the name": (s) => s.replace('node \\"$CLAUDE_PROJECT_DIR/.claude/hooks/quiet-hours-guard.mjs\\"', "echo quiet-hours-guard.mjs"),
-  "a guard that fails open": (s) => s.replace('"onFailure":"block"', '"onFailure":"continue"'),
-  "the security guard not on WebFetch": (s) => s.replace("Bash|PowerShell|WebFetch|mcp__.*", "Bash|PowerShell|mcp__.*"),
-  "the security guard not on MCP tools": (s) => s.replace("|mcp__.*", ""),
-};
-for (const [name, f] of Object.entries(hookWeakenings)) {
-  test(`a weakened guard hook is caught: ${name}`, () => assert.ok(hookProblems(f(SETTINGS)).length > 0));
+// Negative controls: removing any one kept rule must be caught.
+for (const list of ["deny", "ask"]) {
+  for (const rule of REQUIRED_SETTINGS[list]) {
+    test(`a removed rule is caught: ${list} ${rule}`, () => {
+      const j = JSON.parse(SETTINGS);
+      j.permissions[list] = j.permissions[list].filter((r) => r !== rule);
+      assert.equal(settingsProblems(JSON.stringify(j)).length, 1);
+    });
+  }
 }
 
 test("the git hooks must call git-guard before the checks", () => {
@@ -79,7 +81,7 @@ test("the git hooks must call git-guard before the checks", () => {
 
 test("the real settings and git hooks pass the structure checks", () => {
   const read = (p) => fs.readFileSync(new URL(`../${p}`, import.meta.url), "utf8");
-  assert.deepEqual(hookProblems(read(".claude/settings.json")), []);
+  assert.deepEqual(settingsProblems(read(".claude/settings.json")), []);
   assert.deepEqual(gitHookProblems(read(".githooks/pre-commit"), read(".githooks/pre-push")), []);
 });
 

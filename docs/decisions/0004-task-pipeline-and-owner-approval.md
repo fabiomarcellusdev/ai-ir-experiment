@@ -76,3 +76,12 @@ hooks that failed open, and time-zone details in messages and commit dates. Each
 
 - The owner wants GitHub to record formal approvals (option C).
 - A tool the owner uses does not run git hooks.
+
+## Amendments
+
+- **2026-11-10, the guard hooks are removed** (owner; decision 0002, amendment of 2026-11-10). These statements above
+  no longer hold: "The security guard refuses these commands" (Decision, 2); the quiet-hours hook's ask before each
+  tool call (Decision, 5; the git hooks still refuse commits and pushes in the hours); "The security guard refuses
+  them to agents" for the override variables (Limits); and "Each finding is now a test" (How this design was tested:
+  the hook tests are deleted). The deny rules in `.claude/settings.json` still refuse `gh pr merge` and force pushes
+  in their plain spelling, and the git hooks still refuse commits and pushes on `main`.
