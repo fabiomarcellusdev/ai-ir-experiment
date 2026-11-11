@@ -11,10 +11,12 @@ Gate C0.5 PASSED on 2026-11-11: median work ratio 0.374, 95% interval over files
 (`docs/measurements/2026-11-11-c05-result.md`). By the rescope's order, the server comes next, then C0.1 and C0.2 on
 it, then the paid C0.6.
 
-The server's design is proposed in decision 0006 (2026-11-11). Waiting for the owner:
-1. Agreement on decision 0006, and its 4 owner decisions (3 of them amend the contract).
-2. A yes to vet html5lib 1.1 and its 2 Python dependencies for gate C0.1's oracle, then a yes to install them.
-3. A yes to publish the branch and its pull request, at a milestone.
+The owner agreed to the server's design on 2026-11-11 (decision 0006, with 3 contract changes). Next: build the
+server in `server/`, test-first.
+
+Waiting for the owner:
+1. A yes to install html5lib 1.1 and its 2 Python dependencies for gate C0.1's oracle, after vetting.
+2. A yes to publish the branch and its pull request, at a milestone.
 
 ## Closed
 

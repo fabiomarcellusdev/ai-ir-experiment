@@ -1,7 +1,7 @@
 # 0006. The design of the HTML MCP server
 
-**Status:** Proposed (lead, 2026-11-11). It waits for the owner's agreement (`AGENTS.md`, "Structure"). No server code
-exists before that agreement.
+**Status:** Accepted (owner, 2026-11-11), with its 4 owner decisions. The contract changes are in `docs/contract.md`,
+amendment "the server's design". The install of the oracle's Python packages still needs a vetting and its own yes.
 
 ## Context
 
@@ -233,4 +233,4 @@ package, and adding one needs the owner's yes. A new row in `docs/follow-ups.md`
 
 ## Amendments
 
-None yet.
+- **2026-11-11 (owner):** the owner agreed to the design and its 4 owner decisions.

@@ -5,8 +5,8 @@ never after the results are in. A missed gate is recorded as missed, with its nu
 
 | Id | Phase | Gate | Judged on | Status |
 |---|---|---|---|---|
-| C0.1 | 0 | `html_edit` writes exactly the bytes before the node, the new HTML, and the bytes after the node: 0 failures | The task set's edits and 1,000 random edits; an independent HTML5 parser finds each node | Agreed (owner, 2026-11-10) |
-| C0.2 | 0 | Hostile files cause no wrong edit, no forged or stale ref, no path escape and no hang: 0 failures | The hostile file set; a script | Agreed (owner, 2026-11-10); amended (owner, 2026-11-10) |
+| C0.1 | 0 | `html_edit` writes exactly the bytes before the node, the new HTML, and the bytes after the node: 0 failures | The task set's edits and 1,000 random edits; an independent HTML5 parser finds each node | Agreed (owner, 2026-11-10); amended (owner, 2026-11-11, decision 0006) |
+| C0.2 | 0 | Hostile files cause no wrong edit, no forged or stale ref, no path escape and no hang: 0 failures | The hostile file set; a script | Agreed (owner, 2026-11-10); amended (owner, 2026-11-10; 2026-11-11, decision 0006) |
 | C0.3 | 0 | Ideal-path tokens with the MCP are at most 0.50 of the baseline's cheapest ideal path (median per task) | The file set and the task set; `count_tokens` | **FAILED** (2026-11-11): median 0.739, `docs/measurements/2026-11-11-c03-result.md` |
 | C0.4 | 0 | With the MCP, an agent uses at most 0.70 of the baseline's tokens per task (median), and its success rate is not more than 5 points below the baseline's | The file set, the task set, 3 runs per task and arm; Claude Sonnet 5.5 | Not run: C0.3 failed; C0.6 replaces it |
 | C0.5 | 0 | Rescope: ideal-path work tokens (tool definitions and the prompt left out) with the MCP are at most 0.50 of the baseline's (median per task) | A fresh file set and task set; `count_tokens` | **PASSED** (2026-11-11): median 0.374, `docs/measurements/2026-11-11-c05-result.md` |
@@ -485,3 +485,18 @@ found 17 points. The changes, before any draw, view or count on the new inputs:
     twice or from uncommitted inputs, a freeze list in the runner's code with C0.3's hashes from its result, a check
     that remakes the task set, M3 not valid when the view does not show the attribute, and the report fields above.
 - **No number changed:** C0.5 at 0.50, C0.6 at 0.70, 5 points and 15 points.
+
+**2026-11-11 (owner): the server's design (decision 0006).** The owner agreed to decision 0006 on 2026-11-11, with
+its 3 contract changes. They hold before any server code, and before C0.1 and C0.2 run:
+1. **C0.1, the oracle:** html5lib 1.1 (Python) finds each node by the tree, with a comment marker (decision 0006,
+   "The oracle check for C0.1"). The result must equal the original bytes minus one range, plus the new HTML at the
+   range's start. The oracle confirms that the range holds exactly the ref's element. The script first runs html5lib
+   on the html5lib tree-construction tests at a pinned commit, and records each failure.
+2. **C0.1, the refusal rule:** `html_edit` refuses every fragment that changes the tree outside the element, with a
+   named error, and the file stays unchanged. The 3 listed fragments (`</div><div>`, `<!--`, `<script>`) are examples
+   of this rule. For each refusal, the oracle confirms that the splice changes the tree outside the element. For each
+   accepted edit, it confirms that the tree outside does not change. A refusal that the oracle does not confirm is a
+   failure.
+3. **C0.2, the absolute path:** the server accepts an absolute path inside the workspace. The absolute-path case uses
+   a path outside the workspace. The other path cases do not change.
+- **No number changed.**
