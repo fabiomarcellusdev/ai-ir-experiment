@@ -11,7 +11,8 @@ vulnerability above low, and the owner's yes for each install. "Known vulnerabil
 
 | Component | Version | Published | Licence | Ships | Notes |
 |---|---|---|---|---|---|
-| <name> | <exact> | <date> | <SPDX id> | <Yes or No> | <why it is needed; its vetting report> |
+| parse5 | 8.0.1 | 2026-04-19 | MIT | No | The HTML5 parser for the gate C0.3 prototype and the C0.1 oracle: source positions, spec-conformant tree. Vetted 2026-11-11 with `tools/vet-package.mjs`: all rules pass; no provenance; registry signature present; same publisher as 8.0.0. |
+| entities | 8.1.0 | 2026-09-07 | BSD-2-Clause | No | Brought in by parse5 (`^8.0.0`). Vetted 2026-11-11: all rules pass; no dependencies. |
 
 ## Tools
 
