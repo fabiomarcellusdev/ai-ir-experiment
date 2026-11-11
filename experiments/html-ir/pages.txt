@@ -1,0 +1,7 @@
+# Public pages for the HIR measurement: one "name URL" per line.
+# The fetched copies go in experiments/html-ir/pages/ (git-ignored): they are other people's content.
+wikipedia https://en.wikipedia.org/wiki/HTML
+mdn https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/div
+github https://github.com/nodejs/node
+tailwind https://tailwindcss.com/
+hackernews https://news.ycombinator.com/

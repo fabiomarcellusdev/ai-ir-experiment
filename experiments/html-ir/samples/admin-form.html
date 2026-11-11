@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Users · Admin</title>
+  <link href="/vendor/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .table-users td { vertical-align: middle; }
+    .badge-role { min-width: 4.5rem; }
+  </style>
+</head>
+<body>
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12 col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-white"><h2 class="h5 mb-0">Invite a user</h2></div>
+          <div class="card-body">
+            <form id="invite-form" action="/admin/users/invite" method="post" novalidate>
+              <input type="hidden" name="_csrf" value="token-placeholder">
+              <div class="mb-3">
+                <label for="invite-email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="invite-email" name="email" placeholder="name@example.com" required autocomplete="off">
+                <div class="invalid-feedback">Enter a valid email address.</div>
+              </div>
+              <div class="mb-3">
+                <label for="invite-role" class="form-label">Role</label>
+                <select class="form-select" id="invite-role" name="role" required>
+                  <option value="" selected disabled>Choose a role</option>
+                  <option value="viewer">Viewer</option>
+                  <option value="editor">Editor</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+              <div class="mb-3 form-check">
+                <input class="form-check-input" type="checkbox" id="invite-notify" name="notify" checked>
+                <label class="form-check-label" for="invite-notify">Send an invitation email</label>
+              </div>
+              <button type="submit" class="btn btn-primary w-100" data-loading-text="Sending…">Send invite</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-8 mt-4 mt-lg-0">
+        <div class="card shadow-sm">
+          <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <h2 class="h5 mb-0">Users</h2>
+            <input type="search" class="form-control form-control-sm w-auto" placeholder="Filter users" aria-label="Filter users" data-filter-target="#users-table">
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-users mb-0" id="users-table">
+              <thead class="table-light">
+                <tr><th scope="col">Name</th><th scope="col">Email</th><th scope="col">Role</th><th scope="col">Last active</th><th scope="col" class="text-end">Actions</th></tr>
+              </thead>
+              <tbody>
+                <tr data-user-id="1041">
+                  <td>Ana Ruiz</td><td>ana@example.com</td><td><span class="badge badge-role bg-danger">Admin</span></td><td><time datetime="2026-11-09T14:02:00Z">Yesterday</time></td>
+                  <td class="text-end"><div class="btn-group btn-group-sm" role="group"><button type="button" class="btn btn-outline-secondary" data-action="edit" data-user-id="1041">Edit</button><button type="button" class="btn btn-outline-danger" data-action="remove" data-user-id="1041" data-bs-toggle="modal" data-bs-target="#confirm-remove">Remove</button></div></td>
+                </tr>
+                <tr data-user-id="1042">
+                  <td>Ben Okafor</td><td>ben@example.com</td><td><span class="badge badge-role bg-primary">Editor</span></td><td><time datetime="2026-11-10T08:15:00Z">Today</time></td>
+                  <td class="text-end"><div class="btn-group btn-group-sm" role="group"><button type="button" class="btn btn-outline-secondary" data-action="edit" data-user-id="1042">Edit</button><button type="button" class="btn btn-outline-danger" data-action="remove" data-user-id="1042" data-bs-toggle="modal" data-bs-target="#confirm-remove">Remove</button></div></td>
+                </tr>
+                <tr data-user-id="1043">
+                  <td>Chen Wei</td><td>chen@example.com</td><td><span class="badge badge-role bg-secondary">Viewer</span></td><td><time datetime="2026-10-28T19:40:00Z">Oct 28</time></td>
+                  <td class="text-end"><div class="btn-group btn-group-sm" role="group"><button type="button" class="btn btn-outline-secondary" data-action="edit" data-user-id="1043">Edit</button><button type="button" class="btn btn-outline-danger" data-action="remove" data-user-id="1043" data-bs-toggle="modal" data-bs-target="#confirm-remove">Remove</button></div></td>
+                </tr>
+                <tr data-user-id="1044">
+                  <td>Dara Nwosu</td><td>dara@example.com</td><td><span class="badge badge-role bg-primary">Editor</span></td><td><time datetime="2026-11-02T11:05:00Z">Nov 2</time></td>
+                  <td class="text-end"><div class="btn-group btn-group-sm" role="group"><button type="button" class="btn btn-outline-secondary" data-action="edit" data-user-id="1044">Edit</button><button type="button" class="btn btn-outline-danger" data-action="remove" data-user-id="1044" data-bs-toggle="modal" data-bs-target="#confirm-remove">Remove</button></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/vendor/bootstrap.bundle.min.js" defer></script>
+  <script src="/admin/users.js" defer></script>
+</body>
+</html>
