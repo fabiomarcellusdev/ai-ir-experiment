@@ -53,8 +53,8 @@ export function candidates(m) {
 /** The number of <p> elements in a document, to check that an insertion survives parsing. */
 const countP = (src) => load(src).els.filter((e) => e.tagName === 'p').length;
 
-export function makeTasks(files) {
-  let s = SEED;
+export function makeTasks(files, seed = SEED) {
+  let s = seed;
   const rnd = (n) => { s = (s * 1103515245 + 12345) & 0x7fffffff; return (s >>> 16) % n; };
   const draw = (list, ok) => {
     for (let i = 0; i < 10_000; i++) { const x = list[rnd(list.length)]; const r = ok(x); if (r) return r; }

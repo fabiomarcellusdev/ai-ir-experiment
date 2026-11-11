@@ -1,6 +1,6 @@
 # 0005. Gate C0.3 no-go, and a rescope on the same branch
 
-**Status:** Accepted (owner, 2026-11-11). The new question and its gate are Proposed until the owner agrees to them.
+**Status:** Accepted (owner, 2026-11-11). The owner agreed to the rescope gates C0.5 and C0.6 on 2026-11-11 (amendment below).
 
 ## Context
 
@@ -55,3 +55,5 @@ Option 2 (owner, 2026-11-11):
 - A harness that loads MCP tool definitions only when they are used. Then the fixed cost that sank C0.3 changes.
 
 ## Amendments
+
+**2026-11-11 (owner):** the owner agreed to gates C0.5 (work tokens, ≤ 0.50) and C0.6 (real agents with the MCP added, ≤ 0.70, success within 5 points). An independent review then led to procedural fixes, with no number changed (`docs/contract.md`, "Amendments of the rescope").
