@@ -18,10 +18,11 @@ fixed (decision 0006, amendment of 2026-11-11). Next: the C0.1 and C0.2 gate scr
 The owner's choice (2026-11-11): no check of a shorter MCP tool text before C0.6. After C0.6, and only if it is
 needed, the lead measures shorter tool text with the free `count_tokens`.
 
-Waiting for the owner:
-1. A yes to install html5lib 1.1, six 1.17.0 and webencodings 0.5.1 for gate C0.1's oracle (vetted,
-   `docs/third-party.md`). Also a choice of the marker and of the refs that C0.1 draws (`docs/follow-ups.md`).
-2. A yes to publish the branch and its pull request, at a milestone.
+The C0.1 oracle is installed (html5lib 1.1, six 1.17.0, webencodings 0.5.1 in `.venv-oracle/`, owner's yes,
+2026-11-11). Next: the C0.1 and C0.2 gate scripts, then their runs (free).
+
+The owner's rule (2026-11-11): no push and no pull request until every run is complete, the paid C0.6 included, and
+the viability verdict is recorded.
 
 ## Closed
 
