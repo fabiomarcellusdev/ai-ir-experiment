@@ -373,22 +373,30 @@ fresh inputs, and then with real agents.
   3. **The task rule:** the file can give all 4 task types with the C0.3 task rules, both as an odd file (a removal)
      and as an even file (an insertion).
 - **The draw, for each kind in C0.3's order, with the C0.3 generator in one stream, seed `20261111`:**
-  1. Sort the pool's repositories by name, and shuffle them (Fisher-Yates). Take them in that order.
+  1. Sort the pool's repositories by their full `owner/repo` name (UTF-16 code-unit order), and shuffle them
+     (Fisher-Yates). Take them in that order.
   2. In a repository, sort its files by path, and shuffle them. Read them in that order. The first file that passes
      the rules is the repository's pick. A repository with no passing file gives no pick.
   3. Stop at 2 picks.
   4. When the repositories run out with 1 pick, the second pick is the next passing file of the first pick's
      repository, in the same order. With 0 picks, the draw stops with an error, and the rescope needs an amendment.
-- **The script:** `experiments/c05/draw-files.mjs`, committed before its first run. The record holds its SHA-256.
-  The draw runs once.
+- **The script:** `experiments/c05/draw-files.mjs`, committed before its first run. The record holds the SHA-256 of
+  the script and of each module whose rules it uses, and the parser's version. The draw runs once: the script refuses
+  to run when a record exists or its inputs have uncommitted changes.
+- **The task rule is an existence check:** for each task type, the script tests every candidate target with the C0.3
+  rules. `makeTasks` draws at random with at most 10,000 tries, so it can still miss a rare target. If the task set
+  then fails, the draw's record stands, and the rescope needs an amendment.
 - **The task set:** 4 tasks for each file, 40 in total, from the C0.3 task rules and templates, with the seed
   `20261111` (`experiments/c05/tasks.mjs`).
 - The lead commits the record and the task set before any token count or view on them, as for C0.3.
 
 ### What C0.5 freezes
 
-- The prototype and the tools stay byte-identical to C0.3's frozen hashes (`experiments/c03/run-inputs.json`):
-  `html.mjs`, `mcp-tools.json`, `baseline-tools.json` and `run-c03.mjs`. The runner checks them.
+- The prototype and the tools stay byte-identical to their hashes in C0.3's committed result
+  (`experiments/c03/c03-result.json`): `html.mjs`, `mcp-tools.json`, `baseline-tools.json` and `run-c03.mjs`.
+- `experiments/c05/run-inputs.json` freezes the task set, the record, the draw, task and run scripts,
+  `make-tasks.mjs` and `select-files.mjs`. The runner has the list in its code, and it makes the task set again from
+  the drawn files and compares.
 - `make-tasks.mjs` changes in one way only: `makeTasks` takes the seed as a parameter, with C0.3's seed as the
   default. C0.3's task set comes out byte for byte the same.
 - Any other change to these files needs a dated amendment.
@@ -417,9 +425,10 @@ fresh inputs, and then with real agents.
   2. **The sample:** the report gives a 95% interval of the median from a bootstrap over files: 10,000 resamples of
      the 10 files with replacement, each file with its 4 tasks, with the seed. It does not change the verdict. When
      the interval contains 0.50, the report says that the result is not shown beyond the spread between files.
-- **The report also gives:** the median ratio with the tool definitions included (as C0.3 computed it), each arm's
-  fixed cost (the tool definitions; also for C0.6's M arm), the median ratio of each M path alone, the number of
-  valid B3 and M3 paths, and the result for each task type. The script prints no number for a single task.
+- **The report also gives:** the median ratio as C0.3 computed it (the paths B1, B2, M1 and M2, with the tool
+  definitions and the prompt), each arm's fixed cost (the tool definitions; also for C0.6's M arm), the median ratio
+  of each M path alone, the number of valid B3 and M3 paths, and the result for each task type. The script prints no
+  number for a single task, except in the error that stops a run.
 
 **C0.6, agent tasks with the MCP added (PAID: the lead announces the cost estimate first, and waits for the owner's
 yes).**
@@ -472,4 +481,7 @@ found 17 points. The changes, before any draw, view or count on the new inputs:
 9. The C0.3 amendment now says that C0.1 and C0.2 can run again for the rescope.
 10. C0.5 names its tool sets. The same repository cannot be picked in 2 kinds. Owners of C0.3 picks are removed.
     The size rule, an aborted run, the noise requests and the table row are stated.
+11. A second review, of the C0.5 code, led to: a task rule that checks every candidate, a draw that refuses to run
+    twice or from uncommitted inputs, a freeze list in the runner's code with C0.3's hashes from its result, a check
+    that remakes the task set, M3 not valid when the view does not show the attribute, and the report fields above.
 - **No number changed:** C0.5 at 0.50, C0.6 at 0.70, 5 points and 15 points.

@@ -33,13 +33,21 @@ export function shortPaths(task, src, p) {
   const oneLine = !src.slice(st.startOffset, st.endOffset).includes('\n');
   const hit = src.split('\n')[line].includes(task.quote);
   const b3 = p.B2.messages && oneLine && hit && col + (st.endOffset - st.startOffset) <= 2000;
-  const shown = (task.attr === 'id' || KEEP_ATTR.has(task.attr)) && !(/^data:/i.test(task.answer) && task.answer.length > 100);
+  // The outline line must show the attribute (review, 2026-11-11: the view drops an empty id).
+  const view = m.lineOf.get(el.ref) ?? '';
+  const named = new RegExp(`[( ]${task.attr.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(=|[ )])`).test(view);
+  const shown = task.attr === 'id'
+    ? task.answer !== '' && (view.includes(`#${task.answer}`) || named)
+    : KEEP_ATTR.has(task.attr) && named && !(/^data:/i.test(task.answer) && task.answer.length > 100);
   const m3 = find(m, task.quote).matches.slice(0, 20).includes(el) && shown;
   return {
     B3: b3 ? { valid: true, messages: drop(p.B2.messages) } : { valid: false },
     M3: m3 ? { valid: true, messages: drop(p.M2.messages) } : { valid: false },
   };
 }
+
+/** One resample: as many whole files as there are, drawn with replacement, each with all its tasks. */
+export const resampleFiles = (groups, rnd) => groups.map(() => groups[rnd(groups.length)]);
 
 /**
  * A bootstrap over files (review, 2026-11-11): resample the 10 files with replacement, each with its 4 tasks, and
@@ -51,11 +59,7 @@ export function bootstrapFiles(rows, seed, n = 10_000) {
   const groups = [...files.values()];
   const rnd = generator(seed);
   const meds = [];
-  for (let i = 0; i < n; i++) {
-    const pick = [];
-    for (let j = 0; j < groups.length; j++) pick.push(...groups[rnd(groups.length)]);
-    meds.push(median(pick));
-  }
+  for (let i = 0; i < n; i++) meds.push(median(resampleFiles(groups, rnd).flat()));
   meds.sort((a, b) => a - b);
   return [meds[Math.floor(0.025 * (n - 1))], meds[Math.ceil(0.975 * (n - 1))]];
 }
@@ -101,21 +105,26 @@ export async function gateWork(tasks, srcOf, count) {
     row.ratio = row.workM / row.workB;
     row.ratioM1 = row.workM1 / row.workB;
     row.ratioM2 = row.workM2 === null ? null : row.workM2 / row.workB;
-    row.ratioTotal = cheapest(['M1', 'M2', 'M3']) / cheapest(['B1', 'B2', 'B3']);
+    row.ratioM3 = row.workM3 === null ? null : row.workM3 / row.workB;
+    // As C0.3 computed it: the 4 old paths, with the tool definitions and the prompt.
+    row.ratioTotalC03 = cheapest(['M1', 'M2']) / cheapest(['B1', 'B2']);
     rows.push(row);
   }
   const med = median(rows.map((r) => r.ratio));
   const m2 = rows.filter((r) => r.ratioM2 !== null);
+  const m3 = rows.filter((r) => r.ratioM3 !== null);
+  const interval = bootstrapFiles(rows, 20261111);
   const byType = {};
   for (const r of rows) (byType[r.type] ??= []).push(r.ratio);
   return {
     rows, median: med, pass: med <= 0.5,
-    medianTotal: median(rows.map((r) => r.ratioTotal)),
+    medianTotalC03: median(rows.map((r) => r.ratioTotalC03)),
     medianM1Only: median(rows.map((r) => r.ratioM1)),
     medianM2Only: m2.length ? median(m2.map((r) => r.ratioM2)) : null, m2Valid: m2.length,
-    b2Valid: rows.filter((r) => r.B2 !== null).length,
-    b3Valid: rows.filter((r) => r.B3 !== null).length, m3Valid: rows.filter((r) => r.M3 !== null).length,
-    bootstrapFiles95: bootstrapFiles(rows, 20261111),
+    medianM3Only: m3.length ? median(m3.map((r) => r.ratioM3)) : null, m3Valid: m3.length,
+    b2Valid: rows.filter((r) => r.B2 !== null).length, b3Valid: rows.filter((r) => r.B3 !== null).length,
+    bootstrapFiles95: interval,
+    beyondFileSpread: !(interval[0] <= 0.5 && 0.5 <= interval[1]),
     byType: Object.fromEntries(Object.entries(byType).map(([k, v]) => [k, median(v)])),
   };
 }
@@ -125,7 +134,7 @@ async function countTokens(key, tools, messages) {
     const r = await fetch('https://api.anthropic.com/v1/messages/count_tokens', {
       method: 'POST',
       headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
-      body: JSON.stringify({ model: MODEL, tools, messages }),
+      body: JSON.stringify(tools.length ? { model: MODEL, tools, messages } : { model: MODEL, messages }),
     });
     if (r.status === 429 || r.status >= 500) { await new Promise((ok) => setTimeout(ok, 2000 * 2 ** attempt)); continue; }
     const j = await r.json();
@@ -135,25 +144,49 @@ async function countTokens(key, tools, messages) {
   throw new Error('count_tokens: too many retries');
 }
 
-/** Checks that the run's inputs are the frozen ones (experiments/c05/run-inputs.json), the gate files and 40 tasks. */
-function checkInputs(tasks) {
-  const sha = (p) => createHash('sha256').update(readFileSync(p)).digest('hex');
-  const frozen = JSON.parse(readFileSync('experiments/c05/run-inputs.json', 'utf8'));
-  const c03 = JSON.parse(readFileSync('experiments/c03/run-inputs.json', 'utf8')).sha256;
-  for (const file of ['experiments/c03/html.mjs', 'experiments/c03/mcp-tools.json', 'experiments/c03/baseline-tools.json', 'experiments/c03/run-c03.mjs']) {
-    if (sha(file) !== c03[file]) throw new Error(`${file} differs from its C0.3 hash: the contract freezes it`);
+// The files C0.5 freezes at C0.3's hashes, and the C0.5 files that experiments/c05/run-inputs.json must list.
+export const C03_FROZEN = ['experiments/c03/html.mjs', 'experiments/c03/mcp-tools.json', 'experiments/c03/baseline-tools.json', 'experiments/c03/run-c03.mjs'];
+export const C05_FROZEN = ['experiments/c05/tasks.json', 'experiments/c05/file-set.json', 'experiments/c05/draw-files.mjs',
+  'experiments/c05/tasks.mjs', 'experiments/c05/run-c05.mjs', 'experiments/c03/make-tasks.mjs', 'experiments/c03/select-files.mjs'];
+const SEED = 20261111;
+
+/**
+ * The problems that stop a run (review, 2026-11-11). `read(path)` returns a file's bytes. The C0.3 hashes come from
+ * the committed C0.3 result, not from a file that can change with them. The task set must come out of makeTasks again,
+ * with the seed, from the drawn files.
+ */
+export function frozenProblems(read, makeTasks) {
+  const sha = (p) => createHash('sha256').update(read(p)).digest('hex');
+  const json = (p) => JSON.parse(read(p).toString('utf8'));
+  const problems = [];
+  const c03 = json('experiments/c03/c03-result.json').sha256;
+  for (const f of C03_FROZEN) if (sha(f) !== c03[f]) problems.push(`${f} differs from its hash in the C0.3 result`);
+  const frozen = json('experiments/c05/run-inputs.json').sha256;
+  for (const f of C05_FROZEN) {
+    if (!(f in frozen)) problems.push(`experiments/c05/run-inputs.json does not list ${f}`);
+    else if (sha(f) !== frozen[f]) problems.push(`${f} is not the frozen input (SHA-256 differs)`);
   }
-  for (const [file, want] of Object.entries(frozen.sha256)) {
-    if (sha(file) !== want) throw new Error(`${file} is not the frozen input (SHA-256 differs)`);
-  }
-  const record = JSON.parse(readFileSync('experiments/c05/file-set.json', 'utf8'));
-  for (const p of record.kinds.flatMap((k) => k.picks)) {
-    if (createHash('sha256').update(readFileSync(p.file, 'utf8'), 'utf8').digest('hex') !== p.sha256) throw new Error(`${p.file} changed since the draw`);
-  }
-  if (tasks.length !== 40) throw new Error(`expected 40 tasks, found ${tasks.length}`);
+  const record = json('experiments/c05/file-set.json');
+  const picks = record.kinds.flatMap((k) => k.picks);
+  for (const p of picks) if (sha(p.file) !== p.sha256) problems.push(`${p.file} changed since the draw`);
+  const set = json('experiments/c05/tasks.json');
+  if (set.seed !== SEED) problems.push(`tasks.json has the seed ${set.seed}, not ${SEED}`);
+  if (set.tasks.length !== 40) problems.push(`expected 40 tasks, found ${set.tasks.length}`);
+  const again = makeTasks(picks.map((p) => ({ file: p.file, src: read(p.file).toString('utf8') })), SEED);
+  const strip = (ts) => JSON.stringify(ts.map(({ expectedSha256, ...t }) => t));
+  if (strip(again) !== strip(set.tasks)) problems.push('tasks.json is not what makeTasks gives from the drawn files');
+  return problems;
+}
+
+/** Checks the frozen inputs and that git has no uncommitted change to them; returns the run's conditions. */
+async function checkInputs() {
+  const { makeTasks } = await import('../c03/make-tasks.mjs');
+  const problems = frozenProblems((p) => readFileSync(p), makeTasks);
+  if (problems.length) throw new Error(`the run's inputs are not the frozen ones:\n${problems.join('\n')}`);
   const dirty = execFileSync('git', ['status', '--porcelain', '--', 'experiments/c03', 'experiments/c05', 'docs/contract.md'], { encoding: 'utf8' }).trim();
   if (dirty) throw new Error(`the frozen files have uncommitted changes:\n${dirty}`);
-  return { commit: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), sha256: frozen.sha256 };
+  return { commit: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(),
+    sha256: JSON.parse(readFileSync('experiments/c05/run-inputs.json', 'utf8')).sha256 };
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
@@ -170,7 +203,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const once = (arm, msgs) => countTokens(key, TOOLS[arm], msgs);
 
   const { tasks } = JSON.parse(readFileSync('experiments/c05/tasks.json', 'utf8'));
-  const conditions = checkInputs(tasks);
+  const conditions = await checkInputs();
   const srcs = new Map();
   const srcOf = (t) => { if (!srcs.has(t.file)) srcs.set(t.file, readFileSync(t.file, 'utf8')); return srcs.get(t.file); };
 
@@ -180,17 +213,19 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const count = repeatable ? once : counter3(once);
   // Each arm's fixed cost: its tools with one short user message, minus the same message with no tools.
   const ok = [{ role: 'user', content: 'ok' }];
-  const noTools = await countTokens(key, [], ok);
-  const toolCost = { B: (await once('B', ok)) - noTools, M: (await once('M', ok)) - noTools,
-    'M with the baseline tools (C0.6)': (await countTokens(key, [...base, ...mcp], ok)) - noTools };
+  const c = (tools) => (repeatable ? countTokens(key, tools, ok) : counter3((_, msgs) => countTokens(key, tools, msgs))('-', ok));
+  const noTools = await c([]);
+  const toolCost = { B: (await c(TOOLS.B)) - noTools, M: (await c(TOOLS.M)) - noTools,
+    'M with the baseline tools (C0.6)': (await c([...base, ...mcp])) - noTools };
 
   const r = await gateWork(tasks, srcOf, count);
   writeFileSync('experiments/c05/c05-result.json', JSON.stringify({ date: new Date().toISOString(), label: 'C0.5 gate run',
     model: MODEL, ...conditions, noiseCheck: { requests: probe.length, repeats: 3, identical: repeatable,
       counting: repeatable ? 'once' : 'median of 3' }, toolCost, result: r }, null, 1) + '\n');
   console.log(`C0.5 gate run: median work ratio ${r.median.toFixed(3)}; pass at <= 0.50: ${r.pass ? 'PASS' : 'FAIL'}; ` +
-    `with tool definitions ${r.medianTotal.toFixed(3)}; outline only ${r.medianM1Only.toFixed(3)}; ` +
-    `find only ${r.medianM2Only?.toFixed(3)} (${r.m2Valid} tasks); B2 valid in ${r.b2Valid} tasks; ` +
-    `B3 valid in ${r.b3Valid}, M3 valid in ${r.m3Valid}; 95% interval over files ${r.bootstrapFiles95.map((x) => x.toFixed(3)).join(' to ')}; ` +
+    `as C0.3 computed it ${r.medianTotalC03.toFixed(3)}; outline only ${r.medianM1Only.toFixed(3)}; ` +
+    `find + read only ${r.medianM2Only?.toFixed(3)} (${r.m2Valid} tasks); find only ${r.medianM3Only?.toFixed(3) ?? '-'} (${r.m3Valid} tasks); ` +
+    `B2 valid in ${r.b2Valid}, B3 valid in ${r.b3Valid}; 95% interval over files ${r.bootstrapFiles95.map((x) => x.toFixed(3)).join(' to ')}; ` +
     `noise check: ${repeatable ? 'identical repeats' : 'repeats differ, median of 3 used'}`);
+  if (!r.beyondFileSpread) console.log('The 95% interval contains 0.50: the result is not shown beyond the spread between files.');
 }
