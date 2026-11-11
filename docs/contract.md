@@ -500,3 +500,14 @@ its 3 contract changes. They hold before any server code, and before C0.1 and C0
 3. **C0.2, the absolute path:** the server accepts an absolute path inside the workspace. The absolute-path case uses
    a path outside the workspace. The other path cases do not change.
 - **No number changed.**
+
+**2026-11-11 (owner): the C0.1 marker and draw, after the server build.** The server's property test showed that a
+comment marker gives false failures: at the start of a document, the parser puts a comment in the document node. The
+owner agreed to these changes on 2026-11-11, before the C0.1 script exists:
+1. **The marker** of amendment "the server's design", 1, is an empty element with the element's own tag and one
+   marker attribute (no end tag for a void element), not a comment. The parser places it as it placed the element.
+2. **The 1,000 random edits** draw from all refs except the `html`, `head` and `body` elements. `html_edit` refuses
+   these 3 by design (decision 0006), and the marker check cannot place them.
+3. **The oracle uses html5lib's parser only.** A check fails when the C0.1 script imports html5lib's serializer, its
+   sanitizer or its filters.
+- **No number changed.**

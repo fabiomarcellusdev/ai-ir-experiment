@@ -17,3 +17,6 @@ coverage/
 experiments/**/pages/
 experiments/gate-files/
 experiments/c03/baseline-tools.json
+
+# The Python virtual environment of the C0.1 oracle (tests/gates/oracle-requirements.txt)
+.venv-oracle/

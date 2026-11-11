@@ -116,6 +116,18 @@ ecosystem, with its settings and commands. At setup, copy the sections of the pr
    without the owner's yes and a dated note in the decision record. `node tools/check.mjs fast` fails when a pnpm
    guard is weakened.
 
+### Python: pip, for the C0.1 oracle only (owner, 2026-11-11)
+
+Copied from `docs/setup-options.md`, "Packages: uv or pip". The choice is pip (26.2.1 is already installed); uv is not
+installed.
+
+- **Pins:** `tests/gates/oracle-requirements.txt` holds exact versions (`==`) with hashes.
+- **Install** into the git-ignored `.venv-oracle/`, only with the owner's yes:
+  `python -m pip install --require-hashes --only-binary :all: --no-deps --uploaded-prior-to P60D -r tests/gates/oracle-requirements.txt`.
+  `--only-binary :all:` installs wheels only, so no package's build code runs. `--no-deps` installs only the pinned
+  list. `--uploaded-prior-to P60D` holds the 60-day age.
+- **Audit:** `pip-audit` is not installed. Until it is, query OSV for each pinned version (as on 2026-11-11).
+
 The template's own tools run on Node with no package. Its `package.json` and `pnpm-workspace.yaml` stay in every
 project: they keep npm, Yarn and Bun out of the project folder, and `check.mjs` checks them.
 
