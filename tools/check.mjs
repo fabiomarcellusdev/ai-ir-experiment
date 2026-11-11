@@ -76,25 +76,90 @@ export function guardProblems({ packageJson, workspaceYaml, minAgeMinutes = 8640
   return p;
 }
 
-// Each guard must run as a PreToolUse hook, on the tools it guards, as "node <the guard>", and block on failure.
-const REQUIRED_HOOKS = [
-  { file: "package-guard.mjs", tools: ["Bash", "PowerShell"] },
-  { file: "security-guard.mjs", tools: ["Bash", "PowerShell", "WebFetch", "mcp__.*"] },
-  { file: "quiet-hours-guard.mjs", tools: ["*"] },
-];
+// The permission rules that stay after the owner relaxed the guards (decision 0002, amendment of 2026-11-10).
+export const REQUIRED_SETTINGS = {
+  deny: [
+    "Bash(gh pr merge*)",
+    "Bash(gh pr review*--approve*)",
+    "Bash(git push --force*)",
+    "Bash(git push -f*)",
+    "Bash(git commit -n*)",
+    "Bash(git commit*--no-verify*)",
+    "Bash(git push*--no-verify*)",
+    "Bash(gh api*merge*)",
+    "Bash(gh -R*)",
+    "Bash(gh --repo*)",
+    "Bash(gh alias*)",
+    "Bash(npm install*)",
+    "Bash(npm i *)",
+    "Bash(npm ci*)",
+    "Bash(npm add*)",
+    "Bash(npm update*)",
+    "Bash(npm exec*)",
+    "Bash(npx *)",
+    "Bash(yarn *)",
+    "Bash(bun *)",
+    "Bash(bunx *)",
+    "Read(./.env)",
+    "Read(./.env.*)",
+    "Read(**/.env)",
+    "Read(**/.env.*)",
+    "Read(**/*.pem)",
+    "Read(**/*.key)",
+    "Read(**/*.p12)",
+    "Read(**/*.pfx)",
+    "Read(~/.ssh/**)",
+    "Read(~/.aws/**)",
+    "Read(~/.npmrc)",
+    "Read(~/.netrc)",
+    "Read(~/.config/gh/**)",
+  ],
+  ask: [
+    "Bash(gh pr create*)",
+    "Bash(git push*)",
+    "Bash(pnpm add*)",
+    "Bash(pnpm install*)",
+    "Bash(pnpm i*)",
+    "Bash(pnpm update*)",
+    "Bash(pnpm up*)",
+    "Bash(pnpm dlx*)",
+    "Bash(pnpm create*)",
+    "Bash(pnpm fetch*)",
+    "Bash(pnpm self-update*)",
+    "Bash(pnpm publish*)",
+    "Bash(pnpx *)",
+    "Bash(corepack *)",
+    "Bash(git remote*)",
+    "Bash(git config*)",
+    "Bash(gh release*)",
+    "Bash(gh repo*)",
+    "Read(./private-docs/**)",
+    "Read(./CLAUDE.local.md)",
+    "Edit(./.claude/**)",
+    "Edit(./.githooks/**)",
+    "Edit(./.github/**)",
+    "Edit(./.local/**)",
+    "Read(./.local/**)",
+    "Edit(./.git)",
+    "Edit(./.git/**)",
+    "Edit(**/.git)",
+    "Edit(**/.git/**)",
+    "Read(**/private-docs/**)",
+    "Edit(**/private-docs/**)",
+    "Read(**/.local/**)",
+    "Edit(**/.local/**)",
+    "Read(**/CLAUDE.local.md)",
+    "Edit(**/CLAUDE.local.md)",
+  ],
+};
 
-/** Problems with the guard hooks in .claude/settings.json. An empty list means each guard runs as required. */
-export function hookProblems(settingsJson) {
-  const groups = JSON.parse(settingsJson).hooks?.PreToolUse ?? [];
+/** Problems with .claude/settings.json: each kept rule must be in its list, and the mode must not skip the rules. */
+export function settingsProblems(settingsJson) {
+  const perms = JSON.parse(settingsJson).permissions ?? {};
   const problems = [];
-  for (const req of REQUIRED_HOOKS) {
-    const cmd = new RegExp(`^node\\s+"?\\$CLAUDE_PROJECT_DIR/\\.claude/hooks/${req.file.replace(".", "\\.")}"?$`);
-    const ok = groups.some((g) => {
-      const matcher = g.matcher ?? "*";
-      const covers = req.tools[0] === "*" ? matcher === "*" || matcher === "" : matcher === "*" || req.tools.every((t) => matcher.split("|").includes(t));
-      return covers && (g.hooks ?? []).some((h) => h.type === "command" && cmd.test(h.command ?? "") && h.onFailure === "block");
-    });
-    if (!ok) problems.push(`.claude/settings.json must run ${req.file} as a PreToolUse hook on ${req.tools.join(", ")}, as "node $CLAUDE_PROJECT_DIR/.claude/hooks/${req.file}", with onFailure "block"`);
+  if (perms.defaultMode === "bypassPermissions") problems.push('.claude/settings.json: permissions.defaultMode must not be "bypassPermissions"');
+  for (const [list, rules] of Object.entries(REQUIRED_SETTINGS)) {
+    for (const r of rules) if (!(perms[list] ?? []).includes(r)) problems.push(`.claude/settings.json: permissions.${list} must hold "${r}"`);
   }
   return problems;
 }
@@ -156,7 +221,7 @@ function voiceLint() {
 }
 
 function guards(cfg) {
-  const problems = [...hookProblems(read(".claude/settings.json")), ...gitHookProblems(read(".githooks/pre-commit"), read(".githooks/pre-push"))];
+  const problems = [...settingsProblems(read(".claude/settings.json")), ...gitHookProblems(read(".githooks/pre-commit"), read(".githooks/pre-push"))];
   for (const dir of cfg.pnpmProjects) {
     const pj = path.join(dir, "package.json"), ws = path.join(dir, "pnpm-workspace.yaml");
     if (!fs.existsSync(path.join(ROOT, pj)) || !fs.existsSync(path.join(ROOT, ws))) { problems.push(`${dir}: package.json or pnpm-workspace.yaml is missing`); continue; }

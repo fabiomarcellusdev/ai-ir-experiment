@@ -78,3 +78,10 @@ Option B.
   resolves packages by itself, or Maven and Gradle, which fetch on every build. **Rejected:** extend
   `osv-check.mjs` and `vet-package.mjs` now (new parsers and registry clients for ecosystems that no project uses
   yet); keep the pnpm rules in `AGENTS.md` (they load in every session of a project that does not use them).
+- **2026-11-10, a short vetting check** (owner). The owner found the rules too slow for this proof-of-concept
+  project. **Decision:** vetting is a short check of the licence, install scripts, age and known vulnerabilities
+  (`tools/vet-package.mjs`), with a row in `docs/third-party.md`. The `package-guard` hook is removed (decision 0002,
+  amendment of 2026-11-10); the settings ask before `pnpm add`, `pnpm install` and `pnpm dlx`, and refuse npm installs,
+  npx, Yarn and Bun. The other rules stay: the 60-day age, exact pins and a lock file, no install scripts, no known
+  vulnerability above low, and the owner's yes for each install. **Rejected:** a 7-day age (the lead proposed it; the
+  owner kept 60 days); installs without the owner's yes (a bad package then runs with no human check).

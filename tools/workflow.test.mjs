@@ -68,13 +68,6 @@ test("no file: not quiet; a broken file: quiet; a BOM is accepted; messages hold
   fs.rmSync(dir, { recursive: true, force: true });
 });
 
-test("the Claude Code hook agrees with status() for now", () => {
-  const hook = fileURLToPath(new URL("../.claude/hooks/quiet-hours-guard.mjs", import.meta.url));
-  const r = spawnSync(process.execPath, [hook], { input: "{}", encoding: "utf8" });
-  assert.equal(r.status, 0);
-  assert.equal(r.stdout.includes('"permissionDecision":"ask"'), status().quiet);
-});
-
 // ---------------- git-guard: pure checks ----------------
 
 const SHA = "a".repeat(40), ZERO = "0".repeat(40);

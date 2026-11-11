@@ -33,12 +33,12 @@ Ways to build the test command, in about this order:
 5. A property or fuzz loop for "sometimes wrong": many random inputs until one fails.
 6. A bisection: `git bisect run <test command>` between a good and a bad commit. **Run it only in a worktree from
    `node tools/worktree.mjs add`, never in the main checkout:** a bisect checks out old commits, and in an old commit
-   a guard hook can be missing or older, so it stops guarding. Follow the maintainer's local notes for heavy work.
+   a git hook or a permission rule can be missing or older, so it stops guarding. Follow the maintainer's local notes for heavy work.
 7. A differential run: the same input through the old and the new version, outputs compared.
 8. **Last:** the owner runs a manual step. Give numbered steps, one action each, and ask for the redacted output.
 
 **Limits:** a new package (a browser driver, a profiler) needs the `vet-package` skill and the owner's yes
-(`AGENTS.md`, "Packages"). A request to a host outside the security guard's allow list needs the owner's yes.
+(`AGENTS.md`, "Packages"). A request to a new host needs the owner's yes (`AGENTS.md`, "Agents and security", 6).
 
 **Make the test command tight:**
 - **Faster:** cache the setup, and narrow the scope.

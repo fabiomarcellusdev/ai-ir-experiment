@@ -12,7 +12,7 @@
 //
 // Owner overrides, one command at a time: ALLOW_MAIN_COMMIT=1, ALLOW_MAIN_PUSH=1, ALLOW_WORKFLOW_CHANGE=1,
 // QUIET_HOURS_APPROVED=1. They guard against mistakes, not against a hostile process: any process can set them.
-// Claude Code's security guard refuses them to agents; branch protection on GitHub is the server-side control.
+// Agents must never set them (AGENTS.md); branch protection on GitHub is the server-side control.
 // Uses Node built-ins only.
 
 import fs from "node:fs";

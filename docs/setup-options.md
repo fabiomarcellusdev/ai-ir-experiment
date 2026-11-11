@@ -148,11 +148,15 @@ Sources: [WCAG 2.2 Understanding](https://www.w3.org/WAI/WCAG22/Understanding/),
 
 ## Packages: pnpm
 
-For JavaScript and TypeScript packages. The template's guards and checks already enforce this section.
+For JavaScript and TypeScript packages. The template's checks and permission rules enforce most of this section (see
+the note below).
+
+This project removed the `package-guard.mjs` hook (decision 0002, amendment of 2026-11-10). Where a section below
+names it, add ask rules for those commands to `.claude/settings.json` instead.
 
 - **pnpm only.** Never run npm installs, npx, Yarn or Bun. npm may run read-only commands (`npm view`) outside a
-  project folder; inside one, npm refuses to run (`devEngines`). `package-guard.mjs` refuses the others. `deno
-  install` in a folder with a `package.json` also installs npm packages: the guard asks, and the answer is no.
+  project folder; inside one, npm refuses to run (`devEngines`). The settings' deny list refuses the others. `deno
+  install` in a folder with a `package.json` also installs npm packages: the answer is no.
 - **Pins:** `package.json` pins pnpm by version and SHA-512 hash. `pnpm-lock.yaml` is committed. Every direct
   dependency has an exact version (`saveExact`). Install with `pnpm install --frozen-lockfile --ignore-scripts`.
 - **Age:** `minimumReleaseAge: 86400` (minutes) in `pnpm-workspace.yaml`. A security exception goes in

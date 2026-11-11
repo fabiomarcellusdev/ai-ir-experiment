@@ -89,3 +89,8 @@ Option B.
   4. The private terms and the quiet hours are local, so CI cannot check them. For these two guards, the last control
      is the owner's approval of each push. Branch protection on GitHub (point 1, once applied) stops a push to
      `main`, and the owner's review of each pull request is the last check of its content.
+- **2026-11-10, the guard hooks are removed** (owner; decision 0002, amendment of 2026-11-10). The security guard
+  no longer asks before a direct `git worktree` command, `git -C` into another folder, or a new link or junction, and
+  `.claude/hooks/` no longer exists. The permission rules still ask before an edit of a `.git` file or folder, and
+  `check.mjs fast` still fails in a worktree that lacks the owner's local files. The worktree defence is weaker: the
+  owner's approval of each push is now the main control.

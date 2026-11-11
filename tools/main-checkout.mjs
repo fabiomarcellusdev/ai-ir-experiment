@@ -18,7 +18,7 @@
 // 3. No `.git` and no `.worktrees` parent (a source copy, as in some CI steps): <root> is used as it is.
 // 4. Anything else: it throws. The callers fail closed: a push is refused, and quiet hours count as on.
 //
-// It reads files only and starts no git process, because the quiet-hours hook calls it before every tool call.
+// It reads files only and starts no git process, so that it stays fast when the git hooks call it.
 
 import fs from "node:fs";
 import path from "node:path";

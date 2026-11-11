@@ -56,18 +56,22 @@ before you add another (decision 0002).
 
 ## Guards
 
-- `.claude/hooks/quiet-hours-guard.mjs` (every tool, also in subagents) asks the owner before each action inside the
-  quiet hours of `.local/quiet-hours.json`.
-- `.claude/hooks/package-guard.mjs` refuses npx, Yarn, Bun and every npm command that is not read-only, and holds
-  every install for the owner.
-- `.claude/hooks/security-guard.mjs` holds for the owner any command that names a private or secret file, sends data
-  to a host outside its allow list, fetches a URL that looks like it carries data, or publishes. It refuses a download
-  piped into a shell, and the owner's steps: a merge, an approval, a push to `main`, a force push, a branch deletion,
-  `--no-verify`, a changed hooks path or push URL, and the owner's overrides. It parses git and gh the way they read
-  their arguments, and looks inside `bash -c` and `cmd /c`. Every publishing step asks, the pipeline's too.
-- Every guard hook has `onFailure: "block"`: a crash, a timeout or a missing `node` blocks the call.
-- `.claude/settings.json` refuses reads of `.env` files, keys and credential stores, and asks before reading private
-  notes, committing, pushing, and editing any guard, agent, skill or check.
+The owner relaxed the guards for this proof-of-concept project (decision 0002, amendment of 2026-11-10). There are no
+guard hooks. `.claude/settings.json` holds the rules that stay. `node tools/check.mjs fast` fails when one is removed,
+or when the default mode is `bypassPermissions`.
+
+- The file tools cannot read `.env` files, keys or credential stores. A shell command (`cat .env`) is not blocked:
+  never run one.
+- The deny rules refuse `gh pr merge`, `gh pr review ... --approve`, `git push --force` and `-f`, `--no-verify` and
+  `git commit -n`, `gh api` merges, `gh -R`, `gh --repo`, `gh alias`, npm installs, npx, Yarn and Bun. They match the
+  start of a command only. Other spellings pass them (`git push origin +x`, `git -c core.hooksPath=...`, a command
+  inside `bash -c`, the owner's override variables). `AGENTS.md` forbids these steps in every spelling: never use one.
+- The ask rules prompt before `git push`, `gh pr create`, `gh release`, `gh repo`, each pnpm install command,
+  `corepack`, `git config` and `git remote`; before reading private notes; and before editing `.claude/`,
+  `.githooks/`, `.github/`, `.git` and private notes. Make those edits with the Edit tool, never with a script.
+  Other publishing steps (`gh pr comment`, `gh issue`, `gh api` writes, `curl`) have no rule: ask the owner first
+  (`AGENTS.md`, "Agents and security", 6).
+- The git hooks still refuse a commit or a push on `main`, run the secret scan, and require UTC dates.
 - Do not try to work around a held call; explain it to the owner.
 
 ## If a secret appears in a Claude Code session

@@ -118,3 +118,31 @@ A package-vetting agent was rejected: it would hold untrusted registry text and 
   styles works against the `frontend-design` skill, which forbids generic defaults. It cites no sources, and its text
   has visible errors (a duplicated frontmatter block, an empty heading, a rule its own example breaks). No text or
   data was copied from it.
+- **2026-11-10, guards relaxed for the proof of concept** (owner). The owner found the guards too restrictive for
+  this proof-of-concept project, and chose the lead's proposal. **Decision:** remove the three Claude Code hooks
+  (`quiet-hours-guard`, `package-guard`, `security-guard`) and their tests. Ask before an edit only for `.claude/`,
+  `.githooks/` and `.github/`, not for `tools/`, `.gitignore`, `package.json`, `pnpm-workspace.yaml`,
+  `.gitattributes` or `tests/golden/`. Keep: no reads of secret files; no merge, approval or force push by an agent;
+  one ask before a push and a pull request; an ask before each install; the git hooks (no commit or push on `main`,
+  the secret scan, UTC dates, the quiet hours for commits and pushes). `check.mjs` now checks that these permission
+  rules are present (`settingsProblems`), in place of the hooks. **Why the hooks existed:** they held network calls,
+  installs and publishing steps for the owner even when a permission rule missed a command form, and the quiet-hours
+  hook stopped work in the owner's quiet hours. **What is lost** (from the security review of this change):
+  1. The quiet-hours ask before each tool call, in the main session and in subagents. The git hooks still refuse
+     commits and pushes inside the hours.
+  2. The refusal of the owner's steps in other spellings: `git commit -n` and `--no-verify`, `git -c core.hooksPath`,
+     the four override variables, `gh -R o/r pr merge`, `gh api` merges, gh aliases, and `gh pr review -a`. Seven
+     deny rules, added on the review's advice, refuse `git commit -n`, `--no-verify`, `gh api` merges, `gh -R`,
+     `gh --repo` and `gh alias`; the deny rules match the start of a command only, so other spellings still pass. Branch protection, GitHub's refusal of a self-approval and the push hook
+     (unless `--no-verify`) remain.
+  3. The refusal of a download piped into a shell (`curl ... | sh`), and the reading of `bash -c` and `cmd /c`.
+  4. Any check of `WebFetch`, MCP tools and network commands. They can send data out with no prompt.
+  5. The ask for a shell read of a secret file (`cat .env`). The deny rules stop only the file tools.
+  6. The asks for `git worktree`, `git -C` and links or junctions, which decision 0003's worktree defence used.
+  7. A prompt before an edit of `tools/` (`git-guard.mjs`, `secret-scan.mjs`, `check.mjs`) or of
+     `pnpm-workspace.yaml`. Such an edit can weaken a kept guard, or the 60-day age, before the next commit's checks
+     find it.
+  8. A prompt before other publishing steps: `gh pr comment`, `gh issue`, `gh gist`, `gh api` writes.
+  9. Not verified: whether the `Bash(...)` rules also apply to the PowerShell tool. If they do not, no rule reaches a
+     PowerShell command. **Rejected:** also relax the process (reviews for documents) and remove every ask (the
+  owner chose the middle option).
