@@ -11,6 +11,7 @@ with a record that says why. The project's own records start at 0005.
 | [0003](0003-branch-strategy.md) | A protected main, short task branches, tags for phases | Adopted from the template |
 | [0004](0004-task-pipeline-and-owner-approval.md) | The task pipeline, the owner's approval, local checks first, and quiet hours | Adopted from the template |
 | [0005](0005-c03-no-go-and-rescope.md) | Gate C0.3 failed (median 0.739): no-go for the MCP as specified; rescope on the same branch | Accepted (owner, 2026-11-11) |
+| [0006](0006-html-mcp-server-design.md) | The HTML MCP server's design: a small stdio server, parse5, a worker with a hard time limit, an edit checked by a second parse, html5lib as the C0.1 oracle | Proposed (lead, 2026-11-11) |
 
 ## Template
 
