@@ -19,11 +19,13 @@ Decision points are phases where the project continues only if the gate holds. T
 Check that the idea holds on real data before writing the product.
 
 **Work**
-- <The measurement, on real inputs pinned by version.>
+- The HTML reading-view MCP: is it viable for agents that edit `.html` files? The POC is on `exp/html-ir-poc`
+  (pull request #1). The gates C0.1 to C0.4 and their analysis are in `docs/contract.md`.
 
 **Deliverable:** a results file in `docs/measurements/` and a short report.
 
-**Gate (C0):** <the number that must hold, and on what>. If not, stop or rescope.
+**Gate (C0.1 to C0.4):** see `docs/contract.md`. If C0.3 fails, stop before the paid run. If C0.4 fails, stop
+or rescope.
 
 ## Phase <n>. Visual direction (a project with a user interface only)
 

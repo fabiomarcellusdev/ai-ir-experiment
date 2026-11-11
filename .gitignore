@@ -12,3 +12,7 @@ private-docs/
 dist/
 out/
 coverage/
+
+# Third-party pages and source files for experiments and gates: other people's content, never committed
+experiments/**/pages/
+experiments/gate-files/
