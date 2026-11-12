@@ -9,11 +9,13 @@ otherwise (decision 0005).
 
 **The viability verdict (2026-11-12): FAIL.** Gate C0.6 failed: real agents with the reading-view MCP server used a
 median of 1.40 times the baseline's tokens (pass at 0.70 or less), at equal success
-(`docs/measurements/2026-11-12-c06-result.md`). Every gate run of the experiment is now complete. Next: the owner's
-decision on what follows, and the one publish of this branch (push and pull request), with the owner's approval.
+(`docs/measurements/2026-11-12-c06-result.md`). An exploratory check after the gate found that the file names
+favoured the MCP arm: without the runs that misread a file name, the ratio is 1.96.
 
-The owner's rule (2026-11-11): no push and no pull request until every run is complete, the paid C0.6 included, and
-the viability verdict is recorded.
+**Next (owner, 2026-11-12):** the work continues on this branch, with no push yet. The owner asked whether to test
+the tasks where the reading view should do better, each as a hypothesis with a new gate. The plan is not agreed.
+
+The owner's rule (2026-11-11, extended 2026-11-12): no push and no pull request until the owner asks for one.
 
 ## Closed
 

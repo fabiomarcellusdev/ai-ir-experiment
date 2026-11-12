@@ -390,3 +390,31 @@ test('the analysis with 1 run per arm: the success difference counts 40 runs per
   assert.equal(r.success.M, 39 / 40);
   assert.ok(r.noise.successDiff95[0] <= -1 / 40 + 1e-9 && r.noise.successDiff95[1] <= 0);
 });
+
+import { wrongNameCalls } from './wrong-name.mjs';
+
+test('wrongNameCalls counts "File does not exist" errors and the dropped number prefix', () => {
+  const err = (input) => ({ name: 'Edit', input, isError: true, errorText: '<tool_use_error>File does not exist. Note: your current working directory is X.</tool_use_error>' });
+  const calls = [
+    err({ file_path: 'build.html' }),
+    err({ file_path: String.raw`C:\run\build.html` }),
+    err({ file_path: 'other.html' }),
+    { name: 'Edit', input: { file_path: '1-build.html' }, isError: false, errorText: null },
+    { name: 'Edit', input: { file_path: 'build.html' }, isError: true, errorText: 'String to replace not found in file.' },
+  ];
+  assert.deepEqual(wrongNameCalls(calls, '1-build.html'), { errors: 3, dropped: 2 });
+  // Negative controls: a correct name, and a name whose prefix is not a number and a hyphen, count as not dropped.
+  assert.deepEqual(wrongNameCalls([err({ file_path: '1-build.html' })], '1-build.html'), { errors: 1, dropped: 0 });
+  assert.deepEqual(wrongNameCalls([err({ file_path: 'build.html' })], 'x-build.html'), { errors: 1, dropped: 0 });
+  assert.deepEqual(wrongNameCalls([], '1-build.html'), { errors: 0, dropped: 0 });
+});
+
+test('wrongNameCalls also counts the missing-file errors of Grep and of the MCP server', () => {
+  const grep = { name: 'Grep', input: { pattern: 'x', path: 'index.html' }, isError: true, errorText: 'Path does not exist: index.html' };
+  const find = { name: 'mcp__html__html_find', input: { file: 'index.html', text: 'x' }, isError: true, errorText: 'the file is not found' };
+  assert.deepEqual(wrongNameCalls([grep, find], '2-index.html'), { errors: 2, dropped: 2 });
+  // Negative control: a Glob pattern is not a file path, and an error that is not a missing file does not count.
+  const glob = { name: 'Glob', input: { pattern: 'index.html' }, isError: true, errorText: 'File does not exist' };
+  const other = { name: 'mcp__html__html_edit', input: { file: 'index.html' }, isError: true, errorText: 'the hash is stale' };
+  assert.deepEqual(wrongNameCalls([glob, other], '2-index.html'), { errors: 1, dropped: 0 });
+});
