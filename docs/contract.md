@@ -14,7 +14,7 @@ never after the results are in. A missed gate is recorded as missed, with its nu
 | C0.7 | 0 | Second rescope (H1): C0.6 on the removal or replacement of a large element: at most 0.70 of the tokens, the interval below 1.00, success not more than 5 points below, and no task type more than 15 points below | Its own fresh draw, 40 tasks, 3 runs per task and arm; Claude Sonnet 5.5 | Agreed (owner, 2026-11-12) |
 | C0.8 | 0 | Second rescope (H2): C0.6 on a target named by its position, with the same pass rule as C0.7 | Its own fresh draw, 40 tasks, 3 runs per task and arm | Agreed (owner, 2026-11-12) |
 | C0.9 | 0 | Second rescope (H4): C0.6 on a quote that is not in the source as written, with the same pass rule as C0.7 | Its own fresh draw, 40 tasks, 3 runs per task and arm | Agreed (owner, 2026-11-12) |
-| C0.10 | 0 | Second rescope, v2 tools (decision 0008): C0.6's task kind (a quote in the source as written) with the v2 tools, with the pass rule of C0.7 | Its own fresh draw, 40 tasks, 3 runs per task and arm; Claude Sonnet 5.5 | Tentative (owner's yes to the gate, 2026-11-12; text proposed) |
+| C0.10 | 0 | Second rescope, v2 tools (decision 0008): C0.6's task kind (a quote in the source as written) with the v2 tools, with the pass rule of C0.7 | Its own fresh draw, 40 tasks, 3 runs per task and arm; Claude Sonnet 5.5 | Agreed (owner, 2026-11-12) |
 | C1 | 1 | <...> | <...> | Tentative |
 
 Status: **Tentative** means that the owner has not agreed to the gate yet. **Agreed** names the owner and the date.
@@ -891,8 +891,8 @@ $0.73). Then the owner decided:
    the previews of the new server) is written as an amendment before any draw, and the owner agrees to it first.
 - **No number changed:** 0.70, the interval below 1.00, 5 points and 15 points.
 
-**PROPOSED (lead, 2026-11-12; revised after an independent review of 12 points), waiting for the owner's yes: the
-gate text for the v2 tools.** The v2 tools exist (`server/v2.mjs`, `server/source.mjs`, `server/tools-v2.json`,
+**2026-11-12 (owner): the gate text for the v2 tools.** The owner agreed to it on 2026-11-12, after an independent
+review of 12 points and a revision. The v2 tools exist (`server/v2.mjs`, `server/source.mjs`, `server/tools-v2.json`,
 served with `node server/main.mjs --root <folder> --tools v2`; commits `f409dae`, `3c39e53` and `d56165d`, after a
 correctness review and a security review). v1's behaviour does not change, but files under `server/` changed after
 `d4f9927`; the results of C0.1, C0.2 and C0.6 stay with their own commits.
