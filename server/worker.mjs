@@ -2,13 +2,15 @@
 import { parentPort, workerData } from 'node:worker_threads';
 import { openWorkspace } from './workspace.mjs';
 import { runTool } from './tools.mjs';
+import { runToolV2 } from './v2.mjs';
 import { ToolError } from './errors.mjs';
 
 const ws = openWorkspace(workerData.root);
+const run = workerData.tools === 'v2' ? runToolV2 : runTool;
 
 parentPort.on('message', ({ id, name, args }) => {
   try {
-    parentPort.postMessage({ id, ...runTool(ws, name, args) });
+    parentPort.postMessage({ id, ...run(ws, name, args) });
   } catch (e) {
     // A ToolError is a named error of the tool. Any other error is a defect: the reply names only its kind, never a
     // path (security review F6), and the details go to stderr.

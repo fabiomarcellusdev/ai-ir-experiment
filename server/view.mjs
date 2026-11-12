@@ -80,7 +80,7 @@ function head(el) {
 
 // A tag name can hold almost any character. Escape each one outside a plain set, so a tag name cannot show a fake
 // ref, id or attribute list (security review F5).
-const escTag = (t) => t.replace(/[^A-Za-z0-9._:-]/gu, (c) => `&#x${c.codePointAt(0).toString(16)};`);
+export const escTag = (t) => t.replace(/[^A-Za-z0-9._:-]/gu, (c) => `&#x${c.codePointAt(0).toString(16)};`);
 
 const kids = (n) => n.childNodes ?? [];
 
@@ -293,8 +293,11 @@ export function outlinePage(m, page = 1) {
   return `page ${page} of ${n}; hash ${m.hash}\n${(pages[page - 1] ?? []).join('\n')}`;
 }
 
-/** html_find: the deepest shown elements whose visible text contains `text`; their lines and their ancestors' lines. */
-export function findText(m, text) {
+/**
+ * A test of "the shown element's visible text contains `text`", and the deepest such elements, in document order
+ * (html_find's matches). Shared by html_find and the v2 locator (decision 0008).
+ */
+export function textMatches(m, text) {
   if (typeof text !== 'string' || text === '') fail('the search text is empty');
   const occ = [];
   for (let i = m.vis.indexOf(text); i !== -1; i = m.vis.indexOf(text, i + 1)) occ.push(i);
@@ -316,7 +319,12 @@ export function findText(m, text) {
     return k < occ.length && occ[k] + text.length <= m.at[t];
   };
   const hits = new Set(m.els.filter(hit));
-  const matches = [...hits].filter((e) => !kids(e).some((c) => hits.has(c)));
+  return { hit, hits, matches: [...hits].filter((e) => !kids(e).some((c) => hits.has(c))) };
+}
+
+/** html_find: the deepest shown elements whose visible text contains `text`; their lines and their ancestors' lines. */
+export function findText(m, text) {
+  const { matches } = textMatches(m, text);
   const refs = new Set();
   for (const e of matches.slice(0, MAX_MATCHES)) {
     for (let p = e; p && p.tagName; p = m.parent.get(p)) if (m.lineOf.has(p.ref)) refs.add(p.ref);

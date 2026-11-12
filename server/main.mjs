@@ -2,7 +2,7 @@
 // on stdout. Nothing else goes to stdout (decision 0006).
 import { Worker } from 'node:worker_threads';
 import { openWorkspace } from './workspace.mjs';
-import { handle, LineSplitter, toolResult } from './protocol.mjs';
+import { handle, LineSplitter, toolResult, TOOLS, TOOLS_V2 } from './protocol.mjs';
 import { ToolError } from './errors.mjs';
 
 /** A call that takes longer than this gets a named error, and the worker is replaced. */
@@ -14,12 +14,19 @@ if (i === -1 || !process.argv[i + 1]) {
   process.exit(2);
 }
 const rootArg = process.argv[i + 1];
+// `--tools v2` serves the tools of decision 0008; the default, v1, is the server of gates C0.1, C0.2 and C0.6.
+const t = process.argv.indexOf('--tools');
+const toolSet = t === -1 ? 'v1' : process.argv[t + 1];
+if (toolSet !== 'v1' && toolSet !== 'v2') {
+  process.stderr.write('usage: node server/main.mjs --root <folder> [--tools v1|v2]\n');
+  process.exit(2);
+}
 const ws = openWorkspace(rootArg);
 
 let worker;
 let ready;
 function startWorker() {
-  worker = new Worker(new URL('./worker.mjs', import.meta.url), { workerData: { root: rootArg } });
+  worker = new Worker(new URL('./worker.mjs', import.meta.url), { workerData: { root: rootArg, tools: toolSet } });
   ready = new Promise((resolve, reject) => {
     const onMsg = (m) => { if (m?.ready) { worker.off('message', onMsg); resolve(); } };
     worker.on('message', onMsg);
@@ -67,7 +74,8 @@ async function callTool(name, args) {
   try {
     const { real, bytes, oldHash, id } = r.write;
     const hash = ws.write(real, Buffer.from(bytes.buffer, bytes.byteOffset, bytes.byteLength), oldHash, id);
-    return toolResult(`ok; hash ${hash}`);
+    // v2 names the changed element, so the agent need not look again (decision 0008); v1 is as it was.
+    return toolResult(r.note ? `ok; changed ${r.note}; hash ${hash}` : `ok; hash ${hash}`);
   } catch (e) {
     if (e instanceof ToolError) return toolResult(`${name}: ${e.message}`, true);
     process.stderr.write(`html server: ${e?.stack ?? e}\n`);
@@ -79,7 +87,7 @@ const send = (msg) => { if (msg) process.stdout.write(JSON.stringify(msg) + '\n'
 let chain = Promise.resolve();
 const splitter = new LineSplitter(
   (line) => {
-    chain = chain.then(() => handle(line, callTool)).then(send, (e) => {
+    chain = chain.then(() => handle(line, callTool, toolSet === 'v2' ? TOOLS_V2 : TOOLS)).then(send, (e) => {
       process.stderr.write(`html server: internal error: ${e.message}\n`);
       send({ jsonrpc: '2.0', id: null, error: { code: -32603, message: 'Internal error' } });
     });

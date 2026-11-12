@@ -1,0 +1,49 @@
+[
+ {
+  "name": "mcp__html__html_find",
+  "description": "Finds elements in an HTML file. With `text`: the deepest elements whose visible text contains the literal, case-sensitive text (at most 20), each with all its attributes, and the outline lines of their ancestors, all with @n refs. With `id`: the element with that id and its child elements, each with all its attributes. Ends with the match count and the file hash. Leave out `file` when the folder holds one .html file.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "file": { "type": "string", "description": "Path of the .html file" },
+    "text": { "type": "string", "description": "Literal visible text to find" },
+    "id": { "type": "string", "description": "The id of an element" }
+   }
+  }
+ },
+ {
+  "name": "mcp__html__html_change",
+  "description": "Changes one element of an HTML file and saves the file; all other bytes stay the same. Name the element by `ref` and `hash` (from html_find or html_outline); or by `text`: the deepest element whose visible text contains it, or with `tag` the innermost element of that tag that contains it; or by `id`, with `child` and `n` for its n-th child element of that tag. When the name fits no element or more than one, nothing changes and the matches are listed. Operations: remove; replace (`html`); insert_after (`html`); set_attribute (`attribute`, `value`); replace_text (`old`, `new`: text inside one text node of the element). Fails when the new HTML would change the page outside the element. Leave out `file` when the folder holds one .html file.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "operation": { "type": "string", "enum": ["remove", "replace", "insert_after", "set_attribute", "replace_text"] },
+    "file": { "type": "string" },
+    "ref": { "type": "integer" },
+    "hash": { "type": "string" },
+    "text": { "type": "string" },
+    "tag": { "type": "string" },
+    "id": { "type": "string" },
+    "child": { "type": "string" },
+    "n": { "type": "integer" },
+    "html": { "type": "string" },
+    "attribute": { "type": "string" },
+    "value": { "type": "string" },
+    "old": { "type": "string" },
+    "new": { "type": "string" }
+   },
+   "required": ["operation"]
+  }
+ },
+ {
+  "name": "mcp__html__html_outline",
+  "description": "The reading view of an HTML file: one element per line, indented one space per level, each with an @n ref, and text as \"| text\" lines. Scripts, styles, comments, SVG content, hidden content and most attributes are left out. Returns one page of at most 20,000 tokens and the file hash. Use html_find instead when you know some of the text or the id you want. Leave out `file` when the folder holds one .html file.",
+  "input_schema": {
+   "type": "object",
+   "properties": {
+    "file": { "type": "string", "description": "Path of the .html file" },
+    "page": { "type": "integer", "description": "Page number, from 1" }
+   }
+  }
+ }
+]

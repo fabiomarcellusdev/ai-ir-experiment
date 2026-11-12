@@ -2,6 +2,7 @@
 // functions: the main thread gives it the lines and a function that runs a tool.
 import { StringDecoder } from 'node:string_decoder';
 import RAW_TOOLS from '../experiments/c03/mcp-tools.json' with { type: 'json' };
+import RAW_TOOLS_V2 from './tools-v2.json' with { type: 'json' };
 
 export const SERVER_INFO = { name: 'html', version: '0.1.0' };
 /** The MCP protocol versions this server knows, oldest first. */
@@ -20,12 +21,15 @@ export const MAX_RESULT_CHARS = 65_000;
  * The tool definitions of experiments/c03/mcp-tools.json, frozen for gate C0.6: the `mcp__html__` prefix removed and
  * `input_schema` renamed to `inputSchema`. The name, description and schema do not change; `_meta` holds the size.
  */
-export const TOOLS = RAW_TOOLS.map((t) => ({
+const toMcp = (raw) => raw.map((t) => ({
   name: t.name.replace(/^mcp__html__/, ''),
   description: t.description,
   inputSchema: t.input_schema,
   _meta: { 'anthropic/maxResultSizeChars': MAX_RESULT_CHARS },
 }));
+export const TOOLS = toMcp(RAW_TOOLS);
+/** The v2 tools of decision 0008 (`server/tools-v2.json`), served with `--tools v2`. */
+export const TOOLS_V2 = toMcp(RAW_TOOLS_V2);
 
 const reply = (id, result) => ({ jsonrpc: '2.0', id, result });
 const error = (id, code, message) => ({ jsonrpc: '2.0', id, error: { code, message } });
@@ -33,8 +37,9 @@ const error = (id, code, message) => ({ jsonrpc: '2.0', id, error: { code, messa
 /**
  * Handles one message line. Returns the response, or null when no response is due.
  * @param {string} line @param {(name: string, args: object) => Promise<object>} callTool
+ * @param {object[]} [tools] the tool list that the server serves: v1 (TOOLS) or v2 (TOOLS_V2)
  */
-export async function handle(line, callTool) {
+export async function handle(line, callTool, tools = TOOLS) {
   let msg;
   try {
     msg = JSON.parse(line);
@@ -61,9 +66,9 @@ export async function handle(line, callTool) {
     case 'ping':
       return reply(msg.id, {});
     case 'tools/list':
-      return reply(msg.id, { tools: TOOLS });
+      return reply(msg.id, { tools });
     case 'tools/call':
-      if (!TOOLS.some((t) => t.name === p.name)) return error(msg.id, -32602, `Unknown tool: ${String(p.name)}`);
+      if (!tools.some((t) => t.name === p.name)) return error(msg.id, -32602, `Unknown tool: ${String(p.name)}`);
       return reply(msg.id, await callTool(p.name, p.arguments ?? {}));
     default:
       return error(msg.id, -32601, 'Method not found');
