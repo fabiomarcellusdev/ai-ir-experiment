@@ -891,67 +891,142 @@ $0.73). Then the owner decided:
    the previews of the new server) is written as an amendment before any draw, and the owner agrees to it first.
 - **No number changed:** 0.70, the interval below 1.00, 5 points and 15 points.
 
-**PROPOSED (lead, 2026-11-12), waiting for the owner's yes: the gate text for the v2 tools.** The v2 tools exist
-(`server/v2.mjs`, `server/tools-v2.json`, served with `node server/main.mjs --root <folder> --tools v2`; commits
-`f409dae` and `3c39e53`, after a correctness review and a security review). v1 does not change.
+**PROPOSED (lead, 2026-11-12; revised after an independent review of 12 points), waiting for the owner's yes: the
+gate text for the v2 tools.** The v2 tools exist (`server/v2.mjs`, `server/source.mjs`, `server/tools-v2.json`,
+served with `node server/main.mjs --root <folder> --tools v2`; commits `f409dae`, `3c39e53` and `d56165d`, after a
+correctness review and a security review). v1's behaviour does not change, but files under `server/` changed after
+`d4f9927`; the results of C0.1, C0.2 and C0.6 stay with their own commits.
 
-**A. C0.1 for v2: edit fidelity of the 5 operations (no model, no cost).**
-1. **The inputs:** C0.1's 16 files (C0.5's 10 files and C0.1's 6 copies), and the seed `20261116`.
-2. **1,000 random changes.** Each draws a file, a target (all refs except `html`, `head` and `body`), an operation
-   (uniform over the 5) and its arguments from fixed lists:
-   - `replace` and `insert_after`: C0.1's list of new HTML;
-   - `set_attribute`: an attribute name (`class`, `data-x`, `title`, or one the element has) and a value (`v`,
-     `a "q" & b`, `é😀`, the empty string);
-   - `replace_text`: `old` is 1 to 6 words of one visible text node of the target, and `new` comes from (`x`,
-     `A & B <c>`, `😀`, the empty string).
-3. **The locator:** half of the changes name the target by `ref` and `hash`. The other half use a `text` locator
-   (with the target's tag) when the target has a text that names only it, else an `id` locator when its id is unique,
-   else `ref`.
-4. **Pass, for each accepted change:**
-   1. every byte outside the target's source range is unchanged;
-   2. html5lib's tree of the result equals the original tree with the expected change on the target only:
-      - for `remove`, `replace` and `insert_after`: C0.1's rule;
-      - for `set_attribute`: that one attribute set to the value;
-      - for `replace_text`: in one text node of the target, a part whose text (whitespace runs as one space) equals
-        `old`, replaced by `new`;
-   3. the changed element is the drawn target (a locator must not name another element).
-5. **Each refusal:** the file is unchanged, and the error is one of the named reasons. For `remove`, `replace` and
-   `insert_after`, a refusal that the oracle does not confirm is a failure, as in C0.1. The report counts every
-   refusal by its reason.
-6. **Negative controls**, each must fail C0.1 v2:
-   - `set_attribute` that cuts before `/>`;
-   - `insert_after` without the end-tag check;
-   - `replace_text` that ignores the bounds of a character reference;
-   - a text locator that takes the first match when there are several.
-7. **The gate passes with 0 failures.**
+**A. C0.1 v2: edit fidelity of the 5 operations (no model, no cost).**
+1. **The script and the oracle:** `experiments/c01/run-c01-v2.mjs` drives the real server with `--tools v2`, as C0.1
+   does. Its checks use html5lib 1.1, parser only (`experiments/c01/oracle_v2.py`, built on `oracle.py`). Both are
+   committed, with their tests, before the run.
+2. **The inputs:** C0.1's 16 files, C0.5's 30 edits of the task set (each as its v2 operation), the fixed cases of 9,
+   and 1,000 random changes with the seed `20261116`.
+3. **The targets** of a random change: all refs except `html`, `head` and `body`, that have a clean range (C0.1,
+   amendment "the elements with no clean range", 2). The elements with no clean range get C0.1's separate check with
+   `html_change`: a named error, and the file unchanged.
+4. **One random change** draws, in this order, from one stream: the file, the target, the operation (uniform over
+   the 5), the arguments, and the locator.
+   - `replace` and `insert_after`: the new HTML from C0.1's list.
+   - `set_attribute`: the name from (`class`, `data-x`, `title`, or one of the target's own attributes in its source
+     spelling, for example `xlink:href`), and the value from (`v`, `a "q" & b`, `é😀`, the empty string).
+   - `replace_text`: `old` is a run of 1 to 6 whole words of the target's visible text, which the oracle finds exactly
+     once in the target's visible text nodes taken together. Words are split at ASCII whitespace. The visible text
+     nodes are all descendant text nodes outside `script`, `style`, `svg`, `template`, `noscript` and the contract's
+     hidden content (C0.2), with ASCII whitespace runs as one space. `new` comes from (`x`, `A & B <c>`, `😀`, the empty
+     string). When the target has no such run, the change takes the next target of the stream, at most 100 times.
+5. **The locator:** half of the changes use `ref` and `hash`. The other half take the first of these that names only
+   the target, by the oracle's own text and tree, not by the server's code:
+   1. `text` and `tag`: the target's first run of 3 to 6 whole words that occurs exactly once in the file's visible
+      text, when the target is the innermost element of its tag that holds it;
+   2. `text` alone: the same run, when the target is the deepest element that holds it;
+   3. `id`: the target's id, when exactly 1 shown element has it (template content counted, as C0.8 counts);
+   4. `id`, `child` and `n`: the parent's unique id, the target's tag and its place among the parent's child elements
+      of that tag;
+   5. else `ref` and `hash`.
+   One locator change in ten also sends the right `hash`.
+6. **Pass, for each accepted change.** Checks 1 to 3 run on the drawn target's range, from the view and confirmed by
+   the oracle's marker check. The server's note (`changed @n`) is an extra check only.
+   1. Every byte outside the range is unchanged.
+   2. The bytes inside the range:
+      - `remove`, `replace`: C0.1's byte rule (the new HTML in place of the range);
+      - `insert_after`: the range, then the new HTML;
+      - `set_attribute`: only that attribute's source span changes, to `name="value"` with `&` and `"` escaped; or,
+        for a new attribute, ` name="value"` comes right after the tag name;
+      - `replace_text`: only the source span of the matched part changes, to `new` with `&` and `<` escaped.
+   3. html5lib's tree of the result:
+      - `remove`, `replace`: C0.1's rule;
+      - `insert_after`: the target's subtree is unchanged, the parse of the new HTML follows it as siblings, and all
+        else is unchanged;
+      - `set_attribute`: the original tree with that one attribute (name and namespace) set to the value;
+      - `replace_text`: the original tree, except one text node of the target: its part whose text (ASCII whitespace
+        runs as one space) equals `old` is replaced by `new`. A text node that becomes empty counts as no text node.
+   4. parse5 and html5lib agree on the result, or the report names it (as C0.1).
+7. **Each refusal is a failure, unless its reason is on this closed list and the script confirms it:**
+   - the splice changes the tree outside the element (`remove`, `replace`, `insert_after`): the oracle's C0.1 check;
+   - no end tag (`insert_after`): the range does not end with `</tag>` (any case), and the element is not void;
+   - `replace_text`: a bound inside one character reference, a RAWTEXT parent (`xmp`, `iframe`, `noembed`,
+     `noframes`, `plaintext`), a text node with no exact source map, or a line break at the start of `pre`,
+     `textarea` or `listing`: each confirmed from the bytes;
+   - the result nests deeper than 512 levels.
+   The report counts the refusals by their reason.
+8. **A minimum:** at least 100 accepted random changes of each operation. With fewer, the run gives no verdict, and
+   the owner decides.
+9. **The fixed cases** (`tests/gates/v2-cases.mjs`, written before the run), each with its expected result:
+   - an unquoted value that ends in `/` (`<a href=/docs/>`) with a new attribute;
+   - `insert_after` after an unclosed `<p>` and an unclosed `<li>` (a refusal);
+   - `replace_text` with a bound inside `&copy2` (a refusal), in `<pre>abc\ndef</pre>` with `old` `abc` and `new`
+     empty (a refusal), and in `xmp` (a refusal);
+   - a text that 2 elements hold, and an id that 2 elements have: a refusal that lists the matches, and the file
+     unchanged;
+   - an id on a hidden element (not found).
+10. **Negative controls.** Each must make C0.1 v2 fail, on the random changes or on its fixed case:
+    - C0.1's 4 controls, on the v2 operations: a move by 1 byte; the file written again from the tree; CR LF changed
+      to LF; every range called clean;
+    - `set_attribute` that adds before `/>`;
+    - `insert_after` without the end-tag check;
+    - `replace_text` that ignores the bounds of a character reference;
+    - a text locator that takes the first of several matches.
+11. **Pass:** 0 failures, and the minimum of 8.
 
-**B. C0.2 for v2: hostile files (no model, no cost).** C0.2's hostile file set and its conditions, with the v2 tools
-in place of v1's, and these additions:
-1. The path cases run with each v2 tool, with `file` given.
-2. Without `file`: a folder with 0 `.html` files, with 2, and with 1 plus a dot file. Each case gives the named
-   error, or names the 1 plain file.
-3. The output conditions (C0.2, 1 to 5) hold for `html_find` with `text` and with `id`, and for the list of matches
-   in a locator's error.
-4. The stale hash: a change with `ref` and an old hash, and a change with a locator and an old hash, are refused.
-5. **Time:** each call, `html_change` with each operation included, returns within 2 s (C0.2, condition 7).
-6. **Negative controls**, each must fail: an `id` listing with no output cap, and a locator that ignores the hash.
+**B. C0.2 v2: hostile files (no model, no cost).** C0.2's hostile file set and conditions, with the v2 tools, and
+these additions (`tests/gates/hostile-v2.mjs`):
+1. The path cases with each v2 tool, with `file` given.
+2. Without `file`: a folder with 0 `.html` files, with 2, with 1 and a dot file, and with a link named `x.html` as
+   the only one. Each gives its named error, or the call works on the 1 plain file (checked by its hash).
+3. **The output formats.** Condition 1 holds for every content line of `html_find` with `text` and with `id`, and
+   of a locator's error. A content line starts, after its indent, with `@<n> ` or `| `, or is the line
+   `… output cut at 60,000 characters`. The last line is `N matches; hash H` (with `text`), or
+   `1 match; N child elements; hash H` (with `id`). A locator's error starts with `N elements match; give a ref:` or
+   `N elements have the id "…"; give a ref:`, and ends with `hash H`.
+4. **Hidden content:** ids on hidden elements, on their parents, and on a `template`. Condition 3 holds: a hidden
+   element is not found by its id, and a hidden child is listed as `@n tag (hidden)`, with no attribute or text.
+5. **The stale hash:** a change by `ref` and a change by a locator, each with an old hash, are refused.
+6. **Time:** each call returns within 2 s (condition 7), `html_change` with each operation included, on: the
+   1.9 MB fostered file, 20,000 elements of one tag (the `tag` locator), an element with an id and 80,000 children,
+   and a long text node for `replace_text`.
+7. **Bad arguments:** over 10,000 characters, over 2 MB, a lone surrogate, `n` of 0 or below, and wrong types each
+   give a named error.
+8. **No wrong edit:** for each hostile file that the server reads, `html_find` with a text, and `html_change` with
+   each operation on a fixed element, checked as in A.6.
+9. **Negative controls.** Each must make C0.2 v2 fail: C0.2's 5 controls, on v2's `html_find`; an `id` listing with
+   no output cap; a locator that ignores the hash; an `id` listing that shows hidden children.
+10. **Pass:** 0 failures.
 
 **C. Gates C0.7 to C0.10 with the v2 tools.**
-1. **The M arm:** the built-in Read, Edit, Grep and Glob, plus the 3 v2 tools. The tool text is byte-identical to
-   `server/tools-v2.json` at the freeze. The server sends no server instructions.
-2. **The prompts:** as written above for C0.7, C0.8 and C0.9. C0.10 uses C0.4's 4 types and templates.
-3. **The task rules that depend on the server** use the v2 operations:
-   - a removal, a replacement or an insertion is valid when `html_change` (by `ref`) accepts it;
-   - an attribute change, when `set_attribute` accepts it;
-   - a text change, when `replace_text` with the quote as `old` accepts it.
-   html5lib then confirms each target and each expected change, as before.
-4. **C0.10:** C0.3's task rules (the quote is in the target's source as written; `make-tasks.mjs`), on its own fresh
-   draw with the seed `20261115`, and the second rescope's pass rule.
-5. **The draws:** after this text is agreed, with the fill rule of the amendment of 2026-11-12, 4.
-6. **The previews:** one for each gate on C0.5's files, made with the gate's task script, each with the owner's yes
-   (about $1 to $2 in all). C0.8's preview runs only if it reaches 6 tasks.
-7. **The cost of the gates:** about $3 to $6 each for C0.7, C0.9 and C0.10, and $3 to $10 for C0.8, re-estimated from
-   the previews. Each gate runs only after the owner's yes.
-8. **The order:** C0.1 v2 and C0.2 v2 pass first. Then the draws, the task sets, the freeze, the previews and the
-   gates.
+1. **The M arm:** the built-in Read, Edit, Grep and Glob, plus the 3 v2 tools. The server's files and
+   `server/tools-v2.json` have the hashes on which C0.1 v2 and C0.2 v2 passed. The server sends no server
+   instructions.
+2. **The prompts:** as above for C0.7, C0.8 and C0.9. C0.10 uses C0.4's 4 types and templates.
+3. **The task rules that depend on the server** use the v2 operations, by `ref`: a removal (`remove`), a replacement
+   (`replace` with `<p>New text</p>`), an insertion (`insert_after` with `<p>New text</p>`), an attribute change
+   (`set_attribute`), and a text change (`replace_text` with the quote as `old`). html5lib then confirms each target
+   and each expected change, as before.
+4. **C0.10** has its own task script (`experiments/c07/tasks-c10.mjs` or a C0.10 part of `tasks.mjs`). It applies
+   C0.3's task rules (`experiments/c03/make-tasks.mjs`: the quote is in the target's own text node as written, the
+   target is the deepest holder, no other element of its tag holds it; insertion in even files, removal in odd files)
+   on the server's view, finds the full list of valid targets, and adds the v2 check of 3. Its file rule: the file
+   can give the 4 tasks with 4 different targets, both as an odd and as an even file. Its seed is `20261115`. Its
+   preview takes C0.4's types in turn by file number, as C0.9's.
+5. **Allowed changes to the code, in addition to the first list:**
+   - the runner's expected and known tool names for the v2 tools;
+   - the MCP command with `--tools v2`;
+   - the question rule "the run edited the file" also counts a successful `html_change`;
+   - `rules.mjs` and `tasks.mjs` use the v2 operations for "the server accepts";
+   - the draw's rule modules include `server/v2.mjs` and `server/source.mjs`;
+   - "visible text" comes from `server/view.mjs` at the frozen commit;
+   - a run plan for the v2 runs (a new file).
+6. **The order:**
+   1. C0.1 v2 and C0.2 v2 pass.
+   2. **The v2 previews first:** C0.7, C0.9 and C0.10 on C0.5's files, with new task sets made by the v2 rules and
+      their own freeze. C0.8's preview runs only if it reaches 6 tasks. Each preview needs the owner's yes (about $1
+      to $2 in all). These are new runs, not repeats of the v1 previews, which stay recorded.
+   3. When the v2 previews show no fewer turns than the v1 previews, decision 0008 reopens before any draw.
+   4. Then the draws (with the fill rule), the task sets and the gates' freeze. Each gate needs the owner's yes.
+   5. The rule "a change after a preview makes the result weaker" applies to the v2 previews and their gates.
+7. **The cost of the gates:** about $3 to $6 each for C0.7, C0.9 and C0.10 (the v1 previews cost $0.012 to $0.035 a
+   run), and $3 to $10 for C0.8, whose M arm can read large outline pages. Each is estimated again from its v2
+   preview.
+8. **A correction:** C0.8's "`html_find` cannot find an `id`" holds for v1 only; v2's `html_find` takes an id.
 - **No number changed.**
