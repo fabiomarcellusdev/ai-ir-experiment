@@ -289,10 +289,10 @@ test('an MCP crash is a closed connection in an MCP tool result, not a named too
 
 test('the start check: the harness version and the exact tool list of each arm', () => {
   assert.equal(checkStart({ claude_code_version: '2.1.322', tools: ['Read', 'Edit', 'Grep', 'Glob'] }, 'B', '2.1.322'), null);
-  assert.equal(checkStart({ tools: [...EXPECTED_TOOLS.M].reverse() }, 'M', '2.1.322'), null);
+  assert.equal(checkStart({ claude_code_version: '2.1.322', tools: [...EXPECTED_TOOLS.M].reverse() }, 'M', '2.1.322'), null);
   assert.match(checkStart({ claude_code_version: '2.1.330', tools: EXPECTED_TOOLS.B }, 'B', '2.1.322'), /harness/);
-  assert.match(checkStart({ tools: [...EXPECTED_TOOLS.B, 'Bash'] }, 'B', '2.1.322'), /tool list/);
-  assert.match(checkStart({ tools: EXPECTED_TOOLS.B }, 'M', '2.1.322'), /tool list/);
+  assert.match(checkStart({ claude_code_version: '2.1.322', tools: [...EXPECTED_TOOLS.B, 'Bash'] }, 'B', '2.1.322'), /tool list/);
+  assert.match(checkStart({ claude_code_version: '2.1.322', tools: EXPECTED_TOOLS.B }, 'M', '2.1.322'), /tool list/);
   assert.match(checkStart(null, 'B', '2.1.322'), /start message/);
 });
 
@@ -323,7 +323,7 @@ import { notesAbove, BUILTIN_PLUGINS } from './run-c06.mjs';
 import { mkdirSync as mkdir } from 'node:fs';
 
 test('the start check refuses loaded skills and any plugin other than the built-in ones', () => {
-  const ok = { tools: EXPECTED_TOOLS.B, skills: [], plugins: BUILTIN_PLUGINS.map((name) => ({ name, path: 'builtin' })) };
+  const ok = { claude_code_version: '2.1.322', tools: EXPECTED_TOOLS.B, skills: [], plugins: BUILTIN_PLUGINS.map((name) => ({ name, path: 'builtin' })) };
   assert.equal(checkStart(ok, 'B', '2.1.322'), null);
   assert.match(checkStart({ ...ok, skills: ['debug'] }, 'B', '2.1.322'), /skills/);
   assert.match(checkStart({ ...ok, plugins: [...ok.plugins, { name: 'x', path: 'C:/p' }] }, 'B', '2.1.322'), /plugin/);

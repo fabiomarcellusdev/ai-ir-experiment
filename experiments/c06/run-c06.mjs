@@ -34,6 +34,9 @@ export const expectedOf = (t) => t.expected ?? t.file.replace(/\/[^/]+\/[^/]+$/,
 /** The run plan's fixed values. A change needs a new commit of the plan, before the run. */
 export const PLAN = {
   harness: '2.1.322', // `claude --version`; the run refuses another version
+  // The pinned copy of that harness (HARNESS_FILE), by its SHA-256: an update of the installed Claude Code cannot
+  // change a gate's harness (C0.10 v2 stop; owner, 2026-11-12).
+  harnessSha256: '345996b4bdbae21d817f750fae2f34cbf8d81224a5444c78136091d121beb298',
   model: MODEL,
   seed: 20261111, // the rescope's seed (the run order)
   maxTurns: 40,
@@ -50,6 +53,18 @@ export const PLAN = {
   },
 };
 const RAW = at('experiments/gate-files/c06-runs');
+/** The pinned harness: a git-ignored copy of the plan's version, kept in `.local/harness/`. */
+export const HARNESS_FILE = at('.local', 'harness', `claude-${PLAN.harness}${process.platform === 'win32' ? '.exe' : ''}`);
+/**
+ * What keeps the pinned harness from a run, or null: `info` is { exists, sha256, version } of HARNESS_FILE. Without a
+ * version, it checks the file and its hash only: the runner runs the file for its version only after the hash matched.
+ */
+export function harnessProblem(info, plan = PLAN) {
+  if (!info.exists) return `no pinned harness at ${HARNESS_FILE}: copy Claude Code ${plan.harness} there`;
+  if (info.sha256 !== plan.harnessSha256) return `the pinned harness has another SHA-256 than the plan's`;
+  if (info.version !== undefined && String(info.version).trim() !== `${plan.harness} (Claude Code)`) return `the pinned harness reports version ${info.version}; the plan names ${plan.harness}`;
+  return null;
+}
 const RUN_PLAN = 'docs/measurements/2026-11-12-c06-run-plan.md';
 /** The second rescope's run plan (docs/contract.md, "Phase 0, second rescope", "Allowed changes to the code"). */
 const RUN_PLAN_2 = 'docs/measurements/2026-11-12-c07-c09-run-plan.md';
@@ -85,7 +100,8 @@ for (const g of Object.keys(GATES)) {
   const common = { second: g, tools: 'v2', plan: RUN_PLAN_V2, seed: SEED_2, types: GATES[g].types, intervalBelow: 1 };
   MODES[`preview-v2-${g}`] = { ...common, tasks: PATHS.tasks(g, true), record: 'experiments/c05/file-set.json', preview: true,
     freeze: 'previews-v2', rounds: 1, result: `experiments/c07/preview-v2-${g}-result.json`, label: `${name} v2 PREVIEW on C0.5's files: decides nothing` };
-  MODES[`gate-v2-${g}`] = { ...common, tasks: PATHS.tasks(g, false), record: PATHS.fileSet(g), freeze: 'gates-v2', rounds: RUNS_PER_ARM,
+  // C0.8 runs after the runner changed (owner, 2026-11-12), so it has its own freeze; the 3 gates that ran keep theirs.
+  MODES[`gate-v2-${g}`] = { ...common, tasks: PATHS.tasks(g, false), record: PATHS.fileSet(g), freeze: g === 'c08' ? 'gates-v2-c08' : 'gates-v2', rounds: RUNS_PER_ARM,
     result: `experiments/c07/gate-v2-${g}-result.json`, gate: name, label: `${name} (v2 tools)` };
 }
 
@@ -212,7 +228,7 @@ function killTree(child) {
 export function runClaude(args, cwd, env) {
   return new Promise((resolve) => {
     const t0 = Date.now();
-    const child = spawn('claude', args, { cwd, env, stdio: ['ignore', 'pipe', 'pipe'] });
+    const child = spawn(HARNESS_FILE, args, { cwd, env, stdio: ['ignore', 'pipe', 'pipe'] });
     active = child;
     let out = '';
     let err = '';
@@ -316,15 +332,25 @@ const PYTHON = at('.venv-oracle', process.platform === 'win32' ? 'Scripts/python
 
 /** The code and the inputs are still the committed ones: before each run and each judge call (security review, F1). */
 let runCommit = null; // the commit at the start; set in main
-function assertCommitted() {
-  if (git('status', '--porcelain', '--', 'server', 'experiments', 'docs/contract.md')) throw new Error('the code or the inputs changed during the run: stopped');
+/**
+ * The stop for a changed input or a changed HEAD, or null. It is a gate stop with the run's cost, so the runner writes
+ * a stop line and the run runs again when the gate goes on (C0.9 v2 stop; owner, 2026-11-12).
+ */
+export function commitStop(status, head, startCommit, costUsd = 0) {
+  if (status) return new StopGate('the code or the inputs changed during the run: stopped', costUsd);
   // A commit or a branch switch leaves the tree clean: compare HEAD too (re-review, 1).
-  if (runCommit && git('rev-parse', 'HEAD') !== runCommit) throw new Error('HEAD changed during the run: stopped');
+  if (startCommit && head !== startCommit) return new StopGate('HEAD changed during the run: stopped', costUsd);
+  return null;
+}
+export function assertCommitted(costUsd = 0, read = () => ({ status: git('status', '--porcelain', '--', 'server', 'experiments', 'docs/contract.md'), head: git('rev-parse', 'HEAD') }), startCommit = runCommit) {
+  const { status, head } = read();
+  const stop = commitStop(status, head, startCommit, costUsd);
+  if (stop) throw stop;
 }
 
 /** The judge (judge.py) on one job, with the system's variables only. */
-function judge(job, work) {
-  assertCommitted();
+function judge(job, work, costUsd = 0) {
+  assertCommitted(costUsd);
   writeFileSync(path.join(work, 'judge-job.json'), JSON.stringify(job));
   execFileSync(PYTHON, ['-I', '-B', at('experiments/c06/judge.py'), path.join(work, 'judge-job.json'), path.join(work, 'judge-out.json')], { env: systemEnv() });
   return JSON.parse(readFileSync(path.join(work, 'judge-out.json'), 'utf8'));
@@ -400,7 +426,7 @@ export function apiErrorText(s) {
 /** Stops the gate when a run's start shows another harness version or another tool list (review, 3). */
 export function checkStart(init, arm, harness, expected = EXPECTED_TOOLS) {
   if (!init) return 'the run gave no start message';
-  if (init.claude_code_version && !String(init.claude_code_version).startsWith(harness)) return `the harness became ${init.claude_code_version}`;
+  if (String(init.claude_code_version ?? '') !== harness) return `the harness became ${init.claude_code_version ?? 'unknown (no version in the start message)'}`;
   const tools = [...(init.tools ?? [])].sort();
   if (JSON.stringify(tools) !== JSON.stringify(expected[arm])) return `arm ${arm} had another tool list`;
   if ((init.skills ?? []).length) return 'skills loaded';
@@ -454,6 +480,8 @@ async function oneRun(task, arm, k, key, label, startId) {
     const last = attempts.at(-1);
     // An API error after the retry, or after the first tool call, stops the gate (owner, 2026-11-12).
     const cost = attempts.reduce((a, x) => a + attemptCost(x.s).usd, 0);
+    // Every run gets a check after its attempts, also a run that skips the judge (review of the C0.8 change, 3).
+    assertCommitted(cost);
     if (last.end === 'api-error') throw new StopGate(`${task.id} ${arm}${k}: an API or harness error (${last.s.result?.subtype ?? 'no result message'}${apiErrorText(last.s)})`, cost);
     const { s } = last;
     const after = snapshot(dir);
@@ -475,7 +503,7 @@ async function oneRun(task, arm, k, key, label, startId) {
       if (!unchanged) reasons.push('a file in the run folder changed');
       // An edit that the agent undid still changed the file during the run (re-review, 9).
       if (s.calls.some((c) => EDIT_TOOLS.includes(c.name) && c.isError === false)) reasons.push('the run edited the file');
-      const v = judge({ answers: [{ id: 'q', value: answerOf(s.result?.result), expected: task.answer }] }, base).answers.q;
+      const v = judge({ answers: [{ id: 'q', value: answerOf(s.result?.result), expected: task.answer }] }, base, cost).answers.q;
       if (!v) reasons.push('the answer is not the expected value');
       pass = !reasons.length;
     } else {
@@ -484,7 +512,7 @@ async function oneRun(task, arm, k, key, label, startId) {
       const outside = result ? bytesOutsideKept(original, result, task.range, text) : false;
       if (!outside) reasons.push('a byte outside the target range changed');
       if (result) writeFileSync(path.join(base, 'result.html'), result);
-      const v = result ? judge({ edits: [{ id: 'e', result: path.join(base, 'result.html'), expected: expectedPath }] }, base).edits.e : false;
+      const v = result ? judge({ edits: [{ id: 'e', result: path.join(base, 'result.html'), expected: expectedPath }] }, base, cost).edits.e : false;
       if (!v) reasons.push("the canonical DOM is not the expected file's");
       pass = !reasons.length;
       insideChange = pass && !result.equals(readFileSync(expectedPath));
@@ -646,8 +674,14 @@ async function preflight(mode) {
     // A preview with fewer than 6 tasks does not run (contract, "Order of the second rescope", 4).
     if (set.preview && !previewRuns(JSON.parse(readFileSync(at(set.tasks), 'utf8')).tasks.length)) throw new Error(`the preview has fewer than ${PREVIEW_MIN_TASKS} tasks: it does not run`);
   }
-  const version = execFileSync('claude', ['--version'], { encoding: 'utf8' }).trim();
-  if (!version.startsWith(PLAN.harness)) throw new Error(`the harness is ${version}; the plan names ${PLAN.harness}`);
+  // The hash first: the runner runs the pinned file only after its hash matched (review of the C0.8 change, 1).
+  const exists = existsSync(HARNESS_FILE);
+  const file = { exists, sha256: exists ? sha(readFileSync(HARNESS_FILE)) : null };
+  const fileProblem = harnessProblem(file);
+  if (fileProblem) throw new Error(fileProblem);
+  const version = execFileSync(HARNESS_FILE, ['--version'], { encoding: 'utf8' }).trim();
+  const harness = harnessProblem({ ...file, version });
+  if (harness) throw new Error(harness);
   if (!existsSync(PYTHON)) throw new Error('the judge needs the Python oracle (.venv-oracle/)');
   return { version, key };
 }

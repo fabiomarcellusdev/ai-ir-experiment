@@ -1069,3 +1069,23 @@ reading: in rounds, each kind in C0.3's order gives at most 1 file, until the ga
 no file. A fill takes no repository that the draw already picked, so the same-repository fallback of "The inputs", 2
 does not apply in a fill.
 - **No number changed.**
+
+**2026-11-12 (owner): the runner's own stops, a pinned harness and C0.8's own freeze, before the C0.8 v2 run.** The
+gates C0.7, C0.9 and C0.10 with the v2 tools ran first (`docs/measurements/2026-11-12-c07-v2-gate.md`,
+`2026-11-12-c09-v2-gate.md`, `2026-11-12-c10-v2-gate.md`). C0.9 stopped when the lead committed during the run, and
+C0.10 stopped when the installed Claude Code updated itself. The owner agreed to these 3 points, which the lead
+proposed for C0.8:
+1. **A stop by the runner's own checks is a stop under C0.6 rule 2.** The checks are: an input or HEAD changed (before
+   each run, after its attempts, and before each judge call), another harness version or no version in a run's start
+   message, another tool list, loaded skills or a plugin other than the built-in ones, the canary, project notes above
+   the run folder, and a stored or expected file that is not the recorded one.
+   The run gets no record. The runner writes a stop line with the run's cost, and the run runs again when the gate
+   goes on, on the same commit. Before this amendment, a changed HEAD left a run with no outcome.
+2. **The harness is a pinned file.** The runner starts the git-ignored copy `.local/harness/claude-2.1.322` (with
+   `.exe` on Windows), not the `claude` command on the PATH. Before a gate starts, the runner checks the copy's
+   SHA-256 against the plan, and only then runs it for its exact version (`2.1.322 (Claude Code)`). Each run's start
+   message must also report exactly `2.1.322`.
+3. **C0.8 has its own freeze,** `experiments/c07/run-inputs-v2-c08.json`, with the same file list as
+   `run-inputs-v2.json`. It is written once and committed before C0.8's first paid run. The 3 gates that ran keep
+   `run-inputs-v2.json`; their results name their commits.
+- **No number changed.**
