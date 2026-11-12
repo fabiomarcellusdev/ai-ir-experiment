@@ -230,13 +230,17 @@ def text_node(toks, i, j, visible, old, candidates):
 def confirm(ch, v, toks, i, j, visible):
     """Whether the oracle confirms a refusal's reason (the closed list of the contract's A.7)."""
     reason = ch.get('reason')
+    # No reason on the closed list (an element with no clean range, a locator's refusal): nothing to confirm. Such an
+    # entry may have no arguments (C0.1 v2 development run, 3).
+    if reason is None:
+        return False
     if reason == 'outside':
         return v.get('kept') is False
     if reason == 'depth':
         text = ch['text']
         s_toks, _ = c01.tokens(c01.parse(text[:ch['s']] + ch['html'] + text[ch['e']:]))
         return depth_of(s_toks) > 512
-    node = text_node(toks, i, j, visible, ch['args'].get('old', ''), ch.get('candidates') or [])
+    node = text_node(toks, i, j, visible, (ch.get('args') or {}).get('old', ''), ch.get('candidates') or [])
     if node is None:
         return False
     if reason == 'rawtext':

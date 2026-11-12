@@ -105,6 +105,14 @@ test('review 7: a control counts only its own failures, and its fixed case must 
   assert.deepEqual(controlResult('c2', [], base, outcomes, changes), { failures: 0, caseFailed: null, ok: false });
 });
 
+test('a refusal with no listed reason and no source range does not stop the oracle (development run 3)', { skip: noOracle }, () => {
+  const e = f('<p>x</p>'); // the parser makes the body: it has no source range
+  const ch = { id: 'n', file: 'a.html', ref: refOf(e, 'body'), op: 'remove', args: {} };
+  const v = oracle('check', checkJob([e], [ch], new Map([['n', { accepted: false, text: 'html_change: @2 has no source bytes; the parser created it' }]]))).changes[0];
+  assert.equal(v.error, undefined);
+  assert.equal(v.confirmed, false);
+});
+
 test('review 11: the depth refusal is on the closed list', () => {
   assert.equal(refusalKind('html_change: the result nests elements deeper than 512 levels'), 'depth');
 });
