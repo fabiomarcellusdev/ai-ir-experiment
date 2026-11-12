@@ -14,6 +14,7 @@ never after the results are in. A missed gate is recorded as missed, with its nu
 | C0.7 | 0 | Second rescope (H1): C0.6 on the removal or replacement of a large element: at most 0.70 of the tokens, the interval below 1.00, success not more than 5 points below, and no task type more than 15 points below | Its own fresh draw, 40 tasks, 3 runs per task and arm; Claude Sonnet 5.5 | Agreed (owner, 2026-11-12) |
 | C0.8 | 0 | Second rescope (H2): C0.6 on a target named by its position, with the same pass rule as C0.7 | Its own fresh draw, 40 tasks, 3 runs per task and arm | Agreed (owner, 2026-11-12) |
 | C0.9 | 0 | Second rescope (H4): C0.6 on a quote that is not in the source as written, with the same pass rule as C0.7 | Its own fresh draw, 40 tasks, 3 runs per task and arm | Agreed (owner, 2026-11-12) |
+| C0.10 | 0 | Second rescope, v2 tools (decision 0008): C0.6's task kind (a quote in the source as written) with the v2 tools, with the pass rule of C0.7 | Its own fresh draw, 40 tasks, 3 runs per task and arm; Claude Sonnet 5.5 | Tentative (owner's yes to the gate, 2026-11-12; text proposed) |
 | C1 | 1 | <...> | <...> | Tentative |
 
 Status: **Tentative** means that the owner has not agreed to the gate yet. **Agreed** names the owner and the date.
@@ -889,3 +890,68 @@ $0.73). Then the owner decided:
 5. **The gate text for the new tools** (the prompts, the task rules that depend on the server, C0.10's rules, and
    the previews of the new server) is written as an amendment before any draw, and the owner agrees to it first.
 - **No number changed:** 0.70, the interval below 1.00, 5 points and 15 points.
+
+**PROPOSED (lead, 2026-11-12), waiting for the owner's yes: the gate text for the v2 tools.** The v2 tools exist
+(`server/v2.mjs`, `server/tools-v2.json`, served with `node server/main.mjs --root <folder> --tools v2`; commits
+`f409dae` and `3c39e53`, after a correctness review and a security review). v1 does not change.
+
+**A. C0.1 for v2: edit fidelity of the 5 operations (no model, no cost).**
+1. **The inputs:** C0.1's 16 files (C0.5's 10 files and C0.1's 6 copies), and the seed `20261116`.
+2. **1,000 random changes.** Each draws a file, a target (all refs except `html`, `head` and `body`), an operation
+   (uniform over the 5) and its arguments from fixed lists:
+   - `replace` and `insert_after`: C0.1's list of new HTML;
+   - `set_attribute`: an attribute name (`class`, `data-x`, `title`, or one the element has) and a value (`v`,
+     `a "q" & b`, `é😀`, the empty string);
+   - `replace_text`: `old` is 1 to 6 words of one visible text node of the target, and `new` comes from (`x`,
+     `A & B <c>`, `😀`, the empty string).
+3. **The locator:** half of the changes name the target by `ref` and `hash`. The other half use a `text` locator
+   (with the target's tag) when the target has a text that names only it, else an `id` locator when its id is unique,
+   else `ref`.
+4. **Pass, for each accepted change:**
+   1. every byte outside the target's source range is unchanged;
+   2. html5lib's tree of the result equals the original tree with the expected change on the target only:
+      - for `remove`, `replace` and `insert_after`: C0.1's rule;
+      - for `set_attribute`: that one attribute set to the value;
+      - for `replace_text`: in one text node of the target, a part whose text (whitespace runs as one space) equals
+        `old`, replaced by `new`;
+   3. the changed element is the drawn target (a locator must not name another element).
+5. **Each refusal:** the file is unchanged, and the error is one of the named reasons. For `remove`, `replace` and
+   `insert_after`, a refusal that the oracle does not confirm is a failure, as in C0.1. The report counts every
+   refusal by its reason.
+6. **Negative controls**, each must fail C0.1 v2:
+   - `set_attribute` that cuts before `/>`;
+   - `insert_after` without the end-tag check;
+   - `replace_text` that ignores the bounds of a character reference;
+   - a text locator that takes the first match when there are several.
+7. **The gate passes with 0 failures.**
+
+**B. C0.2 for v2: hostile files (no model, no cost).** C0.2's hostile file set and its conditions, with the v2 tools
+in place of v1's, and these additions:
+1. The path cases run with each v2 tool, with `file` given.
+2. Without `file`: a folder with 0 `.html` files, with 2, and with 1 plus a dot file. Each case gives the named
+   error, or names the 1 plain file.
+3. The output conditions (C0.2, 1 to 5) hold for `html_find` with `text` and with `id`, and for the list of matches
+   in a locator's error.
+4. The stale hash: a change with `ref` and an old hash, and a change with a locator and an old hash, are refused.
+5. **Time:** each call, `html_change` with each operation included, returns within 2 s (C0.2, condition 7).
+6. **Negative controls**, each must fail: an `id` listing with no output cap, and a locator that ignores the hash.
+
+**C. Gates C0.7 to C0.10 with the v2 tools.**
+1. **The M arm:** the built-in Read, Edit, Grep and Glob, plus the 3 v2 tools. The tool text is byte-identical to
+   `server/tools-v2.json` at the freeze. The server sends no server instructions.
+2. **The prompts:** as written above for C0.7, C0.8 and C0.9. C0.10 uses C0.4's 4 types and templates.
+3. **The task rules that depend on the server** use the v2 operations:
+   - a removal, a replacement or an insertion is valid when `html_change` (by `ref`) accepts it;
+   - an attribute change, when `set_attribute` accepts it;
+   - a text change, when `replace_text` with the quote as `old` accepts it.
+   html5lib then confirms each target and each expected change, as before.
+4. **C0.10:** C0.3's task rules (the quote is in the target's source as written; `make-tasks.mjs`), on its own fresh
+   draw with the seed `20261115`, and the second rescope's pass rule.
+5. **The draws:** after this text is agreed, with the fill rule of the amendment of 2026-11-12, 4.
+6. **The previews:** one for each gate on C0.5's files, made with the gate's task script, each with the owner's yes
+   (about $1 to $2 in all). C0.8's preview runs only if it reaches 6 tasks.
+7. **The cost of the gates:** about $3 to $6 each for C0.7, C0.9 and C0.10, and $3 to $10 for C0.8, re-estimated from
+   the previews. Each gate runs only after the owner's yes.
+8. **The order:** C0.1 v2 and C0.2 v2 pass first. Then the draws, the task sets, the freeze, the previews and the
+   gates.
+- **No number changed.**
