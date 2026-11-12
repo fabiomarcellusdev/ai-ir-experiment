@@ -633,3 +633,12 @@ run plan is `docs/measurements/2026-11-12-c06-run-plan.md`. The owner is told be
 - **The C0.6 gate stays as written.** A change to the runner, the run plan or a C0.6 rule after the preview needs a
   dated amendment that says it came after the preview, and the report then calls the gate's result weaker.
 - **No number changed.**
+
+**2026-11-12: C0.6 failed; the viability verdict.**
+- **The result:** median token ratio 1.40 over 39 tasks, against 0.70 or less (95% interval over files 1.14 to 1.92);
+  success B 117 of 120, M 120 of 120 (`docs/measurements/2026-11-12-c06-result.md`). The `analysis-checker` agrees.
+  C0.6 stays failed. By the rescope's order, 5, it does not run again.
+- **The verdict of the experiment, as its gates define it:** the reading view, as an MCP server for an agent that
+  edits HTML files, does not reduce the agent's tokens; with Claude Code 2.1.322 and `claude-sonnet-5-5`, it
+  increases them. The next step is the owner's decision.
+- **No number changed.**
