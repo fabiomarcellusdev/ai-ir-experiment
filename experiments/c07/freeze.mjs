@@ -22,7 +22,8 @@ const GATES = ['c07', 'c08', 'c09'];
  */
 export function frozenFiles(scope = 'gates') {
   if (!OUT[scope]) throw new Error(`no freeze scope ${scope}`);
-  const server = readdirSync(at('server')).filter((f) => f.endsWith('.mjs') && !f.endsWith('.test.mjs')).map((f) => `server/${f}`);
+  // The server's modules and its JSON (the v2 tool text, decision 0008); not its tests or test helpers' data.
+  const server = readdirSync(at('server')).filter((f) => (f.endsWith('.mjs') && !f.endsWith('.test.mjs')) || f.endsWith('.json')).map((f) => `server/${f}`);
   return [
     'experiments/c07/draw-files.mjs', 'experiments/c07/tasks.mjs', 'experiments/c07/rules.mjs', 'experiments/c07/oracle_c07.py',
     'experiments/c07/freeze.mjs',
