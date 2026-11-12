@@ -36,8 +36,11 @@ ran with the current server: 0.513 and 1.194 (`docs/measurements/2026-11-12-c07-
   (`docs/measurements/2026-11-12-size-vs-ratio.md`). Research on deferred tool loading: tool search is on by default
   in Claude Code, and the gates turned it off.
 
-**Next (owner's decisions):** the publish (a push and a pull request, with the owner's explicit yes); then whether to
-measure arm M with tool search at its default (paid), and whether to design a size field for `html_find`.
+**Now:** the design of a size field for `html_find` (decision 0009, Proposed), waiting for the owner's choice of
+option.
+
+**Later (owner's decisions):** whether to measure arm M with tool search at its default (paid). No push and no pull
+request until the owner asks for one (owner, 2026-11-12).
 
 The owner's rule (2026-11-11, extended 2026-11-12): no push and no pull request until the owner asks for one.
 
