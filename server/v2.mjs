@@ -211,7 +211,7 @@ function replaceText(m, el, old, neu) {
   if (RAWTEXT.has(m.parent.get(n)?.tagName)) fail(`the text is inside a ${m.parent.get(n).tagName} element, whose text the tool cannot change`);
   const map = charMap(m.text, n);
   if (!map) fail('the text cannot be mapped to its bytes in the file');
-  // The old text must start and end at whole source characters: one reference such as "&copy2" decodes to 2
+  // The old text must start and end at whole source characters: one reference such as "&fjlig;" decodes to 2
   // characters, and half of it cannot be replaced alone (review of v2, 4).
   if ((a > 0 && map[a - 1][0] === map[a][0]) || (b < map.length && map[b][0] === map[b - 1][0])) {
     fail('the old text starts or ends inside one character reference of the file');

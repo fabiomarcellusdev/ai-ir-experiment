@@ -65,9 +65,10 @@ def facts_of(text):
             parent_ok = top is None or (top[3] and top[4] != 'svg')
             shown = parent_ok and local not in DROP and not c02.hidden(owners[i])
             idv = next((v for a_ns, a_name, v in attrs if a_ns == '' and a_name == 'id'), None)
-            if idv is not None:
-                ids[idv] = ids.get(idv, 0) + 1
             ref = ref_of.get(i)
+            # A.5.3: an id counts once for each shown element and each element of template content that has it.
+            if idv is not None and (shown or ref is None):
+                ids[idv] = ids.get(idv, 0) + 1
             if ref is not None:
                 parent = next((s[1] for s in reversed(stack) if s[1] is not None), None)
                 out[ref] = {'tag': local, 'ns': ns, 'parent': parent, 'id': idv, 'shown': shown, 'start': i,
@@ -83,6 +84,21 @@ def facts_of(text):
     return {'elements': out, 'texts': texts, 'ids': ids}
 
 
+def decode_ref(r):
+    """One character reference as HTML decodes it. Python's html.unescape drops the control characters and the
+    noncharacters of a numeric reference, which HTML keeps (review of the C0.1 v2 script, 12)."""
+    m = re.fullmatch(r'&#([xX][0-9a-fA-F]+|[0-9]+);?', r)
+    if not m:
+        return html.unescape(r)
+    num = m.group(1)
+    cp = int(num[1:], 16) if num[0] in 'xX' else int(num)
+    if cp in html._invalid_charrefs:  # 0x00, 0x0D and the C1 controls that HTML maps (windows-1252)
+        return html._invalid_charrefs[cp]
+    if cp > 0x10FFFF or 0xD800 <= cp <= 0xDFFF:
+        return '�'
+    return chr(cp)
+
+
 def charmap(src):
     """The decoded text of a text node's source and the source range of each decoded character. A legacy reference
     with no ';' ends before the plain text after it ('&copy2024' is '&copy' and '2024')."""
@@ -93,7 +109,7 @@ def charmap(src):
             m = REF.match(src, i)
             if m:
                 r = m.group(0)
-                d = html.unescape(r)
+                d = decode_ref(r)
                 if d != r:
                     k = 0
                     while k < len(d) - 1 and k < len(r) - 1 and d[-1 - k] == r[-1 - k]:
@@ -147,8 +163,9 @@ def related(o_val, r_val, old, new):
     return False
 
 
-def op_ok(o, r, i, j, ch):
-    """The check of an accepted operation on html5lib's trees: o of the original, r of the result."""
+def op_ok(o, r, i, j, ch, visible):
+    """The check of an accepted operation on html5lib's trees: o of the original, r of the result. `visible` is the
+    set of the original's visible text token indexes: replace_text may change only one of them (review, 1)."""
     op, a = ch['op'], ch['args']
     if op == 'insert_after':
         return r[i:j] == o[i:j] and c01.outside_kept(r, o[:j], o[j:])
@@ -166,26 +183,66 @@ def op_ok(o, r, i, j, ch):
         old, new = a['old'], a['new']
         if r == o:
             # A change of a part to the same text changes nothing (C0.1 v2 development run, 2).
-            return any(o[k][0] == 't' and related(o[k][1], o[k][1], old, new) for k in range(i + 1, j))
+            return any(k in visible and related(o[k][1], o[k][1], old, new) for k in range(i + 1, j))
         if len(r) == len(o):
             diff = [k for k in range(len(o)) if o[k] != r[k]]
-            return (len(diff) == 1 and i < diff[0] < j and o[diff[0]][0] == 't' and r[diff[0]][0] == 't'
+            return (len(diff) == 1 and i < diff[0] < j and diff[0] in visible and r[diff[0]][0] == 't'
                     and related(o[diff[0]][1], r[diff[0]][1], old, new))
         if len(r) == len(o) - 1 and new == '':
+            # The whole text node was the part: its text equals old exactly, with no whitespace around it (review, 10).
             for k in range(i + 1, j):
-                if o[k][0] == 't' and norm(o[k][1]).strip() == norm(old).strip() and o[:k] + o[k + 1:] == r:
+                if k in visible and norm(o[k][1]) == norm(old) and o[:k] + o[k + 1:] == r:
                     return True
         return False
     return None  # remove and replace: C0.1's rule, the splice's verdict
 
 
-def confirm(ch, v):
+def depth_of(toks):
+    d = best = 0
+    for t in toks:
+        if t[0] == 'o':
+            d += 1
+            best = max(best, d)
+        elif t[0] == 'x':
+            d -= 1
+    return best
+
+
+def text_node(toks, i, j, visible, old, candidates):
+    """The visible text token of the target that holds `old`, found in html5lib's tree (review, 8): its value, its
+    parent's tag, whether it is the parent's first child, and its source, taken from the bytes (the first candidate
+    source text node of the target with the same value)."""
+    want = norm(old)
+    stack = []
+    for k in range(i, j):
+        t = toks[k]
+        if t[0] == 'o':
+            stack.append((k, t[2]))
+        elif t[0] == 'x':
+            stack.pop()
+        elif t[0] == 't' and k in visible and want in norm(t[1]):
+            parent_start, parent_tag = stack[-1]
+            src = next((c['src'] for c in candidates if c['value'] == t[1]), None)
+            return {'value': t[1], 'parentTag': parent_tag, 'first': k == parent_start + 1, 'src': src}
+    return None
+
+
+def confirm(ch, v, toks, i, j, visible):
     """Whether the oracle confirms a refusal's reason (the closed list of the contract's A.7)."""
-    reason, node = ch.get('reason'), ch.get('node') or {}
+    reason = ch.get('reason')
     if reason == 'outside':
         return v.get('kept') is False
+    if reason == 'depth':
+        text = ch['text']
+        s_toks, _ = c01.tokens(c01.parse(text[:ch['s']] + ch['html'] + text[ch['e']:]))
+        return depth_of(s_toks) > 512
+    node = text_node(toks, i, j, visible, ch['args'].get('old', ''), ch.get('candidates') or [])
+    if node is None:
+        return False
     if reason == 'rawtext':
-        return node.get('parentTag') in RAWTEXT
+        return node['parentTag'] in RAWTEXT
+    if node['src'] is None:
+        return False
     if reason == 'nomap':
         return charmap(node['src'])[0] != node['value']
     if reason in ('refbound', 'linebreak'):
@@ -204,10 +261,11 @@ def confirm(ch, v):
 
 
 def check(job):
-    files, out = {}, []
+    files, visible, out = {}, {}, []
     for name, text in job['files'].items():
         toks, owners = c01.tokens(c01.parse(text))
         files[name] = (text, toks, c01.elements(toks, owners))
+        visible[name] = {t[0] for t in facts_of(text)['texts']}
     for ch in job['changes']:
         res = {'id': ch['id']}
         try:
@@ -218,9 +276,9 @@ def check(job):
             j = c01.end_of(toks, i)
             if ch.get('result') is not None:
                 r_toks, _ = c01.tokens(c01.parse(ch['result']))
-                res['opOk'] = op_ok(toks, r_toks, i, j, ch)
+                res['opOk'] = op_ok(toks, r_toks, i, j, ch, visible[ch['file']])
             else:
-                res['confirmed'] = confirm(ch, v)
+                res['confirmed'] = confirm({**ch, 'text': text}, v, toks, i, j, visible[ch['file']])
         except Exception as ex:  # The verdict of this change is "the oracle stopped", with the error's kind.
             res['error'] = type(ex).__name__
         out.append(res)

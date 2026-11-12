@@ -1039,3 +1039,13 @@ same text, which are fixed. All 8 negative controls failed as they must. The own
 lists and rules, so that no rule gets weaker. The gate run's report says that this count was set after a development
 run.
 - **No number changed** except the count of random changes: 1,000 becomes 1,500.
+
+**2026-11-12 (owner): 2 points of C0.1 v2's text, after the review of its script (16 points).**
+1. **The fixed case of a reference bound (A.9):** `&fjlig;`, one reference that decodes to 2 characters ("fj"), in
+   place of `&copy2`. HTML reads `&copy2` as the reference `&copy` and the plain text "2" (the server's decoder
+   follows this since commit `d6ed5ce`), so a change at "2" is valid. A case with `&copy2024`, whose "2024" is
+   changed, is added as an accepted case.
+2. **The text locator (A.5):** when rules 1 (`text` and `tag`) and 2 (`text` alone) both name only the target, the
+   stream picks one of the two (one more draw). As written, rule 2 could never be drawn: a deepest holder is also the
+   innermost holder of its own tag.
+- **No number changed.**

@@ -1,5 +1,5 @@
 {
-  "unitTests": ["tools/*.test.mjs", "experiments/c03/select-files.test.mjs", "experiments/c03/c03.test.mjs", "experiments/c05/c05.test.mjs", "server/*.test.mjs", "experiments/c01/c01.test.mjs", "experiments/c01/c01v2.test.mjs", "experiments/c02/c02.test.mjs", "experiments/c06/c06.test.mjs", "experiments/c07/c07.test.mjs", "experiments/c07/review.test.mjs", "experiments/c07/rereview.test.mjs"],
+  "unitTests": ["tools/*.test.mjs", "experiments/c03/select-files.test.mjs", "experiments/c03/c03.test.mjs", "experiments/c05/c05.test.mjs", "server/*.test.mjs", "experiments/c01/c01.test.mjs", "experiments/c01/c01v2.test.mjs", "experiments/c01/c01v2-review.test.mjs", "experiments/c02/c02.test.mjs", "experiments/c06/c06.test.mjs", "experiments/c07/c07.test.mjs", "experiments/c07/review.test.mjs", "experiments/c07/rereview.test.mjs"],
   "pnpmProjects": ["."],
   "minReleaseAgeMinutes": 86400,
   "privacyTermsFile": "private-docs/privacy-terms.txt",

@@ -10,7 +10,7 @@ import { createHash } from 'node:crypto';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { parseDoc, markerSource, isHidden, VOID } from '../../server/view.mjs';
+import { parseDoc, markerSource, VOID } from '../../server/view.mjs';
 import { generator } from '../c05/draw-files.mjs';
 import { tokens } from './tree.mjs';
 import { copiesOf, gateFiles, entry, drawableRefs, noRangeRefs, codePoints, forbiddenNames, NEW_HTML, GOOD } from './run-c01.mjs';
@@ -30,7 +30,6 @@ export const OPS = ['remove', 'replace', 'insert_after', 'set_attribute', 'repla
 export const ATTR_NAMES = ['class', 'data-x', 'title'];
 export const ATTR_VALUES = ['v', 'a "q" & b', 'é\u{1F600}', ''];
 export const NEW_TEXTS = ['x', 'A & B <c>', '\u{1F600}', ''];
-const NOT_VISIBLE = new Set(['script', 'style', 'svg', 'template', 'noscript']);
 const PYTHON = at('.venv-oracle', process.platform === 'win32' ? 'Scripts/python.exe' : 'bin/python');
 const isWs = (c) => c === ' ' || c === '\t' || c === '\n' || c === '\f' || c === '\r';
 const WS = /[ \t\n\f\r]+/g;
@@ -100,18 +99,22 @@ export function oldRuns(tm, ref) {
     for (let i = 0; i < words.length; i++) {
       for (let n = 1; n <= 6 && i + n <= words.length; n++) {
         const run = words.slice(i, i + n).join(' ');
-        if (count(mine, run) === 1 && !out.includes(run)) out.push(run);
+        // Whole words of the target's visible text: "bar" of "foo<b>bar</b>" is not one (review, 13).
+        if (count(mine, run) === 1 && wordBounded(mine, mine.indexOf(run), run.length) && !out.includes(run)) out.push(run);
       }
     }
   }
   return out;
 }
 
+/** The first locator of a target (locatorOptions' first), or null. */
+export const locatorFor = (tm, ref) => locatorOptions(tm, ref)[0] ?? null;
+
 /**
- * The locator of a target, by the oracle's text and tree (contract, A.5): text and tag, text alone, id, id with child
- * and n; null when none names only the target.
+ * The locators of a target, by the oracle's text and tree (contract, A.5): text and tag, and text alone, when they
+ * name only the target (the stream then picks one; owner, 2026-11-12); else id; else id with child and n; else none.
  */
-export function locatorFor(tm, ref) {
+export function locatorOptions(tm, ref) {
   const { facts, vis, spans } = tm;
   const el = facts.elements[ref];
   const words = tm.textOf(ref).trim().split(' ').filter(Boolean);
@@ -128,20 +131,22 @@ export function locatorFor(tm, ref) {
     const holders = facts.elements.map((e, k) => k).filter((k) => facts.elements[k].shown && spans[k][0] <= pos && pos + run.length <= spans[k][1]);
     const tagged = holders.filter((k) => facts.elements[k].tag.toLowerCase() === el.tag.toLowerCase());
     const innermost = tagged.filter((k) => !tagged.some((o) => o !== k && isAncestor(facts, k, o)));
-    if (innermost.length === 1 && innermost[0] === ref) return { text: run, tag: el.tag };
     const deepest = holders.filter((k) => !holders.some((o) => o !== k && isAncestor(facts, k, o)));
-    if (deepest.length === 1 && deepest[0] === ref) return { text: run };
+    const opts = [];
+    if (innermost.length === 1 && innermost[0] === ref) opts.push({ text: run, tag: el.tag });
+    if (deepest.length === 1 && deepest[0] === ref) opts.push({ text: run });
+    if (opts.length) return opts;
   }
-  if (el.id !== null && facts.ids[el.id] === 1 && el.shown) return { id: el.id };
+  if (el.id !== null && facts.ids[el.id] === 1 && el.shown) return [{ id: el.id }];
   const p = el.parent;
   if (p !== null && p !== undefined) {
     const pe = facts.elements[p];
     if (pe.id !== null && facts.ids[pe.id] === 1 && pe.shown) {
       const same = tm.children[p].filter((k) => facts.elements[k].tag === el.tag);
-      return { id: pe.id, child: el.tag, n: same.indexOf(ref) + 1 };
+      return [{ id: pe.id, child: el.tag, n: same.indexOf(ref) + 1 }];
     }
   }
-  return null;
+  return [];
 }
 
 // --- The changes -----------------------------------------------------------------------------------------------------
@@ -176,7 +181,8 @@ export function randomChanges(entries, models, rnd, n = RANDOM) {
       args = { old: runs[rnd(runs.length)], new: NEW_TEXTS[rnd(NEW_TEXTS.length)] };
     } else args = {};
     const byLocator = rnd(2) === 1;
-    const loc = byLocator ? locatorFor(tm, ref) : null;
+    const opts = byLocator ? locatorOptions(tm, ref) : [];
+    const loc = opts.length > 1 ? opts[rnd(opts.length)] : opts[0] ?? null;
     const withHash = byLocator && rnd(10) === 0;
     out.push({ id: `random:${k}`, kind: 'random', file: f.name, ref, op, args, locator: loc, withHash });
   }
@@ -252,7 +258,18 @@ export async function serverOutcomes(main, entries, changes) {
       writeFileSync(file, f.bytes);
       const r = await s.tool('html_change', callArgs(ch, hashOf(f.bytes)));
       const after = readFileSync(file);
-      out.set(ch.id, { accepted: !r.isError, text: r.content[0].text, after: after.toString('utf8'), unchanged: after.equals(f.bytes), afterHash: hashOf(after) });
+      // The bytes on disk: strict UTF-8, and their own hashes (review, 2).
+      let text = null;
+      try { text = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(after); } catch { /* not UTF-8: a failure */ }
+      const o = { accepted: !r.isError, text: r.content[0].text, after: text, invalidUtf8: text === null, unchanged: after.equals(f.bytes),
+        afterHash: hashOf(after), afterSha256: sha256(after) };
+      // A refused locator change runs again by ref: the refusal must be the same, so a wrong element with the same
+      // refusal cannot hide (review, 9).
+      if (r.isError && ch.locator) {
+        writeFileSync(file, f.bytes);
+        o.byRefText = (await s.tool('html_change', callArgs({ ...ch, locator: null }, hashOf(f.bytes)))).content[0].text;
+      }
+      out.set(ch.id, o);
     }
     return out;
   } finally {
@@ -306,10 +323,24 @@ export function byteReasons(f, ch, after) {
       if (inside.slice(k, k + neu.length) !== neu) continue;
       const y = k + (own.length - inside.length) + neu.length;
       ok = y >= k && inside.slice(0, k) === own.slice(0, k) && inside.slice(k + neu.length) === own.slice(y);
+      // The replaced bytes lie inside the source of one text node of the target (review, 1).
+      if (ok) ok = textSpans(f.m.els[ch.ref]).some(([a, b]) => a <= s + k && s + y <= b);
     }
     if (!ok) r.push('replace_text changed other bytes than one part of the text');
   }
   return r;
+}
+
+/** The source spans of all text nodes inside an element, from parse5's source locations (the bytes). */
+export function textSpans(el) {
+  const out = [];
+  for (const stack = [...(el.childNodes ?? [])]; stack.length;) {
+    const n = stack.pop();
+    if (n.nodeName === '#text' && n.sourceCodeLocation) out.push([n.sourceCodeLocation.startOffset, n.sourceCodeLocation.endOffset]);
+    stack.push(...(n.childNodes ?? []));
+    if (n.content) stack.push(...n.content.childNodes);
+  }
+  return out;
 }
 
 /** The refusal kind of a server error, by the server's named errors (contract, A.7). */
@@ -321,26 +352,26 @@ export function refusalKind(text) {
   if (/^the text cannot be mapped to its bytes in the file$/.test(m)) return 'nomap';
   if (/^the old text starts or ends inside one character reference/.test(m)) return 'refbound';
   if (/line break, which the parser drops$/.test(m)) return 'linebreak';
+  if (/^the result nests elements deeper than 512 levels$/.test(m)) return 'depth';
   return null;
 }
 
-/** The visible parse5 text node of a target that holds `old`, for the oracle's confirmation of a replace_text refusal. */
-export function nodeOf(f, ref, old) {
-  const want = old.replace(WS, ' ');
+/**
+ * Every text node of a target, in document order, with its source bytes and value: the oracle picks the one it
+ * finds in html5lib's tree, and takes only its source from here (review, 8). No visibility rule of the server is used.
+ */
+export function candidatesOf(f, ref) {
+  const out = [];
   for (const stack = [...f.m.els[ref].childNodes].reverse(); stack.length;) {
     const n = stack.pop();
     if (n.nodeName === '#text') {
-      if (n.value.replace(WS, ' ').includes(want)) {
-        const l = n.sourceCodeLocation;
-        const parent = n.parentNode;
-        return { src: l ? f.text.slice(l.startOffset, l.endOffset) : '', value: n.value, first: parent.childNodes[0] === n, parentTag: parent.tagName };
-      }
+      const l = n.sourceCodeLocation;
+      if (l) out.push({ src: f.text.slice(l.startOffset, l.endOffset), value: n.value });
       continue;
     }
-    if (n.tagName && (NOT_VISIBLE.has(n.tagName) || isHidden(n))) continue;
     for (const c of [...(n.childNodes ?? [])].reverse()) stack.push(c);
   }
-  return null;
+  return out;
 }
 
 /** The oracle's job for the changes: C0.1's verdict fields, the result or the refusal, and the node for replace_text. */
@@ -367,7 +398,7 @@ export function checkJob(entries, changes, outcomes) {
     else {
       entryOf.result = null;
       entryOf.reason = refusalKind(o.text);
-      if (ch.op === 'replace_text') entryOf.node = nodeOf(f, ch.ref, ch.args.old);
+      if (ch.op === 'replace_text') entryOf.candidates = candidatesOf(f, ch.ref);
     }
     job.changes.push(entryOf);
   }
@@ -394,9 +425,17 @@ export function reasons(f, ch, o, v) {
   if (expect !== 'accept') {
     if (o.accepted) return [`accepted, but the case expects the refusal "${expect}"`];
     if (!o.unchanged) r.push('refused, but the file changed');
-    if (!EXPECT[expect].test(o.text.replace(/^html_change: /, ''))) r.push(`refused with another error than the case's "${expect}"`);
+    const msg = o.text.replace(/^html_change: /, '');
+    if (!EXPECT[expect].test(msg)) r.push(`refused with another error than the case's "${expect}"`);
+    // An ambiguous name lists each match by its ref, then the file's hash (contract, A.9; review, 6).
+    if (ch.matches) {
+      const lines = msg.split('\n');
+      for (const ref of ch.matches) if (!lines.some((l) => new RegExp(`^ *@${ref} `).test(l))) r.push(`the list of matches lacks @${ref}`);
+      if (lines.at(-1) !== `hash ${hashOf(f.bytes)}`) r.push('the list of matches does not end with the file\'s hash');
+    }
     return r;
   }
+  if (o.invalidUtf8) return ['the result is not valid UTF-8'];
   if (!v || !v.tagOk) r.push('the oracle finds another element at the ref');
   if (v && !v.markerOk) r.push('the range does not hold exactly the element');
   if (o.accepted) {
@@ -409,9 +448,10 @@ export function reasons(f, ch, o, v) {
     }
     if (ch.op === 'remove' || ch.op === 'replace') { if (v?.kept !== true) r.push('accepted, but the tree outside the element changed'); }
     else if (v?.opOk !== true) r.push(`accepted, but html5lib's tree is not the original with the ${ch.op}`);
-    if (ch.expectedSha256 && sha256(Buffer.from(o.after, 'utf8')) !== ch.expectedSha256) r.push('the result is not the task\'s expected file');
+    if (ch.expectedSha256 && o.afterSha256 !== ch.expectedSha256) r.push('the result is not the task\'s expected file');
   } else {
     if (!o.unchanged) r.push('refused, but the file changed');
+    if (o.byRefText !== undefined && o.byRefText !== o.text) r.push('the locator\'s refusal is not the refusal of the same change by ref');
     const kind = refusalKind(o.text);
     if (!kind) r.push('refused with a reason that is not on the closed list');
     else if (kind === 'noend') { const [s, e] = rangeOf(f, ch.ref); const el = f.m.els[ch.ref]; if (new RegExp(`</${el.tagName}\\s*>$`, 'i').test(f.text.slice(s, e)) || VOID.has(el.tagName)) r.push('refused for no end tag, but the range ends with one'); }
@@ -448,16 +488,37 @@ export function caseChanges() {
     let ref = null;
     if (c.target) ref = f.m.els.filter((e) => e.tagName === c.target.tag)[c.target.nth].ref;
     else ref = f.m.els.find((e) => e.tagName === 'body')?.ref ?? 0;
-    changes.push({ id: `case:${i + 1}`, kind: 'case', name: c.name, file: f.name, ref, op: c.args.operation, args: Object.fromEntries(Object.entries(c.args).filter(([k]) => k !== 'operation')), locator: c.locator ?? null, expect: c.expect, control: c.control ?? null });
+    const matches = c.matches ? f.m.els.filter((e) => e.tagName === c.matches.tag).map((e) => e.ref) : null;
+    changes.push({ id: `case:${i + 1}`, kind: 'case', name: c.name, file: f.name, ref, op: c.args.operation, args: Object.fromEntries(Object.entries(c.args).filter(([k]) => k !== 'operation')),
+      locator: c.locator ?? null, expect: c.expect, control: c.control ?? null, matches });
   });
   return { entries, changes };
 }
 
+/**
+ * The count of a control's own failures: those that the real server does not have, and not an internal error of the
+ * changed copy (review, 7). A fixed case that names the control must be among them.
+ */
+export function controlResult(name, failures, base, outcomes, changes) {
+  const baseIds = new Set(base.map((x) => x.id));
+  const own = failures.filter((x) => !baseIds.has(x.id) && !/internal error/.test(outcomes.get(x.id)?.text ?? ''));
+  const named = changes.filter((c) => c.control === name).map((c) => c.id);
+  const caseFailed = named.length ? named.every((id) => own.some((x) => x.id === id)) : null;
+  return { failures: own.length, caseFailed, ok: own.length > 0 && caseFailed !== false };
+}
+
 async function main() {
   const dev = process.argv.includes('--dev');
+  // The commit and the clean tree are checked at the start, and again at the end (review, 15).
+  const startCommit = git('rev-parse', 'HEAD');
   if (!dev && git('status', '--porcelain', '--', ...CODE)) throw new Error('the gate run needs committed code: commit first, or use --dev');
   if (!existsSync(PYTHON)) throw new Error('the oracle is not installed (.venv-oracle/)');
-  const names = [...forbiddenNames(readFileSync(at('experiments/c01/oracle_v2.py'), 'utf8')), ...forbiddenNames(readFileSync(at('experiments/c02/oracle_c02.py'), 'utf8'))];
+  const html5lib = execFileSync(PYTHON, ['-I', '-B', '-c', 'import html5lib; print(html5lib.__version__)'], { encoding: 'utf8' }).trim();
+  if (html5lib !== '1.1') throw new Error(`the oracle needs html5lib 1.1; it has ${html5lib}`);
+  // The parser-only rule on the 3 oracle files, with a positive control (review, 14).
+  const oracleFiles = ['experiments/c01/oracle.py', 'experiments/c01/oracle_v2.py', 'experiments/c02/oracle_c02.py'];
+  const names = oracleFiles.flatMap((p) => forbiddenNames(readFileSync(at(p), 'utf8')));
+  const controlFinds = forbiddenNames(readFileSync(at('experiments/c01/oracle_v2.py'), 'utf8') + '\nfrom html5lib.serializer import serialize\n');
 
   // 1. The files: C0.1's 16 (the 10 picks and the same 6 copies), and the fixed cases.
   const { files, tasks } = gateFiles();
@@ -497,7 +558,7 @@ async function main() {
     for (const name of Object.keys(MUTANTS)) {
       const out = await serverOutcomes(mutantServer(name, mutants), entries, changes);
       const v = oracle('check', checkJob(entries, changes, out)).changes;
-      controls[name] = judge(entries, changes, out, v).length;
+      controls[name] = controlResult(name, judge(entries, changes, out, v), failures, out, changes);
     }
   } finally {
     rmSync(mutants, { recursive: true, force: true });
@@ -509,11 +570,14 @@ async function main() {
   const refusals = {};
   for (const c of random) { const o = outcomes.get(c.id); if (o && !o.accepted) { const k = refusalKind(o.text) ?? 'other'; refusals[`${c.op}: ${k}`] = (refusals[`${c.op}: ${k}`] ?? 0) + 1; } }
   const minimumOk = OPS.every((op) => accepted[op] >= MIN_ACCEPTED);
+  if (git('rev-parse', 'HEAD') !== startCommit) throw new Error('HEAD moved during the run: run again');
+  if (!dev && git('status', '--porcelain', '--', ...CODE)) throw new Error('the code changed during the run: run again');
+  const passed = failures.length === 0 && names.length === 0 && controlFinds.length > 0 && Object.values(controls).every((c) => c.ok);
   const result = {
-    gate: 'C0.1 v2', date: new Date().toISOString().slice(0, 10), commit: git('rev-parse', 'HEAD'), dev, node: process.version,
+    gate: 'C0.1 v2', date: new Date().toISOString().slice(0, 10), commit: startCommit, dev, node: process.version,
     parse5: JSON.parse(readFileSync(at('node_modules/parse5/package.json'), 'utf8')).version,
     python: execFileSync(PYTHON, ['-I', '-B', '-c', 'import sys, html5lib; print(sys.version.split()[0], html5lib.__version__)'], { encoding: 'utf8' }).trim(),
-    seed: SEED, parserOnly: { forbiddenNames: names },
+    seed: SEED, random: RANDOM, parserOnly: { files: oracleFiles, forbiddenNames: names, controlFinds },
     files: gate.map((f) => ({ name: f.name, sha256: sha256(f.bytes), refs: f.m.els.length })),
     changes: {
       task: changes.filter((c) => c.kind === 'task').length, random: random.length, skipped: changes.filter((c) => c.skipped).length,
@@ -524,8 +588,8 @@ async function main() {
     },
     parsersDisagree: verdicts.filter((v) => v.spliceAgree === false).map((v) => v.id),
     failures, controls, minimumOk,
-    verdict: !minimumOk ? 'NO VERDICT (minimum not reached)'
-      : failures.length === 0 && names.length === 0 && Object.values(controls).every((n) => n > 0) ? 'PASS' : 'FAIL',
+    // FAIL first: a missed minimum must not hide a failure (review, 5).
+    verdict: !passed ? 'FAIL' : minimumOk ? 'PASS' : 'NO VERDICT (minimum not reached)',
   };
   const json = JSON.stringify(result, null, 1) + '\n';
   const out = dev ? path.join(tmpdir(), 'hir-c01-v2-dev-result.json') : at('experiments/c01/c01-v2-result.json');

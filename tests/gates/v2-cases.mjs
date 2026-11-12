@@ -1,7 +1,8 @@
 // The fixed cases of C0.1 v2 (docs/contract.md, amendment "the gate text for the v2 tools", A.9): small files, each
 // with one change and its expected result. A case names the negative control that it must make fail, where it has
 // one. `target` names the element by its tag and its place among the elements of that tag (from 0); `locator` gives
-// the locator arguments instead. `expect` is "accept" or a refusal kind of EXPECT.
+// the locator arguments instead. `matches` names the elements that an ambiguous refusal must list. `expect` is
+// "accept" or a refusal kind of EXPECT.
 
 export const CASES = [
   { name: 'a new attribute on a tag whose unquoted value ends in "/"', html: '<p><a href=/docs/>Docs</a></p>',
@@ -21,10 +22,10 @@ export const CASES = [
   { name: 'replace_text in xmp', html: '<xmp>Hello there</xmp>',
     target: { tag: 'xmp', nth: 0 }, args: { operation: 'replace_text', old: 'Hello', new: 'A & B' }, expect: 'rawtext' },
   { name: 'a text that 2 elements hold', html: '<div><p>same words here</p><p>same words here</p></div>',
-    locator: { text: 'same words here' }, args: { operation: 'remove' }, expect: 'ambiguous',
+    locator: { text: 'same words here' }, args: { operation: 'remove' }, expect: 'ambiguous', matches: { tag: 'p' },
     control: 'a text locator that takes the first of several matches' },
   { name: 'an id that 2 elements have', html: '<p id="x">1</p><p id="x">2</p>',
-    locator: { id: 'x' }, args: { operation: 'remove' }, expect: 'ambiguousId' },
+    locator: { id: 'x' }, args: { operation: 'remove' }, expect: 'ambiguousId', matches: { tag: 'p' } },
   { name: 'an id on a hidden element', html: '<div id="h" hidden>x</div><p>y</p>',
     locator: { id: 'h' }, args: { operation: 'remove' }, expect: 'noId' },
   { name: 'a legacy reference with no ";" before plain text', html: '<p>&copy2024 Acme</p>',
