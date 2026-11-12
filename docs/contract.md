@@ -10,7 +10,10 @@ never after the results are in. A missed gate is recorded as missed, with its nu
 | C0.3 | 0 | Ideal-path tokens with the MCP are at most 0.50 of the baseline's cheapest ideal path (median per task) | The file set and the task set; `count_tokens` | **FAILED** (2026-11-11): median 0.739, `docs/measurements/2026-11-11-c03-result.md` |
 | C0.4 | 0 | With the MCP, an agent uses at most 0.70 of the baseline's tokens per task (median), and its success rate is not more than 5 points below the baseline's | The file set, the task set, 3 runs per task and arm; Claude Sonnet 5.5 | Not run: C0.3 failed; C0.6 replaces it |
 | C0.5 | 0 | Rescope: ideal-path work tokens (tool definitions and the prompt left out) with the MCP are at most 0.50 of the baseline's (median per task) | A fresh file set and task set; `count_tokens` | **PASSED** (2026-11-11): median 0.374, `docs/measurements/2026-11-11-c05-result.md` |
-| C0.6 | 0 | Rescope: C0.4 with the MCP tools added to the baseline's tools: at most 0.70 of the tokens, success not more than 5 points below | The fresh sets, 3 runs per task and arm; Claude Sonnet 5.5 | Agreed (owner, 2026-11-11) |
+| C0.6 | 0 | Rescope: C0.4 with the MCP tools added to the baseline's tools: at most 0.70 of the tokens, success not more than 5 points below | The fresh sets, 3 runs per task and arm; Claude Sonnet 5.5 | **FAILED** (2026-11-12): median 1.40, `docs/measurements/2026-11-12-c06-result.md` |
+| C0.7 | 0 | Second rescope (H1): C0.6 on the removal or replacement of a large element: at most 0.70 of the tokens, the interval below 1.00, success not more than 5 points below, and no task type more than 15 points below | Its own fresh draw, 40 tasks, 3 runs per task and arm; Claude Sonnet 5.5 | Agreed (owner, 2026-11-12) |
+| C0.8 | 0 | Second rescope (H2): C0.6 on a target named by its position, with the same pass rule as C0.7 | Its own fresh draw, 40 tasks, 3 runs per task and arm | Agreed (owner, 2026-11-12) |
+| C0.9 | 0 | Second rescope (H4): C0.6 on a quote that is not in the source as written, with the same pass rule as C0.7 | Its own fresh draw, 40 tasks, 3 runs per task and arm | Agreed (owner, 2026-11-12) |
 | C1 | 1 | <...> | <...> | Tentative |
 
 Status: **Tentative** means that the owner has not agreed to the gate yet. **Agreed** names the owner and the date.
@@ -642,3 +645,210 @@ run plan is `docs/measurements/2026-11-12-c06-run-plan.md`. The owner is told be
   edits HTML files, does not reduce the agent's tokens; with Claude Code 2.1.322 and `claude-sonnet-5-5`, it
   increases them. The next step is the owner's decision.
 - **No number changed.**
+
+**2026-11-12 (owner): a second rescope, for 3 task kinds (decision 0007).** C0.6 stays FAILED. The owner chose to
+test 3 task kinds where the reading view should do better, and agreed to gates C0.7, C0.8 and C0.9 below on
+2026-11-12, after an independent review of 13 points.
+
+## Phase 0, second rescope: task kinds where the reading view should do better (decision 0007)
+
+C0.6 failed at 1.40. Its tasks quoted a text that the C0.3 rules found in the target's source as written, and that
+appears once in the visible text: the case where Grep is strongest. Each gate below tests one task kind where Grep is
+weaker. **The lead chose these kinds after C0.6, to favour the view.** A pass shows a gain on that task kind only,
+with this model and this harness.
+
+### What stays the same as C0.6
+
+- **The arms:** B has Read, Edit, Grep and Glob. M has the same, plus the 4 MCP tools.
+- **The server and its text:** `server/` stays byte-identical to commit `d4f9927` (unchanged since C0.6's commit
+  `7994dfa`), and the tool text to `experiments/c03/mcp-tools.json`. The server sends no server instructions.
+- **The harness and its settings:** C0.6's run plan, `docs/measurements/2026-11-12-c06-run-plan.md`, except the points
+  in "Allowed changes to the code" below.
+- **The runs:** 40 tasks, 3 runs of each task in each arm (240 runs), in 3 rounds, in a random order inside each
+  round.
+- **The judge and how a result passes:** C0.4's rules, with the owner's C0.6 rule on layout whitespace.
+- **The limits:** 40 turns, 10 minutes and $5 for a run; an API or harness error stops the gate.
+- **The analysis:** C0.6's token ratio (passed runs, median over tasks, at least 20 tasks), success rates and
+  bootstrap over files.
+
+### Allowed changes to the code
+
+C0.6's runner and analysis cannot run these gates unchanged. Only these changes are allowed:
+1. One runner mode and one result file for each gate and for each preview.
+2. The task types of each gate, as a parameter of the analysis. The 15-point rule then applies to those types.
+3. The interval check of pass rule 2 below.
+4. The seed `20261112` for the run order and the bootstrap.
+5. The storage of the files under plain names (below).
+6. The count of missing-file errors (`experiments/c06/wrong-name.mjs`), in the runner's records.
+
+The lead writes a new run plan, `docs/measurements/<date>-c07-c09-run-plan.md`, with these changes only. It also names
+the harness's limit of output tokens for one turn. Tests cover each change, and an independent review checks it.
+
+### The inputs
+
+1. **The seeds:** `20261112` for C0.7, `20261113` for C0.8 and `20261114` for C0.9.
+2. **A fresh file draw for each gate:** 10 files, 2 of each kind. Each gate's draw uses C0.5's draw rules ("The new
+   inputs"), with these changes:
+   - The pool also loses every repository whose owner is the owner of a C0.5 pick: 17 owners in total, 7 of C0.3 and
+     10 of C0.5.
+   - **The name rule** (a path rule, before a file is read): the base name matches `^[A-Za-z0-9._-]+\.html$`, it is
+     not a Windows device name, and it does not end in a dot.
+   - **The task rule** is the gate's own: the file can give the gate's 4 tasks.
+   - A file can be a pick of more than one gate. The gates are separate questions.
+   - **The fallback:** when a kind gives 1 pick, C0.5's fallback applies. When a kind gives 0 picks, the gate uses
+     the other kinds' files only (8 files, 32 tasks), and the report says so.
+3. **Plain file names:** each file is stored in its own folder, under its base name in its repository (for example
+   `experiments/gate-files/c07/c07/3/index.html`). Each gate keeps its expected files in its own folder. A run folder
+   holds the file under that base name, with no number before it.
+4. **The task sets:** one script for each gate, in `experiments/c07/`. Each script finds the full list of valid
+   targets for each task, and draws from that list with the gate's seed. So the task rule and the draw cannot
+   disagree. Each target has a clean range: html5lib 1.1 confirms that the source range from its start tag to its
+   end tag holds exactly the element.
+5. **"Visible text" and "shown"** come from the server's own view, `server/view.mjs` at `d4f9927`: what the M arm sees.
+6. **Every edit task is one that `html_edit` can do.** For each edit task, the server's own check must accept the
+   edit that gives the expected file, and html5lib must confirm that the tree outside the target does not change:
+   - a removal: the target's range replaced with nothing;
+   - a replacement: the range replaced with `<p>New text</p>`;
+   - an insertion: the target replaced with its own bytes plus `<p>New text</p>`.
+
+   This rule leaves out tasks that the server refuses, for example `<p>New text</p>` in place of a table row. That is
+   a limit of the claim: the report gives the number of candidate targets that this rule removed.
+7. **The freeze:** `experiments/c07/run-inputs.json` holds the SHA-256 of the draw script, the task scripts, every
+   module whose rules they use, the records and the task sets. A task script refuses to run when its task set exists.
+   The runner makes each task set again from the drawn files and compares, as C0.5's runner does.
+8. **All 3 gates' scripts, records, task sets, the runner and the run plan are committed and frozen before the first
+   paid run of this rescope,** the previews included.
+
+### Pass rule of each gate
+
+A gate passes only when all of these hold:
+1. The median token ratio is ≤ 0.70.
+2. **The upper end of the 95% interval of the median token ratio (bootstrap over files) is below 1.00.**
+3. M's success rate is ≥ B's − 5 points.
+4. No task type has an M success rate more than 15 points below B's.
+
+The report also gives, for each arm: the runs with a missing-file error of any tool, the calls of each tool, and the
+runs that read a whole file.
+
+### C0.7: remove or replace a large element (H1)
+
+- **The target:** an element inside `body`, not `html`, `head` or `body`, whose source range is at least 40 lines,
+  at least 2,000 bytes and at most 50,000 bytes. The Read output of the target's lines (with Read's line numbers) is
+  under 25,000 tokens, as `count_tokens` counts it (free, with the owner's key). The task script records each count.
+- **The quote:** 3 to 6 consecutive words of the target's visible text, from start to end of words.
+  - The quote appears exactly once in the file's visible text.
+  - It appears exactly once in the source bytes, and that match lies inside one text node of the deepest element that
+    holds the quote. So Grep finds the right place.
+  - **The target is the only element with the target's tag on the path from the target down to the deepest element
+    that holds the quote, that element included.**
+  - The quote holds no `"` and no backtick.
+- **The tasks:** 2 of each type in each file, with 4 different targets.
+
+  | Type | Prompt template |
+  |---|---|
+  | Removal | "Remove the `<tag>` element that contains the text "<quote>". If several `<tag>` elements contain it, remove the innermost one." |
+  | Replacement | "Replace the `<tag>` element that contains the text "<quote>" with `<p>New text</p>`. If several `<tag>` elements contain it, replace the innermost one." |
+
+- **Why the view should win:** Edit must send the whole old text, after a read of it. `html_edit` sends the ref and the
+  new HTML only.
+
+### C0.8: a target named by its position (H2)
+
+- **The parent:** an element whose `id` is the `id` of exactly one element in the file (template content included).
+  The id matches `^[A-Za-z][A-Za-z0-9_-]*$`.
+- **The target:** the k-th child element of the parent with tag T, in source order, with k ≥ 2. The prompt quotes none
+  of its text.
+- **Rules for the parent and all its child elements,** so that the outline, the tree and the source count the same:
+  1. Each of them is shown in the outline: none is hidden content, `script`, `style`, `noscript`, `template`, `link`
+     or `meta`, and none is inside an `svg`.
+  2. Each child element has a clean range with an explicit end tag (or is a void element).
+  3. html5lib's tree and parse5's tree give the same list of child elements.
+- **The tasks:** one of each type in each file, with 4 different targets. Each task draws its parent, T and k from the
+  full list of valid targets. A question and an attribute change draw one attribute of the target that has a
+  source location, whose value is not empty and holds no `"`.
+- **The ordinal:** English, with digits: "2nd", "3rd", "4th", "11th", "12th", "13th", "21st", "22nd".
+
+  | Type | Prompt template |
+  |---|---|
+  | Question | "In the element with id "<id>", take the <k-th> child element that is a `<tag>` element. What is the value of its `<attr>` attribute? End your reply with the line `ANSWER: <value>`." |
+  | Attribute change | "In the element with id "<id>", take the <k-th> child element that is a `<tag>` element. Set its `<attr>` attribute to "<new value>". Change nothing else." |
+  | Removal | "In the element with id "<id>", remove the <k-th> child element that is a `<tag>` element." |
+  | Insertion | "In the element with id "<id>", take the <k-th> child element that is a `<tag>` element. After it, add `<p>New text</p>`." |
+
+- **Why the view should win:** Grep cannot count elements, so the baseline must read the parent. The outline shows the
+  children with their refs.
+- **The lead's expectation:** this gate has the most risk. `html_find` cannot find an `id`, so M must read an outline
+  page, and a page can hold up to 20,000 tokens.
+
+### C0.9: a quote that is not in the source as written (H4)
+
+- **The target:** C0.3's rule: the deepest element whose visible text holds the quote, and no other element with its
+  tag holds the quote.
+- **The quote:** 3 to 6 consecutive words of the target's visible text, from start to end of words. It appears
+  exactly once in the file's visible text, and nowhere in the source bytes as written. It is not inside `pre` or
+  `textarea`.
+- **The causes, a closed list.** Each quote has at least one; the report counts each cause, and the quotes with 2 or
+  more:
+  1. **An inline tag:** an element of this list starts or ends inside the quote: `a`, `abbr`, `b`, `code`, `em`, `i`,
+     `small`, `span`, `strong`, `sub`, `sup`, `u`. Each element boundary inside the quote lies next to ASCII
+     whitespace in the visible text, so no words are joined.
+  2. **An entity:** a named or numeric character reference that decodes to an allowed character (below).
+  3. **Whitespace:** a line break, a tab or 2 or more spaces inside the quote in the source.
+
+  A quote with a comment, a `br`, a `wbr` or another element inside it is not valid.
+- **The allowed characters:** printable ASCII other than `"` and the backtick; letters (Unicode category L); and
+  U+2013, U+2014, U+2018, U+2019 and U+2026. So U+00A0, U+00AD, U+200B to U+200D, U+2060 and U+FEFF are not allowed.
+- **The tasks:** C0.4's 4 types and templates, one of each in each file (structure: insertion in even files, removal
+  in odd files), with 4 different targets.
+- **A text change** needs a quote inside one text node, so its cause is an entity or whitespace. The expected file
+  replaces the source bytes that decode to the quote (entity text and line breaks included) with the new text.
+- **Why the view should win:** Grep for the quote finds nothing. `html_find` matches the visible text, with entities
+  decoded and whitespace collapsed.
+
+### Order of the second rescope
+
+1. The owner agrees to this text.
+2. The lead writes the draw and task scripts and the code changes, with tests and an independent review.
+3. The 3 draws run once each, and the lead commits the records and the task sets. The freeze (inputs, 8) holds from
+   then on.
+4. **A preview for each gate:** C0.5's 10 files (not inputs of these gates), stored under plain names. The gate's task
+   script makes one task from each file, with the gate's seed:
+   - C0.7: a removal in odd files, a replacement in even files;
+   - C0.8: question, attribute change, removal and insertion, in turn by file number (file 1 a question, file 5 a
+     question again);
+   - C0.9: question, text change, attribute change and structure, in turn by file number (structure: insertion in
+     even files, removal in odd files).
+
+   A file that cannot give its task is skipped, and the report names it. A preview with fewer than 6 tasks does not
+   run. Each task runs once in each arm. A preview decides nothing, and runs once. The lead announces its cost, and
+   waits for the owner's yes.
+5. **Each gate runs only after the owner's yes,** with its cost announced from its preview's measured cost. The gates
+   are separate: the result of one does not decide another. Each gate runs once (rescope order, 5).
+6. **A change after a preview** to the runner, the run plan, a task set or a rule of this rescope needs a dated
+   amendment that says it came after the preview. The gate's report then calls its result weaker.
+
+### Why these numbers
+
+- **0.70, 5 points and 15 points:** as C0.4 and C0.6, so the results compare.
+- **The interval below 1.00:** with 3 gates, one can pass by chance more easily than one gate alone. A percentile
+  bootstrap over 10 files gives a narrow interval, so this rule is a minimum check, not a proof.
+- **The size limits of C0.7:** 40 lines and 2,000 bytes make the element large enough that the baseline must read
+  more than a few lines. The `count_tokens` limit keeps the element inside one Read call (25,000 tokens a call, the
+  run plan).
+
+### What the second rescope does not judge
+
+- The items of "What the gates do not judge" and "What the rescope gates do not judge".
+- Tasks that the server refuses (inputs, 6).
+- How common each task kind is in real work.
+- Other server designs (decision 0007, option 2).
+
+### Cost (an estimate)
+
+- **The basis:** C0.6 cost $2.62 for 240 runs, mostly cache reads.
+- **3 previews:** about $0.20 to $0.50 each (about 20 runs).
+- **C0.7 and C0.9:** about $3 to $6 each. C0.7's baseline sends larger edits, which are output tokens.
+- **C0.8:** about $4 to $10. The M arm can read outline pages of up to 20,000 tokens, and each later turn sends them
+  again.
+- **In all:** about $12 to $25. The lead estimates each gate again from its preview's measured cost. Each run stops at
+  $5, and the runner stops a gate at $40.
