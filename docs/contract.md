@@ -1089,3 +1089,14 @@ proposed for C0.8:
    `run-inputs-v2.json`. It is written once and committed before C0.8's first paid run. The 3 gates that ran keep
    `run-inputs-v2.json`; their results name their commits.
 - **No number changed.**
+
+**2026-11-12 (lead, from the owner's choice of decision 0009, option B): C0.2 v2's harness reads the size field,
+before C0.2 v2 runs again.** `html_find` now ends the line of an element of 1 KB or more with a size note, as
+` [1.2 KB, 3 lines]`; the match lists of `html_change`'s locator errors show it too. An independent review found that
+2 parts of C0.2 v2's harness (`experiments/c02/run-c02-v2.mjs`) broke on it:
+1. **The output check (B.3):** the checker took the size note of a line with no attributes as part of the tag. It now
+   removes a size note in exactly this format before it reads the tag, as it already removes ` (hidden)`. A size note
+   in another format stays, and the tag check fails on it.
+2. **The control "an id listing that shows hidden children" (B.9):** it changes one exact line of `server/v2.mjs`,
+   and decision 0009 changed that line. The control now names the new line, and still drops only the hidden branch.
+- **No condition and no number changed.** C0.1 v2 and C0.2 v2 must pass again on the changed server before a v2 run.

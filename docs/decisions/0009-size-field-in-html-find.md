@@ -1,7 +1,7 @@
 # 0009. A size field for each element that html_find shows
 
-**Status:** Proposed (lead, 2026-11-12). The owner asked for the design (2026-11-12): "yes we can design a size field
-for html_find". Nothing is built until the owner agrees to an option.
+**Status:** Accepted (owner, 2026-11-12): option B, with the 1 KB threshold. The owner asked for the design
+(2026-11-12: "yes we can design a size field for html_find") and then chose B ("Go with B").
 
 ## Context
 
@@ -109,3 +109,14 @@ an agent from copying or reading a large element when the agent has a choice.
 - A measurement with tool search on (Claude Code's default) changes how the tool text costs.
 
 ## Amendments
+
+**2026-11-12 (owner): option B chosen; built.** `server/v2.mjs` (`sizeNote`, `SIZE_SHOWN_FROM` = 1024) and the
+html_find description in `server/tools-v2.json`. The size sentence adds 52 tokens to the 3 tools' text (1,337 to
+1,389; `count_tokens`, `claude-sonnet-5-5`; decision 0010, "Context"). Test steps 1 and 2 run with decision 0010's
+text, so that one C0.1 v2 and C0.2 v2 rerun covers both.
+
+**2026-11-12 (lead): after the independent review of the build.** The size note also shows in the match lists of
+`html_change`'s locator errors, which use the same lines; a test covers it. A lone CR now ends a line, as in the HTML
+parser; CRLF counts once. C0.2 v2's harness changed to read the size note (contract, note of 2026-11-12). An element
+with no clean range can show a size that `html_change` then refuses (`docs/follow-ups.md`).
+

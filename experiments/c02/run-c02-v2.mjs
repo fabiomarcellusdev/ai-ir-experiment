@@ -35,11 +35,13 @@ const HASH_FOOT = /^hash [0-9a-f]{16}$/;
 
 /**
  * The content lines of a v2 output: each starts, after its indent, with "@<n> " or "| ", or is the cut line. A child
- * line "@n tag (hidden)" counts as an element line with its tag. Returns the reasons and the refs with their tags.
+ * line "@n tag (hidden)" counts as an element line with its tag. A size note at the end of a line, " [1.2 KB, 3 lines]"
+ * (decision 0009), is removed first; a size note in another format stays and fails the tag check.
  */
+export const SIZE_NOTE = / \[\d+\.\d KB, \d+ lines?\]$/;
 export function checkV2Lines(lines) {
   const kept = lines.filter((l) => l !== CUT);
-  const c = checkLines(kept.map((l) => l.replace(/ \(hidden\)$/, '')));
+  const c = checkLines(kept.map((l) => l.replace(SIZE_NOTE, '').replace(/ \(hidden\)$/, '')));
   return c;
 }
 
@@ -118,7 +120,8 @@ export const MUTANTS = {
   'a locator that ignores the hash': ['c6', ['stale:text'], [['v2.mjs', "  if (a.hash !== undefined && a.hash !== m.hash) fail('the file changed since the hash');", '']]],
   // Only the listing changes: the id lookup still finds shown elements only (review of C0.2 v2, 4).
   'an id listing that shows hidden children': ['c3', ['ids:shown-parent'], [
-    ['v2.mjs', '    const l = m.shown.has(c) ? ` ${fullHead(c)}` : ` @${c.ref} ${escTag(c.tagName)} (hidden)`;', '    const l = ` ${fullHead(c)}`;']]],
+    // The line as decision 0009 changed it (the size note); the control still drops only the hidden branch.
+    ['v2.mjs', '    const l = m.shown.has(c) ? ` ${fullHead(c)}${sizeNote(m, c)}` : ` @${c.ref} ${escTag(c.tagName)} (hidden)`;', '    const l = ` ${fullHead(c)}${sizeNote(m, c)}`;']]],
 };
 
 /** Whether a control's run fails as it must (B.9; review of C0.2 v2, 3). */

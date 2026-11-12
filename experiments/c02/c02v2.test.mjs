@@ -67,3 +67,9 @@ test('the extra hostile files: each has a target or is refused whole, and the hi
   for (const w of HIDDEN_ID_WORDS) assert.ok(ids.includes(w), w);
   for (const id of [IDS.shownParent, ...IDS.hidden]) assert.ok(ids.includes(`id="${id}"`), id);
 });
+
+test('the v2 checker reads a size note after the tag, and fails a malformed one (decision 0009)', async () => {
+  const { checkV2Lines } = await import('./run-c02-v2.mjs');
+  assert.deepEqual(checkV2Lines(['  @4 p [1464.9 KB, 1 line]', ' @5 div(id=a) [1.2 KB, 3 lines]', ' @6 li (hidden)']).refs, [[4, 'p'], [5, 'div'], [6, 'li']]);
+  assert.deepEqual(checkV2Lines(['  @4 p [big]']).refs, [[4, 'p [big]']]); // control: another format is not removed
+});

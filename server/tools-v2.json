@@ -1,7 +1,7 @@
 [
  {
   "name": "mcp__html__html_find",
-  "description": "Finds elements in an HTML file. With `text`: the deepest elements whose visible text contains the literal, case-sensitive text (at most 20), each with all its attributes, and the outline lines of their ancestors, all with @n refs. With `id`: the element with that id and its child elements, each with all its attributes. Ends with the match count and the file hash. Leave out `file` when the folder holds one .html or .htm file.",
+  "description": "Finds elements in an HTML file. With `text`: the deepest elements whose visible text contains the literal, case-sensitive text (at most 20), each with all its attributes, and the outline lines of their ancestors, all with @n refs. With `id`: the element with that id and its child elements, each with all its attributes. An element of 1 KB or more also shows its source size, as [12.4 KB, 310 lines]: change such an element with html_change and its ref, not with Edit. Ends with the match count and the file hash. Leave out `file` when the folder holds one .html or .htm file.",
   "input_schema": {
    "type": "object",
    "properties": {
