@@ -56,9 +56,13 @@ function linesOf(m, els) {
   return out;
 }
 
-/** The element with an id: exactly one, else a named error. */
+/**
+ * The shown element with an id: exactly one, else a named error. A hidden element, one inside hidden content or SVG,
+ * and a dropped element (`script`, `template`, ...) are not found, as html_find never matches hidden content
+ * (contract, C0.2, 3; review of the v2 gate text, 9).
+ */
 function byId(m, id) {
-  const els = m.els.filter((e) => e.attrs.some((a) => a.name === 'id' && a.value === id));
+  const els = m.els.filter((e) => m.shown.has(e) && e.attrs.some((a) => a.name === 'id' && a.value === id));
   if (!els.length) fail(`no element has the id ${shown(id)}`);
   if (els.length > 1) fail(`${els.length} elements have the id ${shown(id)}; give a ref:\n${linesOf(m, els).join('\n')}\nhash ${m.hash}`);
   return els[0];
@@ -72,7 +76,9 @@ function findId(m, id) {
   const lines = [fullHead(el)];
   let size = lines[0].length + 1;
   for (const c of children) {
-    const l = ` ${fullHead(c)}`;
+    // A child that the outline does not show is listed by its ref and tag only, marked (hidden): its place keeps the
+    // count of `child` and `n` right, and none of its attributes or text is shown.
+    const l = m.shown.has(c) ? ` ${fullHead(c)}` : ` @${c.ref} ${escTag(c.tagName)} (hidden)`;
     if (size + l.length + 1 > PAGE_CHARS) { lines.push(`… output cut at ${PAGE_CHARS.toLocaleString('en-US')} characters`); break; }
     lines.push(l);
     size += l.length + 1;
@@ -194,6 +200,12 @@ function replaceText(m, el, old, neu) {
   }
   if (found.length !== 1) fail(found.length ? 'the old text occurs more than once in the element' : 'the old text is not in one text node of the element');
   const { n, a, b } = found[0];
+  // The parser drops a newline right after the start tag of pre, textarea and listing. A change that makes the text
+  // start with a newline there would lose it (review of the v2 gate text, 5).
+  const host = m.parent.get(n);
+  if (['pre', 'textarea', 'listing'].includes(host?.tagName) && kids(host)[0] === n && a === 0 && /^[\n\r]/.test(neu + n.value.slice(b))) {
+    fail(`the new text would start the ${host.tagName} element with a line break, which the parser drops`);
+  }
   // In a RAWTEXT element the browser shows "&amp;" as it is written, so an escaped new text would show wrong
   // (review of v2, 5).
   if (RAWTEXT.has(m.parent.get(n)?.tagName)) fail(`the text is inside a ${m.parent.get(n).tagName} element, whose text the tool cannot change`);

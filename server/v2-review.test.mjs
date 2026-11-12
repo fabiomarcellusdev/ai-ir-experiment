@@ -129,6 +129,25 @@ test('a dot file is not "the one file"; hostile input: CRLF and a BOM keep their
   rmSync(root, { recursive: true, force: true });
 });
 
+test('gate-text review 9: an id never shows hidden content; hidden children are marked with no attributes', () => {
+  const s = space('<form id=f><input type=hidden value="secret words"><p class="c">Shown</p></form><div id=h hidden><b id=in>x</b></div>');
+  const out = s.call('html_find', { id: 'f' });
+  assert.match(out, / @\d+ input \(hidden\)/);
+  assert.doesNotMatch(out, /secret words/);
+  assert.match(out, / @\d+ p\(class=c\)/); // control: a shown child keeps its attributes
+  refuses(() => s.call('html_find', { id: 'h' }), /no element has the id "h"/);
+  refuses(() => s.call('html_find', { id: 'in' }), /no element has the id "in"/);
+  s.done();
+});
+
+test('gate-text review 5: replace_text refuses to start a pre with a line break; control: other changes in it', () => {
+  const s = space('<pre>abc\ndef</pre>');
+  refuses(() => s.call('html_change', { operation: 'replace_text', text: 'abc', old: 'abc', new: '' }), /line break, which the parser drops/);
+  s.call('html_change', { operation: 'replace_text', text: 'abc', old: 'abc', new: 'xyz' });
+  assert.equal(s.read(), '<pre>xyz\ndef</pre>');
+  s.done();
+});
+
 test('hidden text is skipped by the text locator; control: the same text when not hidden', () => {
   const s = space('<p>alpha <span hidden>beta</span></p><p>gamma beta</p>');
   s.call('html_change', { operation: 'remove', text: 'beta' });
