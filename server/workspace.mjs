@@ -86,16 +86,16 @@ export function openWorkspace(root) {
     root: rootReal,
     /**
      * The name of the one `.html` or `.htm` file in the root folder, for a v2 tool called with no `file` (decision
-     * 0008). Only plain files count: a link or a folder does not. With 0 or more than 1, a named error.
+     * 0008). Only plain files count: a link, a folder or a dot file (which a listing may hide) does not. With 0 or more than 1, a named error.
      */
     onlyFile() {
       let names;
       try {
-        names = readdirSync(rootReal, { withFileTypes: true }).filter((d) => d.isFile() && isHtmlName(d.name)).map((d) => d.name);
+        names = readdirSync(rootReal, { withFileTypes: true }).filter((d) => d.isFile() && isHtmlName(d.name) && !d.name.startsWith('.')).map((d) => d.name);
       } catch (e) {
         fsFail(e, 'the workspace cannot be listed');
       }
-      if (names.length !== 1) fail(`give "file": the workspace holds ${names.length} .html files`);
+      if (names.length !== 1) fail(`give "file": the workspace holds ${names.length} .html or .htm files`);
       return names[0];
     },
     /**

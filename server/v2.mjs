@@ -2,7 +2,7 @@
 // operations) and html_outline. `file` is optional when the workspace holds one .html file. Like v1, it reads files
 // through the workspace and writes none: html_change returns the new bytes, and the main thread writes them.
 import { fail } from './errors.mjs';
-import { load, outlinePage, textMatches, element, fmtValue, escTag, isHidden, LINE_CAP, PAGE_CHARS } from './view.mjs';
+import { load, outlinePage, textMatches, element, fmtValue, escTag, isHidden, LINE_CAP, PAGE_CHARS, VOID } from './view.mjs';
 import { editBytes } from './edit.mjs';
 import { MAX_BYTES } from './workspace.mjs';
 import { charMap } from './source.mjs';
@@ -13,19 +13,30 @@ export const OPERATIONS = ['remove', 'replace', 'insert_after', 'set_attribute',
 export const MAX_VALUE_SHOWN = 200;
 const MAX_MATCHES = 20;
 const NOT_VISIBLE = new Set(['script', 'style', 'svg', 'template', 'noscript']); // as server/view.mjs
+/** Elements whose text the parser reads raw: an entity in them is not decoded. */
+const RAWTEXT = new Set(['xmp', 'iframe', 'noembed', 'noframes', 'plaintext']);
+const sameTag = (el, tag) => el.tagName.toLowerCase() === tag.toLowerCase();
 const kids = (n) => n.childNodes ?? [];
 const WS = /[ \t\n\f\r]+/g;
+/** An argument in an error message: quoted, and cut at 80 characters (security review of v2, 8). */
+const shown = (v) => JSON.stringify(v.length > 80 ? `${v.slice(0, 80)}…` : v);
+/** The longest locator or name argument. */
+export const MAX_ARG = 10_000;
 const isWs = (c) => c === ' ' || c === '\t' || c === '\n' || c === '\f' || c === '\r';
 
 /** An element's line with all its attributes (v1's outline line keeps a few). */
 export function fullHead(el) {
   const attrs = el.attrs.map((a) => {
-    const v = a.value.length > MAX_VALUE_SHOWN ? `${a.value.slice(0, MAX_VALUE_SHOWN)}…(${a.value.length} chars)` : a.value;
+    // A data: URI goes to fmtValue whole, which names its length; another long value is cut at a whole character.
+    const v = a.value.length > MAX_VALUE_SHOWN && !/^data:/i.test(a.value) ? `${cutAt(a.value, MAX_VALUE_SHOWN)}…(${a.value.length} chars)` : a.value;
     return a.value === '' ? escTag(a.name) : `${escTag(a.name)}=${fmtValue(v)}`;
   });
   const line = `@${el.ref} ${escTag(el.tagName)}${attrs.length ? `(${attrs.join(' ')})` : ''}`;
-  return line.length > LINE_CAP ? `${line.slice(0, LINE_CAP)}…(${line.length} chars)` : line;
+  return line.length > LINE_CAP ? `${cutAt(line, LINE_CAP)}…(${line.length} chars)` : line;
 }
+
+/** The first n UTF-16 units of s, one less when the cut would split a surrogate pair (review of v2, 8). */
+const cutAt = (s, n) => s.slice(0, /[\uD800-\uDBFF]/.test(s[n - 1] ?? '') ? n - 1 : n);
 
 const indentOf = (m, el) => (m.lineOf.get(el.ref) ?? '').match(/^ */)[0];
 
@@ -48,15 +59,25 @@ function linesOf(m, els) {
 /** The element with an id: exactly one, else a named error. */
 function byId(m, id) {
   const els = m.els.filter((e) => e.attrs.some((a) => a.name === 'id' && a.value === id));
-  if (els.length !== 1) fail(els.length ? `${els.length} elements have the id "${id}"` : `no element has the id "${id}"`);
+  if (!els.length) fail(`no element has the id ${shown(id)}`);
+  if (els.length > 1) fail(`${els.length} elements have the id ${shown(id)}; give a ref:\n${linesOf(m, els).join('\n')}\nhash ${m.hash}`);
   return els[0];
 }
 
 /** html_find with an id: the element and its child elements, each with all its attributes. */
 function findId(m, id) {
   const el = byId(m, id);
-  const lines = [fullHead(el), ...kids(el).filter((c) => c.tagName).map((c) => ` ${fullHead(c)}`)];
-  return `${lines.join('\n')}\n1 match; ${kids(el).filter((c) => c.tagName).length} child elements; hash ${m.hash}`;
+  // At most one page of output, with the real child count (security review of v2, 3).
+  const children = kids(el).filter((c) => c.tagName);
+  const lines = [fullHead(el)];
+  let size = lines[0].length + 1;
+  for (const c of children) {
+    const l = ` ${fullHead(c)}`;
+    if (size + l.length + 1 > PAGE_CHARS) { lines.push(`… output cut at ${PAGE_CHARS.toLocaleString('en-US')} characters`); break; }
+    lines.push(l);
+    size += l.length + 1;
+  }
+  return `${lines.join('\n')}\n1 match; ${children.length} child elements; hash ${m.hash}`;
 }
 
 /**
@@ -66,11 +87,20 @@ function findId(m, id) {
 export function textTargets(m, text, tag) {
   const { hit, matches } = textMatches(m, text);
   if (tag === undefined) return matches;
-  const withTag = new Set(m.els.filter((e) => e.tagName === tag && hit(e)));
-  // Innermost: no other element of the tag inside it holds the text.
-  return [...withTag].filter((e) => ![...withTag].some((o) => o !== e && isAncestor(m, e, o)));
+  const withTag = m.els.filter((e) => sameTag(e, tag) && hit(e));
+  // Innermost: no other element of the tag inside it holds the text. Each match marks its ancestors of the tag as
+  // not innermost; a walk stops at a marked ancestor, so the time is linear (review of v2, 6).
+  const set = new Set(withTag);
+  const outer = new Set();
+  for (const e of withTag) {
+    for (let p = m.parent.get(e); p && p.tagName; p = m.parent.get(p)) {
+      if (!set.has(p)) continue;
+      if (outer.has(p)) break;
+      outer.add(p);
+    }
+  }
+  return withTag.filter((e) => !outer.has(e));
 }
-const isAncestor = (m, a, d) => { for (let p = m.parent.get(d); p; p = m.parent.get(p)) if (p === a) return true; return false; };
 
 /**
  * The element that html_change names: a ref with its hash, a text (and a tag), or an id (and a child tag and n). A
@@ -81,15 +111,22 @@ export function locate(m, a) {
   if (kinds.length !== 1) fail('give exactly one of "ref", "text" or "id"');
   if (a.tag !== undefined && a.text === undefined) fail('"tag" goes with "text"');
   if ((a.child !== undefined || a.n !== undefined) && a.id === undefined) fail('"child" and "n" go with "id"');
-  if (a.ref !== undefined) {
-    if (a.hash === undefined) fail('give "hash" with "ref"');
-    if (a.hash !== m.hash) fail('the file changed since the hash');
-    return element(m, a.ref);
-  }
+  if (a.n !== undefined && a.child === undefined) fail('"n" goes with "child"'); // review of v2, 3
+  // A hash is required with a ref and checked with any locator: a change built from an older view must not
+  // overwrite a newer file (security review of v2, 1).
+  if (a.ref !== undefined && a.hash === undefined) fail('give "hash" with "ref"');
+  if (a.hash !== undefined && a.hash !== m.hash) fail('the file changed since the hash');
+  // Every target passes the clean-range check before any offset is read (security review of v2, 6).
+  return element(m, pick(m, a).ref);
+}
+
+/** The element that a ref, a text or an id names, before the clean-range check. */
+function pick(m, a) {
+  if (a.ref !== undefined) return element(m, a.ref);
   if (a.text !== undefined) {
     const found = textTargets(m, a.text, a.tag);
     if (found.length !== 1) {
-      if (!found.length) fail(`no element${a.tag ? ` of the tag ${a.tag}` : ''} contains the text`);
+      if (!found.length) fail(`no element${a.tag ? ` of the tag ${shown(a.tag)}` : ''} contains the text`);
       fail(`${found.length} elements match; give a ref:\n${linesOf(m, found).join('\n')}\nhash ${m.hash}`);
     }
     return found[0];
@@ -97,8 +134,8 @@ export function locate(m, a) {
   const el = byId(m, a.id);
   if (a.child === undefined) return el;
   const n = a.n ?? 1;
-  const list = kids(el).filter((c) => c.tagName === a.child);
-  if (n < 1 || n > list.length) fail(`the element with the id "${a.id}" has ${list.length} child elements of the tag ${a.child}`);
+  const list = kids(el).filter((c) => c.tagName && sameTag(c, a.child));
+  if (n < 1 || n > list.length) fail(`the element with the id ${shown(a.id)} has ${list.length} child elements of the tag ${shown(a.child)}`);
   return list[n - 1];
 }
 
@@ -117,9 +154,11 @@ function setAttribute(m, el, name, value) {
   const at = loc.attrs?.[key];
   if (at) return own.slice(0, at.startOffset - s) + pair + own.slice(at.endOffset - s);
   if (!loc.startTag) fail('the element has no start tag in the file');
-  const end = loc.startTag.endOffset - s;
-  const cut = own.slice(0, end).endsWith('/>') ? end - 2 : end - 1;
-  return `${own.slice(0, cut)} ${pair}${own.slice(cut)}`;
+  // A new attribute goes right after the tag name: at the end of the tag, a "/" can belong to an unquoted value
+  // (`<a href=/docs/>`), so a cut before "/>" would change that value (review of v2, 1).
+  const name0 = /^<[^\s/>]+/.exec(own)?.[0];
+  if (!name0) fail('the element has no start tag in the file');
+  return `${own.slice(0, name0.length)} ${pair}${own.slice(name0.length)}`;
 }
 
 /**
@@ -127,6 +166,7 @@ function setAttribute(m, el, name, value) {
  * the visible text nodes of the element, inside one text node.
  */
 function replaceText(m, el, old, neu) {
+  if (!old.isWellFormed() || !neu.isWellFormed()) fail('the old or new text holds a lone surrogate');
   const want = old.replace(WS, ' ');
   if (!want.trim()) fail('the old text is empty');
   const hidden = new Set(m.els.filter(isHidden));
@@ -144,16 +184,26 @@ function replaceText(m, el, old, neu) {
         norm += ws ? ' ' : v[i];
         pos.push([i, i + 1]);
       }
-      for (let k = norm.indexOf(want); k !== -1; k = norm.indexOf(want, k + 1)) found.push({ n, a: pos[k][0], b: pos[k + want.length - 1][1] });
+      // Only "exactly 1" matters, so the search stops at the second match (security review of v2, 4).
+      for (let k = norm.indexOf(want); k !== -1 && found.length < 2; k = norm.indexOf(want, k + 1)) found.push({ n, a: pos[k][0], b: pos[k + want.length - 1][1] });
+      if (found.length > 1) break;
       continue;
     }
     if (n.tagName && (NOT_VISIBLE.has(n.tagName) || hidden.has(n))) continue;
     for (const c of [...kids(n)].reverse()) stack.push(c);
   }
-  if (found.length !== 1) fail(found.length ? `the old text occurs ${found.length} times in the element` : 'the old text is not in one text node of the element');
+  if (found.length !== 1) fail(found.length ? 'the old text occurs more than once in the element' : 'the old text is not in one text node of the element');
   const { n, a, b } = found[0];
+  // In a RAWTEXT element the browser shows "&amp;" as it is written, so an escaped new text would show wrong
+  // (review of v2, 5).
+  if (RAWTEXT.has(m.parent.get(n)?.tagName)) fail(`the text is inside a ${m.parent.get(n).tagName} element, whose text the tool cannot change`);
   const map = charMap(m.text, n);
   if (!map) fail('the text cannot be mapped to its bytes in the file');
+  // The old text must start and end at whole source characters: one reference such as "&copy2" decodes to 2
+  // characters, and half of it cannot be replaced alone (review of v2, 4).
+  if ((a > 0 && map[a - 1][0] === map[a][0]) || (b < map.length && map[b][0] === map[b - 1][0])) {
+    fail('the old text starts or ends inside one character reference of the file');
+  }
   const s = el.sourceCodeLocation.startOffset;
   const own = m.text.slice(s, el.sourceCodeLocation.endOffset);
   return own.slice(0, map[a][0] - s) + escText(neu) + own.slice(map[b - 1][1] - s);
@@ -166,7 +216,11 @@ function newSource(m, el, a) {
   switch (a.operation) {
     case 'remove': return '';
     case 'replace': return str('html');
-    case 'insert_after': return own + str('html');
+    case 'insert_after':
+      // With an implied end tag (`<p>first<p>second`), new HTML after the element's bytes would go inside it
+      // (review of v2, 2).
+      if (!el.sourceCodeLocation.endTag && !VOID.has(el.tagName)) fail('the element has no end tag in the file, so new HTML after it would go inside it');
+      return own + str('html');
     case 'set_attribute': return setAttribute(m, el, str('attribute'), str('value'));
     default: return replaceText(m, el, str('old'), str('new'));
   }
@@ -183,6 +237,9 @@ export function runToolV2(ws, name, args) {
     if (a[k] !== undefined && typeof a[k] !== 'string') fail(`the argument "${k}" is not a string`);
   }
   for (const k of ['ref', 'n', 'page']) if (a[k] !== undefined && !Number.isInteger(a[k])) fail(`the argument "${k}" is not an integer`);
+  for (const k of ['file', 'hash', 'text', 'tag', 'id', 'child', 'attribute']) {
+    if (a[k] !== undefined && a[k].length > MAX_ARG) fail(`the argument "${k}" is longer than ${MAX_ARG.toLocaleString('en-US')} characters`);
+  }
   // Before any parse (security review of v1, other finding 2).
   for (const k of ['html', 'value', 'old', 'new']) if (a[k] !== undefined && Buffer.byteLength(a[k]) > MAX_BYTES) fail(`the argument "${k}" is larger than 2 MB`);
   const f = ws.read(a.file ?? ws.onlyFile());
@@ -197,6 +254,7 @@ export function runToolV2(ws, name, args) {
   if (!OPERATIONS.includes(a.operation)) fail(`"operation" must be one of ${OPERATIONS.join(', ')}`);
   const el = locate(m, a);
   const html = newSource(m, el, a);
-  const note = fullHead(el).slice(0, 200);
+  // The ref and the tag only: after set_attribute, the element's old attributes would mislead (review of v2, 8).
+  const note = `@${el.ref} ${escTag(el.tagName)}`;
   return { write: { real: f.real, bytes: editBytes(m, f.bytes, el.ref, m.hash, html), oldHash: f.hash, id: f.id }, note };
 }

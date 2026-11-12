@@ -39,11 +39,11 @@ test('file is optional when the folder holds one .html file, and required with 0
   assert.match(one.call('html_find', { text: 'Pricing' }), /h2/);
   one.done();
   const two = space({ 'a.html': PAGE, 'b.html': PAGE });
-  refuses(() => two.call('html_find', { text: 'Pricing' }), /give "file": the workspace holds 2 \.html files/);
+  refuses(() => two.call('html_find', { text: 'Pricing' }), /give "file": the workspace holds 2 \.html or \.htm files/);
   assert.match(two.call('html_find', { text: 'Pricing', file: 'b.html' }), /h2/); // control: with a file it works
   two.done();
   const none = space({ 'a.txt': 'x' });
-  refuses(() => none.call('html_find', { text: 'x' }), /holds 0 \.html files/);
+  refuses(() => none.call('html_find', { text: 'x' }), /holds 0 \.html or \.htm files/);
   none.done();
 });
 
@@ -79,7 +79,7 @@ test('fullHead cuts a long value and names its length', () => {
 
 test('remove and replace by a text locator with a tag: the innermost element of that tag', () => {
   const s = space({ 'a.html': PAGE });
-  assert.match(s.call('html_change', { operation: 'replace', text: 'Pricing plans', tag: 'section', html: '<p>New text</p>' }), /changed @\d+ section\(class=big\)/);
+  assert.match(s.call('html_change', { operation: 'replace', text: 'Pricing plans', tag: 'section', html: '<p>New text</p>' }), /^ok; changed @\d+ section$/);
   assert.equal(s.read('a.html'), PAGE.replace(/<section class="big">[\s\S]*<\/section>/, '<p>New text</p>'));
   s.done();
   const r = space({ 'a.html': PAGE });
@@ -91,7 +91,7 @@ test('remove and replace by a text locator with a tag: the innermost element of 
 test('a locator that fits 0 or several elements changes nothing and lists the matches', () => {
   const s = space({ 'a.html': PAGE });
   refuses(() => s.call('html_change', { operation: 'remove', text: 'missing words' }), /no element contains the text/);
-  refuses(() => s.call('html_change', { operation: 'remove', text: 'Two', tag: 'section' }), /no element of the tag section/);
+  refuses(() => s.call('html_change', { operation: 'remove', text: 'Two', tag: 'section' }), /no element of the tag "section"/);
   refuses(() => s.call('html_change', { operation: 'remove', text: 'T' }), /^\d+ elements match; give a ref:\n[\s\S]*@\d+ li/);
   assert.equal(s.read('a.html'), PAGE);
   s.done();
@@ -101,20 +101,20 @@ test('the id locator with a child and n, and its refusals', () => {
   const s = space({ 'a.html': PAGE });
   s.call('html_change', { operation: 'set_attribute', id: 'nav', child: 'li', n: 2, attribute: 'class', value: 'updated-value-1' });
   assert.equal(s.read('a.html'), PAGE.replace('<li class="b" data-x="1">', '<li class="updated-value-1" data-x="1">'));
-  refuses(() => s.call('html_change', { operation: 'remove', id: 'nav', child: 'li', n: 4 }), /has 3 child elements of the tag li/);
+  refuses(() => s.call('html_change', { operation: 'remove', id: 'nav', child: 'li', n: 4 }), /the id "nav" has 3 child elements of the tag "li"/);
   refuses(() => s.call('html_change', { operation: 'remove', text: 'One', child: 'li' }), /"child" and "n" go with "id"/);
   refuses(() => s.call('html_change', { operation: 'remove', id: 'nav', tag: 'li' }), /"tag" goes with "text"/);
   s.done();
 });
 
-test('set_attribute adds a new attribute at the end of the start tag, also before />, and escapes the value', () => {
+test('set_attribute adds a new attribute right after the tag name, and escapes the value', () => {
   const s = space({ 'a.html': '<p class="a">x</p><img src="i.png"/>' });
   s.call('html_change', { operation: 'set_attribute', text: 'x', attribute: 'title', value: 'say "hi" & go' });
-  assert.equal(s.read('a.html'), '<p class="a" title="say &quot;hi&quot; &amp; go">x</p><img src="i.png"/>');
+  assert.equal(s.read('a.html'), '<p title="say &quot;hi&quot; &amp; go" class="a">x</p><img src="i.png"/>');
   const ref = Number(/@(\d+) img/.exec(s.call('html_outline', {}))[1]);
   const hash = /hash ([0-9a-f]{16})/.exec(s.call('html_outline', {}))[1];
   s.call('html_change', { operation: 'set_attribute', ref, hash, attribute: 'alt', value: 'pic' });
-  assert.equal(s.read('a.html'), '<p class="a" title="say &quot;hi&quot; &amp; go">x</p><img src="i.png" alt="pic"/>');
+  assert.equal(s.read('a.html'), '<p title="say &quot;hi&quot; &amp; go" class="a">x</p><img alt="pic" src="i.png"/>');
   refuses(() => s.call('html_change', { operation: 'set_attribute', text: 'x', attribute: 'a b', value: 'v' }), /attribute name is not valid/);
   s.done();
 });
@@ -128,7 +128,7 @@ test('replace_text replaces the source bytes of a visible text, entities and lin
 
 test('replace_text refuses a text that is missing, repeated, or across 2 text nodes', () => {
   const s = space({ 'a.html': '<div><p>ab ab</p><p>a <b>bold</b> c</p></div>' });
-  refuses(() => s.call('html_change', { operation: 'replace_text', text: 'ab ab', old: 'ab', new: 'x' }), /occurs 2 times/);
+  refuses(() => s.call('html_change', { operation: 'replace_text', text: 'ab ab', old: 'ab', new: 'x' }), /occurs more than once/);
   refuses(() => s.call('html_change', { operation: 'replace_text', text: 'bold', tag: 'p', old: 'a bold', new: 'x' }), /not in one text node/);
   refuses(() => s.call('html_change', { operation: 'replace_text', text: 'ab ab', old: '  ', new: 'x' }), /old text is empty/);
   // Control: one occurrence works.
