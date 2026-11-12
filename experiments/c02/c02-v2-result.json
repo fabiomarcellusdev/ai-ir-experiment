@@ -1,7 +1,7 @@
 {
  "gate": "C0.2 v2",
  "date": "2026-11-12",
- "commit": "4648f8930c0b8c442b4ec1dfff2cea3df83a21ac",
+ "commit": "20cb98dc3233750ad8148fb09595a5d6658e5299",
  "dev": false,
  "node": "v24.22.1",
  "machine": {
@@ -129,50 +129,37 @@
  "streamCase": true,
  "calls": 1290,
  "ms": {
-  "p50": 7,
-  "p99": 1171,
-  "max": 1836
+  "p50": 2,
+  "p99": 376,
+  "max": 427
  },
  "slowestCases": [
   [
-   "fostered-2mb.html:replace_text",
-   1836
-  ],
-  [
-   "fostered-2mb.html:set_attribute",
-   1669
-  ],
-  [
    "fostered-2mb.html:outline",
-   1397
+   427
   ],
   [
-   "fostered-2mb.html:insert_after",
-   1269
+   "long-text.html:replace_text",
+   403
   ],
   [
-   "tags-20000.html:outline",
-   1249
+   "fostered-2mb.html:remove",
+   396
+  ],
+  [
+   "time:long-text",
+   363
+  ],
+  [
+   "fostered-2mb.html:replace_text",
+   339
   ]
  ],
  "noWrongEdit": {
   "changes": 76,
   "accepted": 70
  },
- "failures": [
-  {
-   "run": 5,
-   "caseId": "fostered-2mb.html:set_attribute",
-   "tool": "html_change",
-   "reason": "c7: the call reached the server's time limit"
-  },
-  {
-   "run": 5,
-   "caseId": "fostered-2mb.html:replace_text",
-   "tool": "html_change",
-   "reason": "c7: the call reached the server's time limit"
-  }
- ],
+ "failures": [],
  "controls": {
   "a planted backtracking regex": {
    "condition": "c7",
@@ -236,5 +223,5 @@
    "ok": true
   }
  },
- "verdict": "FAIL"
+ "verdict": "PASS"
 }
