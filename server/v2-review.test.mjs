@@ -7,7 +7,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { openWorkspace } from './workspace.mjs';
 import { runToolV2, fullHead, MAX_ARG } from './v2.mjs';
-import { load, PAGE_CHARS } from './view.mjs';
+import { load, PAGE_CHARS, element } from './view.mjs';
 import { ToolError } from './errors.mjs';
 
 function space(text, name = 'a.html') {
@@ -158,6 +158,15 @@ test('gate-text review 5: replace_text refuses to start a pre with a line break;
   s.call('html_change', { operation: 'replace_text', text: 'abc', old: 'abc', new: 'xyz' });
   assert.equal(s.read(), '<pre>xyz\ndef</pre>');
   s.done();
+});
+
+test('the marker parse of an element runs once for each view (the result is kept)', () => {
+  const m = load('<div>Q<table><tr><td>x</td>X</tr></table></div>', 'h');
+  const td = m.els.find((e) => e.tagName === 'td');
+  assert.equal(m.ranges.get(td), 'check'); // fostered text: the range needs the marker parse
+  element(m, td.ref);
+  assert.equal(m.ranges.get(td), true);
+  assert.equal(element(m, td.ref), td); // control: a second call still gives the element
 });
 
 test('hidden text is skipped by the text locator; control: the same text when not hidden', () => {

@@ -349,7 +349,13 @@ export function element(m, ref) {
   const el = m.els[ref];
   if (!el.sourceCodeLocation) fail(`@${ref} has no source bytes; the parser created it`);
   const r = m.ranges.get(el);
-  if (!r || (r === CHECK && !exactRange(m, el))) fail(`@${ref} has no clean range in the file`);
+  if (r === CHECK) {
+    // The marker parse decides once for each element of a view: a v2 change asks for the element twice (once to
+    // locate it, once to splice it), and each parse of a 2 MB file takes about 0.6 s (C0.2 v2 development run).
+    const exact = exactRange(m, el);
+    m.ranges.set(el, exact);
+    if (!exact) fail(`@${ref} has no clean range in the file`);
+  } else if (!r) fail(`@${ref} has no clean range in the file`);
   return el;
 }
 
