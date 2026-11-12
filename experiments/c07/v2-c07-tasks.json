@@ -1,0 +1,1152 @@
+{
+ "gate": "c07",
+ "tools": "v2",
+ "preview": false,
+ "seed": 20261112,
+ "offsetUnit": "UTF-16 code units of the file as text",
+ "skipped": [],
+ "readTokens": {
+  "1": [
+   [
+    44,
+    1017
+   ],
+   [
+    106,
+    2024
+   ],
+   [
+    114,
+    1495
+   ],
+   [
+    121,
+    1377
+   ],
+   [
+    194,
+    1436
+   ],
+   [
+    219,
+    2761
+   ]
+  ],
+  "2": [
+   [
+    24,
+    1265
+   ],
+   [
+    28,
+    1189
+   ],
+   [
+    35,
+    885
+   ],
+   [
+    86,
+    1293
+   ],
+   [
+    139,
+    1392
+   ],
+   [
+    194,
+    2610
+   ],
+   [
+    255,
+    2105
+   ],
+   [
+    328,
+    2505
+   ],
+   [
+    417,
+    1119
+   ],
+   [
+    458,
+    3253
+   ]
+  ],
+  "3": [
+   [
+    133,
+    1606
+   ],
+   [
+    138,
+    1300
+   ],
+   [
+    143,
+    1120
+   ],
+   [
+    166,
+    826
+   ],
+   [
+    216,
+    16894
+   ],
+   [
+    269,
+    1258
+   ],
+   [
+    270,
+    1212
+   ],
+   [
+    340,
+    2991
+   ],
+   [
+    629,
+    964
+   ],
+   [
+    663,
+    5985
+   ]
+  ],
+  "4": [
+   [
+    33,
+    1440
+   ],
+   [
+    50,
+    1225
+   ],
+   [
+    132,
+    1964
+   ],
+   [
+    159,
+    2444
+   ],
+   [
+    198,
+    1660
+   ],
+   [
+    231,
+    1099
+   ]
+  ],
+  "5": [
+   [
+    4,
+    12343
+   ],
+   [
+    24,
+    1135
+   ],
+   [
+    267,
+    1136
+   ],
+   [
+    268,
+    1102
+   ]
+  ],
+  "6": [
+   [
+    73,
+    7998
+   ],
+   [
+    74,
+    3784
+   ],
+   [
+    77,
+    3777
+   ],
+   [
+    78,
+    984
+   ],
+   [
+    175,
+    1333
+   ],
+   [
+    176,
+    1333
+   ],
+   [
+    222,
+    3903
+   ]
+  ],
+  "7": [
+   [
+    498,
+    1133
+   ],
+   [
+    500,
+    1087
+   ],
+   [
+    501,
+    1066
+   ],
+   [
+    502,
+    1042
+   ]
+  ],
+  "8": [
+   [
+    25,
+    8845
+   ],
+   [
+    330,
+    9843
+   ],
+   [
+    331,
+    9819
+   ],
+   [
+    341,
+    9476
+   ]
+  ],
+  "9": [
+   [
+    120,
+    1985
+   ],
+   [
+    179,
+    3670
+   ],
+   [
+    180,
+    3649
+   ],
+   [
+    414,
+    2019
+   ]
+  ],
+  "10": [
+   [
+    13,
+    15336
+   ],
+   [
+    20,
+    1658
+   ],
+   [
+    127,
+    3617
+   ],
+   [
+    340,
+    2686
+   ],
+   [
+    608,
+    3710
+   ]
+  ]
+ },
+ "tasks": [
+  {
+   "id": "1-removal-1",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/v2-c07/1/example.html",
+   "type": "removal",
+   "ref": 106,
+   "tag": "section",
+   "quote": "ECG — STEMI Criteria Met",
+   "prompt": "Remove the `section` element that contains the text \"ECG — STEMI Criteria Met\". If several `section` elements contain it, remove the innermost one.",
+   "range": [
+    11946,
+    15751
+   ],
+   "change": [
+    11946,
+    15751,
+    ""
+   ],
+   "readTokens": 2024,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/1-removal-1.html",
+   "expectedSha256": "b576b0787aa83f1c7f553d8ee5cb274fc6a679f11f5a270d6f66b97c6c986531"
+  },
+  {
+   "id": "1-replacement-1",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/v2-c07/1/example.html",
+   "type": "replacement",
+   "ref": 44,
+   "tag": "section",
+   "quote": "⚠ Critical — Activate Cath Lab",
+   "prompt": "Replace the `section` element that contains the text \"⚠ Critical — Activate Cath Lab\" with `<p>New text</p>`. If several `section` elements contain it, replace the innermost one.",
+   "range": [
+    8530,
+    10514
+   ],
+   "change": [
+    8530,
+    10514,
+    "<p>New text</p>"
+   ],
+   "readTokens": 1017,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/1-replacement-1.html",
+   "expectedSha256": "16ea276662a76a542686220a9a2fa6ef3b98cb9a3e4c8cfb23b4cda23768d72e"
+  },
+  {
+   "id": "1-removal-2",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/v2-c07/1/example.html",
+   "type": "removal",
+   "ref": 194,
+   "tag": "section",
+   "quote": "Inferior ST-Elevation Myocardial Infarction (STEMI) complicated",
+   "prompt": "Remove the `section` element that contains the text \"Inferior ST-Elevation Myocardial Infarction (STEMI) complicated\". If several `section` elements contain it, remove the innermost one.",
+   "range": [
+    15827,
+    19086
+   ],
+   "change": [
+    15827,
+    19086,
+    ""
+   ],
+   "readTokens": 1436,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/1-removal-2.html",
+   "expectedSha256": "9d75609b2c0a25d85efdfc50c10066353f0eb35a00f5a9d530b68c832760e8e3"
+  },
+  {
+   "id": "1-replacement-2",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/v2-c07/1/example.html",
+   "type": "replacement",
+   "ref": 114,
+   "tag": "table",
+   "quote": "Troponin I (high-sensitivity)",
+   "prompt": "Replace the `table` element that contains the text \"Troponin I (high-sensitivity)\" with `<p>New text</p>`. If several `table` elements contain it, replace the innermost one.",
+   "range": [
+    12509,
+    15182
+   ],
+   "change": [
+    12509,
+    15182,
+    "<p>New text</p>"
+   ],
+   "readTokens": 1495,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/1-replacement-2.html",
+   "expectedSha256": "4bc85dca0652bd5a5991a56c0d5fd12e9fa76258abe10edde47a679e2f4ef7a4"
+  },
+  {
+   "id": "2-removal-1",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/v2-c07/2/index.html",
+   "type": "removal",
+   "ref": 24,
+   "tag": "header",
+   "quote": "Blog Grid Page",
+   "prompt": "Remove the `header` element that contains the text \"Blog Grid Page\". If several `header` elements contain it, remove the innermost one.",
+   "range": [
+    2056,
+    5514
+   ],
+   "change": [
+    2056,
+    5514,
+    ""
+   ],
+   "readTokens": 1265,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/2-removal-1.html",
+   "expectedSha256": "41000a4f91c22d830d9e747420b80288023ee5fbb2e747a32e81976f04a7e39b"
+  },
+  {
+   "id": "2-replacement-1",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/v2-c07/2/index.html",
+   "type": "replacement",
+   "ref": 328,
+   "tag": "section",
+   "quote": "Meet The Team",
+   "prompt": "Replace the `section` element that contains the text \"Meet The Team\" with `<p>New text</p>`. If several `section` elements contain it, replace the innermost one.",
+   "range": [
+    28745,
+    35216
+   ],
+   "change": [
+    28745,
+    35216,
+    "<p>New text</p>"
+   ],
+   "readTokens": 2505,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/2-replacement-1.html",
+   "expectedSha256": "3b8ccaa4cc466226c1d27d46a6a0410c9a849425efa9cd991e0e9e65454e9133"
+  },
+  {
+   "id": "2-removal-2",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/v2-c07/2/index.html",
+   "type": "removal",
+   "ref": 28,
+   "tag": "nav",
+   "quote": "Blog Grid Page",
+   "prompt": "Remove the `nav` element that contains the text \"Blog Grid Page\". If several `nav` elements contain it, remove the innermost one.",
+   "range": [
+    2185,
+    5455
+   ],
+   "change": [
+    2185,
+    5455,
+    ""
+   ],
+   "readTokens": 1189,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/2-removal-2.html",
+   "expectedSha256": "aefb5f980417c69c9c7dab4bc01746a1e7509bd205d23f00980d8859e4a8ed05"
+  },
+  {
+   "id": "2-replacement-2",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/v2-c07/2/index.html",
+   "type": "replacement",
+   "ref": 139,
+   "tag": "section",
+   "quote": "Our Pricing Plans",
+   "prompt": "Replace the `section` element that contains the text \"Our Pricing Plans\" with `<p>New text</p>`. If several `section` elements contain it, replace the innermost one.",
+   "range": [
+    12226,
+    15674
+   ],
+   "change": [
+    12226,
+    15674,
+    "<p>New text</p>"
+   ],
+   "readTokens": 1392,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/2-replacement-2.html",
+   "expectedSha256": "78fb701cbc10e3d2011bdb4c5834c5fa036b141bd866161fd3a6524e79ae0061"
+  },
+  {
+   "id": "3-removal-1",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/v2-c07/3/index.html",
+   "type": "removal",
+   "ref": 663,
+   "tag": "footer",
+   "quote": "Ready for your next adventure? Let's",
+   "prompt": "Remove the `footer` element that contains the text \"Ready for your next adventure? Let's\". If several `footer` elements contain it, remove the innermost one.",
+   "range": [
+    78139,
+    91760
+   ],
+   "change": [
+    78139,
+    91760,
+    ""
+   ],
+   "readTokens": 5985,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/3-removal-1.html",
+   "expectedSha256": "3ecacea4c4e14c901c524afbae0a62c1b4194b95f4a4a118309139181a5cd87a"
+  },
+  {
+   "id": "3-replacement-1",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/v2-c07/3/index.html",
+   "type": "replacement",
+   "ref": 270,
+   "tag": "div",
+   "quote": "Best trip packages",
+   "prompt": "Replace the `div` element that contains the text \"Best trip packages\" with `<p>New text</p>`. If several `div` elements contain it, replace the innermost one.",
+   "range": [
+    37097,
+    40083
+   ],
+   "change": [
+    37097,
+    40083,
+    "<p>New text</p>"
+   ],
+   "readTokens": 1212,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/3-replacement-1.html",
+   "expectedSha256": "adf9af04aa3500610da5bb7187fa5469300d5197642be9ccf75f4da912d6db5b"
+  },
+  {
+   "id": "3-removal-2",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/v2-c07/3/index.html",
+   "type": "removal",
+   "ref": 216,
+   "tag": "div",
+   "quote": "Local Events and Festival",
+   "prompt": "Remove the `div` element that contains the text \"Local Events and Festival\". If several `div` elements contain it, remove the innermost one.",
+   "range": [
+    31830,
+    72561
+   ],
+   "change": [
+    31830,
+    72561,
+    ""
+   ],
+   "readTokens": 16894,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/3-removal-2.html",
+   "expectedSha256": "7ded416b04070672a70ba4829d57a7a6920f0f5f6142ecfff6952d4a7e502bd8"
+  },
+  {
+   "id": "3-replacement-2",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/v2-c07/3/index.html",
+   "type": "replacement",
+   "ref": 166,
+   "tag": "section",
+   "quote": "Welcome to TourGuide, your trusted companion",
+   "prompt": "Replace the `section` element that contains the text \"Welcome to TourGuide, your trusted companion\" with `<p>New text</p>`. If several `section` elements contain it, replace the innermost one.",
+   "range": [
+    19551,
+    21951
+   ],
+   "change": [
+    19551,
+    21951,
+    "<p>New text</p>"
+   ],
+   "readTokens": 826,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/3-replacement-2.html",
+   "expectedSha256": "9020d4c648e9ac95e417e06aaa0f74297879cc09cbc7a18981321d56f212a66f"
+  },
+  {
+   "id": "4-removal-1",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/v2-c07/4/index.html",
+   "type": "removal",
+   "ref": 198,
+   "tag": "section",
+   "quote": "Read our articles for more insights",
+   "prompt": "Remove the `section` element that contains the text \"Read our articles for more insights\". If several `section` elements contain it, remove the innermost one.",
+   "range": [
+    30869,
+    35039
+   ],
+   "change": [
+    30869,
+    35039,
+    ""
+   ],
+   "readTokens": 1660,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/4-removal-1.html",
+   "expectedSha256": "dc44d245c486574b44d57af7be842de980bb22fb377acd6f18b100ce4e82f000"
+  },
+  {
+   "id": "4-replacement-1",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/v2-c07/4/index.html",
+   "type": "replacement",
+   "ref": 231,
+   "tag": "footer",
+   "quote": "2 Lord Edward St,",
+   "prompt": "Replace the `footer` element that contains the text \"2 Lord Edward St,\" with `<p>New text</p>`. If several `footer` elements contain it, replace the innermost one.",
+   "range": [
+    36118,
+    38756
+   ],
+   "change": [
+    36118,
+    38756,
+    "<p>New text</p>"
+   ],
+   "readTokens": 1099,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/4-replacement-1.html",
+   "expectedSha256": "058c51af8bf0617e15ae91553407cd28fad76dce781a532a03991ae842f9e633"
+  },
+  {
+   "id": "4-removal-2",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/v2-c07/4/index.html",
+   "type": "removal",
+   "ref": 159,
+   "tag": "section",
+   "quote": "Take your negotiation to next level",
+   "prompt": "Remove the `section` element that contains the text \"Take your negotiation to next level\". If several `section` elements contain it, remove the innermost one.",
+   "range": [
+    24384,
+    30859
+   ],
+   "change": [
+    24384,
+    30859,
+    ""
+   ],
+   "readTokens": 2444,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/4-removal-2.html",
+   "expectedSha256": "9dea42f5c430fe2c4715f5d72d9084fc90f8b2d7c0deb22ed77284ff88796de9"
+  },
+  {
+   "id": "4-replacement-2",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/v2-c07/4/index.html",
+   "type": "replacement",
+   "ref": 33,
+   "tag": "section",
+   "quote": "Lorem ipsum dolor sit amet consectetur,",
+   "prompt": "Replace the `section` element that contains the text \"Lorem ipsum dolor sit amet consectetur,\" with `<p>New text</p>`. If several `section` elements contain it, replace the innermost one.",
+   "range": [
+    4174,
+    7872
+   ],
+   "change": [
+    4174,
+    7872,
+    "<p>New text</p>"
+   ],
+   "readTokens": 1440,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/4-replacement-2.html",
+   "expectedSha256": "a0e6b09d314c5ea75fbd47318d07398ffa99611329c894ccc919c12d5d62a4ae"
+  },
+  {
+   "id": "5-removal-1",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/v2-c07/5/Stdlib.Hashtbl.html",
+   "type": "removal",
+   "ref": 24,
+   "tag": "div",
+   "quote": "parameter was not present and all",
+   "prompt": "Remove the `div` element that contains the text \"parameter was not present and all\". If several `div` elements contain it, remove the innermost one.",
+   "range": [
+    889,
+    3698
+   ],
+   "change": [
+    889,
+    3698,
+    ""
+   ],
+   "readTokens": 1135,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/5-removal-1.html",
+   "expectedSha256": "533996f91d982c1df1384cc4dda70ee65349bded887fdd754a57b2d98e91a226"
+  },
+  {
+   "id": "5-replacement-1",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/v2-c07/5/Stdlib.Hashtbl.html",
+   "type": "replacement",
+   "ref": 4,
+   "tag": "div",
+   "quote": "Unsynchronized accesses to a hash table",
+   "prompt": "Replace the `div` element that contains the text \"Unsynchronized accesses to a hash table\" with `<p>New text</p>`. If several `div` elements contain it, replace the innermost one.",
+   "range": [
+    44,
+    26141
+   ],
+   "change": [
+    44,
+    26141,
+    "<p>New text</p>"
+   ],
+   "readTokens": 12343,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/5-replacement-1.html",
+   "expectedSha256": "199c32e51a70da5d9e957d8be6453c5a00aa2e4d785fe2a1ba9020c491ec5e1a"
+  },
+  {
+   "id": "5-removal-2",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/v2-c07/5/Stdlib.Hashtbl.html",
+   "type": "removal",
+   "ref": 268,
+   "tag": "tbody",
+   "quote": "Number of bindings present in the",
+   "prompt": "Remove the `tbody` element that contains the text \"Number of bindings present in the\". If several `tbody` elements contain it, remove the innermost one.",
+   "range": [
+    14981,
+    17213
+   ],
+   "change": [
+    14981,
+    17213,
+    ""
+   ],
+   "readTokens": 1102,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/5-removal-2.html",
+   "expectedSha256": "f4ee1852a6c9c6985d9219265e1c005e3bda6d4d09afe6a36fca2c9b88b587a0"
+  },
+  {
+   "id": "5-replacement-2",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/v2-c07/5/Stdlib.Hashtbl.html",
+   "type": "replacement",
+   "ref": 267,
+   "tag": "table",
+   "quote": "Number of bindings present in the",
+   "prompt": "Replace the `table` element that contains the text \"Number of bindings present in the\" with `<p>New text</p>`. If several `table` elements contain it, replace the innermost one.",
+   "range": [
+    14955,
+    17221
+   ],
+   "change": [
+    14955,
+    17221,
+    "<p>New text</p>"
+   ],
+   "readTokens": 1136,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/5-replacement-2.html",
+   "expectedSha256": "cec5bf9f8d905bdd608f9818a608a73d94b7543140f014e52b457c754e5eee57"
+  },
+  {
+   "id": "6-removal-1",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/v2-c07/6/index.html",
+   "type": "removal",
+   "ref": 73,
+   "tag": "main",
+   "quote": "API rules and filters",
+   "prompt": "Remove the `main` element that contains the text \"API rules and filters\". If several `main` elements contain it, remove the innermost one.",
+   "range": [
+    6652,
+    27123
+   ],
+   "change": [
+    6652,
+    27123,
+    ""
+   ],
+   "readTokens": 7998,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/6-removal-1.html",
+   "expectedSha256": "70f93d51121d69f64854392397fd984746d3d72906ad3b80e5a753693070936f"
+  },
+  {
+   "id": "6-replacement-1",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/v2-c07/6/index.html",
+   "type": "replacement",
+   "ref": 74,
+   "tag": "aside",
+   "quote": "API rules and filters",
+   "prompt": "Replace the `aside` element that contains the text \"API rules and filters\" with `<p>New text</p>`. If several `aside` elements contain it, replace the innermost one.",
+   "range": [
+    6708,
+    16191
+   ],
+   "change": [
+    6708,
+    16191,
+    "<p>New text</p>"
+   ],
+   "readTokens": 3784,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/6-replacement-1.html",
+   "expectedSha256": "bb63a4b11ae8174e32c4553b945379f445ca20415617164adc7740a2019f65c8"
+  },
+  {
+   "id": "6-removal-2",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/v2-c07/6/index.html",
+   "type": "removal",
+   "ref": 77,
+   "tag": "div",
+   "quote": "API rules and filters",
+   "prompt": "Remove the `div` element that contains the text \"API rules and filters\". If several `div` elements contain it, remove the innermost one.",
+   "range": [
+    6847,
+    16170
+   ],
+   "change": [
+    6847,
+    16170,
+    ""
+   ],
+   "readTokens": 3777,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/6-removal-2.html",
+   "expectedSha256": "75551859a40d28e8e18e6f65cc1fd5e4e5ffb6ace20349f54d04ab836f4dab9f"
+  },
+  {
+   "id": "6-replacement-2",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/v2-c07/6/index.html",
+   "type": "replacement",
+   "ref": 175,
+   "tag": "div",
+   "quote": "Sending HTTP requests",
+   "prompt": "Replace the `div` element that contains the text \"Sending HTTP requests\" with `<p>New text</p>`. If several `div` elements contain it, replace the innermost one.",
+   "range": [
+    12886,
+    16152
+   ],
+   "change": [
+    12886,
+    16152,
+    "<p>New text</p>"
+   ],
+   "readTokens": 1333,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/6-replacement-2.html",
+   "expectedSha256": "9326e822d83a9177c22ed03339f2d58317377d644184c7e4d23b0e570f78eaea"
+  },
+  {
+   "id": "7-removal-1",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/v2-c07/7/ui-typography.html",
+   "type": "removal",
+   "ref": 500,
+   "tag": "div",
+   "quote": "You can use the mark tag",
+   "prompt": "Remove the `div` element that contains the text \"You can use the mark tag\". If several `div` elements contain it, remove the innermost one.",
+   "range": [
+    44511,
+    48039
+   ],
+   "change": [
+    44511,
+    48039,
+    ""
+   ],
+   "readTokens": 1087,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/7-removal-1.html",
+   "expectedSha256": "a715930bf0f0a34e6c8bd15ca2e11ca42b437e7412e7ca20fdea80728322f380"
+  },
+  {
+   "id": "7-replacement-1",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/v2-c07/7/ui-typography.html",
+   "type": "replacement",
+   "ref": 498,
+   "tag": "div",
+   "quote": "Inline Text Elements",
+   "prompt": "Replace the `div` element that contains the text \"Inline Text Elements\" with `<p>New text</p>`. If several `div` elements contain it, replace the innermost one.",
+   "range": [
+    44402,
+    48064
+   ],
+   "change": [
+    44402,
+    48064,
+    "<p>New text</p>"
+   ],
+   "readTokens": 1133,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/7-replacement-1.html",
+   "expectedSha256": "583389242118d6220a0b4d5257238972310c1f670f88c432145351cd9aa7bbc4"
+  },
+  {
+   "id": "7-removal-2",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/v2-c07/7/ui-typography.html",
+   "type": "removal",
+   "ref": 502,
+   "tag": "tbody",
+   "quote": "You can use the mark tag",
+   "prompt": "Remove the `tbody` element that contains the text \"You can use the mark tag\". If several `tbody` elements contain it, remove the innermost one.",
+   "range": [
+    44620,
+    47981
+   ],
+   "change": [
+    44620,
+    47981,
+    ""
+   ],
+   "readTokens": 1042,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/7-removal-2.html",
+   "expectedSha256": "26d8d80f89be5216ba6c971ae726eafc13bb2b834bf51688fc3496710b5e093d"
+  },
+  {
+   "id": "7-replacement-2",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/v2-c07/7/ui-typography.html",
+   "type": "replacement",
+   "ref": 501,
+   "tag": "table",
+   "quote": "You can use the mark tag",
+   "prompt": "Replace the `table` element that contains the text \"You can use the mark tag\" with `<p>New text</p>`. If several `table` elements contain it, replace the innermost one.",
+   "range": [
+    44557,
+    48012
+   ],
+   "change": [
+    44557,
+    48012,
+    "<p>New text</p>"
+   ],
+   "readTokens": 1066,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/7-replacement-2.html",
+   "expectedSha256": "47d634e14cc52d772eaa9fda856f9148dc294995a26c6352794aee694e9e17d5"
+  },
+  {
+   "id": "8-removal-1",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/v2-c07/8/popover-tooltip.html",
+   "type": "removal",
+   "ref": 330,
+   "tag": "header",
+   "quote": "You have 5 notifications",
+   "prompt": "Remove the `header` element that contains the text \"You have 5 notifications\". If several `header` elements contain it, remove the innermost one.",
+   "range": [
+    28918,
+    59160
+   ],
+   "change": [
+    28918,
+    59160,
+    ""
+   ],
+   "readTokens": 9843,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/8-removal-1.html",
+   "expectedSha256": "1c38bf9952a52c3120afd5b9eec4d48f66bce24e3f283b361530294f3c855611"
+  },
+  {
+   "id": "8-replacement-1",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/v2-c07/8/popover-tooltip.html",
+   "type": "replacement",
+   "ref": 331,
+   "tag": "nav",
+   "quote": "You have 5 notifications",
+   "prompt": "Replace the `nav` element that contains the text \"You have 5 notifications\" with `<p>New text</p>`. If several `nav` elements contain it, replace the innermost one.",
+   "range": [
+    28972,
+    59140
+   ],
+   "change": [
+    28972,
+    59140,
+    "<p>New text</p>"
+   ],
+   "readTokens": 9819,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/8-replacement-1.html",
+   "expectedSha256": "e7870062595b66fbef312679885c5d6cb89dc1cb9bcd10c87edb995ca476c797"
+  },
+  {
+   "id": "8-removal-2",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/v2-c07/8/popover-tooltip.html",
+   "type": "removal",
+   "ref": 341,
+   "tag": "div",
+   "quote": "You have 5 notifications",
+   "prompt": "Remove the `div` element that contains the text \"You have 5 notifications\". If several `div` elements contain it, remove the innermost one.",
+   "range": [
+    29901,
+    59121
+   ],
+   "change": [
+    29901,
+    59121,
+    ""
+   ],
+   "readTokens": 9476,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/8-removal-2.html",
+   "expectedSha256": "567b29551994a08dc65b2878076ec76d5fef17d398d4797778addb90383036bc"
+  },
+  {
+   "id": "8-replacement-2",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/v2-c07/8/popover-tooltip.html",
+   "type": "replacement",
+   "ref": 25,
+   "tag": "aside",
+   "quote": "Checkbox & Radio",
+   "prompt": "Replace the `aside` element that contains the text \"Checkbox & Radio\" with `<p>New text</p>`. If several `aside` elements contain it, replace the innermost one.",
+   "range": [
+    3078,
+    28706
+   ],
+   "change": [
+    3078,
+    28706,
+    "<p>New text</p>"
+   ],
+   "readTokens": 8845,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/8-replacement-2.html",
+   "expectedSha256": "96991dda4d2fd39adc10814fbebb16670327ba62fdfc01fc93837635e1c854a5"
+  },
+  {
+   "id": "9-removal-1",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/v2-c07/9/pricing-table.html",
+   "type": "removal",
+   "ref": 120,
+   "tag": "div",
+   "quote": "Menu Dropdown Icon",
+   "prompt": "Remove the `div` element that contains the text \"Menu Dropdown Icon\". If several `div` elements contain it, remove the innermost one.",
+   "range": [
+    8325,
+    13054
+   ],
+   "change": [
+    8325,
+    13054,
+    ""
+   ],
+   "readTokens": 1985,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/9-removal-1.html",
+   "expectedSha256": "23a61d0631cb213caa561c6159a428b91497e3b170107092657014cfaeed1809"
+  },
+  {
+   "id": "9-replacement-1",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/v2-c07/9/pricing-table.html",
+   "type": "replacement",
+   "ref": 179,
+   "tag": "div",
+   "quote": "Dashboard style 1",
+   "prompt": "Replace the `div` element that contains the text \"Dashboard style 1\" with `<p>New text</p>`. If several `div` elements contain it, replace the innermost one.",
+   "range": [
+    13518,
+    21837
+   ],
+   "change": [
+    13518,
+    21837,
+    "<p>New text</p>"
+   ],
+   "readTokens": 3670,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/9-replacement-1.html",
+   "expectedSha256": "616da59e83d5dc81093ff409af9376425a959eb1a8295aa34fa5121379e160bd"
+  },
+  {
+   "id": "9-removal-2",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/v2-c07/9/pricing-table.html",
+   "type": "removal",
+   "ref": 180,
+   "tag": "ul",
+   "quote": "Multi Level Menu",
+   "prompt": "Remove the `ul` element that contains the text \"Multi Level Menu\". If several `ul` elements contain it, remove the innermost one.",
+   "range": [
+    13550,
+    21826
+   ],
+   "change": [
+    13550,
+    21826,
+    ""
+   ],
+   "readTokens": 3649,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/9-removal-2.html",
+   "expectedSha256": "58fc9505079dc81b9dbf78d928c2eda7bdcb7cec882e2c6bfbdee1e4b41a18fd"
+  },
+  {
+   "id": "9-replacement-2",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/v2-c07/9/pricing-table.html",
+   "type": "replacement",
+   "ref": 414,
+   "tag": "div",
+   "quote": "Pricing Table Style 1",
+   "prompt": "Replace the `div` element that contains the text \"Pricing Table Style 1\" with `<p>New text</p>`. If several `div` elements contain it, replace the innermost one.",
+   "range": [
+    22543,
+    27575
+   ],
+   "change": [
+    22543,
+    27575,
+    "<p>New text</p>"
+   ],
+   "readTokens": 2019,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/9-replacement-2.html",
+   "expectedSha256": "9dd9caacfd2297527343180d97fd896cbb4200ad4e15754a936bac150c79e0c3"
+  },
+  {
+   "id": "10-removal-1",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/v2-c07/10/ui-buttons.component.html",
+   "type": "removal",
+   "ref": 340,
+   "tag": "div",
+   "quote": "Normal split buttons:",
+   "prompt": "Remove the `div` element that contains the text \"Normal split buttons:\". If several `div` elements contain it, remove the innermost one.",
+   "range": [
+    17349,
+    24592
+   ],
+   "change": [
+    17349,
+    24592,
+    ""
+   ],
+   "readTokens": 2686,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/10-removal-1.html",
+   "expectedSha256": "ced735f6a25c2b1ab8c87e57e211fad87e5b84830378e1c5eecde47de77e46ee"
+  },
+  {
+   "id": "10-replacement-1",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/v2-c07/10/ui-buttons.component.html",
+   "type": "replacement",
+   "ref": 13,
+   "tag": "section",
+   "quote": "Various types of buttons. Using the",
+   "prompt": "Replace the `section` element that contains the text \"Various types of buttons. Using the\" with `<p>New text</p>`. If several `section` elements contain it, replace the innermost one.",
+   "range": [
+    272,
+    40931
+   ],
+   "change": [
+    272,
+    40931,
+    "<p>New text</p>"
+   ],
+   "readTokens": 15336,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/10-replacement-1.html",
+   "expectedSha256": "13b9e46eb5769ff714f19ea2844f0b9cc371c791988868ca2155e80d4305ed4c"
+  },
+  {
+   "id": "10-removal-2",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/v2-c07/10/ui-buttons.component.html",
+   "type": "removal",
+   "ref": 608,
+   "tag": "div",
+   "quote": "Vertical button groups are easy to",
+   "prompt": "Remove the `div` element that contains the text \"Vertical button groups are easy to\". If several `div` elements contain it, remove the innermost one.",
+   "range": [
+    30550,
+    40887
+   ],
+   "change": [
+    30550,
+    40887,
+    ""
+   ],
+   "readTokens": 3710,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/10-removal-2.html",
+   "expectedSha256": "01b00f7db129e0380fd7d2ae62938ec90d647508334ef21e7e6800d8cb19c17c"
+  },
+  {
+   "id": "10-replacement-2",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/v2-c07/10/ui-buttons.component.html",
+   "type": "replacement",
+   "ref": 20,
+   "tag": "div",
+   "quote": "Various types of buttons. Using the",
+   "prompt": "Replace the `div` element that contains the text \"Various types of buttons. Using the\" with `<p>New text</p>`. If several `div` elements contain it, replace the innermost one.",
+   "range": [
+    520,
+    4913
+   ],
+   "change": [
+    520,
+    4913,
+    "<p>New text</p>"
+   ],
+   "readTokens": 1658,
+   "expected": "experiments/gate-files/c07/v2-c07/expected/10-replacement-2.html",
+   "expectedSha256": "1523e3775e96e6f133d45c9782b98e6a6012bc939bb1dd0bfdf647fa59a46082"
+  }
+ ]
+}

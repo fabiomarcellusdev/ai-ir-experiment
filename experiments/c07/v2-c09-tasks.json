@@ -1,0 +1,968 @@
+{
+ "gate": "c09",
+ "tools": "v2",
+ "preview": false,
+ "seed": 20261114,
+ "offsetUnit": "UTF-16 code units of the file as text",
+ "skipped": [],
+ "readTokens": {},
+ "tasks": [
+  {
+   "id": "1-question",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/v2-c09/1/index.html",
+   "type": "question",
+   "ref": 257,
+   "tag": "p",
+   "quote": "in northern India, captivates with its",
+   "causes": [
+    "whitespace"
+   ],
+   "attr": "class",
+   "answer": "card-info",
+   "prompt": "What is the value of the `class` attribute of the `p` element that contains the text \"in northern India, captivates with its\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    35623,
+    35821
+   ]
+  },
+  {
+   "id": "1-text",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/v2-c09/1/index.html",
+   "type": "text",
+   "ref": 227,
+   "tag": "p",
+   "quote": "built for the 1889 World's Fair,",
+   "causes": [
+    "whitespace"
+   ],
+   "newText": "Updated wording 1",
+   "prompt": "Change the text \"built for the 1889 World's Fair,\" to \"Updated wording 1\". Change nothing else.",
+   "range": [
+    32605,
+    32767
+   ],
+   "change": [
+    32685,
+    32734,
+    "Updated wording 1"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/1-text.html",
+   "expectedSha256": "755aa3c667f26f665bf92c550ff8752b878078661de74b49974d1644eb44d3d6"
+  },
+  {
+   "id": "1-attribute",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/v2-c09/1/index.html",
+   "type": "attribute",
+   "ref": 628,
+   "tag": "p",
+   "quote": "Depending on the terms and conditions",
+   "causes": [
+    "whitespace"
+   ],
+   "attr": "class",
+   "newValue": "updated-value-1",
+   "prompt": "In the `p` element that contains the text \"Depending on the terms and conditions\", set the `class` attribute to \"updated-value-1\". Change nothing else.",
+   "range": [
+    71820,
+    72509
+   ],
+   "change": [
+    71823,
+    71857,
+    "class=\"updated-value-1\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/1-attribute.html",
+   "expectedSha256": "660a169cad64e1417f998918bc59136d05ba67ddd52b1b25f9093c88f283346a"
+  },
+  {
+   "id": "1-structure",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/v2-c09/1/index.html",
+   "type": "structure",
+   "ref": 614,
+   "tag": "p",
+   "quote": "simple and convenient. Start by entering",
+   "causes": [
+    "whitespace"
+   ],
+   "op": "removal",
+   "prompt": "Remove the `p` element that contains the text \"simple and convenient. Start by entering\".",
+   "range": [
+    69549,
+    70158
+   ],
+   "change": [
+    69549,
+    70158,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/1-structure.html",
+   "expectedSha256": "13d6d632ebb6d71d7452cac97b0c5f8dd9c9c0ebfc405daf9269fc177300c08f"
+  },
+  {
+   "id": "2-question",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/v2-c09/2/index.html",
+   "type": "question",
+   "ref": 73,
+   "tag": "p",
+   "quote": "Template Built with Your Favourite Technology",
+   "causes": [
+    "whitespace"
+   ],
+   "attr": "class",
+   "answer": "ud-hero-desc",
+   "prompt": "What is the value of the `class` attribute of the `p` element that contains the text \"Template Built with Your Favourite Technology\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    5948,
+    6136
+   ]
+  },
+  {
+   "id": "2-text",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/v2-c09/2/index.html",
+   "type": "text",
+   "ref": 134,
+   "tag": "p",
+   "quote": "business applications with interactive panel discussions",
+   "causes": [
+    "whitespace"
+   ],
+   "newText": "Updated wording 2",
+   "prompt": "Change the text \"business applications with interactive panel discussions\" to \"Updated wording 2\". Change nothing else.",
+   "range": [
+    11339,
+    11623
+   ],
+   "change": [
+    11469,
+    11541,
+    "Updated wording 2"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/2-text.html",
+   "expectedSha256": "58061cd45d7a6b96cd1e0d08c5ef9ac46d1a4babc451e86d29434aaa21aa1617"
+  },
+  {
+   "id": "2-attribute",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/v2-c09/2/index.html",
+   "type": "attribute",
+   "ref": 556,
+   "tag": "p",
+   "quote": "Designed and Developed by UIdeck",
+   "causes": [
+    "inline tag",
+    "whitespace"
+   ],
+   "attr": "class",
+   "newValue": "updated-value-2",
+   "prompt": "In the `p` element that contains the text \"Designed and Developed by UIdeck\", set the `class` attribute to \"updated-value-2\". Change nothing else.",
+   "range": [
+    46456,
+    46622
+   ],
+   "change": [
+    46459,
+    46489,
+    "class=\"updated-value-2\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/2-attribute.html",
+   "expectedSha256": "c70eccbf50bfabf70a6a70154cf3750222cab9ff46dc4c7402619b45e0ed3e4b"
+  },
+  {
+   "id": "2-structure",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/v2-c09/2/index.html",
+   "type": "structure",
+   "ref": 472,
+   "tag": "p",
+   "quote": "for brands and companies by using",
+   "causes": [
+    "whitespace"
+   ],
+   "op": "insertion",
+   "prompt": "After the `p` element that contains the text \"for brands and companies by using\", add `<p>New text</p>`.",
+   "range": [
+    39382,
+    39382
+   ],
+   "change": [
+    39382,
+    39382,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/2-structure.html",
+   "expectedSha256": "76d692afbe9f2cd4e2fdd9ea25963dcd2d57dd02e657f4d717e473e08d7c5cc6"
+  },
+  {
+   "id": "3-question",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/v2-c09/3/example.html",
+   "type": "question",
+   "ref": 246,
+   "tag": "span",
+   "quote": "Cloud suite: 79.3",
+   "causes": [
+    "inline tag"
+   ],
+   "attr": "class",
+   "answer": "comp-mini",
+   "prompt": "What is the value of the `class` attribute of the `span` element that contains the text \"Cloud suite: 79.3\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    33183,
+    33238
+   ]
+  },
+  {
+   "id": "3-text",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/v2-c09/3/example.html",
+   "type": "text",
+   "ref": 65,
+   "tag": "span",
+   "quote": "Architecture & Numbers",
+   "causes": [
+    "entity"
+   ],
+   "newText": "Updated wording 3",
+   "prompt": "Change the text \"Architecture & Numbers\" to \"Updated wording 3\". Change nothing else.",
+   "range": [
+    19732,
+    19786
+   ],
+   "change": [
+    19753,
+    19779,
+    "Updated wording 3"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/3-text.html",
+   "expectedSha256": "2ef9bc7f13f7162f23a52ac775e12c83b469c30c31d27870f46771a99210e1ea"
+  },
+  {
+   "id": "3-attribute",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/v2-c09/3/example.html",
+   "type": "attribute",
+   "ref": 140,
+   "tag": "p",
+   "quote": "Security & control, local workflow, and",
+   "causes": [
+    "entity"
+   ],
+   "attr": "class",
+   "newValue": "updated-value-3",
+   "prompt": "In the `p` element that contains the text \"Security & control, local workflow, and\", set the `class` attribute to \"updated-value-3\". Change nothing else.",
+   "range": [
+    24181,
+    24342
+   ],
+   "change": [
+    24184,
+    24198,
+    "class=\"updated-value-3\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/3-attribute.html",
+   "expectedSha256": "c81e3d886801037a64cbbbefa9c6f5f3d61f018a2fc2a4cbb37cd949e8288c15"
+  },
+  {
+   "id": "3-structure",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/v2-c09/3/example.html",
+   "type": "structure",
+   "ref": 68,
+   "tag": "span",
+   "quote": "Rollout & the Ask",
+   "causes": [
+    "entity"
+   ],
+   "op": "removal",
+   "prompt": "Remove the `span` element that contains the text \"Rollout & the Ask\".",
+   "range": [
+    19876,
+    19928
+   ],
+   "change": [
+    19876,
+    19928,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/3-structure.html",
+   "expectedSha256": "3914bb8b076906b2f31f5b473f23c1ecd1a2392b277db8545b5230106248e17c"
+  },
+  {
+   "id": "4-question",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/v2-c09/4/index.html",
+   "type": "question",
+   "ref": 116,
+   "tag": "p",
+   "quote": "sit amet consectetur adipisicing elit. Quidem,",
+   "causes": [
+    "whitespace"
+   ],
+   "attr": "class",
+   "answer": "tw-mt-4 tw-italic tw-text-gray-600",
+   "prompt": "What is the value of the `class` attribute of the `p` element that contains the text \"sit amet consectetur adipisicing elit. Quidem,\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    18204,
+    18397
+   ]
+  },
+  {
+   "id": "4-text",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/v2-c09/4/index.html",
+   "type": "text",
+   "ref": 124,
+   "tag": "p",
+   "quote": "dolor, sit amet consectetur adipisicing elit.",
+   "causes": [
+    "whitespace"
+   ],
+   "newText": "Updated wording 4",
+   "prompt": "Change the text \"dolor, sit amet consectetur adipisicing elit.\" to \"Updated wording 4\". Change nothing else.",
+   "range": [
+    19450,
+    19705
+   ],
+   "change": [
+    19533,
+    19602,
+    "Updated wording 4"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/4-text.html",
+   "expectedSha256": "e43f06c5fe20d81a918f9f4ef1b810d62bfe6cc6d31b948db2bd4b5413193a0b"
+  },
+  {
+   "id": "4-attribute",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/v2-c09/4/index.html",
+   "type": "attribute",
+   "ref": 108,
+   "tag": "p",
+   "quote": "sit amet consectetur adipisicing elit. Inventore",
+   "causes": [
+    "whitespace"
+   ],
+   "attr": "class",
+   "newValue": "updated-value-4",
+   "prompt": "In the `p` element that contains the text \"sit amet consectetur adipisicing elit. Inventore\", set the `class` attribute to \"updated-value-4\". Change nothing else.",
+   "range": [
+    16854,
+    17150
+   ],
+   "change": [
+    16857,
+    16899,
+    "class=\"updated-value-4\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/4-attribute.html",
+   "expectedSha256": "28407c0156175350a4510b152650af2748b83b2425d0e735d43c9487ee4c041c"
+  },
+  {
+   "id": "4-structure",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/v2-c09/4/index.html",
+   "type": "structure",
+   "ref": 100,
+   "tag": "p",
+   "quote": "sit amet consectetur adipisicing elit. Voluptate,",
+   "causes": [
+    "whitespace"
+   ],
+   "op": "insertion",
+   "prompt": "After the `p` element that contains the text \"sit amet consectetur adipisicing elit. Voluptate,\", add `<p>New text</p>`.",
+   "range": [
+    15800,
+    15800
+   ],
+   "change": [
+    15800,
+    15800,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/4-structure.html",
+   "expectedSha256": "1fc0fb65d3cac2dcd9724d413848634f969cbcef8241985f4c83adf8e4a12857"
+  },
+  {
+   "id": "5-question",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/v2-c09/5/index.html",
+   "type": "question",
+   "ref": 270,
+   "tag": "p",
+   "quote": "and makes it depend on {@code",
+   "causes": [
+    "inline tag"
+   ],
+   "attr": "class",
+   "answer": "paragraph",
+   "prompt": "What is the value of the `class` attribute of the `p` element that contains the text \"and makes it depend on {@code\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    21547,
+    21782
+   ]
+  },
+  {
+   "id": "5-text",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/v2-c09/5/index.html",
+   "type": "text",
+   "ref": 155,
+   "tag": "p",
+   "quote": "stages in order to use .",
+   "causes": [
+    "whitespace"
+   ],
+   "newText": "Updated wording 5",
+   "prompt": "Change the text \"stages in order to use .\" to \"Updated wording 5\". Change nothing else.",
+   "range": [
+    11759,
+    11907
+   ],
+   "change": [
+    11877,
+    11902,
+    "Updated wording 5"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/5-text.html",
+   "expectedSha256": "04465595033cca8dfc8fb9f312dcb9c21ff8157d23aaa91cdebcf9bdc8051322"
+  },
+  {
+   "id": "5-attribute",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/v2-c09/5/index.html",
+   "type": "attribute",
+   "ref": 200,
+   "tag": "p",
+   "quote": "typically useful to implementors of StageDefinitionBuilder",
+   "causes": [
+    "inline tag"
+   ],
+   "attr": "class",
+   "newValue": "updated-value-5",
+   "prompt": "In the `p` element that contains the text \"typically useful to implementors of StageDefinitionBuilder\", set the `class` attribute to \"updated-value-5\". Change nothing else.",
+   "range": [
+    15634,
+    15883
+   ],
+   "change": [
+    15637,
+    15654,
+    "class=\"updated-value-5\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/5-attribute.html",
+   "expectedSha256": "87685f5cdd3cf860d382beebe4ccde855141fa974221149a4f74b66c7c591e33"
+  },
+  {
+   "id": "5-structure",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/v2-c09/5/index.html",
+   "type": "structure",
+   "ref": 78,
+   "tag": "p",
+   "quote": "dependent on any others. Use connect",
+   "causes": [
+    "inline tag"
+   ],
+   "op": "removal",
+   "prompt": "Remove the `p` element that contains the text \"dependent on any others. Use connect\".",
+   "range": [
+    5351,
+    5571
+   ],
+   "change": [
+    5351,
+    5571,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/5-structure.html",
+   "expectedSha256": "6c995d96babb2bc702c8f9c6567409abd63df64a628e1550f478ddc06f632432"
+  },
+  {
+   "id": "6-question",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/v2-c09/6/index.html",
+   "type": "question",
+   "ref": 151,
+   "tag": "nav",
+   "quote": "Go Overview Go Event hooks Go",
+   "causes": [
+    "inline tag",
+    "whitespace"
+   ],
+   "attr": "class",
+   "answer": "sidebar-list",
+   "prompt": "What is the value of the `class` attribute of the `nav` element that contains the text \"Go Overview Go Event hooks Go\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    11816,
+    14932
+   ]
+  },
+  {
+   "id": "6-text",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/v2-c09/6/index.html",
+   "type": "text",
+   "ref": 852,
+   "tag": "p",
+   "quote": "generated or part of a restore",
+   "causes": [
+    "whitespace"
+   ],
+   "newText": "Updated wording 6",
+   "prompt": "Change the text \"generated or part of a restore\" to \"Updated wording 6\". Change nothing else.",
+   "range": [
+    47040,
+    47181
+   ],
+   "change": [
+    47115,
+    47157,
+    "Updated wording 6"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/6-text.html",
+   "expectedSha256": "081f99b2ee78fd92fabd83a5173fea2abbbb794020348bbdc30de724bccd33f4"
+  },
+  {
+   "id": "6-attribute",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/v2-c09/6/index.html",
+   "type": "attribute",
+   "ref": 173,
+   "tag": "a",
+   "quote": "Go Jobs scheduling",
+   "causes": [
+    "inline tag",
+    "whitespace"
+   ],
+   "attr": "class",
+   "newValue": "updated-value-6",
+   "prompt": "In the `a` element that contains the text \"Go Jobs scheduling\", set the `class` attribute to \"updated-value-6\". Change nothing else.",
+   "range": [
+    13383,
+    13583
+   ],
+   "change": [
+    13418,
+    13435,
+    "class=\"updated-value-6\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/6-attribute.html",
+   "expectedSha256": "d4917edac1415e410dfc8ceee72c93c8b6513bc97d4d15acc78de4c8aeabe19b"
+  },
+  {
+   "id": "6-structure",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/v2-c09/6/index.html",
+   "type": "structure",
+   "ref": 1383,
+   "tag": "nav",
+   "quote": "JavaScript SDK Dart SDK",
+   "causes": [
+    "inline tag",
+    "whitespace"
+   ],
+   "op": "insertion",
+   "prompt": "After the `nav` element that contains the text \"JavaScript SDK Dart SDK\", add `<p>New text</p>`.",
+   "range": [
+    72081,
+    72081
+   ],
+   "change": [
+    72081,
+    72081,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/6-structure.html",
+   "expectedSha256": "b42c774562516c705be956728a21b5b07d403173886ecfc5e49d8381a70f71ec"
+  },
+  {
+   "id": "7-question",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/v2-c09/7/template-tedc15.html",
+   "type": "question",
+   "ref": 223,
+   "tag": "a",
+   "quote": "NPS on Twitter",
+   "causes": [
+    "inline tag"
+   ],
+   "attr": "target",
+   "answer": "_blank",
+   "prompt": "What is the value of the `target` attribute of the `a` element that contains the text \"NPS on Twitter\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    38718,
+    39127
+   ]
+  },
+  {
+   "id": "7-text",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/v2-c09/7/template-tedc15.html",
+   "type": "text",
+   "ref": 75,
+   "tag": "p",
+   "quote": "North Carolina & Tennessee",
+   "causes": [
+    "entity"
+   ],
+   "newText": "Updated wording 7",
+   "prompt": "Change the text \"North Carolina & Tennessee\" to \"Updated wording 7\". Change nothing else.",
+   "range": [
+    12342,
+    12600
+   ],
+   "change": [
+    12566,
+    12596,
+    "Updated wording 7"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/7-text.html",
+   "expectedSha256": "ad53ea4adb1935c60d25fcf34e0fb85ae5b7cc23f49b4c2b81e700993daf8fcf"
+  },
+  {
+   "id": "7-attribute",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/v2-c09/7/template-tedc15.html",
+   "type": "attribute",
+   "ref": 233,
+   "tag": "a",
+   "quote": "NPS on Instagram",
+   "causes": [
+    "inline tag"
+   ],
+   "attr": "data-ko-link",
+   "newValue": "updated-value-7",
+   "prompt": "In the `a` element that contains the text \"NPS on Instagram\", set the `data-ko-link` attribute to \"updated-value-7\". Change nothing else.",
+   "range": [
+    40355,
+    40775
+   ],
+   "change": [
+    40358,
+    40385,
+    "data-ko-link=\"updated-value-7\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/7-attribute.html",
+   "expectedSha256": "733667a6191d53525809fe2fabcf4acb12e1beb492516e7e037bc024bd2782c8"
+  },
+  {
+   "id": "7-structure",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/v2-c09/7/template-tedc15.html",
+   "type": "structure",
+   "ref": 108,
+   "tag": "p",
+   "quote": "Wyoming, Montana, & Idaho",
+   "causes": [
+    "entity"
+   ],
+   "op": "removal",
+   "prompt": "Remove the `p` element that contains the text \"Wyoming, Montana, & Idaho\".",
+   "range": [
+    18488,
+    18745
+   ],
+   "change": [
+    18488,
+    18745,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/7-structure.html",
+   "expectedSha256": "e8b4aa6a289f3d066e7644298c110a521fac512e4685963ca9efb708378905ca"
+  },
+  {
+   "id": "8-question",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/v2-c09/8/index3.html",
+   "type": "question",
+   "ref": 242,
+   "tag": "a",
+   "quote": "Tooltip & Popover",
+   "causes": [
+    "entity"
+   ],
+   "attr": "href",
+   "answer": "ui-tooltip-popover.html",
+   "prompt": "What is the value of the `href` attribute of the `a` element that contains the text \"Tooltip & Popover\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    16017,
+    16076
+   ]
+  },
+  {
+   "id": "8-text",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/v2-c09/8/index3.html",
+   "type": "text",
+   "ref": 412,
+   "tag": "p",
+   "quote": "amet, consectetur adipisicing elit. Unde hic",
+   "causes": [
+    "whitespace"
+   ],
+   "newText": "Updated wording 8",
+   "prompt": "Change the text \"amet, consectetur adipisicing elit. Unde hic\" to \"Updated wording 8\". Change nothing else.",
+   "range": [
+    22591,
+    22881
+   ],
+   "change": [
+    22655,
+    22707,
+    "Updated wording 8"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/8-text.html",
+   "expectedSha256": "551a1051a8a841d2e4957440c3f13ed9233e0a4d86fb17c1f73c2b31bf51578e"
+  },
+  {
+   "id": "8-attribute",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/v2-c09/8/index3.html",
+   "type": "attribute",
+   "ref": 582,
+   "tag": "a",
+   "quote": "STAR US ON GITHUB",
+   "causes": [
+    "inline tag",
+    "whitespace"
+   ],
+   "attr": "href",
+   "newValue": "updated-value-8",
+   "prompt": "In the `a` element that contains the text \"STAR US ON GITHUB\", set the `href` attribute to \"updated-value-8\". Change nothing else.",
+   "range": [
+    32551,
+    32827
+   ],
+   "change": [
+    32560,
+    32602,
+    "href=\"updated-value-8\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/8-attribute.html",
+   "expectedSha256": "0ad4b6a2d28e96d0b2eeaf3dcc1527c6425e200e0e46e90f7f4d7cca03d9d9c8"
+  },
+  {
+   "id": "8-structure",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/v2-c09/8/index3.html",
+   "type": "structure",
+   "ref": 117,
+   "tag": "h3",
+   "quote": "Layout Settings User Interface Settings",
+   "causes": [
+    "inline tag",
+    "whitespace"
+   ],
+   "op": "insertion",
+   "prompt": "After the `h3` element that contains the text \"Layout Settings User Interface Settings\", add `<p>New text</p>`.",
+   "range": [
+    8375,
+    8375
+   ],
+   "change": [
+    8375,
+    8375,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/8-structure.html",
+   "expectedSha256": "88eb2e55e913a08f04ce00b5294d182095877d265d474d4e9210daeef3c5f264"
+  },
+  {
+   "id": "9-question",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/v2-c09/9/index.html",
+   "type": "question",
+   "ref": 83,
+   "tag": "p",
+   "quote": "Cleopatra provides the building blocks you",
+   "causes": [
+    "whitespace"
+   ],
+   "attr": "class",
+   "answer": "text-muted mt-4! max-w-2xl mx-auto!",
+   "prompt": "What is the value of the `class` attribute of the `p` element that contains the text \"Cleopatra provides the building blocks you\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    8309,
+    8557
+   ]
+  },
+  {
+   "id": "9-text",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/v2-c09/9/index.html",
+   "type": "text",
+   "ref": 234,
+   "tag": "p",
+   "quote": "install dependencies, and start building. We've",
+   "causes": [
+    "whitespace"
+   ],
+   "newText": "Updated wording 9",
+   "prompt": "Change the text \"install dependencies, and start building. We've\" to \"Updated wording 9\". Change nothing else.",
+   "range": [
+    21736,
+    21993
+   ],
+   "change": [
+    21843,
+    21914,
+    "Updated wording 9"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/9-text.html",
+   "expectedSha256": "7077edbd2dc0180524cf289b038fab3a67dd94e9177fac221bdf8b7be7aaf29a"
+  },
+  {
+   "id": "9-attribute",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/v2-c09/9/index.html",
+   "type": "attribute",
+   "ref": 251,
+   "tag": "div",
+   "quote": "Get Started Star on GitHub",
+   "causes": [
+    "inline tag",
+    "whitespace"
+   ],
+   "attr": "class",
+   "newValue": "updated-value-9",
+   "prompt": "In the `div` element that contains the text \"Get Started Star on GitHub\", set the `class` attribute to \"updated-value-9\". Change nothing else.",
+   "range": [
+    23786,
+    24261
+   ],
+   "change": [
+    23791,
+    23840,
+    "class=\"updated-value-9\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/9-attribute.html",
+   "expectedSha256": "723e96c465cf59c73f6d4955501685bb04cfd122042434bd94527b05b429fdd2"
+  },
+  {
+   "id": "9-structure",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/v2-c09/9/index.html",
+   "type": "structure",
+   "ref": 114,
+   "tag": "p",
+   "quote": "for personal and commercial projects. Contribute",
+   "causes": [
+    "whitespace"
+   ],
+   "op": "removal",
+   "prompt": "Remove the `p` element that contains the text \"for personal and commercial projects. Contribute\".",
+   "range": [
+    11232,
+    11421
+   ],
+   "change": [
+    11232,
+    11421,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/9-structure.html",
+   "expectedSha256": "d534f00c023c16adf8b01f2b1a098dcdf6e90421f81a6c8844a4361987e2bef1"
+  },
+  {
+   "id": "10-question",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/v2-c09/10/cards-basic.html",
+   "type": "question",
+   "ref": 395,
+   "tag": "p",
+   "quote": "tiramisu chocolate cake cotton candy soufflé",
+   "causes": [
+    "whitespace"
+   ],
+   "attr": "class",
+   "answer": "card-text",
+   "prompt": "What is the value of the `class` attribute of the `p` element that contains the text \"tiramisu chocolate cake cotton candy soufflé\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    37897,
+    38227
+   ]
+  },
+  {
+   "id": "10-text",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/v2-c09/10/cards-basic.html",
+   "type": "text",
+   "ref": 702,
+   "tag": "p",
+   "quote": "card has some additional content to",
+   "causes": [
+    "whitespace"
+   ],
+   "newText": "Updated wording 10",
+   "prompt": "Change the text \"card has some additional content to\" to \"Updated wording 10\". Change nothing else.",
+   "range": [
+    65868,
+    66097
+   ],
+   "change": [
+    65978,
+    66037,
+    "Updated wording 10"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/10-text.html",
+   "expectedSha256": "0e787fbeeca7c5ddbcada9dbc194bdb8bb80e7b23ebfc65e57781bc8a541a11f"
+  },
+  {
+   "id": "10-attribute",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/v2-c09/10/cards-basic.html",
+   "type": "attribute",
+   "ref": 437,
+   "tag": "p",
+   "quote": "additional content natural lead-in to additional",
+   "causes": [
+    "whitespace"
+   ],
+   "attr": "class",
+   "newValue": "updated-value-10",
+   "prompt": "In the `p` element that contains the text \"additional content natural lead-in to additional\", set the `class` attribute to \"updated-value-10\". Change nothing else.",
+   "range": [
+    41744,
+    41949
+   ],
+   "change": [
+    41747,
+    41764,
+    "class=\"updated-value-10\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/10-attribute.html",
+   "expectedSha256": "c0e0d800c3475759d5dc5cc048bba63e711a4ee939141699608912df880a07dc"
+  },
+  {
+   "id": "10-structure",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/v2-c09/10/cards-basic.html",
+   "type": "structure",
+   "ref": 444,
+   "tag": "p",
+   "quote": "Integer posuere erat a ante.Lorem ipsum",
+   "causes": [
+    "whitespace"
+   ],
+   "op": "insertion",
+   "prompt": "After the `p` element that contains the text \"Integer posuere erat a ante.Lorem ipsum\", add `<p>New text</p>`.",
+   "range": [
+    42594,
+    42594
+   ],
+   "change": [
+    42594,
+    42594,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c09/expected/10-structure.html",
+   "expectedSha256": "e7de394d4ef174b30a15c705f0a9ee8c806720c7ba44ddf7556b4a1a4980dfef"
+  }
+ ]
+}

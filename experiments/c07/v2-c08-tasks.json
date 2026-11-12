@@ -1,0 +1,881 @@
+{
+ "gate": "c08",
+ "tools": "v2",
+ "preview": false,
+ "seed": 20261113,
+ "offsetUnit": "UTF-16 code units of the file as text",
+ "skipped": [],
+ "readTokens": {},
+ "tasks": [
+  {
+   "id": "1-question",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/v2-c08/1/index.html",
+   "type": "question",
+   "ref": 170,
+   "tag": "div",
+   "parentId": "booking",
+   "k": 2,
+   "attr": "class",
+   "answer": "tw-mt-[5%] tw-flex tw-h-full tw-flex-col tw-gap-[5%]",
+   "prompt": "In the element with id \"booking\", take the 2nd child element that is a `div` element. What is the value of its `class` attribute? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    21110,
+    24999
+   ]
+  },
+  {
+   "id": "1-attribute",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/v2-c08/1/index.html",
+   "type": "attribute",
+   "ref": 260,
+   "tag": "div",
+   "parentId": "modal",
+   "k": 2,
+   "attr": "class",
+   "newValue": "updated-value-1",
+   "prompt": "In the element with id \"modal\", take the 2nd child element that is a `div` element. Set its `class` attribute to \"updated-value-1\". Change nothing else.",
+   "range": [
+    32253,
+    32376
+   ],
+   "change": [
+    32274,
+    32317,
+    "class=\"updated-value-1\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/1-attribute.html",
+   "expectedSha256": "fb6c6ee16bee85530d4b73628afc9a702ad7ebaf97a1e019dc30ecafc9d1a193"
+  },
+  {
+   "id": "1-removal",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/v2-c08/1/index.html",
+   "type": "removal",
+   "ref": 262,
+   "tag": "div",
+   "parentId": "modal",
+   "k": 3,
+   "op": "removal",
+   "prompt": "In the element with id \"modal\", remove the 3rd child element that is a `div` element.",
+   "range": [
+    32674,
+    32971
+   ],
+   "change": [
+    32674,
+    32971,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/1-removal.html",
+   "expectedSha256": "8eaca7a7c6ba2ebb3fb51f8caccfa87ad264b225f8b7b6570aee10747a341351"
+  },
+  {
+   "id": "1-insertion",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/v2-c08/1/index.html",
+   "type": "insertion",
+   "ref": 49,
+   "tag": "div",
+   "parentId": "collapsed-items",
+   "k": 2,
+   "op": "insertion",
+   "prompt": "In the element with id \"collapsed-items\", take the 2nd child element that is a `div` element. After it, add `<p>New text</p>`.",
+   "range": [
+    6076,
+    6076
+   ],
+   "change": [
+    6076,
+    6076,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/1-insertion.html",
+   "expectedSha256": "d48ccc13e37cf0a02df62ee08bf28f781f2156b284180c90ee3eb291c5141495"
+  },
+  {
+   "id": "2-question",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/v2-c08/2/cloud.html",
+   "type": "question",
+   "ref": 121,
+   "tag": "div",
+   "parentId": "myTabContent",
+   "k": 3,
+   "attr": "aria-labelledby",
+   "answer": "contact-tab",
+   "prompt": "In the element with id \"myTabContent\", take the 3rd child element that is a `div` element. What is the value of its `aria-labelledby` attribute? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    7326,
+    7421
+   ]
+  },
+  {
+   "id": "2-attribute",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/v2-c08/2/cloud.html",
+   "type": "attribute",
+   "ref": 116,
+   "tag": "li",
+   "parentId": "myTab",
+   "k": 3,
+   "attr": "class",
+   "newValue": "updated-value-2",
+   "prompt": "In the element with id \"myTab\", take the 3rd child element that is a `li` element. Set its `class` attribute to \"updated-value-2\". Change nothing else.",
+   "range": [
+    6898,
+    7071
+   ],
+   "change": [
+    6902,
+    6918,
+    "class=\"updated-value-2\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/2-attribute.html",
+   "expectedSha256": "9cc029134ffae1a3ce5df29a5bc7693427d5da7dc250ea6e5e177da41083c7bf"
+  },
+  {
+   "id": "2-removal",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/v2-c08/2/cloud.html",
+   "type": "removal",
+   "ref": 114,
+   "tag": "li",
+   "parentId": "myTab",
+   "k": 2,
+   "op": "removal",
+   "prompt": "In the element with id \"myTab\", remove the 2nd child element that is a `li` element.",
+   "range": [
+    6722,
+    6895
+   ],
+   "change": [
+    6722,
+    6895,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/2-removal.html",
+   "expectedSha256": "1fcd38a6dfa309694b02af5551665e9e718b7db3ae574faa317b8133b684fc8e"
+  },
+  {
+   "id": "2-insertion",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/v2-c08/2/cloud.html",
+   "type": "insertion",
+   "ref": 120,
+   "tag": "div",
+   "parentId": "myTabContent",
+   "k": 2,
+   "op": "insertion",
+   "prompt": "In the element with id \"myTabContent\", take the 2nd child element that is a `div` element. After it, add `<p>New text</p>`.",
+   "range": [
+    7323,
+    7323
+   ],
+   "change": [
+    7323,
+    7323,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/2-insertion.html",
+   "expectedSha256": "582f2e4b72315f2a7362d337b389f2914108174f1df4ad2b4d1bdf3c0e0b3fb5"
+  },
+  {
+   "id": "3-question",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/v2-c08/3/faq.html",
+   "type": "question",
+   "ref": 122,
+   "tag": "div",
+   "parentId": "acc",
+   "k": 3,
+   "attr": "class",
+   "answer": "accordion faq",
+   "prompt": "In the element with id \"acc\", take the 3rd child element that is a `div` element. What is the value of its `class` attribute? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    13183,
+    14143
+   ]
+  },
+  {
+   "id": "3-attribute",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/v2-c08/3/faq.html",
+   "type": "attribute",
+   "ref": 129,
+   "tag": "div",
+   "parentId": "acc",
+   "k": 4,
+   "attr": "class",
+   "newValue": "updated-value-3",
+   "prompt": "In the element with id \"acc\", take the 4th child element that is a `div` element. Set its `class` attribute to \"updated-value-3\". Change nothing else.",
+   "range": [
+    14180,
+    14658
+   ],
+   "change": [
+    14185,
+    14206,
+    "class=\"updated-value-3\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/3-attribute.html",
+   "expectedSha256": "c16ded11603452f8780c5483a11929614b5beb081b75a8b22e6414cfcf9219e2"
+  },
+  {
+   "id": "3-removal",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/v2-c08/3/faq.html",
+   "type": "removal",
+   "ref": 66,
+   "tag": "canvas",
+   "parentId": "bg",
+   "k": 2,
+   "op": "removal",
+   "prompt": "In the element with id \"bg\", remove the 2nd child element that is a `canvas` element.",
+   "range": [
+    8757,
+    8774
+   ],
+   "change": [
+    8757,
+    8774,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/3-removal.html",
+   "expectedSha256": "21601e558e1f682bd5605a607f2dc9e2d1a9687b7231871d7893ec8da5def373"
+  },
+  {
+   "id": "3-insertion",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/v2-c08/3/faq.html",
+   "type": "insertion",
+   "ref": 136,
+   "tag": "div",
+   "parentId": "acc",
+   "k": 5,
+   "op": "insertion",
+   "prompt": "In the element with id \"acc\", take the 5th child element that is a `div` element. After it, add `<p>New text</p>`.",
+   "range": [
+    15233,
+    15233
+   ],
+   "change": [
+    15233,
+    15233,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/3-insertion.html",
+   "expectedSha256": "48d3972423cc4109814d5672e64a8e3c1251507d3ebcfd5996abe7c632af8ffb"
+  },
+  {
+   "id": "4-question",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/v2-c08/4/example.html",
+   "type": "question",
+   "ref": 257,
+   "tag": "section",
+   "parentId": "stage",
+   "k": 7,
+   "attr": "data-screen-label",
+   "answer": "07 The Positioning To Defend",
+   "prompt": "In the element with id \"stage\", take the 7th child element that is a `section` element. What is the value of its `data-screen-label` attribute? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    29168,
+    30193
+   ]
+  },
+  {
+   "id": "4-attribute",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/v2-c08/4/example.html",
+   "type": "attribute",
+   "ref": 170,
+   "tag": "section",
+   "parentId": "stage",
+   "k": 5,
+   "attr": "data-screen-label",
+   "newValue": "updated-value-4",
+   "prompt": "In the element with id \"stage\", take the 5th child element that is a `section` element. Set its `data-screen-label` attribute to \"updated-value-4\". Change nothing else.",
+   "range": [
+    24500,
+    26849
+   ],
+   "change": [
+    24523,
+    24561,
+    "data-screen-label=\"updated-value-4\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/4-attribute.html",
+   "expectedSha256": "51a0c6f639df4dfb8e5356542249d1393616c6af33ce1e1ca5a8164b89a4f102"
+  },
+  {
+   "id": "4-removal",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/v2-c08/4/example.html",
+   "type": "removal",
+   "ref": 374,
+   "tag": "div",
+   "parentId": "stage",
+   "k": 3,
+   "op": "removal",
+   "prompt": "In the element with id \"stage\", remove the 3rd child element that is a `div` element.",
+   "range": [
+    35145,
+    35218
+   ],
+   "change": [
+    35145,
+    35218,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/4-removal.html",
+   "expectedSha256": "cf92d850310a6cb93d10c9210649a9a891da55e8b412e921595f262013d88600"
+  },
+  {
+   "id": "4-insertion",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/v2-c08/4/example.html",
+   "type": "insertion",
+   "ref": 376,
+   "tag": "b",
+   "parentId": "keyhint",
+   "k": 2,
+   "op": "insertion",
+   "prompt": "In the element with id \"keyhint\", take the 2nd child element that is a `b` element. After it, add `<p>New text</p>`.",
+   "range": [
+    35204,
+    35204
+   ],
+   "change": [
+    35204,
+    35204,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/4-insertion.html",
+   "expectedSha256": "9c9d8f11a209640689fbf93332cb957c828827cdd95f4e95e510a6b90a155d61"
+  },
+  {
+   "id": "5-question",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/v2-c08/5/onCollectionUpdateExecute.html",
+   "type": "question",
+   "ref": 51,
+   "tag": "span",
+   "parentId": "onCollectionUpdateExecute",
+   "k": 2,
+   "attr": "class",
+   "answer": "tsd-signature-symbol",
+   "prompt": "In the element with id \"onCollectionUpdateExecute\", take the 2nd child element that is a `span` element. What is the value of its `class` attribute? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    3156,
+    3199
+   ]
+  },
+  {
+   "id": "5-attribute",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/v2-c08/5/onCollectionUpdateExecute.html",
+   "type": "attribute",
+   "ref": 136,
+   "tag": "option",
+   "parentId": "tsd-theme",
+   "k": 3,
+   "attr": "value",
+   "newValue": "updated-value-5",
+   "prompt": "In the element with id \"tsd-theme\", take the 3rd child element that is a `option` element. Set its `value` attribute to \"updated-value-5\". Change nothing else.",
+   "range": [
+    7035,
+    7069
+   ],
+   "change": [
+    7043,
+    7055,
+    "value=\"updated-value-5\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/5-attribute.html",
+   "expectedSha256": "5ef27eb330d22fb959f632ab18b20de184b89f170e9945a6cea3668be895c9ab"
+  },
+  {
+   "id": "5-removal",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/v2-c08/5/onCollectionUpdateExecute.html",
+   "type": "removal",
+   "ref": 135,
+   "tag": "option",
+   "parentId": "tsd-theme",
+   "k": 2,
+   "op": "removal",
+   "prompt": "In the element with id \"tsd-theme\", remove the 2nd child element that is a `option` element.",
+   "range": [
+    6999,
+    7035
+   ],
+   "change": [
+    6999,
+    7035,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/5-removal.html",
+   "expectedSha256": "f9e44382cc02387be9bcdfd20a142213a94507b6c89a6ec42194392921f40649"
+  },
+  {
+   "id": "5-insertion",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/v2-c08/5/onCollectionUpdateExecute.html",
+   "type": "insertion",
+   "ref": 52,
+   "tag": "span",
+   "parentId": "onCollectionUpdateExecute",
+   "k": 3,
+   "op": "insertion",
+   "prompt": "In the element with id \"onCollectionUpdateExecute\", take the 3rd child element that is a `span` element. After it, add `<p>New text</p>`.",
+   "range": [
+    3246,
+    3246
+   ],
+   "change": [
+    3246,
+    3246,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/5-insertion.html",
+   "expectedSha256": "a21ae5e1624076d94cc4451317f027f5ae6a444c4af5e796ba6b5d8c9e905aae"
+  },
+  {
+   "id": "6-question",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/v2-c08/6/editor.html",
+   "type": "question",
+   "ref": 31,
+   "tag": "svg",
+   "parentId": "theme-toggle",
+   "k": 2,
+   "attr": "stroke",
+   "answer": "currentColor",
+   "prompt": "In the element with id \"theme-toggle\", take the 2nd child element that is a `svg` element. What is the value of its `stroke` attribute? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    27160,
+    27368
+   ]
+  },
+  {
+   "id": "6-attribute",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/v2-c08/6/editor.html",
+   "type": "attribute",
+   "ref": 91,
+   "tag": "div",
+   "parentId": "context-menu",
+   "k": 2,
+   "attr": "data-action",
+   "newValue": "updated-value-6",
+   "prompt": "In the element with id \"context-menu\", take the 2nd child element that is a `div` element. Set its `data-action` attribute to \"updated-value-6\". Change nothing else.",
+   "range": [
+    33951,
+    34297
+   ],
+   "change": [
+    33982,
+    34006,
+    "data-action=\"updated-value-6\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/6-attribute.html",
+   "expectedSha256": "a0f5f6168f2d4691d3a4123e7eae85a00a1ef019567e99907e84e9d98b1d5d6d"
+  },
+  {
+   "id": "6-removal",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/v2-c08/6/editor.html",
+   "type": "removal",
+   "ref": 99,
+   "tag": "div",
+   "parentId": "context-menu",
+   "k": 6,
+   "op": "removal",
+   "prompt": "In the element with id \"context-menu\", remove the 6th child element that is a `div` element.",
+   "range": [
+    34949,
+    35505
+   ],
+   "change": [
+    34949,
+    35505,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/6-removal.html",
+   "expectedSha256": "4dd26dd68df7ad2d8d13f39b414921e97e14d6ec2a5ef9676d1d0acc4e46a00d"
+  },
+  {
+   "id": "6-insertion",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/v2-c08/6/editor.html",
+   "type": "insertion",
+   "ref": 63,
+   "tag": "div",
+   "parentId": "empty-state",
+   "k": 2,
+   "op": "insertion",
+   "prompt": "In the element with id \"empty-state\", take the 2nd child element that is a `div` element. After it, add `<p>New text</p>`.",
+   "range": [
+    31116,
+    31116
+   ],
+   "change": [
+    31116,
+    31116,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/6-insertion.html",
+   "expectedSha256": "f31238e534cdbfe7deda7bbdff796d0855bebb3b5bcb1eaa3ec493485a7a3574"
+  },
+  {
+   "id": "7-question",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/v2-c08/7/index.html",
+   "type": "question",
+   "ref": 17,
+   "tag": "div",
+   "parentId": "leftColumn",
+   "k": 3,
+   "attr": "id",
+   "answer": "sideMenu",
+   "prompt": "In the element with id \"leftColumn\", take the 3rd child element that is a `div` element. What is the value of its `id` attribute? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    902,
+    927
+   ]
+  },
+  {
+   "id": "7-attribute",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/v2-c08/7/index.html",
+   "type": "attribute",
+   "ref": 33,
+   "tag": "div",
+   "parentId": "content",
+   "k": 3,
+   "attr": "class",
+   "newValue": "updated-value-7",
+   "prompt": "In the element with id \"content\", take the 3rd child element that is a `div` element. Set its `class` attribute to \"updated-value-7\". Change nothing else.",
+   "range": [
+    1565,
+    13310
+   ],
+   "change": [
+    1570,
+    1583,
+    "class=\"updated-value-7\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/7-attribute.html",
+   "expectedSha256": "a1f99da99130d6c590f05f6d6de18ac714008837fa7c0395efac366efa2d8f2f"
+  },
+  {
+   "id": "7-removal",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/v2-c08/7/index.html",
+   "type": "removal",
+   "ref": 16,
+   "tag": "div",
+   "parentId": "leftColumn",
+   "k": 2,
+   "op": "removal",
+   "prompt": "In the element with id \"leftColumn\", remove the 2nd child element that is a `div` element.",
+   "range": [
+    866,
+    893
+   ],
+   "change": [
+    866,
+    893,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/7-removal.html",
+   "expectedSha256": "ae0ef0aa93f489bb8d1c20a4d045ebea4289a7a430a2ae0fba60dbc0d3eeb7e8"
+  },
+  {
+   "id": "7-insertion",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/v2-c08/7/index.html",
+   "type": "insertion",
+   "ref": 27,
+   "tag": "div",
+   "parentId": "content",
+   "k": 2,
+   "op": "insertion",
+   "prompt": "In the element with id \"content\", take the 2nd child element that is a `div` element. After it, add `<p>New text</p>`.",
+   "range": [
+    1489,
+    1489
+   ],
+   "change": [
+    1489,
+    1489,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/7-insertion.html",
+   "expectedSha256": "f62b4cf4d2f71dc0439922e9a7a89bd668d1a44065bee4e11619ffcc6145bdd6"
+  },
+  {
+   "id": "8-question",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/v2-c08/8/calendar.html",
+   "type": "question",
+   "ref": 655,
+   "tag": "pre",
+   "parentId": "home",
+   "k": 2,
+   "attr": "class",
+   "answer": "mt-4 m-0",
+   "prompt": "In the element with id \"home\", take the 2nd child element that is a `pre` element. What is the value of its `class` attribute? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    63337,
+    63644
+   ]
+  },
+  {
+   "id": "8-attribute",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/v2-c08/8/calendar.html",
+   "type": "attribute",
+   "ref": 448,
+   "tag": "div",
+   "parentId": "myTabContent3",
+   "k": 2,
+   "attr": "class",
+   "newValue": "updated-value-8",
+   "prompt": "In the element with id \"myTabContent3\", take the 2nd child element that is a `div` element. Set its `class` attribute to \"updated-value-8\". Change nothing else.",
+   "range": [
+    42208,
+    48582
+   ],
+   "change": [
+    42213,
+    42234,
+    "class=\"updated-value-8\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/8-attribute.html",
+   "expectedSha256": "16262e030c212f7f047a75f543a4c0bc8be0ea0dfe3fb2653e0b9287949bd745"
+  },
+  {
+   "id": "8-removal",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/v2-c08/8/calendar.html",
+   "type": "removal",
+   "ref": 196,
+   "tag": "li",
+   "parentId": "sidebar-menu",
+   "k": 7,
+   "op": "removal",
+   "prompt": "In the element with id \"sidebar-menu\", remove the 7th child element that is a `li` element.",
+   "range": [
+    17348,
+    18376
+   ],
+   "change": [
+    17348,
+    18376,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/8-removal.html",
+   "expectedSha256": "4cf6742f43269024e037023fbc5071a13ec93f3629e12bee00c750948a3d678d"
+  },
+  {
+   "id": "8-insertion",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/v2-c08/8/calendar.html",
+   "type": "insertion",
+   "ref": 150,
+   "tag": "li",
+   "parentId": "sidebar-menu",
+   "k": 5,
+   "op": "insertion",
+   "prompt": "In the element with id \"sidebar-menu\", take the 5th child element that is a `li` element. After it, add `<p>New text</p>`.",
+   "range": [
+    15277,
+    15277
+   ],
+   "change": [
+    15277,
+    15277,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/8-insertion.html",
+   "expectedSha256": "aca8a7c8c3095517647ae40d6acf82c090e65ade220e82d059607e6d70652512"
+  },
+  {
+   "id": "9-question",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/v2-c08/9/user-dropdown.html",
+   "type": "question",
+   "ref": 39,
+   "tag": "div",
+   "parentId": "user-menu",
+   "k": 4,
+   "attr": "class",
+   "answer": "-mx-3 my-1.5 h-px bg-gray-100 dark:bg-gray-700",
+   "prompt": "In the element with id \"user-menu\", take the 4th child element that is a `div` element. What is the value of its `class` attribute? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    14740,
+    14806
+   ]
+  },
+  {
+   "id": "9-attribute",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/v2-c08/9/user-dropdown.html",
+   "type": "attribute",
+   "ref": 14,
+   "tag": "div",
+   "parentId": "user-menu",
+   "k": 2,
+   "attr": "class",
+   "newValue": "updated-value-9",
+   "prompt": "In the element with id \"user-menu\", take the 2nd child element that is a `div` element. Set its `class` attribute to \"updated-value-9\". Change nothing else.",
+   "range": [
+    4848,
+    4914
+   ],
+   "change": [
+    4853,
+    4907,
+    "class=\"updated-value-9\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/9-attribute.html",
+   "expectedSha256": "ac0b3184bfa882dded056cd3aca25143a41598cba9350c3fccd0dda8df40e352"
+  },
+  {
+   "id": "9-removal",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/v2-c08/9/user-dropdown.html",
+   "type": "removal",
+   "ref": 7,
+   "tag": "span",
+   "parentId": "user-menu-button",
+   "k": 2,
+   "op": "removal",
+   "prompt": "In the element with id \"user-menu-button\", remove the 2nd child element that is a `span` element.",
+   "range": [
+    3326,
+    3386
+   ],
+   "change": [
+    3326,
+    3386,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/9-removal.html",
+   "expectedSha256": "9b4c68a89d431a8d9495073e5d9260499af74118f1eaeafb678b73e25c3af624"
+  },
+  {
+   "id": "9-insertion",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/v2-c08/9/user-dropdown.html",
+   "type": "insertion",
+   "ref": 29,
+   "tag": "div",
+   "parentId": "user-menu",
+   "k": 3,
+   "op": "insertion",
+   "prompt": "In the element with id \"user-menu\", take the 3rd child element that is a `div` element. After it, add `<p>New text</p>`.",
+   "range": [
+    14734,
+    14734
+   ],
+   "change": [
+    14734,
+    14734,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/9-insertion.html",
+   "expectedSha256": "befb868fdf54b1d620367e91a61b95873234870c363ba1608cf3711f70adb5cc"
+  },
+  {
+   "id": "10-question",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/v2-c08/10/ui-cards.html",
+   "type": "question",
+   "ref": 340,
+   "tag": "li",
+   "parentId": "accordion-menu",
+   "k": 11,
+   "attr": "class",
+   "answer": "dropdown",
+   "prompt": "In the element with id \"accordion-menu\", take the 11th child element that is a `li` element. What is the value of its `class` attribute? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    19230,
+    20155
+   ]
+  },
+  {
+   "id": "10-attribute",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/v2-c08/10/ui-cards.html",
+   "type": "attribute",
+   "ref": 224,
+   "tag": "li",
+   "parentId": "accordion-menu",
+   "k": 5,
+   "attr": "class",
+   "newValue": "updated-value-10",
+   "prompt": "In the element with id \"accordion-menu\", take the 5th child element that is a `li` element. Set its `class` attribute to \"updated-value-10\". Change nothing else.",
+   "range": [
+    15270,
+    16369
+   ],
+   "change": [
+    15274,
+    15290,
+    "class=\"updated-value-10\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/10-attribute.html",
+   "expectedSha256": "8e47610a8d8fe0c5163e70dd3694647306dd4725fe9a0f755c599ac5f4eea4c6"
+  },
+  {
+   "id": "10-removal",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/v2-c08/10/ui-cards.html",
+   "type": "removal",
+   "ref": 380,
+   "tag": "li",
+   "parentId": "accordion-menu",
+   "k": 16,
+   "op": "removal",
+   "prompt": "In the element with id \"accordion-menu\", remove the 16th child element that is a `li` element.",
+   "range": [
+    20816,
+    20882
+   ],
+   "change": [
+    20816,
+    20882,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/10-removal.html",
+   "expectedSha256": "cb9a3c2c34a6e3deb5200f285cde543e240c5f374c2988b232ee0c15dec8f342"
+  },
+  {
+   "id": "10-insertion",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/v2-c08/10/ui-cards.html",
+   "type": "insertion",
+   "ref": 257,
+   "tag": "li",
+   "parentId": "accordion-menu",
+   "k": 6,
+   "op": "insertion",
+   "prompt": "In the element with id \"accordion-menu\", take the 6th child element that is a `li` element. After it, add `<p>New text</p>`.",
+   "range": [
+    16985,
+    16985
+   ],
+   "change": [
+    16985,
+    16985,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c08/expected/10-insertion.html",
+   "expectedSha256": "480831922c4b2df687b14b7ff9a6d8f9169ce408c9bddc85abadfc16bf0a9f6d"
+  }
+ ]
+}
