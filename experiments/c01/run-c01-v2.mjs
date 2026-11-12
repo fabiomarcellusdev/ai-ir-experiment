@@ -24,7 +24,7 @@ const hashOf = (b) => sha256(b).slice(0, 16);
 export const SEED = 20261116;
 /** C0.1's seed: C0.1 v2 uses C0.1's 16 files, so it makes the same 2 copies with C0.1's first draws. */
 export const SEED_C01 = 20261110;
-export const RANDOM = 1000;
+export const RANDOM = 1500; // owner, 2026-11-12, after the development run: 1,000 gave 91 accepted replace changes
 export const MIN_ACCEPTED = 100;
 export const OPS = ['remove', 'replace', 'insert_after', 'set_attribute', 'replace_text'];
 export const ATTR_NAMES = ['class', 'data-x', 'title'];

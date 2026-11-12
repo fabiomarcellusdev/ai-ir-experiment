@@ -1030,3 +1030,12 @@ these additions (`tests/gates/hostile-v2.mjs`):
    preview.
 8. **A correction:** C0.8's "`html_find` cannot find an `id`" holds for v1 only; v2's `html_find` takes an id.
 - **No number changed.**
+
+**2026-11-12 (owner): C0.1 v2 draws 1,500 random changes, not 1,000.** A development run of C0.1 v2 (`--dev`, no
+result file) on commit `704255e` reached the minimum of A.8 for 4 operations but not for `replace`: 91 accepted of
+216. C0.1's list of new HTML holds 3 fragments that the server refuses by design (`</div><div>`, `<!--`,
+`<script>`). The run had no failure of the server; 2 failures came from the script's own checks of a change to the
+same text, which are fixed. All 8 negative controls failed as they must. The owner chose a longer draw with the same
+lists and rules, so that no rule gets weaker. The gate run's report says that this count was set after a development
+run.
+- **No number changed** except the count of random changes: 1,000 becomes 1,500.
