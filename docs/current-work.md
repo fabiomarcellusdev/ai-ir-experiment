@@ -29,10 +29,15 @@ ran with the current server: 0.513 and 1.194 (`docs/measurements/2026-11-12-c07-
 - C0.9 v2 (H4, a quote not in the source as written): **PASS** by the rule, median 0.690; the margin is inside the
   noise (`docs/measurements/2026-11-12-c09-v2-gate.md`).
 - C0.10 v2 (control, C0.6's task kind): **FAIL**, median 1.207 (`docs/measurements/2026-11-12-c10-v2-gate.md`).
-- In all, $12.93. C0.9 and C0.10 each stopped once and went on at their start commit, with the owner's choices.
+- C0.8 v2 (H2, a target named by its position): **PASS**, median 0.517, after the runner fixes and its own freeze
+  (`docs/measurements/2026-11-12-c08-v2-gate.md`).
+- In all, $16.12. C0.9 and C0.10 each stopped once and went on at their start commit, with the owner's choices.
+- Exploratory: the file's size does not predict the ratio; a large change does
+  (`docs/measurements/2026-11-12-size-vs-ratio.md`). Research on deferred tool loading: tool search is on by default
+  in Claude Code, and the gates turned it off.
 
-**Next (owner's decisions):** whether C0.8 runs ($3 to $10; it needs the stop and harness fixes and a new freeze,
-`docs/follow-ups.md`); a free research step on deferred tool loading; then the publish, when the owner asks.
+**Next (owner's decisions):** the publish (a push and a pull request, with the owner's explicit yes); then whether to
+measure arm M with tool search at its default (paid), and whether to design a size field for `html_find`.
 
 The owner's rule (2026-11-11, extended 2026-11-12): no push and no pull request until the owner asks for one.
 
