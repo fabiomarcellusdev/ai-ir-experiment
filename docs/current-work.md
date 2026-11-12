@@ -19,7 +19,11 @@ The owner's choice (2026-11-11): no check of a shorter MCP tool text before C0.6
 needed, the lead measures shorter tool text with the free `count_tokens`.
 
 The C0.1 oracle is installed (html5lib 1.1, six 1.17.0, webencodings 0.5.1 in `.venv-oracle/`, owner's yes,
-2026-11-11). Next: the C0.1 and C0.2 gate scripts, then their runs (free).
+2026-11-11). The C0.1 and C0.2 gate scripts are written (`experiments/c01/`, `experiments/c02/`,
+`tests/gates/hostile.mjs`). Their development runs found one server defect in the clean-range rule, fixed with a
+regression test (decision 0006, last amendment). The owner decided 3 rule questions (contract, amendment "the C0.1
+oracle, the elements with no clean range, and the listed fragments"). Next: the independent reviews of both scripts,
+then the gate runs (free; C0.2 is TIMED).
 
 The owner's rule (2026-11-11): no push and no pull request until every run is complete, the paid C0.6 included, and
 the viability verdict is recorded.

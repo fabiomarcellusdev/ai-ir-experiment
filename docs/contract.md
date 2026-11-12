@@ -511,3 +511,85 @@ owner agreed to these changes on 2026-11-11, before the C0.1 script exists:
 3. **The oracle uses html5lib's parser only.** A check fails when the C0.1 script imports html5lib's serializer, its
    sanitizer or its filters.
 - **No number changed.**
+
+**2026-11-11 (owner): the C0.1 oracle, the elements with no clean range, and the listed fragments, before the gate
+run.** The C0.1 script's development runs (`--dev`, no result file) raised 3 questions. The owner decided them on
+2026-11-11, before the gate run:
+1. **The oracle stays html5lib 1.1.** At the pinned commit `9329e64` of `html5lib/html5lib-tests` (the last commit
+   that holds the tree-construction tests), html5lib fails 180 of 1,792 tests and skips 63: mostly `template` (100),
+   the `select` rules of 2025 (35) and `ruby` (13). Decision 0006 named this as a reason to reopen the oracle. On all
+   10 files of the set and their 6 copies, html5lib's tree equals parse5's tree, token for token. The run also
+   compares the two parsers on every marked and every spliced document, and the report names each one where they
+   differ.
+2. **An element with no clean range is not in the random draw.** These are elements that the parser creates (an
+   implied `tbody`), and elements whose source range holds other nodes (misnested or fostered markup). The server
+   refuses them by design (decision 0006, "A clean range"). A separate check tries every such element in the 16 files:
+   each must get a named error, the file stays unchanged, and where the element has a source range, the oracle
+   confirms that the range does not hold exactly the element.
+3. **The 3 listed fragments are examples of the refusal rule**, as amendment "the server's design", 2 says. When the
+   server accepts one (for example `</div><div>` inside a `select`, which the parser ignores, or `<script>` inside an
+   `svg`, which is an SVG element), the edit passes when the oracle confirms that the tree outside the element does not
+   change. The report lists each such edit.
+- **The random draw:** the seed is `20261110` ("The inputs"). The 2 files with copies are drawn first, then each edit
+  takes a file of the 16, a ref of that file, and a new HTML of the list, in this order, from one stream of the C0.3
+  generator. The copies: CRLF line ends; a leading BOM; U+1F600 before each `</`.
+- **No number changed.**
+
+**2026-11-11 (lead): how the C0.2 script reads the gate, before the gate run.** No number changes. Two points are
+stricter than the text; the owner is told in the hand-over.
+1. **The hostile file set** is `tests/gates/hostile.mjs`: the small files are written out in it, and code makes the
+   3 large ones (the 100 KB `data:` URI, the 10,000 elements, the 25 MB file), so that git holds no 25 MB file. The
+   result records the SHA-256 of each file. "Nesting of 513 levels" is 513 nested `div` elements.
+2. **Stricter: a call that reaches the server's time limit fails condition 7.** The server stops a call after 1.5 s
+   and returns a named error (decision 0006, option 3A). Read literally, that error passes condition 7, and the
+   planted backtracking regex could not make C0.2 fail. So the script counts it as a failure.
+3. **Stricter: a call fails when its output holds the text of the file outside the workspace**, and when the server
+   gives an internal error.
+4. **Condition 1** applies to the content lines. The first line of `html_outline` (`page N of M; hash H`) and the last
+   line of `html_find` (`N matches; hash H`) must match their own formats. `html_find` shows element lines only.
+5. **The "no wrong edit" check:** for each hostile file that the server reads, one `html_read` and one `html_edit` of
+   a fixed element. An accepted edit must give the bytes before, the new HTML and the bytes after. In
+   `markup-join.html`, removing the `script` must be refused: the splice `x <b>y` makes a new element.
+6. **"Each case runs 5 times":** the whole case list runs 5 times, each time with a new server process and a new
+   workspace. The p50 and p99 are over all calls of the 5 runs. The link case uses a directory junction (a symbolic
+   link outside Windows).
+7. **The oracle** is html5lib 1.1, parser only (`experiments/c02/oracle_c02.py`, which uses the parse of
+   `experiments/c01/oracle.py`). It gives the elements in ref order, and counts the `html_find` matches from the
+   definition in "The two arms". Its list of text that is not visible is the contract's list; the server also leaves
+   out `noscript`, which no hostile file holds.
+8. **The negative controls:** the POC's view is the file `experiments/html-ir/ir.mjs` at commit `748a75d` (branch
+   `exp/html-ir-poc`). Each other control is a copy of the server with one line of `server/view.mjs` changed. Each
+   control must fail the condition that the contract names for it.
+
+**2026-11-11 (lead): the C0.1 marker keeps the element's attributes, after the script's review, before the gate run.**
+The owner is told in the hand-over. No number changes.
+1. **The marker** of amendment "the C0.1 marker and draw", 1, is an empty element with the element's own tag, the
+   element's own attributes, and one marker attribute. A `plaintext` marker also gets no end tag. Without the
+   attributes, the premise "the parser places it as it placed the element" is false in 3 cases of the HTML standard:
+   `<input type="hidden">` stays in a table only with its `type`; `<font>` with `color`, `face` or `size` leaves SVG
+   and MathML; `</plaintext>` is text. The server's own marker check (decision 0006, last amendment) uses the same
+   marker.
+2. **The parser-only rule** checks the whole text of `oracle.py` except its module docstring (comments too), and, at
+   run time, that no html5lib filter or sanitizer module is loaded. html5lib's package start loads its serializer and
+   tree-walker modules; the oracle never calls them.
+3. **An extra negative control:** a server whose range rule calls every located element clean. It must make C0.1
+   fail. The byte check takes each range from the server's own view, and only the marker check confirms it; this
+   control shows that a wrong range rule is found.
+
+**2026-11-11 (lead): the C0.2 checks after the script's review, before the gate run.** No number changes; each point
+makes a check stricter. The owner is told in the hand-over.
+1. **`html_find` output** gets the checks of condition 1 too: element lines only, and each ref an element of the
+   oracle with its tag. Condition 5 also applies to it.
+2. **A file that the server must read** must give every `html_outline` page and the `html_find` call. A refusal there
+   is a failure. The 2 files over the limits (`nest-513.html`, `large-25mb.html`) must be refused with their reason.
+3. **Each refusal must give its reason:** each path case (`..`, outside, UNC, device name, stream, link), the stale
+   hash, the removal in `markup-join.html`, and the files over the limits. The UNC case (`\?\` plus the outside
+   path) and the stream case (a stream that holds the secret, on NTFS) point at real data.
+4. **Condition 3** also fails when the outline shows the line of a hidden element, or of an element inside one, from
+   the oracle's list of hidden elements.
+5. **The hostile edits** are confirmed by the C0.1 oracle: the ref's tag, the exact range, and the tree outside.
+6. **The stale-ref case** checks that `html_outline` and `html_find` each give the file's hash, and uses both hashes.
+7. **Negative control 1** checks only the lines of the POC's nested `pre`, so that another POC line cannot make it
+   fail.
+8. **An extra hostile file,** `fostered-2mb.html` (1.9 MB): table rows that all need the server's marker parse
+   (decision 0006, last amendment). It measures the worst case of that parse against the 2 s limit.

@@ -23,6 +23,12 @@ vulnerability above low, and the owner's yes for each install. "Known vulnerabil
 |---|---|---|---|---|
 | pnpm | 12.3.4 | 2026-09-04 | MIT | The only package manager (decision 0001). Pinned by SHA-512 in `package.json`. Re-vet when you adopt the template. |
 
+## Test data (git-ignored, never committed)
+
+| Component | Version | Published | Licence | Notes |
+|---|---|---|---|---|
+| html5lib-tests (`html5lib/html5lib-tests`) | Commit `9329e64` | 2026-06-22 | MIT | The tree-construction tests that the C0.1 script runs html5lib on (decision 0006). Fetched 2026-11-11 with `gh api` as a tarball (sha256 `40c7c90c6b4105f20ff3448aa9257e44977b76960f2cbd275c719d2dd3a78fbe`) into `experiments/gate-files/html5lib-tests/`. The last commit that holds these tests: on 2026-06-26 they moved to the Web Platform Tests. Data only: no code of it runs. |
+
 ## Claude Code plugins
 
 | Plugin | Version | Licence | Notes |

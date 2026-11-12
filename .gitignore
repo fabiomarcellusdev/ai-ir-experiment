@@ -20,3 +20,6 @@ experiments/c03/baseline-tools.json
 
 # The Python virtual environment of the C0.1 oracle (tests/gates/oracle-requirements.txt)
 .venv-oracle/
+
+# Python bytecode caches (the oracles run with -B; this catches a run without it)
+__pycache__/
