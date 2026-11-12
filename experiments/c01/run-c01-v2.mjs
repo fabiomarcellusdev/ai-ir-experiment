@@ -381,7 +381,8 @@ export function checkJob(entries, changes, outcomes) {
   const job = { files: Object.fromEntries(entries.map((f) => [f.name, f.text])), changes: [] };
   for (const ch of changes) {
     const o = outcomes.get(ch.id);
-    if (!o) continue;
+    // A result that is not valid UTF-8 fails without the oracle (`reasons`); it has no text to parse.
+    if (!o || (o.accepted && o.invalidUtf8)) continue;
     const f = byName.get(ch.file);
     const range = rangeOf(f, ch.ref);
     if (!range) { job.changes.push({ id: ch.id, file: f.name, ref: ch.ref, ns: f.m.els[ch.ref].namespaceURI, tag: f.m.els[ch.ref].tagName, s: null }); continue; }

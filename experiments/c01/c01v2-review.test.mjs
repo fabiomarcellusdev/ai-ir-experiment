@@ -130,4 +130,6 @@ test('review 2: byteReasons and the verdict use the bytes as decoded strictly', 
   const ch = { id: 'c', kind: 'random', file: 'a.html', ref: refOf(e, 'div'), op: 'replace', args: { html: '<i>n</i>' } };
   assert.deepEqual(reasons(e, ch, { accepted: true, invalidUtf8: true, after: null, text: 'ok' }, { tagOk: true, markerOk: true }), ['the result is not valid UTF-8']);
   assert.deepEqual(byteReasons(e, ch, '<p>�</p><i>n</i>'), []); // control: the right bytes
+  // The oracle job leaves out a result with no text (regression: the job read null, development run 2).
+  assert.deepEqual(checkJob([e], [ch], new Map([['c', { accepted: true, invalidUtf8: true, after: null }]])).changes, []);
 });
