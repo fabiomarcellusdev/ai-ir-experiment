@@ -70,7 +70,13 @@ export function notesAbove(dir) {
 }
 
 /** An error that stops the gate with no record of the current run: it runs again when the gate goes on (owner, 2026-11-12). */
-export class StopGate extends Error {}
+export class StopGate extends Error {
+  /** @param {string} message @param {number} costUsd what the stopped run's attempts cost (re-review, 4) */
+  constructor(message, costUsd = 0) {
+    super(message);
+    this.costUsd = costUsd;
+  }
+}
 
 // --- One run ------------------------------------------------------------------------------------------------------
 
@@ -190,7 +196,10 @@ export function parseStream(lines) {
   const firstInput = first ? (first.input_tokens ?? 0) + (first.cache_creation_input_tokens ?? 0) + (first.cache_read_input_tokens ?? 0) : null;
   // Without a result message (a stopped run), the tokens come from the assistant messages, one per message id.
   const streamTokens = [...usageById.values()].reduce((n, u) => n + (u.input_tokens ?? 0) + (u.cache_creation_input_tokens ?? 0) + (u.cache_read_input_tokens ?? 0) + (u.output_tokens ?? 0), 0);
-  return { init, calls, result, firstInput, streamTokens };
+  // The stream's output counts are partial (re-review, 7): about 1% low in total; used only without a result message.
+  const streamUsage = [...usageById.values()].reduce((a, u) => ({ input: a.input + (u.input_tokens ?? 0), cacheWrite: a.cacheWrite + (u.cache_creation_input_tokens ?? 0),
+    cacheRead: a.cacheRead + (u.cache_read_input_tokens ?? 0), output: a.output + (u.output_tokens ?? 0) }), { input: 0, cacheWrite: 0, cacheRead: 0, output: 0 });
+  return { init, calls, result, firstInput, streamTokens, streamUsage };
 }
 
 /** The last "ANSWER:" line's value, or null. */
@@ -235,8 +244,11 @@ function snapshot(dir) {
 const PYTHON = at('.venv-oracle', process.platform === 'win32' ? 'Scripts/python.exe' : 'bin/python');
 
 /** The code and the inputs are still the committed ones: before each run and each judge call (security review, F1). */
+let runCommit = null; // the commit at the start; set in main
 function assertCommitted() {
   if (git('status', '--porcelain', '--', 'server', 'experiments', 'docs/contract.md')) throw new Error('the code or the inputs changed during the run: stopped');
+  // A commit or a branch switch leaves the tree clean: compare HEAD too (re-review, 1).
+  if (runCommit && git('rev-parse', 'HEAD') !== runCommit) throw new Error('HEAD changed during the run: stopped');
 }
 
 /** The judge (judge.py) on one job, with the system's variables only. */
@@ -293,7 +305,26 @@ export function endOf(s, run) {
 
 /** Whether the MCP server stopped during an M run: a tool result says the connection closed (C0.4, "Limits"). */
 export const mcpCrashed = (calls) => calls.some((c) => c.name.startsWith('mcp__html__') && c.isError &&
-  /connection closed|not connected|server (has )?(exited|crashed|disconnected)|-32000/i.test(c.errorText ?? ''));
+  /connection closed|not connected|server (has )?(exited|crashed|disconnected)|-32000|internal error \(the worker stopped/i.test(c.errorText ?? ''));
+
+/** Sonnet 5.5's list prices in dollars per million tokens (Claude API reference, cached 2026-11-03). */
+const PRICES = { input: 2, cacheWrite: 2.5, cacheRead: 0.1, output: 10 };
+
+/**
+ * The dollar cost of one attempt: the harness's `total_cost_usd`, or, for an attempt with no result message (a run
+ * stopped at 10 minutes), an estimate from the stream's usage at list prices (re-review, 4).
+ */
+export function attemptCost(s) {
+  if (typeof s.result?.total_cost_usd === 'number') return { usd: s.result.total_cost_usd, estimated: false };
+  const u = s.streamUsage ?? { input: 0, cacheWrite: 0, cacheRead: 0, output: 0 };
+  return { usd: (u.input * PRICES.input + u.cacheWrite * PRICES.cacheWrite + u.cacheRead * PRICES.cacheRead + u.output * PRICES.output) / 1e6, estimated: true };
+}
+
+/** A short, fixed-form reason for an API error: the API's own message, never text that a file could hold. */
+export function apiErrorText(s) {
+  const t = String(s.result?.result ?? '');
+  return /^API Error/.test(t) ? `; ${t.slice(0, 200)}` : '';
+}
 
 /** Stops the gate when a run's start shows another harness version or another tool list (review, 3). */
 export function checkStart(init, arm, harness) {
@@ -307,7 +338,7 @@ export function checkStart(init, arm, harness) {
 }
 
 /** One run of one task in one arm: the record, with no text of the file. */
-async function oneRun(task, arm, k, key, label) {
+async function oneRun(task, arm, k, key, label, startId) {
   const name = path.basename(task.file);
   const original = readFileSync(at(task.file));
   const text = original.toString('utf8');
@@ -336,17 +367,19 @@ async function oneRun(task, arm, k, key, label) {
       mkdirSync(conf);
       run = await runClaude(argsFor(arm, task.prompt, mcpConfig), dir, cleanEnv(key, conf));
       const s = parseStream(run.lines);
-      writeFileSync(path.join(RAW, `${label}-${task.id}-${arm}${k}-a${attempt}.jsonl`), run.lines.join('\n') + `\n{"harness_stderr":${JSON.stringify(run.stderr)}}\n`);
+      writeFileSync(path.join(RAW, `${label}-${startId}-${task.id}-${arm}${k}-a${attempt}.jsonl`), run.lines.join('\n') + `\n{"harness_stderr":${JSON.stringify(run.stderr)}}\n`);
       attempts.push({ s, run, end: endOf(s, run) });
-      if (canaryHit(run.lines, canaryFile)) throw new StopGate(`${task.id} ${arm}${k}: the agent reached the canary outside its folder`);
+      const spent = () => attempts.reduce((a, x) => a + attemptCost(x.s).usd, 0);
+      if (canaryHit(run.lines, canaryFile)) throw new StopGate(`${task.id} ${arm}${k}: the agent reached the canary outside its folder`, spent());
       const startProblem = checkStart(s.init, arm, PLAN.harness);
-      if (startProblem && attempts.at(-1).end !== 'api-error') throw new StopGate(`${task.id} ${arm}${k}: ${startProblem}`);
+      if (startProblem && attempts.at(-1).end !== 'api-error') throw new StopGate(`${task.id} ${arm}${k}: ${startProblem}`, spent());
       // One more run only for an API error before the first tool call (C0.4, "Limits").
       if (!(attempts.at(-1).end === 'api-error' && !s.calls.length)) break;
     }
     const last = attempts.at(-1);
     // An API error after the retry, or after the first tool call, stops the gate (owner, 2026-11-12).
-    if (last.end === 'api-error') throw new StopGate(`${task.id} ${arm}${k}: an API or harness error (${last.s.result?.subtype ?? 'no result message'})`);
+    const cost = attempts.reduce((a, x) => a + attemptCost(x.s).usd, 0);
+    if (last.end === 'api-error') throw new StopGate(`${task.id} ${arm}${k}: an API or harness error (${last.s.result?.subtype ?? 'no result message'}${apiErrorText(last.s)})`, cost);
     const { s } = last;
     const after = snapshot(dir);
     const result = after.get(name);
@@ -365,6 +398,8 @@ async function oneRun(task, arm, k, key, label) {
     if (task.type === 'question') {
       const unchanged = result && result.equals(original) && !others.length;
       if (!unchanged) reasons.push('a file in the run folder changed');
+      // An edit that the agent undid still changed the file during the run (re-review, 9).
+      if (s.calls.some((c) => (c.name === 'Edit' || c.name === 'mcp__html__html_edit') && c.isError === false)) reasons.push('the run edited the file');
       const v = judge({ answers: [{ id: 'q', value: answerOf(s.result?.result), expected: task.answer }] }, base).answers.q;
       if (!v) reasons.push('the answer is not the expected value');
       pass = !reasons.length;
@@ -384,10 +419,11 @@ async function oneRun(task, arm, k, key, label) {
       task: task.id, type: task.type, arm, k, attempts: attempts.length,
       pass, reasons,
       tokens: usage ? runTokens(usage) : s.streamTokens,
-      tokensFrom: usage ? 'modelUsage' : 'assistant messages (no result message)',
+      tokensFrom: usage ? 'modelUsage' : 'assistant messages (no result message; output counts partial, about 1% low)',
       models: usage ? Object.keys(usage) : [],
       // The dollar cost counts every attempt (review, 8); the tokens count the last attempt (C0.4, "Limits").
-      costUsd: attempts.reduce((a, x) => a + (x.s.result?.total_cost_usd ?? 0), 0),
+      costUsd: cost,
+      costEstimated: attempts.some((x) => attemptCost(x.s).estimated),
       turns: s.result?.num_turns ?? null,
       firstInput: s.firstInput,
       toolCalls: countTools(s.calls),
@@ -469,75 +505,97 @@ async function main() {
   const gate = process.argv.includes('--gate');
   const pilot = process.argv.includes('--pilot');
   if (gate === pilot) throw new Error('give --pilot or --gate');
-  const { version, key } = preflight(gate);
+  const b = process.argv.indexOf('--budget-usd');
+  const budgetUsd = b === -1 ? PLAN.totalBudgetUsd : Number(process.argv[b + 1]);
+  if (!(budgetUsd > 0)) throw new Error('--budget-usd needs a positive number');
+  // One runner at a time, the pilot included: the lock comes before any folder is removed (re-review, 5). The lock
+  // stays when the runner crashes: the owner removes it after a check.
   mkdirSync(RAW, { recursive: true });
+  const lock = path.join(RAW, 'runner.lock');
+  try {
+    writeFileSync(lock, String(process.pid), { flag: 'wx' });
+  } catch {
+    throw new Error(`${lock} exists: another runner may be running. If none is, the owner removes the lock.`);
+  }
+  try {
+    await runAll(gate, budgetUsd);
+  } finally {
+    rmSync(lock, { force: true });
+  }
+}
+
+/**
+ * The progress file's lines, in order: {kind: 'start'} at each start, {kind: 'started'} before each run, then
+ * {kind: 'record'} with the run's record, or {kind: 'stopped'} when the gate stopped in that run (re-review, 3).
+ * Returns the records, the stops, and the runs that started with no outcome.
+ */
+export function replay(lines) {
+  const key3 = (r) => `${r.task}|${r.arm}|${r.k}`;
+  const records = [];
+  const stops = [];
+  const pending = new Map();
+  for (const l of lines) {
+    if (l.kind === 'started') pending.set(key3(l), l);
+    if (l.kind === 'stopped') { pending.delete(key3(l)); stops.push(l); }
+    if (l.kind === 'record') { pending.delete(key3(l)); records.push(l); }
+  }
+  return { records, stops, open: [...pending.keys()] };
+}
+
+async function runAll(gate, budgetUsd) {
+  const { version, key } = preflight(gate);
   const commit = git('rev-parse', 'HEAD');
+  runCommit = commit;
   const label = gate ? 'gate' : 'pilot';
   const taskFile = gate ? 'experiments/c05/tasks.json' : 'experiments/c03/tasks.json';
   const allTasks = JSON.parse(readFileSync(at(taskFile), 'utf8')).tasks;
   const tasks = gate ? allTasks : [...allTasks.filter((t) => PILOT_TASKS.includes(t.id)), canaryTask()];
   const order = gate ? schedule(tasks, PLAN.seed) : tasks.flatMap((t) => ARMS.map((arm) => ({ task: t.id, arm, k: 1 })));
 
-  // One runner at a time (review, 2). The lock stays when the runner crashes: the owner removes it after a check.
-  const lock = path.join(RAW, `${label}.lock`);
-  try {
-    writeFileSync(lock, String(process.pid), { flag: 'wx' });
-  } catch {
-    throw new Error(`${lock} exists: another runner may be running. If none is, the owner removes the lock.`);
-  }
-  // The progress file lets a stopped gate go on, on the same commit only (contract, rescope order, 5). It holds a
-  // "started" line before each run and its record after it (review, 6).
+  // The progress file lets a stopped gate go on, on the same commit only (contract, rescope order, 5).
   const progress = path.join(RAW, `${label}-progress.jsonl`);
   const lines = existsSync(progress) ? readFileSync(progress, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l)) : [];
   if (lines.some((r) => r.commit !== commit)) throw new Error(`${progress} holds runs of commit ${lines[0].commit}: go on only on that commit (contract, rescope order, 5)`);
   const key3 = (r) => `${r.task}|${r.arm}|${r.k}`;
-  const done = lines.filter((r) => !r.started);
+  const { records: done, stops, open } = replay(lines);
+  if (open.length) throw new Error(`${open.join(', ')} started and has no outcome: the owner decides before the gate goes on`);
   const have = new Set(done.map(key3));
-  const open = lines.filter((r) => r.started && !have.has(key3(r)));
-  if (open.length) throw new Error(`${open.map(key3).join(', ')} started and has no outcome: the owner decides before the gate goes on`);
   const byId = new Map(tasks.map((t) => [t.id, t]));
-  const before = done.length;
-  let n = done.length;
-  const append = (obj) => {
-    const line = JSON.stringify(obj);
-    if (holdsKey(line, key)) throw new Error('a run record holds the API key: stopped, nothing written');
-    appendFileSync(progress, line + '\n');
-  };
+  const startId = new Date().toISOString().replace(/[-:.]/g, '').slice(0, 15);
+  const starts = lines.filter((l) => l.kind === 'start');
   let lineCount = lines.length;
-  const sameFile = () => {
+  const append = (obj) => {
     // The progress file holds exactly the lines of this process and before it (security review, F1).
     const count = existsSync(progress) ? readFileSync(progress, 'utf8').split('\n').filter(Boolean).length : 0;
     if (count !== lineCount) throw new Error(`${progress} changed during the run: stopped`);
+    const line = JSON.stringify({ commit, ...obj });
+    if (holdsKey(line, key)) throw new Error('a run record holds the API key: stopped, nothing written');
+    appendFileSync(progress, line + '\n');
+    lineCount++;
+    return JSON.parse(line);
   };
-  try {
-    for (const o of order) {
-      if (have.has(key3(o))) continue;
-      const spent = done.reduce((a, r) => a + (r.costUsd ?? 0), 0);
-      if (spent >= PLAN.totalBudgetUsd) throw new Error(`stopped with no verdict: the runs so far cost $${spent.toFixed(2)}, the plan's total stop is $${PLAN.totalBudgetUsd}. The owner decides; the gate goes on from here on this commit.`);
-      sameFile();
-      append({ commit, started: true, task: o.task, arm: o.arm, k: o.k });
-      lineCount++;
-      let rec;
-      try {
-        rec = { commit, ...(await oneRun(byId.get(o.task), o.arm, o.k, key, label)) };
-      } catch (e) {
-        if (!(e instanceof StopGate)) throw e;
-        // The run gets no record: remove its "started" line, so that it runs again when the gate goes on.
-        const kept = readFileSync(progress, 'utf8').split('\n').filter(Boolean).slice(0, -1);
-        writeFileSync(progress, kept.map((l) => l + '\n').join(''));
-        throw new Error(`stopped with no verdict: ${e.message}. ${done.length} runs are recorded; the gate goes on from there on this commit.`);
-      }
-      sameFile();
-      append(rec);
-      lineCount++;
-      done.push(rec);
-      n++;
-      console.log(`${label} ${n}/${order.length}: ${o.task} ${o.arm}${o.k} ${rec.pass ? 'pass' : 'fail'}; ${rec.tokens} tokens; $${rec.costUsd.toFixed(3)}; ${rec.turns} turns`);
+  starts.push(append({ kind: 'start', start: startId, budgetUsd, harness: version }));
+  let n = done.length;
+  for (const o of order) {
+    if (have.has(key3(o))) continue;
+    // Every paid attempt counts, recorded or stopped (re-review, 4).
+    const spent = [...done, ...stops].reduce((a, r) => a + (r.costUsd ?? 0), 0);
+    if (spent >= budgetUsd) throw new Error(`stopped with no verdict: the runs so far cost $${spent.toFixed(2)}, the stop is $${budgetUsd}. The owner decides; to go on, start again on this commit with --budget-usd <a higher number>.`);
+    append({ kind: 'started', task: o.task, arm: o.arm, k: o.k });
+    let rec;
+    try {
+      rec = await oneRun(byId.get(o.task), o.arm, o.k, key, label, startId);
+    } catch (e) {
+      if (!(e instanceof StopGate)) throw e;
+      // The run gets no record, and runs again when the gate goes on; the stop stays in the file (owner, 2026-11-12).
+      stops.push(append({ kind: 'stopped', task: o.task, arm: o.arm, k: o.k, start: startId, reason: e.message, costUsd: e.costUsd }));
+      throw new Error(`stopped with no verdict: ${e.message}. ${done.length} runs are recorded; the gate goes on from there on this commit.`);
     }
-  } finally {
-    rmSync(lock, { force: true });
+    done.push(append({ kind: 'record', ...rec }));
+    n++;
+    console.log(`${label} ${n}/${order.length}: ${o.task} ${o.arm}${o.k} ${rec.pass ? 'pass' : 'fail'}; ${rec.tokens} tokens; $${rec.costUsd.toFixed(3)}; ${rec.turns} turns`);
   }
-  const cost = done.reduce((a, r) => a + (r.costUsd ?? 0), 0);
+  const cost = [...done, ...stops].reduce((a, r) => a + (r.costUsd ?? 0), 0);
   if (!gate) {
     console.log(`pilot done: ${done.length} runs, $${cost.toFixed(2)} in total; records in ${progress}`);
     return;
@@ -553,8 +611,10 @@ async function main() {
   const analysis = analyze(done, tasks, sizes, PLAN.seed);
   const result = {
     gate: 'C0.6', date: new Date().toISOString().slice(0, 10), commit, harness: version, plan: PLAN,
-    runsBeforeThisStart: before, // more than 0: the run went on after a stop, on the same commit
-    costUsd: cost, runs: done, analysis,
+    // Each start (its budget stop and harness) and each stop of the gate, with its reason (owner, 2026-11-12, rule 2).
+    starts: starts.map(({ start, budgetUsd: usd, harness }) => ({ start, budgetUsd: usd, harness })),
+    stops: stops.map(({ start, task, arm, k, reason, costUsd }) => ({ start, task, arm, k, reason, costUsd })),
+    costUsd: cost, costEstimatedRuns: done.filter((r) => r.costEstimated).length, runs: done, analysis,
   };
   const json = JSON.stringify(result, null, 1) + '\n';
   if (holdsKey(json, key)) throw new Error('the result holds the API key: stopped, nothing written');

@@ -343,3 +343,29 @@ test('project notes above a run folder are found (negative control)', () => {
     rmSync(top, { recursive: true, force: true });
   }
 });
+
+// --- The re-review's fixes -----------------------------------------------------------------------------------------
+import { replay, attemptCost, apiErrorText, StopGate } from './run-c06.mjs';
+
+test('the progress file: a stop keeps its line, its run runs again, and an open run is found', () => {
+  const L = (kind, task, extra = {}) => ({ kind, task, arm: 'B', k: 1, ...extra });
+  const r = replay([{ kind: 'start' }, L('started', 'a'), L('record', 'a', { costUsd: 0.1 }), L('started', 'b'), L('stopped', 'b', { costUsd: 0.02, reason: 'API' }),
+    { kind: 'start' }, L('started', 'b'), L('record', 'b'), L('started', 'c')]);
+  assert.deepEqual(r.records.map((x) => x.task), ['a', 'b']);
+  assert.deepEqual(r.stops.map((x) => [x.task, x.costUsd]), [['b', 0.02]]);
+  assert.deepEqual(r.open, ['c|B|1']);
+});
+
+test('the cost of an attempt: the harness value, or an estimate at list prices without a result message', () => {
+  assert.deepEqual(attemptCost({ result: { total_cost_usd: 0.25 } }), { usd: 0.25, estimated: false });
+  const est = attemptCost({ result: null, streamUsage: { input: 1_000_000, cacheWrite: 0, cacheRead: 1_000_000, output: 100_000 } });
+  assert.equal(est.estimated, true);
+  assert.ok(Math.abs(est.usd - (2 + 0.1 + 1)) < 1e-9);
+  assert.equal(new StopGate('x', 0.5).costUsd, 0.5);
+});
+
+test('an API error names its message; other text is never copied', () => {
+  assert.equal(apiErrorText({ result: { result: 'API Error: 529 overloaded' } }), '; API Error: 529 overloaded');
+  assert.equal(apiErrorText({ result: { result: 'text from the file' } }), '');
+  assert.ok(mcpCrashed([{ name: 'mcp__html__html_read', isError: true, errorText: 'html_read: internal error (the worker stopped: ERR)' }]));
+});
