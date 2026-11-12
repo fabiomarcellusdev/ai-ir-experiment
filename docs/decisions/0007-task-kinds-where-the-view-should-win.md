@@ -72,3 +72,10 @@ Option 3 (owner, 2026-11-12, "Yes to recommendations"):
 - A harness that loads MCP tool definitions only when they are used, or a change in how the gate counts cached tokens.
 
 ## Amendments
+
+**2026-11-12 (owner): option 2 follows option 3's previews.** The owner asked whether fewer, consolidated tools
+would cut the token overhead. Research (Claude Code tool search, the API's tool search, code execution with MCP,
+Anthropic's "Writing effective tools for agents") and C0.6's records show that the turns, not the definitions,
+decide the count: with no definition tokens at all, C0.6's ratio would be about 1.21, not 1.40. The owner chose to
+run only the C0.7 and C0.9 previews with the current server, then to design the consolidated tools (option 2) and
+amend gates C0.7 to C0.9 to test them (`docs/contract.md`, "Amendments of the second rescope").

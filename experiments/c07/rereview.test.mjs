@@ -98,6 +98,12 @@ test('re-review 4: the freeze lists every file that the frozen code loads', () =
   }
   const missing = [...seen].filter((f) => !frozen.has(f));
   assert.deepEqual(missing, []);
+  // The previews' scope also holds every loaded file, and none of the gates' records or task sets.
+  const previews = new Set(frozenFiles('previews'));
+  assert.deepEqual([...seen].filter((f) => !previews.has(f)), []);
+  assert.deepEqual([...previews].filter((f) => !frozen.has(f)), []);
+  assert.deepEqual([...previews].filter((f) => /c0[789]-(file-set|tasks)\.json$/.test(f) && !f.includes('preview-')), []);
+  assert.throws(() => frozenFiles('other'), /no freeze scope/);
   // Negative control: the closure holds the tool text and both Python files.
   for (const f of ['experiments/c03/mcp-tools.json', 'experiments/c06/judge.py', 'experiments/c07/oracle_c07.py', 'experiments/c01/oracle.py']) assert.ok(seen.has(f), f);
 });

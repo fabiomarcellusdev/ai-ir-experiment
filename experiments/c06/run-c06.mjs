@@ -20,7 +20,7 @@ import { load, pageCount } from '../../server/view.mjs';
 import { analyze, runTokens, ARMS, RUNS_PER_ARM } from './analysis.mjs';
 import { GATES, gateTasks, previewTasks, tokenCounter, storedPath, checkedPath } from '../c07/tasks.mjs';
 import { applyChange } from '../c07/rules.mjs';
-import { frozenFiles } from '../c07/freeze.mjs';
+import { frozenFiles, OUT as FREEZE_OUT } from '../c07/freeze.mjs';
 
 const ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const at = (...p) => path.join(ROOT, ...p);
@@ -525,8 +525,8 @@ function canaryTask() {
   };
 }
 
-/** The files that the second rescope freezes (contract, "The inputs", 7): their SHA-256 are in RUN_INPUTS_2. */
-export const RUN_INPUTS_2 = 'experiments/c07/run-inputs.json';
+/** The second rescope's freeze files, by scope (contract, "The inputs", 7; amendment "the previews first"). */
+export const RUN_INPUTS_2 = FREEZE_OUT;
 
 /**
  * The second rescope's freeze (contract, "The inputs", 7 and 8): every file in run-inputs.json has its recorded
@@ -542,7 +542,7 @@ export function freezeProblem(frozen, expected, shaOf) {
   if (JSON.stringify(keys) !== JSON.stringify(want)) {
     const missing = want.filter((f) => !keys.includes(f));
     const extra = keys.filter((f) => !want.includes(f));
-    return `${RUN_INPUTS_2} does not list exactly the frozen files (missing: ${missing.join(', ') || 'none'}; extra: ${extra.join(', ') || 'none'})`;
+    return `the freeze does not list exactly the frozen files (missing: ${missing.join(', ') || 'none'}; extra: ${extra.join(', ') || 'none'})`;
   }
   for (const f of keys) if (shaOf(checkedPath(f, FROZEN_ROOTS)) !== frozen[f]) return `${f} changed since the freeze`;
   return null;
@@ -550,7 +550,8 @@ export function freezeProblem(frozen, expected, shaOf) {
 const FROZEN_ROOTS = ['experiments/', 'server/', 'docs/', 'package.json', 'pnpm-lock.yaml'];
 
 async function checkFreeze(set, files, key) {
-  const problem = freezeProblem(JSON.parse(readFileSync(at(RUN_INPUTS_2), 'utf8')).sha256, frozenFiles(), (f) => sha(readFileSync(at(f))));
+  const scope = set.preview ? 'previews' : 'gates';
+  const problem = freezeProblem(JSON.parse(readFileSync(at(RUN_INPUTS_2[scope]), 'utf8')).sha256, frozenFiles(scope), (f) => sha(readFileSync(at(f))));
   if (problem) throw new Error(problem);
   const committed = JSON.parse(readFileSync(at(set.tasks), 'utf8'));
   const texts = files.map((f) => ({ file: f.file, text: readFileSync(at(f.file), 'utf8') }));

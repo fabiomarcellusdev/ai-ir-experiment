@@ -852,3 +852,21 @@ runs that read a whole file.
   again.
 - **In all:** about $12 to $25. The lead estimates each gate again from its preview's measured cost. Each run stops at
   $5, and the runner stops a gate at $40.
+
+### Amendments of the second rescope
+
+**2026-11-12 (owner): the previews first; the gates wait for a new tool design.** No preview or gate run has started.
+1. **The draws stopped.** The 3 draws ran on commit `d2a24b1` and each stopped before it wrote a record, on a case
+   that "The inputs", 2 does not cover: C0.7 and C0.8 had a second kind with no file (blog), and C0.9 had 1 file in
+   the email kind. No file is drawn. The lead proposes to fill missing files from the other kinds, in C0.3's kind
+   order with the same stream, so that each gate keeps 10 files. The owner decides this rule with item 3.
+2. **The previews run before the draws.** They use C0.5's files only, so they need no draw. Their freeze
+   (`experiments/c07/run-inputs-previews.json`) covers the previews' inputs, the scripts and the runner; the gates'
+   records and task sets are not in it. "The inputs", 8 holds for the gates when they are drawn.
+3. **The gates do not run with the current server.** After the C0.7 and C0.9 previews, the lead proposes a server
+   with fewer, consolidated tools (decision 0007, option 2), in a decision record. Gates C0.7 to C0.9 are then
+   amended to test it, on fresh draws, before any gate run. Reason: the previews and C0.6 show the cost of the extra
+   turns, and the full gates with the current server would mostly measure that again.
+4. **C0.8 has no preview:** C0.5's files give 4 C0.8 tasks, under the minimum of 6. Its cost is estimated from the
+   measured cost of the C0.7 and C0.9 previews, and C0.8 runs only after the owner's yes for that estimate.
+- **No number changed.**
