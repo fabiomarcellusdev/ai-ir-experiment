@@ -417,7 +417,7 @@ async function runOnce(main, files, oracle) {
 }
 
 /** Negative control 1: the POC's view of the nested pre case must break condition 1. */
-async function pocControl(files, work, oracle) {
+export async function pocControl(files, work, oracle) {
   const src = execFileSync('git', ['show', `${POC.commit}:${POC.path}`], { cwd: ROOT, encoding: 'utf8' });
   if (/^\s*import\s/m.test(src)) throw new Error('the POC module imports a module; the control cannot load it alone');
   const p = path.join(work, 'poc-ir.mjs');

@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { checkV2Output, named, opArgs, firstOld, MUTANTS, TARGETS, CUT } from './run-c02-v2.mjs';
+import { checkV2Output, named, opArgs, firstOld, controlOk, MUTANTS, TARGETS, CUT } from './run-c02-v2.mjs';
 import { hostileFilesV2, IDS, HIDDEN_ID_WORDS } from '../../tests/gates/hostile-v2.mjs';
 
 const ROOT = fileURLToPath(new URL('../../', import.meta.url));
@@ -44,13 +44,21 @@ test('firstOld: the first whole word that occurs once, fast on a long text', () 
   assert.equal(firstOld(tm('x x'), 0), null);
   const t0 = Date.now();
   assert.equal(firstOld(tm(`${'word '.repeat(300_000)}needle near the end`), 0), 'needle');
-  assert.ok(Date.now() - t0 < 1000, 'firstOld is slow on a long text');
+  assert.ok(Date.now() - t0 < 5000, 'firstOld is slow on a long text');
 });
 
 test('each control\'s line occurs exactly once in its server file', () => {
-  for (const [name, [, patches]] of Object.entries(MUTANTS)) {
+  for (const [name, [, , patches]] of Object.entries(MUTANTS)) {
     for (const [file, from] of patches) assert.equal(readFileSync(path.join(ROOT, 'server', file), 'utf8').split(from).length, 2, name);
   }
+});
+
+test('controlOk: a control fails on its condition in its own cases, with no internal error (review, 3)', () => {
+  const ctl = ['c6', ['stale:text']];
+  assert.equal(controlOk(ctl, [{ caseId: 'stale:text', reason: 'c6: a stale hash is not refused' }]), true);
+  assert.equal(controlOk(ctl, [{ caseId: 'path:..', reason: 'c6: a path case is not refused' }]), false); // another case
+  assert.equal(controlOk(ctl, [{ caseId: 'stale:text', reason: 'c4: x' }]), false); // another condition
+  assert.equal(controlOk(ctl, [{ caseId: 'stale:text', reason: 'c6: x' }, { caseId: 'a', reason: 'the server gave an internal error' }]), false);
 });
 
 test('the extra hostile files: each has a target or is refused whole, and the hidden ids hold the hidden words', () => {

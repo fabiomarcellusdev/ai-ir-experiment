@@ -167,6 +167,13 @@ test('the marker parse of an element runs once for each view (the result is kept
   element(m, td.ref);
   assert.equal(m.ranges.get(td), true);
   assert.equal(element(m, td.ref), td); // control: a second call still gives the element
+  // A range that the marker parse finds not exact is kept as false, and refused again (review of C0.2 v2, 9).
+  const bad = load('<b><p>x</b>y</p>', 'h');
+  const b = bad.els.find((e) => e.tagName === 'b' && e.sourceCodeLocation);
+  const first = bad.ranges.get(b);
+  assert.throws(() => element(bad, b.ref), /no clean range/);
+  assert.throws(() => element(bad, b.ref), /no clean range/);
+  if (first === 'check') assert.equal(bad.ranges.get(b), false);
 });
 
 test('hidden text is skipped by the text locator; control: the same text when not hidden', () => {

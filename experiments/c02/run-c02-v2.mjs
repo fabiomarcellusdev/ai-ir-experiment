@@ -13,7 +13,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { load } from '../../server/view.mjs';
 import { hostileFiles, FIND, HIDDEN_WORDS } from '../../tests/gates/hostile.mjs';
 import { hostileFilesV2, HIDDEN_ID_WORDS, IDS } from '../../tests/gates/hostile-v2.mjs';
-import { checkLines, checkRefs, returnedMatches, shownTag, SECRET, RUNS, LIMIT_MS } from './run-c02.mjs';
+import { checkLines, checkRefs, returnedMatches, SECRET, RUNS, LIMIT_MS, pocControl } from './run-c02.mjs';
 import { entry } from '../c01/run-c01.mjs';
 import { oracle as oracleV2, textModel, serverOutcomes, checkJob, reasons } from '../c01/run-c01-v2.mjs';
 
@@ -100,25 +100,32 @@ function startServer(main, root) {
 }
 
 /**
- * The negative controls (B.9), each with the condition it must fail and its patches [file, from, to]. The first 4 are
- * C0.2's server controls; C0.2's POC control does not use the server (run-c02.mjs).
+ * The negative controls (B.9): each with the condition it must fail, the case ids where it must fail (a prefix
+ * each), and its patches [file, from, to]. A control passes only with a failure of its condition on its own cases,
+ * and no internal error anywhere (review of C0.2 v2, 3). C0.2's 5th control, the POC view, uses no server
+ * (`pocControl` of run-c02.mjs) and runs too.
  */
 export const MUTANTS = {
-  'a planted backtracking regex': ['c7', [['view.mjs', '  const doc = parseDoc(text);\n', '  /^<a(?: x="1"| x="1")*!/.test(text);\n  const doc = parseDoc(text);\n']]],
-  'html_find reads its search text as a regular expression': ['c4', [['view.mjs',
+  'a planted backtracking regex': ['c7', ['backtrack-'], [['view.mjs', '  const doc = parseDoc(text);\n', '  /^<a(?: x="1"| x="1")*!/.test(text);\n  const doc = parseDoc(text);\n']]],
+  'html_find reads its search text as a regular expression': ['c4', ['find:regex'], [['view.mjs',
     '  for (let i = m.vis.indexOf(text); i !== -1; i = m.vis.indexOf(text, i + 1)) occ.push(i);',
     "  for (const x of m.vis.matchAll(new RegExp(text, 'g'))) occ.push(x.index);"]]],
-  'html_find matches hidden content': ['c3', [['view.mjs',
+  'html_find matches hidden content': ['c3', ['find:hidden'], [['view.mjs',
     'if (n.tagName && (NOT_VISIBLE.has(n.tagName) || hidden.has(n)))', 'if (n.tagName && NOT_VISIBLE.has(n.tagName))']]],
-  'html_find with no limit on matches': ['c4', [['v2.mjs', 'const MAX_MATCHES = 20;', 'const MAX_MATCHES = Infinity;']]],
-  'an id listing with no output cap': ['c1', [['v2.mjs',
+  'html_find with no limit on matches': ['c4', ['find:10000'], [['v2.mjs', 'const MAX_MATCHES = 20;', 'const MAX_MATCHES = Infinity;']]],
+  'an id listing with no output cap': ['c1', ['time:id-listing'], [['v2.mjs',
     "    if (size + l.length + 1 > PAGE_CHARS) { lines.push(`… output cut at ${PAGE_CHARS.toLocaleString('en-US')} characters`); break; }", '']]],
-  'a locator that ignores the hash': ['c6', [['v2.mjs', "  if (a.hash !== undefined && a.hash !== m.hash) fail('the file changed since the hash');", '']]],
-  'an id listing that shows hidden children': ['c3', [
-    ['v2.mjs', '  const els = m.els.filter((e) => m.shown.has(e) && e.attrs.some((a) => a.name === \'id\' && a.value === id));',
-      '  const els = m.els.filter((e) => e.attrs.some((a) => a.name === \'id\' && a.value === id));'],
+  'a locator that ignores the hash': ['c6', ['stale:text'], [['v2.mjs', "  if (a.hash !== undefined && a.hash !== m.hash) fail('the file changed since the hash');", '']]],
+  // Only the listing changes: the id lookup still finds shown elements only (review of C0.2 v2, 4).
+  'an id listing that shows hidden children': ['c3', ['ids:shown-parent'], [
     ['v2.mjs', '    const l = m.shown.has(c) ? ` ${fullHead(c)}` : ` @${c.ref} ${escTag(c.tagName)} (hidden)`;', '    const l = ` ${fullHead(c)}`;']]],
 };
+
+/** Whether a control's run fails as it must (B.9; review of C0.2 v2, 3). */
+export function controlOk([cond, cases], failures) {
+  if (failures.some((f) => /internal error/.test(f.reason))) return false;
+  return failures.some((f) => f.reason.startsWith(`${cond}:`) && cases.some((c) => f.caseId.startsWith(c)));
+}
 
 function mutantServer(base, name, patches) {
   const dir = path.join(base, name.replace(/\W+/g, '-'));
@@ -151,6 +158,7 @@ export const TARGETS = {
   'ten-thousand.html': ['li', 5000, '<li>edited</li>'],
   'fostered-2mb.html': ['td', 5000, '<td>new</td>'],
   'ids.html': ['p', 0, '<p>edited</p>'],
+  'data-id.html': ['p', 0, '<p>edited</p>'],
   'tags-20000.html': ['td', 10_000, '<td>new</td>'],
   'id-80000.html': ['i', 40_000, '<i>new</i>'],
   'long-text.html': ['p', 0, '<p>short</p>'],
@@ -195,6 +203,7 @@ export function runOracle(files, work) {
   for (const [name, bytes] of files) if (name !== 'large-25mb.html') job.files[name] = bytes.toString('utf8');
   for (const w of FIND.hidden) job.finds.push(['hidden.html', w]);
   job.finds.push(['pre-text.html', FIND.pre], ['ten-thousand.html', FIND.many], ['regex.html', FIND.regex]);
+  for (const w of HIDDEN_ID_WORDS) job.finds.push(['ids.html', w]);
   writeFileSync(path.join(work, 'job.json'), JSON.stringify(job));
   execFileSync(python, ['-I', '-B', at('experiments/c02/oracle_c02.py'), path.join(work, 'job.json'), path.join(work, 'oracle.json')], { stdio: 'inherit' });
   const out = JSON.parse(readFileSync(path.join(work, 'oracle.json'), 'utf8'));
@@ -257,6 +266,7 @@ export async function runOnce(main, files, oracle) {
       const over = OVER[name];
       const seen = new Set();
       let pages = 1;
+      const text = [];
       for (let page = 1; page <= pages; page++) {
         const r = await call(`${name}:outline`, 'html_outline', { file: name, page });
         if (r.isError) {
@@ -271,7 +281,21 @@ export async function runOnce(main, files, oracle) {
         const c = checkLines(lines.slice(1));
         for (const w of c.reasons) fail(`${name}:outline`, 'html_outline', w);
         for (const w of checkRefs(c.refs, elements, seen)) fail(`${name}:outline`, 'html_outline', w);
+        text.push(r.text);
       }
+      // C0.2's outline checks (run-c02.mjs; review of C0.2 v2, 1 and 2): no hidden line unless marked, the "<" of
+      // markup-join as "&lt;", the data: URI shortened with its length, and no read of a file over the limits.
+      const all = text.join('\n');
+      const hiddenRefs = new Set(oracle.hidden[name] ?? []);
+      for (const l of all.split('\n')) {
+        const ref = /^ *@(\d+) /.exec(l)?.[1];
+        const shown = [...HIDDEN_WORDS, ...HIDDEN_ID_WORDS].some((w) => l.includes(w)) || (ref !== undefined && hiddenRefs.has(Number(ref)));
+        if (shown && !l.includes('(hidden)')) fail(`${name}:outline`, 'html_outline', 'c3: the outline shows hidden content');
+      }
+      if (name === 'markup-join.html' && !/^ *\| x &lt;/m.test(all)) fail(`${name}:outline`, 'html_outline', 'c2: the "<" from text is not "&lt;"');
+      if (name === 'data-uri.html' && !all.includes(`data:…(${'data:image/png;base64,'.length + 100_000} chars)`)) fail(`${name}:outline`, 'html_outline', 'c5: the data: URI is not shortened with its length');
+      if (/data:[^\s"')]{101}/.test(all)) fail(`${name}:outline`, 'html_outline', 'c5: an output holds a data: URI longer than 100 characters');
+      if (over && text.length) fail(`${name}:outline`, 'html_outline', 'the server read a file over its limits');
       const fr = await call(`${name}:find`, 'html_find', { file: name, text: 'e' });
       if (over) { if (!named('html_find', fr) || !over.test(fr.text)) fail(`${name}:find`, 'html_find', 'a file over the limits is not refused with its reason'); }
       else if (fr.isError) fail(`${name}:find`, 'html_find', 'c4: html_find refuses a file that it must read');
@@ -318,21 +342,40 @@ export async function runOnce(main, files, oracle) {
     const empty = await call('find:empty', 'html_find', { file: 'regex.html', text: '' });
     if (!named('html_find', empty)) fail('find:empty', 'html_find', 'c4: the empty search text is not refused with a named error');
 
-    // B.4: ids on and around hidden content.
+    // B.4: ids on and around hidden content. A hidden child's line is only "@n tag (hidden)" (review, 7), and the
+    // child count is the oracle's.
+    const childCount = (file, id) => {
+      const fx = oracle.facts[file].elements;
+      const host = fx.findIndex((e) => e.id === id);
+      return fx.filter((e) => e.parent === host).length;
+    };
+    const idCount = (caseId, out, file, id) => {
+      const n = Number(ID_FOOT.exec(out.split('\n').at(-1))?.[1]);
+      if (n !== childCount(file, id)) fail(caseId, 'html_find', 'c1: the child count is not the oracle\'s');
+    };
     const ids = await call('ids:shown-parent', 'html_find', { file: 'ids.html', id: IDS.shownParent });
     if (ids.isError) fail('ids:shown-parent', 'html_find', 'c3: the shown parent is not found by its id');
     else {
       for (const w of checkV2Output('id', ids.text, oracle.elements['ids.html'])) fail('ids:shown-parent', 'html_find', w);
+      idCount('ids:shown-parent', ids.text, 'ids.html', IDS.shownParent);
       const hiddenRefs = new Set(oracle.hidden['ids.html'] ?? []);
       for (const l of ids.text.split('\n')) {
         const r = /^ *@(\d+) /.exec(l)?.[1];
-        if (r !== undefined && hiddenRefs.has(Number(r)) && !/ \(hidden\)$/.test(l)) fail('ids:shown-parent', 'html_find', 'c3: a hidden child is shown with its attributes');
+        if (r !== undefined && hiddenRefs.has(Number(r)) && !/^ *@\d+ [^ (]+ \(hidden\)$/.test(l)) fail('ids:shown-parent', 'html_find', 'c3: a hidden child is shown with its attributes');
       }
     }
     for (const id of IDS.hidden) {
       const r = await call(`ids:${id}`, 'html_find', { file: 'ids.html', id });
       if (!named('html_find', r) || !/no element has the id/.test(r.text)) fail(`ids:${id}`, 'html_find', 'c3: a hidden element is found by its id');
     }
+    for (const w of HIDDEN_ID_WORDS) {
+      if (oracle.count.get(`ids.html\0${w}`) !== 0) fail('ids:words', 'html_find', 'c3: the oracle counts hidden content');
+      if ((await findCase('ids:words', 'ids.html', w)) !== 0) fail('ids:words', 'html_find', 'c3: html_find matches hidden content');
+    }
+    // Condition 5 on v2's full lines: the img with a 100 KB data: URI, listed with all its attributes (review, 1).
+    const pic = await call('data:id-listing', 'html_find', { file: 'data-id.html', id: 'hasimg' });
+    if (pic.isError || !pic.text.includes(`data:…(${'data:image/png;base64,'.length + 100_000} chars)`)) fail('data:id-listing', 'html_find', 'c5: the data: URI is not shortened with its length');
+    else for (const w of checkV2Output('id', pic.text, oracle.elements['data-id.html'])) fail('data:id-listing', 'html_find', w);
 
     // B.6: the time cases of the new files (the tag locator, the id listing, a long text node).
     const tags = await call('time:tag-locator', 'html_change', { file: 'tags-20000.html', operation: 'remove', text: 'cell', tag: 'td' });
@@ -340,7 +383,16 @@ export async function runOnce(main, files, oracle) {
     else for (const w of checkV2Output('locator', tags.text.replace(/^html_change: /, ''), oracle.elements['tags-20000.html'])) fail('time:tag-locator', 'html_change', w);
     const big = await call('time:id-listing', 'html_find', { file: 'id-80000.html', id: 'big' });
     if (big.isError || !big.text.includes(CUT) || big.text.length > 60_000 + 200) fail('time:id-listing', 'html_find', 'c1: the id listing is not cut at one page');
-    else for (const w of checkV2Output('id', big.text, oracle.elements['id-80000.html'])) fail('time:id-listing', 'html_find', w);
+    else {
+      for (const w of checkV2Output('id', big.text, oracle.elements['id-80000.html'])) fail('time:id-listing', 'html_find', w);
+      idCount('time:id-listing', big.text, 'id-80000.html', 'big');
+    }
+    // The id, child and n locator on the element with 80,000 children (review, 7).
+    const bigFile = path.join(root, 'id-80000.html');
+    const bigBytes = readFileSync(bigFile);
+    const nth = await call('time:id-child-n', 'html_change', { file: 'id-80000.html', operation: 'set_attribute', id: 'big', child: 'i', n: 40_000, attribute: 'class', value: 'v' });
+    if (nth.isError) fail('time:id-child-n', 'html_change', 'the id, child and n locator is refused');
+    writeFileSync(bigFile, bigBytes);
     const longFile = path.join(root, 'long-text.html');
     const longBytes = readFileSync(longFile);
     const lt = await call('time:long-text', 'html_change', { file: 'long-text.html', operation: 'replace_text', text: 'needle near the end', old: 'needle near the end', new: 'found' });
@@ -351,15 +403,20 @@ export async function runOnce(main, files, oracle) {
     const stale = path.join(root, 'stale.html');
     const staleBytes = Buffer.from('<!DOCTYPE html><html><body><p>one</p><p>two</p></body></html>\n');
     writeFileSync(stale, staleBytes);
+    const o = await call('stale', 'html_outline', { file: 'stale.html' });
     const f = await call('stale', 'html_find', { file: 'stale.html', text: 'two' });
+    // Both tools give the file's hash, and each hash is used (C0.2 amendment of 2026-11-11, 6; review, 7).
+    const outlineHash = /; hash ([0-9a-f]{16})$/m.exec(o.text)?.[1];
     const findHash = /hash ([0-9a-f]{16})$/.exec(f.text)?.[1];
-    if (f.isError || findHash !== hashOf(staleBytes)) fail('stale', 'html_find', 'c6: find does not give the file\'s hash');
+    if (o.isError || f.isError || outlineHash !== hashOf(staleBytes) || findHash !== hashOf(staleBytes)) fail('stale', 'html_find', 'c6: outline or find does not give the file\'s hash');
     appendFileSync(stale, '<!-- changed -->\n');
     const changed = readFileSync(stale);
     const pRef = load(staleBytes.toString(), '').els.find((e) => e.tagName === 'p').ref;
-    for (const [kind, args] of [['ref', { ref: pRef }], ['text', { text: 'two' }], ['id', { id: 'none-but-checked-after-hash' }]]) {
-      const r = await call(`stale:${kind}`, 'html_change', { file: 'stale.html', operation: 'remove', hash: findHash ?? '', ...args });
-      if (!named('html_change', r) || !/changed since the hash/.test(r.text)) fail(`stale:${kind}`, 'html_change', 'c6: a stale hash is not refused with a named error');
+    for (const [from, oldHash] of [['outline', outlineHash], ['find', findHash]]) {
+      for (const [kind, args] of [['ref', { ref: pRef }], ['text', { text: 'two' }], ['id', { id: 'none-but-checked-after-hash' }]]) {
+        const r = await call(`stale:${kind}`, 'html_change', { file: 'stale.html', operation: 'remove', hash: oldHash ?? '', ...args });
+        if (!named('html_change', r) || !/changed since the hash/.test(r.text)) fail(`stale:${kind}`, 'html_change', `c6: a stale hash (from ${from}) is not refused with a named error`);
+      }
     }
     if (!readFileSync(stale).equals(changed)) fail('stale', 'html_change', 'c6: the file changed');
 
@@ -392,13 +449,15 @@ export async function runOnce(main, files, oracle) {
       'alternate data stream': ['page.html:secret.html', /alternate data stream/],
       ...(linked ? { 'link or junction out of the workspace': ['out-link/secret.html', /outside the workspace/] } : {}),
     };
+    // The change names the secret's own text, so that a server that escapes the workspace would write (review, 5).
+    const streamBytes = () => (stream ? readFileSync(path.join(root, 'page.html:secret.html')) : null);
     for (const [kind, [p, reason]] of Object.entries(paths)) {
       for (const tool of TOOLS) {
         const before = snapshot();
-        const args = tool === 'html_find' ? { file: p, text: 'p' } : tool === 'html_outline' ? { file: p } : { file: p, operation: 'remove', text: 'p' };
+        const args = tool === 'html_find' ? { file: p, text: SECRET } : tool === 'html_outline' ? { file: p } : { file: p, operation: 'replace', text: SECRET, html: '<p>changed</p>' };
         const r = await call(`path:${kind}`, tool, args);
         if (!named(tool, r) || !reason.test(r.text)) fail(`path:${kind}`, tool, 'c6: a path case is not refused with its reason');
-        if (snapshot() !== before) fail(`path:${kind}`, tool, 'c6: a file changed');
+        if (snapshot() !== before || (stream && !streamBytes().equals(secret))) fail(`path:${kind}`, tool, 'c6: a file changed');
       }
     }
     return { calls, failures, linked, stream };
@@ -416,7 +475,18 @@ async function noFileCases(main) {
     'no .html file': [(d) => writeFileSync(path.join(d, 'notes.txt'), 'x'), /holds 0 \.html or \.htm files/],
     '2 .html files': [(d) => { writeFileSync(path.join(d, 'a.html'), page); writeFileSync(path.join(d, 'b.html'), page); }, /holds 2 \.html or \.htm files/],
     '1 file and a dot file': [(d) => { writeFileSync(path.join(d, 'a.html'), page); writeFileSync(path.join(d, '.hidden.html'), '<p>dot</p>'); }, null],
-    'only a link named x.html': [(d) => { mkdirSync(path.join(d, 'target')); symlinkSync(path.join(d, 'target'), path.join(d, 'x.html'), 'junction'); }, /holds 0 \.html or \.htm files/],
+    // A file link to a page outside the folder where the system allows it, else a junction to a folder (review, 7).
+    'only a link named x.html': [(d) => {
+      const out = path.join(d, '..', `${path.basename(d)}-out`);
+      mkdirSync(out, { recursive: true });
+      writeFileSync(path.join(out, 'page.html'), page);
+      try {
+        symlinkSync(path.join(out, 'page.html'), path.join(d, 'x.html'), 'file');
+      } catch {
+        mkdirSync(path.join(d, 'target'));
+        symlinkSync(path.join(d, 'target'), path.join(d, 'x.html'), 'junction');
+      }
+    }, /holds 0 \.html or \.htm files/],
   };
   for (const [kind, [setup, want]] of Object.entries(setups)) {
     const d = mkdtempSync(path.join(os.tmpdir(), 'hir-c02v2-nofile-'));
@@ -427,9 +497,18 @@ async function noFileCases(main) {
       // The reads first, then the change: the change alters the file's hash (development run).
       for (const tool of ['html_find', 'html_outline', 'html_change']) {
         const args = tool === 'html_find' ? { text: 'only' } : tool === 'html_outline' ? {} : { operation: 'set_attribute', text: 'only page', attribute: 'class', value: 'v' };
+        const list = () => readdirSync(d).map((x) => { const q = path.join(d, x); return statSync(q).isFile() ? `${x}:${sha256(readFileSync(q))}` : x; }).join('\n');
+        const before = list();
+        const t0 = performance.now();
         const msg = await s.req('tools/call', { name: tool, arguments: args });
+        const ms = performance.now() - t0;
         const r = { text: msg?.result?.content?.[0]?.text ?? '', isError: !msg || !!msg.result?.isError };
-        if (want) { if (!named(tool, r) || !want.test(r.text)) failures.push({ caseId: `nofile:${kind}`, tool, reason: 'c6: not refused with its reason' }); }
+        // Timed, and the files unchanged after a refusal (review, 7).
+        if (ms > LIMIT_MS) failures.push({ caseId: `nofile:${kind}`, tool, reason: 'c7: the call took longer than 2 s' });
+        if (want) {
+          if (!named(tool, r) || !want.test(r.text)) failures.push({ caseId: `nofile:${kind}`, tool, reason: 'c6: not refused with its reason' });
+          if (list() !== before) failures.push({ caseId: `nofile:${kind}`, tool, reason: 'c6: a file changed' });
+        }
         else {
           // The call works on the one plain file: a read gives its hash; the change changes it, and not the dot file.
           const worked = tool === 'html_change'
@@ -441,6 +520,7 @@ async function noFileCases(main) {
       await s.stop();
     } finally {
       rmSync(d, { recursive: true, force: true });
+      rmSync(`${d}-out`, { recursive: true, force: true }); // the link case's outside folder
     }
   }
   return failures;
@@ -504,14 +584,16 @@ async function main() {
     const base = path.join(at('experiments/gate-files'), 'c02v2-mutants');
     rmSync(base, { recursive: true, force: true });
     try {
-      for (const [name, [cond, patches]] of Object.entries(MUTANTS)) {
+      for (const [name, [cond, cases, patches]] of Object.entries(MUTANTS)) {
         const r = await runOnce(mutantServer(base, name, patches), files, oracle);
-        controls[name] = { condition: cond, failures: r.failures.length, conditions: [...new Set(r.failures.map((x) => x.reason.split(':')[0]))] };
+        controls[name] = { condition: cond, cases, failures: r.failures.length, ok: controlOk([cond, cases], r.failures) };
       }
     } finally {
       rmSync(base, { recursive: true, force: true });
     }
-    const controlsOk = Object.values(controls).every((c) => c.conditions.includes(c.condition));
+    const poc = await pocControl(hostileFiles(), work, oracle);
+    controls['the POC view on the nested pre case'] = { condition: 'c1', failures: poc.length, ok: poc.some((x) => x.startsWith('c1')) };
+    const controlsOk = Object.values(controls).every((c) => c.ok);
     if (git('rev-parse', 'HEAD') !== startCommit) throw new Error('HEAD moved during the run: run again');
     const cpu = os.cpus();
     const result = {
