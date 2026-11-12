@@ -2,10 +2,9 @@
 // The rules are in rules.mjs. This module adds the oracle (html5lib 1.1 through oracle_c07.py) and, for C0.7, the
 // token count of a Read of the target (count_tokens: free, with the owner's key), and draws.
 //
-// A target is valid only after both checks. The draw shuffles each list of candidates with the gate's seed and takes
-// the first valid one that no earlier task of the file uses: this is a uniform draw from the full list of valid
-// targets (inputs, 4). The task rule of the draw asks for at least 4 valid candidates of each task type, so that this
-// draw can never fail on a file that passed it.
+// A target is valid only after both checks. The task rule of the draw asks that each of the file's tasks can get a
+// different valid target (a matching). The task draw checks every unit of a drawn file, then draws slot by slot among
+// the valid targets that still leave a matching (`drawExact`), so it never fails on a file that passed the rule.
 //
 //   node experiments/c07/tasks.mjs <c07|c08|c09>            the gate's task set, from its committed draw
 //   node experiments/c07/tasks.mjs <c07|c08|c09> --preview  the preview's tasks, from C0.5's 10 files
@@ -20,6 +19,7 @@ import { tokens } from '../c01/tree.mjs';
 import { codePoints } from '../c01/run-c01.mjs';
 import { parseDoc, markerSource } from '../../server/view.mjs';
 import * as R from './rules.mjs';
+import { ToolError } from '../../server/errors.mjs';
 
 const ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const at = (...p) => path.join(ROOT, ...p);
@@ -241,16 +241,6 @@ async function firstValidGroup(groups, check, batch = 6) {
   return null;
 }
 
-/**
- * A uniform draw over the valid targets that no earlier task uses (review, 3): the targets are shuffled, then each
- * target's units (its attributes, for a question or an attribute change); the first target with a valid unit gives
- * that unit.
- */
-export async function drawUnit(list, check, used, rnd) {
-  const groups = shuffle(byTarget(list).filter((g) => !used.has(g[0].el)), rnd).map((g) => (g.length > 1 ? shuffle(g, rnd) : g));
-  return firstValidGroup(groups, check);
-}
-
 /** The valid targets of a list, in document order, up to `cap` (all of them when there are fewer). */
 async function validTargets(list, check, cap) {
   const out = [];
@@ -286,7 +276,13 @@ const taskTypes = (gate) => (gate === 'c07' ? ['removal', 'replacement', 'remova
  * or null.
  */
 export async function taskRule(gate, text, count) {
-  const m = R.view(text);
+  let m;
+  try {
+    m = R.view(text);
+  } catch (err) {
+    if (err instanceof ToolError) return err.message;
+    throw err;
+  }
   m.gate = gate;
   const check = checker(m, count);
   const found = new Map();
@@ -306,42 +302,81 @@ export async function taskRule(gate, text, count) {
   return null;
 }
 
-/** The most tries of a file's draw. A file that passed the task rule has a set of 4 targets, so a try can succeed. */
-export const MAX_TRIES = 100;
+/**
+ * The draw of one file's tasks (re-review, 5): slot by slot, a uniform choice among the valid targets that no earlier
+ * slot uses and that still leave a matching for the later slots; then a uniform choice among that target's valid units
+ * (its attributes, for a question or an attribute change). `slots` holds, for each task, a Map from target to its valid
+ * units, in document order. Returns null only when no matching exists, which the task rule refuses.
+ */
+export function drawExact(slots, rnd) {
+  const used = new Set();
+  const picks = [];
+  for (let i = 0; i < slots.length; i++) {
+    const rest = slots.slice(i + 1).map((g) => [...g.keys()]);
+    const options = [];
+    for (const t of slots[i].keys()) {
+      if (used.has(t)) continue;
+      if (matchingExists(rest, new Set([...used, t]))) options.push(t);
+    }
+    if (!options.length) return null;
+    const t = shuffle(options, rnd)[0];
+    const list = slots[i].get(t);
+    picks.push(list.length > 1 ? shuffle(list, rnd)[0] : list[0]);
+    used.add(t);
+  }
+  return picks;
+}
+
+/** A file that cannot give its tasks, with the token counts made so far (re-review, 8). */
+export class NoTasks extends Error {
+  constructor(message, readTokens = []) {
+    super(message);
+    this.readTokens = readTokens;
+  }
+}
+
+/** The server's view of a file, or NoTasks with the server's reason (re-review, 3: a file nested over 512 levels). */
+function viewOrNoTasks(text, n) {
+  try {
+    return R.view(text);
+  } catch (err) {
+    if (err instanceof ToolError) throw new NoTasks(`file ${n}: ${err.message}`);
+    throw err;
+  }
+}
 
 /**
- * The tasks of one file. `types` is the list of task types to make, in order; `rnd` the gate's stream. Each task has a
- * different target. When a later task finds no target left, the file's draw starts again with the same stream, at
- * most MAX_TRIES times. Returns the tasks and every Read token count of C0.7 (contract: the script records each count).
+ * The tasks of one file. `types` is the list of task types to make, in order; `rnd` the gate's stream. Every unit is
+ * checked (the oracle and, for C0.7, the token count), then `drawExact` draws. Returns the tasks and every Read token
+ * count of C0.7 (contract: the script records each count).
  */
 export async function fileTasks(gate, f, n, types, rnd, count) {
-  const m = R.view(f.text);
+  const m = viewOrNoTasks(f.text, n);
   m.gate = gate;
   const check = checker(m, count);
-  const lists = new Map(types.map((t) => [t, units(gate, t, m, n)]));
-  for (let attempt = 1; attempt <= MAX_TRIES; attempt++) {
-    const used = new Set();
-    const out = [];
-    const seen = new Map();
-    let failed = null;
-    for (const type of types) {
-      const j = (seen.get(type) ?? 0) + 1;
-      seen.set(type, j);
-      const u = await drawUnit(lists.get(type), check, used, rnd);
-      if (!u) { failed = type; break; }
-      used.add(u.el);
-      const id = `${n}-${type}${types.filter((x) => x === type).length > 1 ? `-${j}` : ''}`;
-      const [s, e] = R.range(u.el);
-      const op = u.fields.op;
-      out.push({ id, fileNumber: n, file: f.file, type, ref: u.el.ref, tag: u.el.tagName, ...u.fields,
-        range: op === 'insertion' ? [e, e] : [s, e], ...(u.change ? { change: u.change } : {}),
-        ...(u.readTokens !== undefined ? { readTokens: u.readTokens } : {}), ...(attempt > 1 ? { drawTries: attempt } : {}) });
-    }
-    if (!failed) return { tasks: out, readTokens: check.counts() };
-    // With one task, no later try can do better: the file cannot give it.
-    if (types.length === 1) throw new Error(`file ${n}: no valid target left for ${failed}`);
+  const byType = new Map();
+  for (const type of new Set(types)) {
+    const list = units(gate, type, m, n);
+    const ok = list.length ? await check(list) : [];
+    const g = new Map();
+    list.forEach((u, i) => { if (ok[i]) { if (!g.has(u.el)) g.set(u.el, []); g.get(u.el).push(u); } });
+    byType.set(type, g);
   }
-  throw new Error(`file ${n}: no draw of 4 different targets in ${MAX_TRIES} tries`);
+  const picks = drawExact(types.map((t) => byType.get(t)), rnd);
+  if (!picks) throw new NoTasks(`file ${n}: no valid target left for ${types.join(', ')} with different targets`, check.counts());
+  const seen = new Map();
+  const tasks = picks.map((u, i) => {
+    const type = types[i];
+    const j = (seen.get(type) ?? 0) + 1;
+    seen.set(type, j);
+    const id = `${n}-${type}${types.filter((x) => x === type).length > 1 ? `-${j}` : ''}`;
+    const [s, e] = R.range(u.el);
+    const op = u.fields.op;
+    return { id, fileNumber: n, file: f.file, type, ref: u.el.ref, tag: u.el.tagName, ...u.fields,
+      range: op === 'insertion' ? [e, e] : [s, e], ...(u.change ? { change: u.change } : {}),
+      ...(u.readTokens !== undefined ? { readTokens: u.readTokens } : {}) };
+  });
+  return { tasks, readTokens: check.counts() };
 }
 
 /** A gate's 40 tasks (or 32), file by file in the record's order, with one stream of the gate's seed. */
@@ -375,8 +410,8 @@ export async function previewTasks(gate, files, count) {
       tasks.push(...r.tasks);
       if (r.readTokens.length) readTokens[i + 1] = r.readTokens;
     } catch (err) {
-      if (!/no valid target left/.test(err.message)) throw err;
-      skipped.push({ fileNumber: i + 1, file: files[i].file, reason: err.message });
+      if (!(err instanceof NoTasks)) throw err;
+      skipped.push({ fileNumber: i + 1, file: files[i].file, reason: err.message, ...(err.readTokens.length ? { readTokens: err.readTokens } : {}) });
     }
   }
   return { tasks, skipped, readTokens };

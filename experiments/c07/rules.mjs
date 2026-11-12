@@ -214,10 +214,12 @@ export const MAX_VALUE = 80;
 /**
  * The attributes a question or an attribute change can draw, in C0.8 and C0.9: a source location, a name of at most
  * 40 characters, and a value of 1 to 80 characters with no `"`, backtick or line break, and no space at either end
- * (the judge trims an answer).
+ * (the judge trims an answer). The name is plain (re-review, 7), and the value holds no "&": the judge decodes entities
+ * in an answer, so "?x=1&section=2" could never be accepted (re-review, 2).
  */
-export const safeAttrs = (e) => e.attrs.filter((a) => e.sourceCodeLocation?.attrs?.[a.name] && a.name.length <= MAX_NAME &&
-  a.value !== '' && a.value.length <= MAX_VALUE && !/["`\r\n]/.test(a.value) && a.value === a.value.trim());
+export const ATTR_NAME = /^[a-z][a-z0-9_.:-]{0,39}$/;
+export const safeAttrs = (e) => e.attrs.filter((a) => e.sourceCodeLocation?.attrs?.[a.name] && ATTR_NAME.test(a.name) &&
+  a.value !== '' && a.value.length <= MAX_VALUE && !/["`&\r\n]/.test(a.value) && a.value === a.value.trim());
 
 /** The English ordinal with digits: 2nd, 3rd, 4th, 11th, 12th, 13th, 21st, 22nd. */
 export function ordinal(k) {
@@ -390,8 +392,10 @@ export function analyseQuote(m, qa, qb) {
       const [s, e] = maps[i][k];
       const src = m.text.slice(s, e);
       if (e - s > 1 && src.startsWith('&')) { causes.add('entity'); if (!allowedChars(x.node.value[k])) bad = true; }
-      else if (/[\t\n\r\f]/.test(src)) causes.add('whitespace');
-      else if (src === ' ' && k > lo && isWs(x.node.value[k - 1])) causes.add('whitespace');
+      else if (src.includes('\f')) bad = true; // not in the contract's closed list (re-review, 6)
+      else if (/[\t\n\r]/.test(src)) causes.add('whitespace');
+      // 2 spaces in the source: this space and the one before it are both literal spaces (not "&#32;").
+      else if (src === ' ' && k > lo && m.text.slice(...maps[i][k - 1]) === ' ') causes.add('whitespace');
     }
   });
   if (bad || !causes.size) return null;
@@ -464,7 +468,7 @@ export function c09Quotes(m) {
       const a = analyseQuote(m, qa, qb);
       if (!a) continue;
       const f = findText(m, q);
-      if (!f.endsWith(`hash ${m.hash}`) || !/\n1 matches;/.test(`\n${f}`) || !f.includes(`@${e.ref} `)) continue;
+      if (!f.endsWith(`hash ${m.hash}`) || !/\n1 matches;/.test(`\n${f}`) || !new RegExp(`^ *@${e.ref} `, 'm').test(f)) continue;
       const item = { quote: q, ...a };
       if (!slot.any) slot.any = item;
       if (!slot.one && a.nodes === 1 && !a.causes.includes('inline tag')) slot.one = item;

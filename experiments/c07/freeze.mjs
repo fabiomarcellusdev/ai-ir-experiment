@@ -23,7 +23,7 @@ export function frozenFiles() {
     ...GATES.flatMap((g) => [`experiments/c07/${g}-file-set.json`, `experiments/c07/${g}-tasks.json`, `experiments/c07/preview-${g}-tasks.json`]),
     'experiments/c05/file-set.json', 'experiments/c05/draw-files.mjs', 'experiments/c05/run-c05.mjs',
     'experiments/c03/select-files.mjs', 'experiments/c03/run-c03.mjs',
-    'experiments/c03/make-tasks.mjs', 'experiments/c03/html.mjs',
+    'experiments/c03/make-tasks.mjs', 'experiments/c03/html.mjs', 'experiments/c03/mcp-tools.json',
     'experiments/c01/oracle.py', 'experiments/c01/tree.mjs', 'experiments/c01/run-c01.mjs',
     'experiments/c06/run-c06.mjs', 'experiments/c06/analysis.mjs', 'experiments/c06/judge.py',
     ...server, 'docs/measurements/2026-11-12-c07-c09-run-plan.md', 'package.json', 'pnpm-lock.yaml',

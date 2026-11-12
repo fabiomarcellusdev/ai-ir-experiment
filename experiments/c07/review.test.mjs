@@ -6,7 +6,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as R from './rules.mjs';
-import { drawUnit, matchingExists, taskRule, fileTasks, units, tokenCounter, GATES } from './tasks.mjs';
+import { drawExact, matchingExists, taskRule, fileTasks, units, tokenCounter, GATES } from './tasks.mjs';
 import { generator } from '../c05/draw-files.mjs';
 
 const ROOT = fileURLToPath(new URL('../../', import.meta.url));
@@ -43,10 +43,11 @@ test('review 3: the draw is uniform over targets, not over (target, attribute) p
   m.gate = 'c08';
   const list = units('c08', 'question', m, 1);
   assert.equal(list.length, 6); // 5 pairs for the 2nd li and 1 for the 3rd: a draw over pairs gives 5 of 6
-  const all = async (xs) => xs.map(() => true);
+  const slot = new Map();
+  for (const u of list) { if (!slot.has(u.el)) slot.set(u.el, []); slot.get(u.el).push(u); }
   const rnd = generator(7);
   let second = 0;
-  for (let i = 0; i < 2000; i++) if ((await drawUnit(list, all, new Set(), rnd)).fields.k === 2) second++;
+  for (let i = 0; i < 2000; i++) if (drawExact([slot], rnd)[0].fields.k === 2) second++;
   assert.ok(second > 900 && second < 1100, `the 2nd li came first in ${second} of 2000 draws`);
 });
 
