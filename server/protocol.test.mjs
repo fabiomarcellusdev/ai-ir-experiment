@@ -10,7 +10,9 @@ test('tools/list gives the frozen definitions of mcp-tools.json, renamed only', 
   const r = await call({ jsonrpc: '2.0', id: 1, method: 'tools/list' });
   assert.equal(r.result.tools.length, 4);
   r.result.tools.forEach((t, i) => {
-    assert.deepEqual(Object.keys(t), ['name', 'description', 'inputSchema']);
+    assert.deepEqual(Object.keys(t), ['name', 'description', 'inputSchema', '_meta']);
+    // The size that Claude Code shows inline: at least one outline page and its header (C0.6 run plan).
+    assert.deepEqual(t._meta, { 'anthropic/maxResultSizeChars': 65_000 });
     assert.equal('mcp__html__' + t.name, raw[i].name);
     assert.equal(t.description, raw[i].description);
     assert.equal(JSON.stringify(t.inputSchema), JSON.stringify(raw[i].input_schema));
@@ -64,4 +66,15 @@ test('the line splitter: CRLF, chunks that split a character, blank lines, and a
   s.push(Buffer.from('0123456789XY\nlast\n'));
   assert.deepEqual(lines, ['ab', '\u{1F600}c', 'ok', 'last']);
   assert.equal(tooLong, 2);
+});
+
+test('the inline size holds the longest outline page or find output, with its header or footer line', async () => {
+  const { MAX_RESULT_CHARS } = await import('./protocol.mjs');
+  const { PAGE_CHARS, load, outlinePage, pageCount, findText } = await import('./view.mjs');
+  const src = `<ul>${'<li class="item">a needle in a list item with some words</li>'.repeat(20_000)}</ul>`;
+  const m = load(src, '0123456789abcdef');
+  let longest = 0;
+  for (let p = 1; p <= pageCount(m); p++) longest = Math.max(longest, outlinePage(m, p).length);
+  assert.ok(longest > PAGE_CHARS - 1000 && longest <= MAX_RESULT_CHARS, String(longest));
+  assert.ok(findText(m, 'needle').length <= MAX_RESULT_CHARS);
 });

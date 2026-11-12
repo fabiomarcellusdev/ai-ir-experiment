@@ -593,3 +593,33 @@ makes a check stricter. The owner is told in the hand-over.
    fail.
 8. **An extra hostile file,** `fostered-2mb.html` (1.9 MB): table rows that all need the server's marker parse
    (decision 0006, last amendment). It measures the worst case of that parse against the 2 s limit.
+
+**2026-11-12 (owner): the lead's readings of C0.1 and C0.2 confirmed, after the gate runs.** The owner confirmed the
+4 lead amendments of 2026-11-11 that the C0.1 and C0.2 verdicts depend on: the marker with the element's attributes;
+the parser-only rule as checked (html5lib's own start loads its serializer module); the stricter C0.2 readings; and
+the C0.2 checks after the review. The owner also saw the accepted `</div><div>` in place of an `img` in a table cell.
+- **No number changed.**
+
+**2026-11-12 (lead): C0.6's MCP output limit, before any C0.6 run.** Claude Code saves a text result over 50,000
+characters to a file, whatever `MAX_MCP_OUTPUT_TOKENS` is, unless the tool declares a larger size. An outline page
+holds up to 60,000 characters. So the server declares `_meta["anthropic/maxResultSizeChars"] = 65000` in `tools/list`,
+to meet C0.4's rule "The MCP output limit must be at least the outline page size". The model-visible tool text (name,
+description, input schema) stays byte-identical to `experiments/c03/mcp-tools.json`, as C0.6, rule 3 requires. The
+run plan is `docs/measurements/2026-11-12-c06-run-plan.md`. The owner is told before the pilot.
+- **No number changed.**
+
+**2026-11-12 (owner): 3 C0.6 rules, after the review of the runner, before any C0.6 run.** The owner decided these on
+2026-11-12. No run of C0.6 has started.
+1. **Layout whitespace (amends "How a result passes", 2 and 3):** the canonical DOM leaves out a text node of only
+   ASCII whitespace outside `pre`, `textarea`, `script` and `style`. The byte rule allows changes to the ASCII
+   whitespace right next to the target range. So an insertion on its own indented line, or a removal of an element
+   with its line, passes. Any other byte outside the range must stay the same, and the DOM rule still applies.
+2. **An API or harness error stops the gate (amends C0.4, "Limits", for C0.6):** a run that ends with an API or
+   harness error, after its one retry before the first tool call or after its first tool call, gets no record. The
+   gate stops with no verdict (rescope order, 5), and that run runs again when the gate goes on, on the same commit.
+   The report lists each such stop.
+3. **A third run limit:** each run stops at $5 (`--max-budget-usd`). A run that reaches it fails, with its tokens, as
+   a run that reaches 40 turns or 10 minutes.
+- **The lead's reading of "Run k of all tasks is round k":** the 3 rounds run in turn; the order inside each round is
+  random with the seed `20261111`.
+- **No number changed.**

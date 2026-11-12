@@ -10,13 +10,21 @@ export const KNOWN_VERSIONS = ['2024-11-05', '2025-03-26', '2025-06-18', '2025-1
 export const MAX_LINE = 8 * 1024 * 1024;
 
 /**
+ * The largest text result that Claude Code shows inline, in characters: one outline page (60,000) and its header line.
+ * Without it, Claude Code saves a result over 50,000 characters to a file (C0.6 run plan; contract, C0.4: "The MCP
+ * output limit must be at least the outline page size"). Claude Code reads `_meta`; it is not the tool text.
+ */
+export const MAX_RESULT_CHARS = 65_000;
+
+/**
  * The tool definitions of experiments/c03/mcp-tools.json, frozen for gate C0.6: the `mcp__html__` prefix removed and
- * `input_schema` renamed to `inputSchema`. Nothing else changes.
+ * `input_schema` renamed to `inputSchema`. The name, description and schema do not change; `_meta` holds the size.
  */
 export const TOOLS = RAW_TOOLS.map((t) => ({
   name: t.name.replace(/^mcp__html__/, ''),
   description: t.description,
   inputSchema: t.input_schema,
+  _meta: { 'anthropic/maxResultSizeChars': MAX_RESULT_CHARS },
 }));
 
 const reply = (id, result) => ({ jsonrpc: '2.0', id, result });
