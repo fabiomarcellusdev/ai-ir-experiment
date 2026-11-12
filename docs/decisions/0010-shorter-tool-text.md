@@ -1,7 +1,8 @@
 # 0010. Shorter text for the v2 tools
 
-**Status:** Proposed (lead, 2026-11-12). The owner asked for the design (2026-11-12): "design the shorter tool
-descriptions too". Nothing is built until the owner agrees to an option.
+**Status:** Accepted (owner, 2026-11-12): option B, with the replace_text sentence kept (see "Amendments"). The
+owner asked for the design ("design the shorter tool descriptions too") and then agreed to the lead's recommendation
+("Yes to your recommendations, I agree").
 
 ## Context
 
@@ -90,7 +91,8 @@ pass again before a v2 run; both are free, and one rerun can cover decisions 000
 
 ## Decision
 
-Proposed: **option B**. It saves about 200 tokens a turn at a small risk, and needs no code.
+**Option B** (owner, 2026-11-12), with the replace_text note kept (see "Amendments"). It saves about 200 tokens a
+turn at a small risk, and needs no code.
 
 ## How to test it (after the owner agrees; each paid step needs the owner's yes)
 
@@ -112,3 +114,21 @@ Proposed: **option B**. It saves about 200 tokens a turn at a small risk, and ne
 - A measurement with tool search on (Claude Code's default) shows that the descriptions are not sent in every turn.
 
 ## Amendments
+
+**2026-11-12 (owner): option B, with one sentence kept.** The lead recommended keeping the replace_text note "with
+entities decoded and whitespace runs as one space", item 2 of B's cuts: without it, an agent that copies `&amp;`
+from the source gets an error and loses a turn (about 5,000 tokens), and the note costs 17 tokens. The owner agreed.
+Measured with `count_tokens` (`claude-sonnet-5-5`): the 3 tools' text is **1,200** tokens (html_find 530,
+html_change 772, html_outline 470), against 1,389 with the size sentence and 1,337 in the gates: 189 fewer a turn
+than before this decision, and 137 fewer than the gates' text.
+
+**2026-11-12 (lead): after the independent review of the text.** The review found no blocking defect. The lead fixed
+3 points of the draft: html_change's `text` locator says "whose visible text contains it" again (without it, an agent
+that copies `&amp;` from the source gets "no element contains the text" and loses a turn); "with their ancestors as
+outline lines" moves into html_find's `text` clause (a find by `id` shows no ancestors); `file` says ".html or .htm
+file". A new test pins the schema without descriptions, and the kept replace_text note. The text is now **1,209**
+tokens (html_find 535, html_change 776, html_outline 470): 180 fewer a turn than 1,389, and 128 fewer than the
+gates' 1,337. Two accepted cuts carry a risk that no error teaches, so the paid check watches for them: a `value` or
+`new` with `&amp;` is escaped again and written as `&amp;amp;` (cut 4); html_outline and html_change no longer say
+that `file` can be left out (cut 5; the error teaches it when it matters).
+

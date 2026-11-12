@@ -263,3 +263,19 @@ test('a locator error lists its matches with their sizes', () => {
   refuses(() => s.call('html_change', { operation: 'remove', text: 'Same' }), /2 elements match; give a ref:\n[\s\S]*@\d+ p\(class=x\) \[1\.1 KB, 1 line\]/);
   s.done();
 });
+
+test('the v2 schema is pinned apart from the descriptions, and the kept replace_text note stays (decision 0010)', () => {
+  const strip = (v) => (Array.isArray(v) ? v.map(strip) : v && typeof v === 'object'
+    ? Object.fromEntries(Object.entries(v).filter(([k]) => k !== 'description').map(([k, x]) => [k, strip(x)])) : v);
+  const str = { type: 'string' };
+  const int = { type: 'integer' };
+  assert.deepEqual(strip(TOOLS_V2.map((t) => t.inputSchema)), [
+    { type: 'object', properties: { file: str, text: str, id: str } },
+    { type: 'object', properties: { operation: { type: 'string', enum: ['remove', 'replace', 'insert_after', 'set_attribute', 'replace_text'] },
+      file: str, ref: int, hash: str, text: str, tag: str, id: str, child: str, n: int, html: str, attribute: str, value: str, old: str, new: str },
+      required: ['operation'] },
+    { type: 'object', properties: { file: str, page: int } },
+  ]);
+  assert.match(TOOLS_V2[1].description, /with entities decoded and whitespace runs as one space/);
+  assert.match(TOOLS_V2[1].description, /whose visible text contains it/);
+});

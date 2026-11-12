@@ -1,19 +1,19 @@
 [
  {
   "name": "mcp__html__html_find",
-  "description": "Finds elements in an HTML file. With `text`: the deepest elements whose visible text contains the literal, case-sensitive text (at most 20), each with all its attributes, and the outline lines of their ancestors, all with @n refs. With `id`: the element with that id and its child elements, each with all its attributes. An element of 1 KB or more also shows its source size, as [12.4 KB, 310 lines]: change such an element with html_change and its ref, not with Edit. Ends with the match count and the file hash. Leave out `file` when the folder holds one .html or .htm file.",
+  "description": "Finds elements in an HTML file by `text` (literal visible text, case-sensitive; the deepest matches, at most 20, with their ancestors as outline lines) or by `id` (the element and its child elements). Each element shows its @n ref and all its attributes. An element of 1 KB or more also shows its size, as [12.4 KB, 310 lines]: change it with html_change by ref, not with Edit. Ends with the match count and the file hash.",
   "input_schema": {
    "type": "object",
    "properties": {
-    "file": { "type": "string", "description": "Path of the .html file" },
-    "text": { "type": "string", "description": "Literal visible text to find" },
-    "id": { "type": "string", "description": "The id of an element" }
+    "file": { "type": "string", "description": "Optional when the folder has one .html or .htm file" },
+    "text": { "type": "string" },
+    "id": { "type": "string" }
    }
   }
  },
  {
   "name": "mcp__html__html_change",
-  "description": "Changes one element of an HTML file and saves the file; all other bytes stay the same. Name the element by `ref` and `hash` (from html_find or html_outline); or by `text`: the deepest element whose visible text contains it, or with `tag` the innermost element of that tag that contains it; or by `id`, with `child` and `n` for its n-th child element of that tag. The html, head and body elements cannot be changed. When the name fits more than one element, nothing changes and the matches are listed. Operations: remove; replace (`html`); insert_after (`html`); set_attribute (`attribute`, `value`); replace_text (`old` and `new`: `old` is visible text inside one text node of the element, with entities decoded and whitespace runs as one space). `value` and `new` are plain text: the tool escapes them. Fails when the new HTML would change the page outside the element. Leave out `file` when the folder holds one .html or .htm file.",
+  "description": "Changes one element of an HTML file and saves it; all other bytes stay the same. Name the element by `ref` and `hash`; or by `text` (the deepest element whose visible text contains it; with `tag`, the innermost of that tag); or by `id`, with `child` and `n` for its n-th child of that tag. If the name fits several elements, nothing changes and the matches are listed. Operations: remove; replace (`html`); insert_after (`html`); set_attribute (`attribute`, `value`); replace_text (`old` is visible text in one text node, with entities decoded and whitespace runs as one space; `new` replaces it). `value` and `new` are plain text. Not for html, head or body.",
   "input_schema": {
    "type": "object",
    "properties": {
@@ -37,12 +37,12 @@
  },
  {
   "name": "mcp__html__html_outline",
-  "description": "The reading view of an HTML file: one element per line, indented one space per level, each with an @n ref, and text as \"| text\" lines. Scripts, styles, comments, SVG content, hidden content and most attributes are left out. Returns one page of at most 20,000 tokens and the file hash. Use html_find instead when you know some of the text or the id you want. Leave out `file` when the folder holds one .html or .htm file.",
+  "description": "The reading view of an HTML file: one element per line with its @n ref, indented by depth; text as \"| text\" lines. Scripts, styles, comments, SVG content, hidden content and most attributes are left out. Pages of up to 20,000 tokens, with the file hash. Use html_find when you know some text or an id.",
   "input_schema": {
    "type": "object",
    "properties": {
-    "file": { "type": "string", "description": "Path of the .html file" },
-    "page": { "type": "integer", "description": "Page number, from 1" }
+    "file": { "type": "string" },
+    "page": { "type": "integer", "description": "From 1" }
    }
   }
  }
