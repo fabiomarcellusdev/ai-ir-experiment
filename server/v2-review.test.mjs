@@ -6,7 +6,7 @@ import { mkdtempSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { openWorkspace } from './workspace.mjs';
-import { runToolV2, fullHead, MAX_ARG } from './v2.mjs';
+import { runToolV2, fullHead, MAX_ARG, viewOf } from './v2.mjs';
 import { load, PAGE_CHARS, element } from './view.mjs';
 import { ToolError } from './errors.mjs';
 
@@ -174,6 +174,21 @@ test('the marker parse of an element runs once for each view (the result is kept
   assert.throws(() => element(bad, b.ref), /no clean range/);
   assert.throws(() => element(bad, b.ref), /no clean range/);
   if (first === 'check') assert.equal(bad.ranges.get(b), false);
+});
+
+test('the C0.2 v2 gate run: a view is kept for the same text only, and a change after a find stays right', () => {
+  const a = { real: '/x/a.html', text: '<p>one</p>', hash: 'h1' };
+  const m1 = viewOf(a);
+  assert.equal(viewOf({ ...a }), m1); // the same file and text: the kept view
+  assert.notEqual(viewOf({ ...a, text: '<p>two</p>', hash: 'h1' }), m1); // another text with the same hash: a new view
+  assert.notEqual(viewOf({ ...a, real: '/x/b.html' }), m1); // another file
+  // A find, then 2 changes on the same file: each result is right (the kept view is not left changed).
+  const s = space('<div><p class="a">one</p><p>two</p></div>');
+  s.call('html_find', { text: 'one' });
+  s.call('html_change', { operation: 'set_attribute', text: 'one', attribute: 'class', value: 'b' });
+  s.call('html_change', { operation: 'replace_text', text: 'two', old: 'two', new: 'three' });
+  assert.equal(s.read(), '<div><p class="b">one</p><p>three</p></div>');
+  s.done();
 });
 
 test('hidden text is skipped by the text locator; control: the same text when not hidden', () => {

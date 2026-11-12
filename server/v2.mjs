@@ -239,6 +239,20 @@ function newSource(m, el, a) {
 }
 
 /**
+ * The view of a file read, kept for the next call on the same file with the same text. The C0.2 v2 gate run failed
+ * twice on a 1.9 MB file: load (the outline lines, the visible text, the ranges) took 220 to 350 ms more than the
+ * parse, and a change after a find or an outline built it again (gate run of 2026-11-12). The text must be equal, not
+ * only the hash. The view's own state stays valid: the marker parse and the splice check put the tree back.
+ */
+let lastView = null;
+export function viewOf(f) {
+  if (lastView && lastView.real === f.real && lastView.text === f.text) return lastView.m;
+  const m = load(f.text, f.hash);
+  lastView = { real: f.real, text: f.text, m };
+  return m;
+}
+
+/**
  * Runs one v2 tool. Returns `{ text }`, or for html_change `{ write: {...}, note }`.
  * @param {ReturnType<import('./workspace.mjs').openWorkspace>} ws @param {string} name @param {object} args
  */
@@ -255,7 +269,7 @@ export function runToolV2(ws, name, args) {
   // Before any parse (security review of v1, other finding 2).
   for (const k of ['html', 'value', 'old', 'new']) if (a[k] !== undefined && Buffer.byteLength(a[k]) > MAX_BYTES) fail(`the argument "${k}" is larger than 2 MB`);
   const f = ws.read(a.file ?? ws.onlyFile());
-  const m = load(f.text, f.hash);
+  const m = viewOf(f);
   if (name === 'html_outline') return { text: outlinePage(m, a.page ?? 1) };
   if (name === 'html_find') {
     if ((a.text === undefined) === (a.id === undefined)) fail('give exactly one of "text" or "id"');
