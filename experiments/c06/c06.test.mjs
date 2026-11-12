@@ -369,3 +369,24 @@ test('an API error names its message; other text is never copied', () => {
   assert.equal(apiErrorText({ result: { result: 'text from the file' } }), '');
   assert.ok(mcpCrashed([{ name: 'mcp__html__html_read', isError: true, errorText: 'html_read: internal error (the worker stopped: ERR)' }]));
 });
+
+// --- The preview mode (owner, 2026-11-12) --------------------------------------------------------------------------
+import { MODES } from './run-c06.mjs';
+
+test('the preview: C0.3 tasks, 1 run per arm in one random round, its own result file', () => {
+  assert.equal(MODES.preview.tasks, 'experiments/c03/tasks.json');
+  assert.equal(MODES.preview.rounds, 1);
+  assert.notEqual(MODES.preview.result, MODES.gate.result);
+  const tasks = Array.from({ length: 40 }, (_, i) => ({ id: `t${i}` }));
+  const one = schedule(tasks, PLAN.seed, 1);
+  assert.equal(one.length, 80);
+  assert.ok(one.every((r) => r.k === 1));
+});
+
+test('the analysis with 1 run per arm: the success difference counts 40 runs per arm, not 120', () => {
+  const runs = [];
+  for (const t of TASKS) for (const arm of ['B', 'M']) runs.push({ task: t.id, type: t.type, arm, k: 1, pass: !(arm === 'M' && t.id === '1-question'), tokens: arm === 'B' ? 1000 : 500, turns: 3, mcpCalls: 1 });
+  const r = analyze(runs, TASKS, SIZES, 1, 1);
+  assert.equal(r.success.M, 39 / 40);
+  assert.ok(r.noise.successDiff95[0] <= -1 / 40 + 1e-9 && r.noise.successDiff95[1] <= 0);
+});

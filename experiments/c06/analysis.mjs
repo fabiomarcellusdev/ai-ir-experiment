@@ -41,17 +41,17 @@ export function taskRatios(runs, taskIds, all = false) {
 }
 
 /** The success difference in points: (M's passes − B's passes) ÷ (runs per arm × tasks). */
-function successDiff(runs, taskIds) {
+function successDiff(runs, taskIds, runsPerArm = RUNS_PER_ARM) {
   const ids = new Set(taskIds);
   const of = (arm) => taskIds.map((id) => runs.filter((r) => r.task === id && r.arm === arm && r.pass).length).reduce((a, b) => a + b, 0);
-  return ids.size ? (of('M') - of('B')) / (RUNS_PER_ARM * taskIds.length) : 0;
+  return ids.size ? (of('M') - of('B')) / (runsPerArm * taskIds.length) : 0;
 }
 
 /**
  * The paired bootstrap over files (C0.6, rule 4): resample the files with replacement, each with its tasks and all their
  * runs. Returns the 95% interval of the success difference and of the median token ratio.
  */
-export function bootstrap(runs, tasks, seed, n = 10_000) {
+export function bootstrap(runs, tasks, seed, n = 10_000, runsPerArm = RUNS_PER_ARM) {
   const files = new Map();
   for (const t of tasks) { const k = fileOf(t.id); if (!files.has(k)) files.set(k, []); files.get(k).push(t.id); }
   const groups = [...files.values()];
@@ -69,7 +69,7 @@ export function bootstrap(runs, tasks, seed, n = 10_000) {
         for (const r of runs) if (r.task === id) rs.push({ ...r, task: `${j}:${id}` });
       }
     });
-    diffs.push(successDiff(rs, ids));
+    diffs.push(successDiff(rs, ids, runsPerArm));
     const tr = taskRatios(rs, ids).map((x) => x.ratio);
     if (tr.length) ratios.push(median(tr));
   }
@@ -83,7 +83,7 @@ export function bootstrap(runs, tasks, seed, n = 10_000) {
  * @param {object[]} tasks the task set: {id, type}
  * @param {Record<string, number>} sizes each task's file size in bytes
  */
-export function analyze(runs, tasks, sizes, seed) {
+export function analyze(runs, tasks, sizes, seed, runsPerArm = RUNS_PER_ARM) {
   const ids = tasks.map((t) => t.id);
   const ratios = taskRatios(runs, ids);
   const med = ratios.length ? median(ratios.map((r) => r.ratio)) : null;
@@ -117,7 +117,7 @@ export function analyze(runs, tasks, sizes, seed) {
     mcpShare: arm('M').length ? arm('M').filter((r) => r.mcpCalls > 0).length / arm('M').length : null,
     wholeFile: Object.fromEntries(ARMS.map((a) => [a, arm(a).filter((r) => r.wholeFile).length])),
     insideChanges: Object.fromEntries(ARMS.map((a) => [a, arm(a).filter((r) => r.insideChange).length])),
-    noise: bootstrap(runs, tasks, seed),
+    noise: bootstrap(runs, tasks, seed, 10_000, runsPerArm),
     checks,
     verdict: checks.ratio && checks.success && checks.types ? 'PASS' : 'FAIL',
   };

@@ -623,3 +623,13 @@ run plan is `docs/measurements/2026-11-12-c06-run-plan.md`. The owner is told be
 - **The lead's reading of "Run k of all tasks is round k":** the 3 rounds run in turn; the order inside each round is
   random with the seed `20261111`.
 - **No number changed.**
+
+**2026-11-12 (owner): a C0.6 preview on C0.3's tasks, before the C0.6 gate run.**
+- **Reason:** the owner wants an early, smaller look at the result before the 240 runs.
+- **The preview:** C0.3's 40 tasks on C0.3's 10 files, which are not C0.6 inputs, with the C0.6 runner, harness and
+  analysis at the committed run plan; 1 run of each task in each arm (80 runs), in one random order with the seed
+  `20261111`. Its result (`experiments/c06/preview-result.json`) is labelled "PREVIEW": it decides nothing, and it
+  runs once.
+- **The C0.6 gate stays as written.** A change to the runner, the run plan or a C0.6 rule after the preview needs a
+  dated amendment that says it came after the preview, and the report then calls the gate's result weaker.
+- **No number changed.**

@@ -40,7 +40,12 @@ export const PLAN = {
   },
 };
 const RAW = at('experiments/gate-files/c06-runs');
-const RESULT = at('experiments/c06/c06-result.json');
+/** The 3 modes: the inputs, the rounds and the result file of each. */
+export const MODES = {
+  pilot: { tasks: 'experiments/c03/tasks.json', record: null, rounds: 1, result: null },
+  preview: { tasks: 'experiments/c03/tasks.json', record: 'experiments/c03/file-set.json', rounds: 1, result: 'experiments/c06/preview-result.json' },
+  gate: { tasks: 'experiments/c05/tasks.json', record: 'experiments/c05/file-set.json', rounds: RUNS_PER_ARM, result: 'experiments/c06/c06-result.json' },
+};
 const RUN_PLAN = 'docs/measurements/2026-11-12-c06-run-plan.md';
 /** C0.3 tasks, not C0.6 inputs: a text change (89 KB), a question (13 KB), an insertion (27 KB). */
 const PILOT_TASKS = ['1-text', '6-question', '2-structure'];
@@ -449,10 +454,10 @@ async function oneRun(task, arm, k, key, label, startId) {
  * Every run of the gate (C0.4, "The runs"): each task 3 times in each arm. Run k of all tasks is round k; the rounds
  * run in turn, and the order inside each round is random with the seed (one stream).
  */
-export function schedule(tasks, seed) {
+export function schedule(tasks, seed, rounds = RUNS_PER_ARM) {
   const rnd = generator(seed);
   const out = [];
-  for (let k = 1; k <= RUNS_PER_ARM; k++) out.push(...shuffle(tasks.flatMap((t) => ARMS.map((arm) => ({ task: t.id, arm, k }))), rnd));
+  for (let k = 1; k <= rounds; k++) out.push(...shuffle(tasks.flatMap((t) => ARMS.map((arm) => ({ task: t.id, arm, k }))), rnd));
   return out;
 }
 
@@ -477,19 +482,21 @@ function canaryTask() {
 }
 
 /** Refuses a run that the plan does not allow (the follow-up of the C0.5 analysis check, and the run plan). */
-function preflight(gate) {
+function preflight(mode) {
+  const gate = mode === 'gate';
+  const set = MODES[mode];
   // The plan names Windows; on Linux a Read of /proc/self/environ could show the key (security review, F1).
   if (process.platform !== 'win32') throw new Error('the run plan names Windows');
   // Folders of a runner that stopped hold third-party text: remove them (security review, F4).
   rmSync(WORK, { recursive: true, force: true });
-  if (gate && existsSync(RESULT)) throw new Error('experiments/c06/c06-result.json exists: C0.6 runs once (contract, rescope order, 5)');
+  if (set.result && existsSync(at(set.result))) throw new Error(`${set.result} exists: ${gate ? 'C0.6 runs once (contract, rescope order, 5)' : 'the preview runs once'}`);
   if (git('status', '--porcelain', '--', 'server', 'experiments', 'docs/contract.md', RUN_PLAN)) throw new Error('the run needs committed code, inputs and run plan');
   // The plan is final before the gate run (C0.4, "The run plan"), and the inputs are the recorded ones (review, 7).
   if (gate && /DRAFT|\(pilot\)/.test(readFileSync(at(RUN_PLAN), 'utf8'))) throw new Error('the run plan is still a draft');
-  if (gate) {
-    const picks = JSON.parse(readFileSync(at('experiments/c05/file-set.json'), 'utf8')).kinds.flatMap((x) => x.picks);
+  if (set.record) {
+    const picks = JSON.parse(readFileSync(at(set.record), 'utf8')).kinds.flatMap((x) => x.picks);
     for (const p of picks) if (sha(readFileSync(at(p.file))) !== p.sha256) throw new Error(`${p.file} is not the recorded file`);
-    for (const t of JSON.parse(readFileSync(at('experiments/c05/tasks.json'), 'utf8')).tasks) {
+    for (const t of JSON.parse(readFileSync(at(set.tasks), 'utf8')).tasks) {
       if (t.expectedSha256 && sha(readFileSync(at(expectedOf(t)))) !== t.expectedSha256) throw new Error(`the expected file of ${t.id} is not the recorded file`);
     }
   }
@@ -502,9 +509,9 @@ function preflight(gate) {
 }
 
 async function main() {
-  const gate = process.argv.includes('--gate');
-  const pilot = process.argv.includes('--pilot');
-  if (gate === pilot) throw new Error('give --pilot or --gate');
+  const modes = Object.keys(MODES).filter((m) => process.argv.includes(`--${m}`));
+  if (modes.length !== 1) throw new Error('give one of --pilot, --preview, --gate');
+  const mode = modes[0];
   const b = process.argv.indexOf('--budget-usd');
   const budgetUsd = b === -1 ? PLAN.totalBudgetUsd : Number(process.argv[b + 1]);
   if (!(budgetUsd > 0)) throw new Error('--budget-usd needs a positive number');
@@ -518,7 +525,7 @@ async function main() {
     throw new Error(`${lock} exists: another runner may be running. If none is, the owner removes the lock.`);
   }
   try {
-    await runAll(gate, budgetUsd);
+    await runAll(mode, budgetUsd);
   } finally {
     rmSync(lock, { force: true });
   }
@@ -542,15 +549,17 @@ export function replay(lines) {
   return { records, stops, open: [...pending.keys()] };
 }
 
-async function runAll(gate, budgetUsd) {
-  const { version, key } = preflight(gate);
+async function runAll(mode, budgetUsd) {
+  const gate = mode === 'gate';
+  const set = MODES[mode];
+  const { version, key } = preflight(mode);
   const commit = git('rev-parse', 'HEAD');
   runCommit = commit;
-  const label = gate ? 'gate' : 'pilot';
-  const taskFile = gate ? 'experiments/c05/tasks.json' : 'experiments/c03/tasks.json';
+  const label = mode;
+  const taskFile = set.tasks;
   const allTasks = JSON.parse(readFileSync(at(taskFile), 'utf8')).tasks;
-  const tasks = gate ? allTasks : [...allTasks.filter((t) => PILOT_TASKS.includes(t.id)), canaryTask()];
-  const order = gate ? schedule(tasks, PLAN.seed) : tasks.flatMap((t) => ARMS.map((arm) => ({ task: t.id, arm, k: 1 })));
+  const tasks = mode === 'pilot' ? [...allTasks.filter((t) => PILOT_TASKS.includes(t.id)), canaryTask()] : allTasks;
+  const order = mode === 'pilot' ? tasks.flatMap((t) => ARMS.map((arm) => ({ task: t.id, arm, k: 1 }))) : schedule(tasks, PLAN.seed, set.rounds);
 
   // The progress file lets a stopped gate go on, on the same commit only (contract, rescope order, 5).
   const progress = path.join(RAW, `${label}-progress.jsonl`);
@@ -596,21 +605,21 @@ async function runAll(gate, budgetUsd) {
     console.log(`${label} ${n}/${order.length}: ${o.task} ${o.arm}${o.k} ${rec.pass ? 'pass' : 'fail'}; ${rec.tokens} tokens; $${rec.costUsd.toFixed(3)}; ${rec.turns} turns`);
   }
   const cost = [...done, ...stops].reduce((a, r) => a + (r.costUsd ?? 0), 0);
-  if (!gate) {
+  if (mode === 'pilot') {
     console.log(`pilot done: ${done.length} runs, $${cost.toFixed(2)} in total; records in ${progress}`);
     return;
   }
-  const record = JSON.parse(readFileSync(at('experiments/c05/file-set.json'), 'utf8'));
+  const record = JSON.parse(readFileSync(at(set.record), 'utf8'));
   const sizeOf = new Map(record.kinds.flatMap((k) => k.picks).map((p) => [p.file, p.size]));
   const sizes = Object.fromEntries(tasks.map((t) => [t.id, sizeOf.get(t.file)]));
   // Exactly 120 runs in each arm, 3 of each task, each once (review, 2).
   for (const arm of ARMS) {
     const ks = new Set(done.filter((r) => r.arm === arm).map(key3));
-    if (ks.size !== tasks.length * RUNS_PER_ARM || done.filter((r) => r.arm === arm).length !== ks.size) throw new Error(`arm ${arm} does not hold exactly ${tasks.length * RUNS_PER_ARM} runs`);
+    if (ks.size !== tasks.length * set.rounds || done.filter((r) => r.arm === arm).length !== ks.size) throw new Error(`arm ${arm} does not hold exactly ${tasks.length * set.rounds} runs`);
   }
-  const analysis = analyze(done, tasks, sizes, PLAN.seed);
+  const analysis = analyze(done, tasks, sizes, PLAN.seed, set.rounds);
   const result = {
-    gate: 'C0.6', date: new Date().toISOString().slice(0, 10), commit, harness: version, plan: PLAN,
+    gate: gate ? 'C0.6' : 'C0.6 PREVIEW on C0.3 tasks: decides nothing (owner, 2026-11-12)', date: new Date().toISOString().slice(0, 10), commit, harness: version, plan: PLAN,
     // Each start (its budget stop and harness) and each stop of the gate, with its reason (owner, 2026-11-12, rule 2).
     starts: starts.map(({ start, budgetUsd: usd, harness }) => ({ start, budgetUsd: usd, harness })),
     stops: stops.map(({ start, task, arm, k, reason, costUsd }) => ({ start, task, arm, k, reason, costUsd })),
@@ -618,8 +627,8 @@ async function runAll(gate, budgetUsd) {
   };
   const json = JSON.stringify(result, null, 1) + '\n';
   if (holdsKey(json, key)) throw new Error('the result holds the API key: stopped, nothing written');
-  writeFileSync(RESULT, json);
-  console.log(`C0.6 ${analysis.verdict}: median ratio ${analysis.medianRatio?.toFixed(3)} over ${analysis.qualifyingTasks} tasks; success B ${analysis.success.B} M ${analysis.success.M}; $${cost.toFixed(2)}`);
+  writeFileSync(at(set.result), json);
+  console.log(`${gate ? 'C0.6' : 'PREVIEW (decides nothing)'} ${analysis.verdict}: median ratio ${analysis.medianRatio?.toFixed(3)} over ${analysis.qualifyingTasks} tasks; success B ${analysis.success.B} M ${analysis.success.M}; $${cost.toFixed(2)}`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
