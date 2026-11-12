@@ -24,8 +24,15 @@ ran with the current server: 0.513 and 1.194 (`docs/measurements/2026-11-12-c07-
 **Done:** the v2 task rules, C0.10's task script and the v2 run plan; the v2 previews (C0.7 0.380, C0.9 0.793, C0.10
 1.209; `docs/measurements/2026-11-12-c07-c10-v2-previews.md`). Rule C.6.3 does not reopen decision 0008.
 
-**Next (owner's decisions):** the C0.10 text rule (`docs/follow-ups.md`); then the draws, the gates' freeze and the
-gates, each paid run with the owner's yes.
+**Done: the v2 gates (2026-11-12), each with the owner's yes for 240 runs.**
+- C0.7 v2 (H1, large elements): **PASS**, median ratio 0.403 (`docs/measurements/2026-11-12-c07-v2-gate.md`).
+- C0.9 v2 (H4, a quote not in the source as written): **PASS** by the rule, median 0.690; the margin is inside the
+  noise (`docs/measurements/2026-11-12-c09-v2-gate.md`).
+- C0.10 v2 (control, C0.6's task kind): **FAIL**, median 1.207 (`docs/measurements/2026-11-12-c10-v2-gate.md`).
+- In all, $12.93. C0.9 and C0.10 each stopped once and went on at their start commit, with the owner's choices.
+
+**Next (owner's decisions):** whether C0.8 runs ($3 to $10; it needs the stop and harness fixes and a new freeze,
+`docs/follow-ups.md`); a free research step on deferred tool loading; then the publish, when the owner asks.
 
 The owner's rule (2026-11-11, extended 2026-11-12): no push and no pull request until the owner asks for one.
 
