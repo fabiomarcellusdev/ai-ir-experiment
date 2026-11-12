@@ -36,8 +36,9 @@ ran with the current server: 0.513 and 1.194 (`docs/measurements/2026-11-12-c07-
   (`docs/measurements/2026-11-12-size-vs-ratio.md`). Research on deferred tool loading: tool search is on by default
   in Claude Code, and the gates turned it off.
 
-**Now:** the design of a size field for `html_find` (decision 0009, Proposed), waiting for the owner's choice of
-option.
+**Now:** the size field for large elements in `html_find` is built (decision 0009, option B, owner). Shorter text for
+the v2 tools is proposed (decision 0010), waiting for the owner. Then one free rerun of C0.1 v2 and C0.2 v2 covers
+both, and a paid arm-M check (about $3) needs the owner's yes.
 
 **Later (owner's decisions):** whether to measure arm M with tool search at its default (paid). No push and no pull
 request until the owner asks for one (owner, 2026-11-12).
