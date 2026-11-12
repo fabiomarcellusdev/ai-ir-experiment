@@ -1,13 +1,23 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { parse, serialize } from 'parse5';
-import { load } from './view.mjs';
+import { load, element, markerSource } from './view.mjs';
 import { editBytes } from './edit.mjs';
 import { ToolError } from './errors.mjs';
 import { rng, pick, randomHtml } from './testkit.mjs';
 
 const H = 'h';
 const refuses = (fn, re) => assert.throws(fn, (e) => e instanceof ToolError && re.test(e.message));
+/** Whether the server can address an element: it has a clean range (decision 0006). */
+const hasCleanRange = (m, ref) => {
+  try {
+    element(m, ref);
+    return true;
+  } catch (e) {
+    if (e instanceof ToolError) return false; // a named refusal; any other error fails the test
+    throw e;
+  }
+};
 const refOf = (m, tag, n = 0) => m.els.filter((e) => e.tagName === tag)[n].ref;
 const run = (src, tag, html, n = 0) => {
   const m = load(src, H);
@@ -58,20 +68,18 @@ test('the edit refuses an element with no clean range', () => {
 });
 
 // The marker check of the C0.1 oracle, done with parse5: the range of an accepted edit holds exactly the element.
-// The marker is an empty element with the same tag and a marker attribute, so the parser places it as it placed the
+// The marker is an empty copy of the element with a marker attribute, so the parser places it as it placed the
 // element. (A comment marker fails at the start of a document: the parser puts that comment in the document node.)
-const VOID = new Set('area base br col embed hr img input link meta source track wbr param keygen'.split(' '));
 function markerHolds(src, el) {
   const { startOffset: s, endOffset: e } = el.sourceCodeLocation;
-  const tag = el.tagName;
-  const marker = `<${tag} data-mark>${VOID.has(tag) ? '' : `</${tag}>`}`;
+  const marker = markerSource(el, 'data-mark');
   const marked = serialize(parse(src.slice(0, s) + marker + src.slice(e)));
   const doc = parse(src, { sourceCodeLocationInfo: true });
   const order = [];
   const walk = (n) => { if (n.tagName) order.push(n); for (const c of n.childNodes ?? []) walk(c); };
   walk(doc);
   const twin = order[el.ref];
-  const mark = { ...twin, attrs: [{ name: 'data-mark', value: '' }], childNodes: [] };
+  const mark = { ...twin, attrs: [...twin.attrs, { name: 'data-mark', value: '' }], childNodes: [] };
   if (twin.content) mark.content = { nodeName: '#document-fragment', childNodes: [] };
   const kids = twin.parentNode.childNodes;
   kids.splice(kids.indexOf(twin), 1, mark);
@@ -121,7 +129,7 @@ test('review 2: an edit that keeps the same bytes is never refused (quirks mode,
     const src = randomHtml(rnd, 20 + Math.floor(rnd() * 80));
     const probe = load(src, H);
     for (const el of probe.els) {
-      if (['html', 'head', 'body'].includes(el.tagName) || !probe.ranges.get(el)) continue;
+      if (['html', 'head', 'body'].includes(el.tagName) || !hasCleanRange(probe, el.ref)) continue;
       const own = src.slice(el.sourceCodeLocation.startOffset, el.sourceCodeLocation.endOffset);
       assert.equal(editBytes(load(src, H), Buffer.from(src), el.ref, H, own).toString(), src, `@${el.ref} in ${src}`);
       n++;

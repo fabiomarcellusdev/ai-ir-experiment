@@ -1,7 +1,7 @@
 // The reading view: parse, refs, clean ranges, html_outline, html_find and html_read (decision 0006, "The view").
 // It starts from the prototype experiments/c03/html.mjs, which stays frozen. The outputs equal the prototype's
 // outputs, except where a safety fix changes a line. This module does no file access.
-import { parse } from 'parse5';
+import { parse, serialize } from 'parse5';
 import { fail } from './errors.mjs';
 
 export const DROP = new Set(['script', 'style', 'noscript', 'template', 'link', 'meta']);
@@ -106,7 +106,10 @@ export function parseDoc(text) {
   return doc;
 }
 
-/** The depth of the deepest element; the html element is level 1. No recursion. */
+/**
+ * The depth of the deepest element; the html element is level 1. Template content counts: parse5's serializer
+ * recurses into it (C0.1 review, finding 1). No recursion.
+ */
 export function depthOf(doc) {
   let max = 0;
   for (const stack = [[doc, 0]]; stack.length;) {
@@ -114,6 +117,7 @@ export function depthOf(doc) {
     const k = n.tagName ? d + 1 : d;
     if (k > max) max = k;
     for (const c of kids(n)) stack.push([c, k]);
+    if (n.content) for (const c of kids(n.content)) stack.push([c, k]);
   }
   return max;
 }
@@ -124,6 +128,7 @@ export function depthOf(doc) {
  */
 export function load(text, hash) {
   const doc = parseDoc(text);
+  if (depthOf(doc) > MAX_DEPTH) fail(`the file nests elements deeper than ${MAX_DEPTH} levels`);
 
   // Refs: a preorder number over all elements outside template content, as the prototype. No recursion.
   const els = [];
@@ -193,9 +198,13 @@ export function load(text, hash) {
   return { text, hash, doc, els, parent, lines, lineOf, shown, span, raw, vis, at, ranges: rangesOf(doc) };
 }
 
+/** The value of `ranges` for an element whose range a marker parse must confirm (`exactRange`). */
+const CHECK = 'check';
+
 /**
  * The clean range of each located element (decision 0006, "A clean range"): its range holds the ranges of all its
- * located descendants (template content included), and no other located node starts inside it.
+ * located descendants (template content included), and no other located node starts inside it. When a located node
+ * that is not an ancestor still meets the range, the value is CHECK.
  */
 function rangesOf(doc) {
   const order = [];
@@ -228,10 +237,12 @@ function rangesOf(doc) {
     }
   }
   starts.sort((a, b) => a - b);
-  const below = (x) => {
+  const ends = order.flatMap((n) => (n.sourceCodeLocation ? [n.sourceCodeLocation.endOffset] : [])).sort((a, b) => a - b);
+  /** The number of values in a sorted list that are less than x. */
+  const below = (list, x) => {
     let a = 0;
-    let b = starts.length;
-    while (a < b) { const m = (a + b) >> 1; if (starts[m] < x) a = m + 1; else b = m; }
+    let b = list.length;
+    while (a < b) { const m = (a + b) >> 1; if (list[m] < x) a = m + 1; else b = m; }
     return a;
   };
   const clean = new Map();
@@ -240,7 +251,19 @@ function rangesOf(doc) {
     if (!l) return;
     const s = l.startOffset;
     const e = l.endOffset;
-    clean.set(n, lo[i] >= s && hi[i] <= e && below(e) - below(s) === count[i]);
+    if (!(lo[i] >= s && hi[i] <= e && below(starts, e) - below(starts, s) === count[i])) return clean.set(n, false);
+    // The located nodes whose range meets [s, e): all nodes, minus those that end at s or before, minus those that
+    // start at e or after (C0.1 development run, 2026-11-11).
+    const meets = starts.length - below(ends, s + 1) - (starts.length - below(starts, e));
+    let ancestors = 0;
+    for (let p = up[i]; p >= 0; p = up[p]) {
+      const pl = order[p].sourceCodeLocation;
+      if (pl && pl.startOffset < e && pl.endOffset > s) ancestors++;
+    }
+    // Another node meets the range. Text that the parser fosters out of a table joins a text node outside the
+    // element, and that node's range then spans the element; an element fostered out of a table lies inside the
+    // table's range. A marker parse decides (`exactRange`).
+    clean.set(n, meets === count[i] + ancestors ? true : CHECK);
   });
   return clean;
 }
@@ -317,8 +340,53 @@ export function element(m, ref) {
   if (!Number.isInteger(ref) || ref < 0 || ref >= m.els.length) fail(`the ref @${ref} does not exist`);
   const el = m.els[ref];
   if (!el.sourceCodeLocation) fail(`@${ref} has no source bytes; the parser created it`);
-  if (!m.ranges.get(el)) fail(`@${ref} has no clean range in the file`);
+  const r = m.ranges.get(el);
+  if (!r || (r === CHECK && !exactRange(m, el))) fail(`@${ref} has no clean range in the file`);
   return el;
+}
+
+const MARK = 'data-html-mark';
+const HTML = 'http://www.w3.org/1999/xhtml';
+/** The HTML elements that have no end tag. */
+export const VOID = new Set(['area', 'base', 'basefont', 'bgsound', 'br', 'col', 'embed', 'frame', 'hr', 'img', 'input',
+  'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
+const attrName = (a) => (a.prefix ? `${a.prefix}:${a.name}` : a.name);
+const attrValue = (v) => v.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+
+/**
+ * The source of an empty element with an element's tag and attributes, plus one marker attribute. The attributes
+ * stay, because some decide where the parser puts an element: `type="hidden"` keeps an input in a table, and `color`
+ * takes a font out of SVG (C0.1 review, finding 2). A void element and `plaintext` get no end tag.
+ * @param {object} el a parse5 element @param {string} mark the marker attribute's name @param {string} value
+ */
+export function markerSource(el, mark, value = '') {
+  const t = el.tagName;
+  const attrs = [...el.attrs.map((a) => `${attrName(a)}="${attrValue(a.value)}"`), `${mark}="${attrValue(value)}"`].join(' ');
+  const open = el.namespaceURI === HTML && (VOID.has(t) || t === 'plaintext');
+  return `<${t} ${attrs}>` + (open ? '' : `</${t}>`);
+}
+
+/**
+ * Whether an element's range holds exactly the element: the file with the range replaced by an empty copy of the
+ * element (`markerSource`) parses to the old tree with the element replaced by that copy (C0.1 development run,
+ * 2026-11-11).
+ * @param {ReturnType<typeof load>} m @param {object} el
+ */
+function exactRange(m, el) {
+  const { startOffset: s, endOffset: e } = el.sourceCodeLocation;
+  const t = el.tagName;
+  const doc2 = parseDoc(m.text.slice(0, s) + markerSource(el, MARK) + m.text.slice(e));
+  if (depthOf(doc2) > MAX_DEPTH) return false; // before the serializer, which is recursive
+  const P = m.parent.get(el);
+  const k = P.childNodes.indexOf(el);
+  const stub = { nodeName: t, tagName: t, namespaceURI: el.namespaceURI, attrs: [...el.attrs, { name: MARK, value: '' }], childNodes: [], parentNode: P };
+  if (el.content) stub.content = { nodeName: '#document-fragment', childNodes: [] };
+  P.childNodes[k] = stub;
+  try {
+    return serialize(m.doc) === serialize(doc2);
+  } finally {
+    P.childNodes[k] = el;
+  }
 }
 
 /** html_read: the original text of one element. */

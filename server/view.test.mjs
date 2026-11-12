@@ -2,7 +2,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import * as proto from '../experiments/c03/html.mjs';
-import { load, outlinePage, findText, readRef, pageCount, MAX_DEPTH, LINE_CAP, cssPlain } from './view.mjs';
+import { load, outlinePage, findText, readRef, pageCount, MAX_DEPTH, LINE_CAP, cssPlain, depthOf, parseDoc, markerSource } from './view.mjs';
+import { serialize } from 'parse5';
 import { ToolError } from './errors.mjs';
 import { rng, pick, randomHtml } from './testkit.mjs';
 
@@ -189,6 +190,47 @@ test('read and edit refuse an element with no clean range; read returns exact by
   refuses(() => readRef(m, -1), /does not exist/);
   refuses(() => readRef(m, 1.5), /does not exist/);
   refuses(() => readRef(m, '3'), /does not exist/);
+});
+
+test('C0.1 development run: fostered text that merges into a text node outside makes the range not clean', () => {
+  // The X in the tr moves before the table and joins the text "\n" there. That text node starts before the tr and
+  // the table, so no node starts inside their ranges, but their ranges still hold X.
+  for (const src of ['<p>\n<table>\n <tr><td>a</td>X</tr>\n</table>', '<div>Q<table><tr><td>a</td>X</tr></table></div>']) {
+    const m = load(src, H);
+    const byTag = (t) => m.els.find((e) => e.tagName === t).ref;
+    refuses(() => readRef(m, byTag('tr')), /no clean range/);
+    refuses(() => readRef(m, byTag('table')), /no clean range/);
+    assert.equal(readRef(m, byTag('td')), '<td>a</td>');
+    assert.equal(readRef(m, m.els.find((e) => e.tagName === 'p' || e.tagName === 'div').ref), src);
+  }
+});
+
+test('C0.1 review 1: template content counts in the depth limit, so no read or edit can overflow the serializer', () => {
+  const src = '<template>' + '<div>'.repeat(600) + '</template><div>Q<table><tr><td>a</td>X</tr></table></div>';
+  refuses(() => load(src, H), /deeper than 512/);
+  assert.equal(depthOf(parseDoc('<template><b><i>x</i></b></template>')), 5); // html, head, template, b, i
+});
+
+test('C0.1 review 2: the marker keeps the attributes that decide where the parser puts an element', () => {
+  // The input stays in the table only with type="hidden"; the joined text "QX" makes the range a CHECK case.
+  const m = load('<div>Q<table><input type="hidden" name="h"><tr><td>a</td>X</tr></table></div>', H);
+  const input = m.els.find((e) => e.tagName === 'input').ref;
+  assert.equal(readRef(m, input), '<input type="hidden" name="h">');
+  const el = (src, tag) => load(src, H).els.find((e) => e.tagName === tag);
+  assert.equal(markerSource(el('<svg><use xlink:href="#a&quot;b"/></svg>', 'use'), 'data-m'), '<use xlink:href="#a&quot;b" data-m=""></use>');
+  assert.equal(markerSource(el('<img src="a&amp;b">', 'img'), 'data-m', '1'), '<img src="a&amp;b" data-m="1">');
+  assert.equal(markerSource(el('<plaintext>x', 'plaintext'), 'data-m'), '<plaintext data-m="">');
+});
+
+test('C0.1 review 7: the marker check leaves the shared tree as it was', () => {
+  const m = load('<div>Q<table><tr><td>a</td>X</tr></table></div>', H);
+  const before = serialize(m.doc);
+  const td = m.els.find((e) => e.tagName === 'td');
+  const kids = [...td.parentNode.childNodes];
+  assert.equal(readRef(m, td.ref), '<td>a</td>');
+  assert.equal(serialize(m.doc), before);
+  assert.deepEqual(td.parentNode.childNodes, kids);
+  assert.equal(td.parentNode.childNodes.includes(td), true);
 });
 
 test('a page out of range gives a named error with the page count', () => {

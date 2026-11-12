@@ -253,3 +253,27 @@ package, and adding one needs the owner's yes. A new row in `docs/follow-ups.md`
   7. **Tag names** escape each character outside letters, digits, `.`, `_`, `:` and `-`.
   8. **Error texts** name a file-system error by its code only, never by a path.
   9. **The result of an edit** must not nest deeper than 512 levels.
+- **2026-11-11 (lead, from the C0.1 script's development run):** the oracle found a defect in the clean-range rule.
+  The server fixed it before the C0.1 gate run, with a regression test. The owner is told in the hand-over.
+  1. **The defect:** parse5 moves text that stands directly in a table to the place before the table ("foster
+     parenting"). When text is already there, parse5 joins the two, and the joined text node's range spans the table.
+     No node then starts inside the table's range, so the server called the range of the table (and of a `tr` in it)
+     clean, but the range also held the moved text. In the development run, 25 of 1,000 random edits hit such an
+     element. The edit check (amendment above, 2) still refused each edit that changed the tree outside, so no wrong
+     file was written. Only the range rule was wrong.
+  2. **The fix:** a range is clean only when every other located node that meets it is an ancestor or in its subtree.
+     When another node meets it (joined text, or an element that the parser moved out of a table), `html_read` and
+     `html_edit` parse the file once more, with the range replaced by an empty element of the same tag. The range is
+     clean when that tree equals the old tree with the element replaced by the empty element. This is the oracle's own
+     check, done with parse5. It costs one more parse, only for these elements.
+  3. **The effect on the 10 gate files of C0.5:** 44 of their 2,096 elements have no clean range (42 before the fix).
+     With C0.1's 6 copies, 124 elements in 16 files have none: the copy with U+1F600 before each `</` puts text in
+     tables. The outputs of `html_outline` and `html_find` do not change.
+- **2026-11-11 (lead, from the review of the C0.1 script and the fix above):** the owner is told in the hand-over.
+  1. **The depth limit counts template content.** parse5's serializer recurses into a template's content, but the
+     depth count did not. A file with deep content in a `template` could overflow the stack in an edit, and after the
+     fix above also in a read. `html_outline` and every other tool now refuse such a file with a named error.
+  2. **The marker check uses an empty copy of the element with its own attributes**, plus the marker attribute, as
+     the C0.1 oracle does (contract, amendment "the C0.1 marker keeps the element's attributes").
+  3. **The cost:** a probe (not a timed run) on this machine: a 1.9 MB file whose table elements all need the marker
+     parse takes about 0.3 s to load and 0.35 s more for an edit, about 0.7 s in total, under the 1.5 s limit.
