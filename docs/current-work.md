@@ -21,9 +21,11 @@ ran with the current server: 0.513 and 1.194 (`docs/measurements/2026-11-12-c07-
 (`docs/measurements/2026-11-12-c01-v2-result.md`); C0.2 v2 PASS on its second run, after a recorded FAIL
 (`docs/measurements/2026-11-12-c02-v2-result.md`).
 
-**Next:** the v2 task rules and C0.10's task script, the runner's v2 changes and a v2 run plan (free); then the v2
-previews of C0.7, C0.9 and C0.10 on C0.5's files (paid, with the owner's yes); then the draws, the gates' freeze and
-the gates, each paid run with the owner's yes.
+**Done:** the v2 task rules, C0.10's task script and the v2 run plan; the v2 previews (C0.7 0.380, C0.9 0.793, C0.10
+1.209; `docs/measurements/2026-11-12-c07-c10-v2-previews.md`). Rule C.6.3 does not reopen decision 0008.
+
+**Next (owner's decisions):** the C0.10 text rule (`docs/follow-ups.md`); then the draws, the gates' freeze and the
+gates, each paid run with the owner's yes.
 
 The owner's rule (2026-11-11, extended 2026-11-12): no push and no pull request until the owner asks for one.
 
