@@ -12,14 +12,15 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { contentRule } from '../c03/select-files.mjs';
 import { generator, shuffle, templateRule } from '../c05/draw-files.mjs';
-import { GATES, taskRule, tokenCounter, storedPath } from './tasks.mjs';
+import { GATES, taskRule, tokenCounter, storedPath, PATHS } from './tasks.mjs';
 
 const ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const at = (...p) => path.join(ROOT, ...p);
 export const RULE_MODULES = ['experiments/c07/draw-files.mjs', 'experiments/c07/tasks.mjs', 'experiments/c07/rules.mjs',
   'experiments/c07/oracle_c07.py', 'experiments/c01/oracle.py', 'experiments/c01/tree.mjs', 'experiments/c01/run-c01.mjs',
   'experiments/c03/select-files.mjs', 'experiments/c03/make-tasks.mjs', 'experiments/c03/html.mjs',
-  'experiments/c05/draw-files.mjs', 'server/view.mjs', 'server/edit.mjs', 'server/errors.mjs'];
+  'experiments/c05/draw-files.mjs', 'server/view.mjs', 'server/edit.mjs', 'server/errors.mjs', 'server/v2.mjs',
+  'server/source.mjs', 'server/workspace.mjs'];
 
 const owner = (repo) => repo.split('/')[0].toLowerCase();
 const byCodeUnits = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
@@ -130,8 +131,8 @@ export async function drawAll(c03, c05, gate, readText, rule) {
 
 async function main() {
   const gate = process.argv[2];
-  if (!GATES[gate]) throw new Error('usage: node experiments/c07/draw-files.mjs <c07|c08|c09>');
-  const out = at(`experiments/c07/${gate}-file-set.json`);
+  if (!GATES[gate]) throw new Error('usage: node experiments/c07/draw-files.mjs <c07|c08|c09|c10>');
+  const out = at(PATHS.fileSet(gate));
   if (existsSync(out)) throw new Error(`${path.relative(ROOT, out)} exists: the draw runs once`);
   const dirty = execFileSync('git', ['status', '--porcelain', '--', 'experiments/c01', 'experiments/c03', 'experiments/c05', 'experiments/c07', 'server', 'package.json', 'pnpm-lock.yaml'], { cwd: ROOT, encoding: 'utf8' }).trim();
   if (dirty) throw new Error(`commit the draw's inputs before the draw:\n${dirty}`);
@@ -147,7 +148,7 @@ async function main() {
     rules: Object.fromEntries(RULE_MODULES.map((p) => [p, sha(readFileSync(at(p)))])),
     parse5: JSON.parse(readFileSync(at('node_modules/parse5/package.json'), 'utf8')).version,
     from: 'experiments/c03/file-set.json', excludedOwners: d.excludedOwners, kinds: [] };
-  const dir = `experiments/gate-files/c07/${gate}`;
+  const dir = PATHS.store(gate);
   rmSync(at(dir), { recursive: true, force: true });
   let n = 0;
   for (const k of d.kinds) {

@@ -1,10 +1,12 @@
-// The task rules of the second rescope's gates C0.7, C0.8 and C0.9 (docs/contract.md, "Phase 0, second rescope";
+// The task rules of the second rescope's gates C0.7, C0.8, C0.9 and C0.10 (docs/contract.md, "Phase 0, second rescope";
 // decision 0007). Pure functions over the server's own view (`server/view.mjs`, inputs 5): no file access, no oracle,
 // no network. tasks.mjs adds the oracle check and the token count, and draws.
 import { parseFragment } from 'parse5';
 import { load, element, findText, isHidden, VOID } from '../../server/view.mjs';
 import { editBytes } from '../../server/edit.mjs';
 import { ToolError } from '../../server/errors.mjs';
+import { runToolV2 } from '../../server/v2.mjs';
+import { hashOf } from '../../server/workspace.mjs';
 
 export const NEW_P = '<p>New text</p>';
 const HASH = 'rules';
@@ -83,7 +85,25 @@ export function clean(m, e) {
   }
 }
 
-/** The server's html_edit accepts `html` in place of the element. */
+/**
+ * The v2 server accepts a change by ref (contract amendment "the gate text for the v2 tools", C.3), and writes exactly
+ * the expected file: it runs the server's own html_change on the text in memory, through a workspace that writes
+ * nothing. `change` is the task's expected change [start, end, text].
+ */
+export function v2Accepts(m, e, operation, args, change) {
+  const bytes = Buffer.from(m.text, 'utf8');
+  const hash = hashOf(bytes);
+  const ws = { read: () => ({ real: 'rules:v2', bytes, text: m.text, hash, id: null }), onlyFile: () => 'x.html' };
+  try {
+    const r = runToolV2(ws, 'html_change', { file: 'x.html', operation, ref: e.ref, hash, ...args });
+    return Buffer.from(r.write.bytes).equals(Buffer.from(applyChange(m.text, change), 'utf8'));
+  } catch (err) {
+    if (err instanceof ToolError) return false;
+    throw err;
+  }
+}
+
+/** The v1 server's html_edit accepts `html` in place of the element (the v1 rules; kept for their tests). */
 export function serverAccepts(m, e, html) {
   try {
     editBytes(m, Buffer.from(m.text, 'utf8'), e.ref, HASH, html);
@@ -127,8 +147,9 @@ export const applyChange = (text, [a, b, s]) => text.slice(0, a) + s + text.slic
 export function wholeEdit(m, e, op) {
   const [s, t] = range(e);
   const html = op === 'removal' ? '' : op === 'replacement' ? NEW_P : m.text.slice(s, t) + NEW_P;
-  if (!serverAccepts(m, e, html)) return null;
   const change = op === 'insertion' ? [t, t, NEW_P] : [s, t, html];
+  const v2 = op === 'removal' ? ['remove', {}] : op === 'replacement' ? ['replace', { html: NEW_P }] : ['insert_after', { html: NEW_P }];
+  if (!v2Accepts(m, e, v2[0], v2[1], change)) return null;
   if (op !== 'removal') {
     const want = countP(m.text) - (op === 'replacement' ? pInside(e) + (e.tagName === 'p' ? 1 : 0) : 0) + 1;
     if (countP(applyChange(m.text, change)) !== want) return null;
@@ -287,7 +308,8 @@ export function attributeEdit(m, e, attr, newValue) {
   const loc = e.sourceCodeLocation.attrs[attr];
   const [s, t] = range(e);
   const html = m.text.slice(s, loc.startOffset) + `${attr}="${newValue}"` + m.text.slice(loc.endOffset, t);
-  return serverAccepts(m, e, html) ? { html, change: [loc.startOffset, loc.endOffset, `${attr}="${newValue}"`] } : null;
+  const change = [loc.startOffset, loc.endOffset, `${attr}="${newValue}"`];
+  return v2Accepts(m, e, 'set_attribute', { attribute: attr, value: newValue }, change) ? { html, change } : null;
 }
 
 // --- C0.9: a quote that is not in the source as written ------------------------------------------------------------
@@ -480,7 +502,97 @@ export function c09Quotes(m) {
   return out.sort((a, b) => a.el.ref - b.el.ref);
 }
 
-/** C0.4's prompt templates, for C0.9. */
+// --- C0.10: C0.6's task kind with the v2 tools ---------------------------------------------------------------------
+
+/** The visible-text positions where `q` occurs, up to `max` (null when there are more). */
+function occurrences(m, q, max = 50) {
+  const out = [];
+  for (let i = m.vis.indexOf(q); i !== -1; i = m.vis.indexOf(q, i + 1)) {
+    if (out.length === max) return null;
+    out.push(i);
+  }
+  return out;
+}
+
+/** The shown elements whose visible text holds the occurrence at visible position p: the deepest and its ancestors. */
+function holdersAt(m, p, len) {
+  const out = [];
+  for (let e = holderOf(m, p, p + len); e && e.tagName; e = m.parent.get(e)) if (m.shown.has(e)) out.push(e);
+  return out;
+}
+
+const isAncestorOf = (m, a, d) => { for (let p = m.parent.get(d); p; p = m.parent.get(p)) if (p === a) return true; return false; };
+
+/**
+ * C0.3's quote of an element (`experiments/c03/make-tasks.mjs`, `quoteFor`), on the server's view: the first 6 words
+ * of its first direct text node that has a word, when those words are in the node's source as written. With the
+ * second rescope's limits: at most 80 characters, no `"` and no backtick.
+ */
+export function c10Quote(m, el) {
+  for (const c of el.childNodes) {
+    if (c.nodeName !== '#text') continue;
+    const q = c.value.replace(/[ \t\n\f\r]+/g, ' ').trim().split(' ').filter(Boolean).slice(0, 6).join(' ');
+    if (!q) continue;
+    const loc = c.sourceCodeLocation;
+    const at = loc ? m.text.indexOf(q, loc.startOffset) : -1;
+    if (at < 0 || at + q.length > loc.endOffset || q.length > MAX_QUOTE || NO_QUOTE_CHARS.test(q)) return null;
+    return q;
+  }
+  return null;
+}
+
+/**
+ * C0.10's targets: C0.3's candidates (`candidates` of make-tasks.mjs) on the server's view. A shown element in body
+ * with an explicit end tag and a clean range, whose quote it is the deepest holder of, and no other element of its
+ * tag holds the quote. The holders come from the quote's occurrences in the visible text. A quote with more than 50
+ * occurrences is not a candidate: such a quote names one element of its tag only in rare files, and the cap keeps the
+ * rule fast (v2 run plan, reading 5).
+ */
+export function c10Candidates(m) {
+  const out = [];
+  for (const e of m.els) {
+    if (!TAG_RULE.test(e.tagName) || !inBody(m, e) || !m.shown.has(e) || !hasEnd(e)) continue;
+    const q = c10Quote(m, e);
+    if (!q) continue;
+    const occ = occurrences(m, q);
+    if (!occ || !occ.length) continue;
+    let ok = true;
+    let holds = false;
+    for (const p of occ) {
+      const hs = holdersAt(m, p, q.length);
+      if (hs.includes(e)) { holds = true; if (hs[0] !== e) ok = false; } // a child of e holds it: e is not the deepest
+      if (hs.some((h) => h !== e && h.tagName === e.tagName)) ok = false; // another element of its tag holds it
+    }
+    if (ok && holds && clean(m, e)) out.push({ el: e, quote: q });
+  }
+  return out;
+}
+
+/**
+ * The text-change quotes of a C0.10 target (make-tasks.mjs, the text change): each direct text node of 3 words or
+ * more gives its first 6 words. Valid when the words are in the node's source as written, and no element other than
+ * the target and its ancestors holds them.
+ */
+export function c10TextQuotes(m, el) {
+  const out = [];
+  for (const c of el.childNodes) {
+    if (c.nodeName !== '#text') continue;
+    const words = c.value.replace(/[ \t\n\f\r]+/g, ' ').trim().split(' ').filter(Boolean);
+    if (words.length < 3) continue;
+    const q = words.slice(0, 6).join(' ');
+    if (q.length > MAX_QUOTE || NO_QUOTE_CHARS.test(q)) continue;
+    const loc = c.sourceCodeLocation;
+    const at = loc ? m.text.indexOf(q, loc.startOffset) : -1;
+    if (at < 0 || at + q.length > loc.endOffset) continue;
+    const occ = occurrences(m, q);
+    if (!occ) continue;
+    if (occ.some((p) => holdersAt(m, p, q.length).some((h) => h !== el && !isAncestorOf(m, h, el)))) continue;
+    out.push({ quote: q, at });
+  }
+  return out;
+}
+
+/** C0.4's prompt templates, for C0.9 and C0.10. */
 export function c09Prompt(type, tag, quote, extra = {}) {
   if (type === 'question') return `What is the value of the \`${extra.attr}\` attribute of the \`${tag}\` element that contains the text "${quote}"? End your reply with the line \`ANSWER: <value>\`.`;
   if (type === 'text') return `Change the text "${quote}" to "${extra.newText}". Change nothing else.`;

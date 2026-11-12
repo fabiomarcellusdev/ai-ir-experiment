@@ -6,6 +6,9 @@
 //   node experiments/c06/run-c06.mjs --gate         the gate run: 240 runs; writes experiments/c06/c06-result.json
 //   node experiments/c06/run-c06.mjs --preview-c07  (c08, c09) a preview: 1 run of each task in each arm
 //   node experiments/c06/run-c06.mjs --gate-c07     (c08, c09) a gate: 240 runs; writes experiments/c07/gate-c07-result.json
+//   node experiments/c06/run-c06.mjs --preview-v2-c07  (c08, c09, c10) a preview with the v2 tools (decision 0008;
+//                                    run plan docs/measurements/2026-11-12-c07-c10-v2-run-plan.md)
+//   node experiments/c06/run-c06.mjs --gate-v2-c07     (c08, c09, c10) a gate with the v2 tools
 // It reads the API key from .local/anthropic-api-key and never prints it. Raw run streams go in the git-ignored
 // experiments/gate-files/c06-runs/: they hold text of the files.
 import { readFileSync, writeFileSync, appendFileSync, mkdtempSync, mkdirSync, rmSync, readdirSync, statSync, existsSync } from 'node:fs';
@@ -18,7 +21,7 @@ import { generator, shuffle } from '../c05/draw-files.mjs';
 import { MODEL } from '../c03/run-c03.mjs';
 import { load, pageCount } from '../../server/view.mjs';
 import { analyze, runTokens, ARMS, RUNS_PER_ARM } from './analysis.mjs';
-import { GATES, gateTasks, previewTasks, tokenCounter, storedPath, checkedPath } from '../c07/tasks.mjs';
+import { GATES, gateTasks, previewTasks, tokenCounter, storedPath, checkedPath, PATHS } from '../c07/tasks.mjs';
 import { applyChange } from '../c07/rules.mjs';
 import { frozenFiles, OUT as FREEZE_OUT } from '../c07/freeze.mjs';
 
@@ -61,13 +64,27 @@ export const MODES = {
   preview: { tasks: 'experiments/c03/tasks.json', record: 'experiments/c03/file-set.json', rounds: 1, result: 'experiments/c06/preview-result.json' },
   gate: { tasks: 'experiments/c05/tasks.json', record: 'experiments/c05/file-set.json', rounds: RUNS_PER_ARM, result: 'experiments/c06/c06-result.json', gate: 'C0.6' },
 };
-for (const g of Object.keys(GATES)) {
+// The v1 modes of the second rescope. They are closed: the v1 previews ran, and the gates run with the v2 tools.
+for (const g of ['c07', 'c08', 'c09']) {
   const name = `C0.${g.slice(2)}`;
   const common = { second: g, plan: RUN_PLAN_2, seed: SEED_2, types: GATES[g].types, intervalBelow: 1 };
   MODES[`preview-${g}`] = { ...common, tasks: `experiments/c07/preview-${g}-tasks.json`, record: 'experiments/c05/file-set.json', preview: true,
     rounds: 1, result: `experiments/c07/preview-${g}-result.json`, label: `${name} PREVIEW on C0.5's files: decides nothing` };
   MODES[`gate-${g}`] = { ...common, tasks: `experiments/c07/${g}-tasks.json`, record: `experiments/c07/${g}-file-set.json`, rounds: RUNS_PER_ARM,
     result: `experiments/c07/gate-${g}-result.json`, gate: name, label: name };
+}
+
+/** The run plan of the v2 runs (contract, amendment "the gate text for the v2 tools", C.5). */
+const RUN_PLAN_V2 = 'docs/measurements/2026-11-12-c07-c10-v2-run-plan.md';
+// The v2 modes (decision 0008; contract, amendment "the gate text for the v2 tools", C): the v2 tools in arm M, the v2
+// task sets and their own freeze. A gate's result has its own name; the v1 results stay recorded.
+for (const g of Object.keys(GATES)) {
+  const name = `C0.${g.slice(2)}`;
+  const common = { second: g, tools: 'v2', plan: RUN_PLAN_V2, seed: SEED_2, types: GATES[g].types, intervalBelow: 1 };
+  MODES[`preview-v2-${g}`] = { ...common, tasks: PATHS.tasks(g, true), record: 'experiments/c05/file-set.json', preview: true,
+    freeze: 'previews-v2', rounds: 1, result: `experiments/c07/preview-v2-${g}-result.json`, label: `${name} v2 PREVIEW on C0.5's files: decides nothing` };
+  MODES[`gate-v2-${g}`] = { ...common, tasks: PATHS.tasks(g, false), record: PATHS.fileSet(g), freeze: 'gates-v2', rounds: RUNS_PER_ARM,
+    result: `experiments/c07/gate-v2-${g}-result.json`, gate: name, label: `${name} (v2 tools)` };
 }
 
 /**
@@ -88,6 +105,15 @@ export const EXPECTED_TOOLS = {
   B: ['Edit', 'Glob', 'Grep', 'Read'],
   M: ['Edit', 'Glob', 'Grep', 'Read', 'mcp__html__html_edit', 'mcp__html__html_find', 'mcp__html__html_outline', 'mcp__html__html_read'],
 };
+/** The tools of each arm in a v2 run (contract, amendment "the gate text for the v2 tools", C.1). */
+export const EXPECTED_TOOLS_V2 = {
+  B: EXPECTED_TOOLS.B,
+  M: ['Edit', 'Glob', 'Grep', 'Read', 'mcp__html__html_change', 'mcp__html__html_find', 'mcp__html__html_outline'],
+};
+/** The tools of the present run's MCP server: 'v1' or 'v2'; set in runAll from the mode. */
+let toolsVersion = 'v1';
+/** The tool calls that change the file: a question run that made one "edited the file" (C.5). */
+export const EDIT_TOOLS = ['Edit', 'mcp__html__html_edit', 'mcp__html__html_change'];
 /** The plugins that Claude Code 2.1.322 builds in; no other plugin may load (pilot, 2026-11-12). */
 export const BUILTIN_PLUGINS = ['cc-plugin-agents-md', 'cc-plugin-plugin-authoring', 'cc-plugin-privacy'];
 /** The files and folders of project notes that Claude Code reads from a folder and its parents. */
@@ -151,7 +177,8 @@ export const NOT_FOUND = ['File does not exist', 'Path does not exist', 'the fil
 export const missingFileErrors = (calls) => calls.filter((c) => c.isError && NOT_FOUND.some((t) => c.errorText?.includes(t))).length;
 
 /** The tool names that a record counts by name; any other name counts as "other" (security review, F2). */
-export const KNOWN_TOOLS = ['Read', 'Edit', 'Grep', 'Glob', 'mcp__html__html_outline', 'mcp__html__html_find', 'mcp__html__html_read', 'mcp__html__html_edit'];
+export const KNOWN_TOOLS = ['Read', 'Edit', 'Grep', 'Glob', 'mcp__html__html_outline', 'mcp__html__html_find', 'mcp__html__html_read', 'mcp__html__html_edit',
+  'mcp__html__html_change'];
 
 /** The number of calls of each tool. A name that the model made up is never written: it could carry any text. */
 export function countTools(calls) {
@@ -369,11 +396,11 @@ export function apiErrorText(s) {
 }
 
 /** Stops the gate when a run's start shows another harness version or another tool list (review, 3). */
-export function checkStart(init, arm, harness) {
+export function checkStart(init, arm, harness, expected = EXPECTED_TOOLS) {
   if (!init) return 'the run gave no start message';
   if (init.claude_code_version && !String(init.claude_code_version).startsWith(harness)) return `the harness became ${init.claude_code_version}`;
   const tools = [...(init.tools ?? [])].sort();
-  if (JSON.stringify(tools) !== JSON.stringify(EXPECTED_TOOLS[arm])) return `arm ${arm} had another tool list`;
+  if (JSON.stringify(tools) !== JSON.stringify(expected[arm])) return `arm ${arm} had another tool list`;
   if ((init.skills ?? []).length) return 'skills loaded';
   if ((init.plugins ?? []).some((p) => !BUILTIN_PLUGINS.includes(p.name) || p.path !== 'builtin')) return 'a plugin other than the built-in ones loaded';
   return null;
@@ -396,7 +423,7 @@ async function oneRun(task, arm, k, key, label, startId) {
   mkdirSync(conf);
   writeFileSync(path.join(dir, name), original);
   const mcpConfig = path.join(base, 'mcp.json');
-  writeFileSync(mcpConfig, JSON.stringify({ mcpServers: { html: { command: process.execPath, args: [at('server/main.mjs'), '--root', dir] } } }));
+  writeFileSync(mcpConfig, JSON.stringify({ mcpServers: { html: { command: process.execPath, args: [at('server/main.mjs'), '--root', dir, ...(toolsVersion === 'v2' ? ['--tools', 'v2'] : [])] } } }));
   const canaryFile = path.join(base, 'canary.txt');
   writeFileSync(canaryFile, CANARY);
   const notes = notesAbove(dir);
@@ -417,7 +444,7 @@ async function oneRun(task, arm, k, key, label, startId) {
       attempts.push({ s, run, end: endOf(s, run) });
       const spent = () => attempts.reduce((a, x) => a + attemptCost(x.s).usd, 0);
       if (canaryHit(run.lines, canaryFile)) throw new StopGate(`${task.id} ${arm}${k}: the agent reached the canary outside its folder`, spent());
-      const startProblem = checkStart(s.init, arm, PLAN.harness);
+      const startProblem = checkStart(s.init, arm, PLAN.harness, toolsVersion === 'v2' ? EXPECTED_TOOLS_V2 : EXPECTED_TOOLS);
       if (startProblem && attempts.at(-1).end !== 'api-error') throw new StopGate(`${task.id} ${arm}${k}: ${startProblem}`, spent());
       // One more run only for an API error before the first tool call (C0.4, "Limits").
       if (!(attempts.at(-1).end === 'api-error' && !s.calls.length)) break;
@@ -445,7 +472,7 @@ async function oneRun(task, arm, k, key, label, startId) {
       const unchanged = result && result.equals(original) && !others.length;
       if (!unchanged) reasons.push('a file in the run folder changed');
       // An edit that the agent undid still changed the file during the run (re-review, 9).
-      if (s.calls.some((c) => (c.name === 'Edit' || c.name === 'mcp__html__html_edit') && c.isError === false)) reasons.push('the run edited the file');
+      if (s.calls.some((c) => EDIT_TOOLS.includes(c.name) && c.isError === false)) reasons.push('the run edited the file');
       const v = judge({ answers: [{ id: 'q', value: answerOf(s.result?.result), expected: task.answer }] }, base).answers.q;
       if (!v) reasons.push('the answer is not the expected value');
       pass = !reasons.length;
@@ -550,7 +577,7 @@ export function freezeProblem(frozen, expected, shaOf) {
 const FROZEN_ROOTS = ['experiments/', 'server/', 'docs/', 'package.json', 'pnpm-lock.yaml'];
 
 async function checkFreeze(set, files, key) {
-  const scope = set.preview ? 'previews' : 'gates';
+  const scope = set.freeze ?? (set.preview ? 'previews' : 'gates');
   const problem = freezeProblem(JSON.parse(readFileSync(at(RUN_INPUTS_2[scope]), 'utf8')).sha256, frozenFiles(scope), (f) => sha(readFileSync(at(f))));
   if (problem) throw new Error(problem);
   const committed = JSON.parse(readFileSync(at(set.tasks), 'utf8'));
@@ -566,6 +593,19 @@ async function checkFreeze(set, files, key) {
   }
 }
 
+/**
+ * What keeps a v2 run from its start, or null (C.1): C0.1 v2 and C0.2 v2 passed, and the server's modules and JSON at
+ * HEAD are the ones of both passing commits. `diffOf(commit)` gives the names of the server files changed since it.
+ */
+export function v2ServerProblem(results, diffOf) {
+  for (const [name, r] of Object.entries(results)) {
+    if (!r || r.verdict !== 'PASS') return `${name} has not passed`;
+    const changed = diffOf(r.commit).filter((f) => !f.endsWith('.test.mjs'));
+    if (changed.length) return `the server changed since ${name} passed: ${changed.join(', ')}`;
+  }
+  return null;
+}
+
 /** Refuses a run that the plan does not allow (the follow-up of the C0.5 analysis check, and the run plan). */
 async function preflight(mode) {
   const set = MODES[mode];
@@ -575,10 +615,16 @@ async function preflight(mode) {
   // Folders of a runner that stopped hold third-party text: remove them (security review, F4).
   rmSync(WORK, { recursive: true, force: true });
   if (set.result && existsSync(at(set.result))) throw new Error(`${set.result} exists: ${set.gate ? `${set.gate} runs once (contract, rescope order, 5)` : 'the preview runs once'}`);
-  if (git('status', '--porcelain', '--', 'server', 'experiments', 'docs/contract.md', plan)) throw new Error('the run needs committed code, inputs and run plan');
+  if (git('status', '--porcelain', '--', 'server', 'experiments', 'docs/contract.md', plan, RUN_PLAN_2)) throw new Error('the run needs committed code, inputs and run plan');
   // The plan is final before a gate run or a second-rescope run (C0.4, "The run plan"), and the inputs are the
   // recorded ones (review, 7).
   if ((set.gate || set.second) && /DRAFT|\(pilot\)/.test(readFileSync(at(plan), 'utf8'))) throw new Error('the run plan is still a draft');
+  if (set.tools === 'v2') {
+    const read = (f) => (existsSync(at(f)) ? JSON.parse(readFileSync(at(f), 'utf8')) : null);
+    const problem = v2ServerProblem({ 'C0.1 v2': read('experiments/c01/c01-v2-result.json'), 'C0.2 v2': read('experiments/c02/c02-v2-result.json') },
+      (c) => git('diff', '--name-only', c, 'HEAD', '--', 'server').split(/\r?\n/).filter(Boolean));
+    if (problem) throw new Error(problem);
+  }
   const keyFile = at('.local/anthropic-api-key');
   if (!existsSync(keyFile)) throw new Error('.local/anthropic-api-key is missing: the owner puts the API key there (git-ignored)');
   const key = readFileSync(keyFile, 'utf8').trim();
@@ -651,6 +697,7 @@ async function runAll(mode, budgetUsd) {
   const { version, key } = await preflight(mode);
   const commit = git('rev-parse', 'HEAD');
   runCommit = commit;
+  toolsVersion = set.tools ?? 'v1';
   const label = mode;
   const taskFile = set.tasks;
   const allTasks = JSON.parse(readFileSync(at(taskFile), 'utf8')).tasks;

@@ -1,4 +1,4 @@
-// The task sets of gates C0.7, C0.8 and C0.9 and of their previews (docs/contract.md, "Phase 0, second rescope").
+// The task sets of gates C0.7, C0.8, C0.9 and C0.10 and of their previews (docs/contract.md, "Phase 0, second rescope").
 // The rules are in rules.mjs. This module adds the oracle (html5lib 1.1 through oracle_c07.py) and, for C0.7, the
 // token count of a Read of the target (count_tokens: free, with the owner's key), and draws.
 //
@@ -6,8 +6,9 @@
 // different valid target (a matching). The task draw checks every unit of a drawn file, then draws slot by slot among
 // the valid targets that still leave a matching (`drawExact`), so it never fails on a file that passed the rule.
 //
-//   node experiments/c07/tasks.mjs <c07|c08|c09>            the gate's task set, from its committed draw
-//   node experiments/c07/tasks.mjs <c07|c08|c09> --preview  the preview's tasks, from C0.5's 10 files
+//   node experiments/c07/tasks.mjs <c07|c08|c09|c10>            the gate's v2 task set, from its committed v2 draw
+//   node experiments/c07/tasks.mjs <c07|c08|c09|c10> --preview  the v2 preview's tasks, from C0.5's 10 files
+// Since decision 0008 the rules use the v2 server, and the records have v2 names (`PATHS`); the v1 records stay.
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -27,7 +28,10 @@ export const GATES = {
   c07: { seed: 20261112, types: ['removal', 'replacement'] },
   c08: { seed: 20261113, types: ['question', 'attribute', 'removal', 'insertion'] },
   c09: { seed: 20261114, types: ['question', 'text', 'attribute', 'structure'] },
+  c10: { seed: 20261115, types: ['question', 'text', 'attribute', 'structure'] },
 };
+/** The gates whose structure task depends on the file number: an insertion in even files, a removal in odd files. */
+const BY_PARITY = new Set(['c09', 'c10']);
 export const READ_LIMIT = 25_000; // tokens of one Read call (C0.6 run plan)
 const MODEL = 'claude-sonnet-5-5';
 const PYTHON = at('.venv-oracle', process.platform === 'win32' ? 'Scripts/python.exe' : 'bin/python');
@@ -150,8 +154,38 @@ export function units(gate, type, m, n) {
     }
     return out;
   }
-  // c09
   const op = n % 2 === 0 ? 'insertion' : 'removal';
+  if (gate === 'c10') {
+    // C0.10: C0.3's task rules on the server's view, with the v2 acceptance (contract amendment "the gate text for
+    // the v2 tools", C.4).
+    for (const c of m.c10 ??= R.c10Candidates(m)) {
+      const [s, e] = R.range(c.el);
+      const own = m.text.slice(s, e);
+      const tag = c.el.tagName;
+      if (type === 'question') for (const a of R.safeAttrs(c.el)) out.push({ el: c.el, html: own, change: null, fields: { quote: c.quote, attr: a.name, answer: a.value, prompt: R.c09Prompt(type, tag, c.quote, { attr: a.name }) } });
+      if (type === 'text') {
+        for (const t of R.c10TextQuotes(m, c.el)) {
+          const newText = `Updated wording ${n}`;
+          const change = [t.at, t.at + t.quote.length, newText];
+          const html = m.text.slice(s, t.at) + newText + m.text.slice(t.at + t.quote.length, e);
+          if (R.v2Accepts(m, c.el, 'replace_text', { old: t.quote, new: newText }, change)) out.push({ el: c.el, html, change, fields: { quote: t.quote, newText, prompt: R.c09Prompt(type, tag, t.quote, { newText }) } });
+        }
+      }
+      if (type === 'attribute') {
+        for (const a of R.safeAttrs(c.el)) {
+          const newValue = `updated-value-${n}`;
+          const x = R.attributeEdit(m, c.el, a.name, newValue);
+          if (x) out.push({ el: c.el, html: x.html, change: x.change, fields: { quote: c.quote, attr: a.name, newValue, prompt: R.c09Prompt(type, tag, c.quote, { attr: a.name, newValue }) } });
+        }
+      }
+      if (type === 'structure') {
+        const x = R.wholeEdit(m, c.el, op);
+        if (x) out.push({ el: c.el, html: x.html, change: x.change, fields: { quote: c.quote, op, prompt: R.c09Prompt(type, tag, c.quote, { op }) } });
+      }
+    }
+    return out;
+  }
+  // c09
   for (const q of m.c09 ??= R.c09Quotes(m)) {
     const [s, e] = R.range(q.el);
     const own = m.text.slice(s, e);
@@ -162,7 +196,7 @@ export function units(gate, type, m, n) {
     if (type === 'text' && q.one) {
       const newText = `Updated wording ${n}`;
       const html = m.text.slice(s, q.one.srcStart) + newText + m.text.slice(q.one.srcEnd, e);
-      if (R.serverAccepts(m, q.el, html)) out.push({ el: q.el, html, change: [q.one.srcStart, q.one.srcEnd, newText], fields: { quote: q.one.quote, causes: q.one.causes, newText, prompt: R.c09Prompt(type, tag, q.one.quote, { newText }) } });
+      if (R.v2Accepts(m, q.el, 'replace_text', { old: q.one.quote, new: newText }, [q.one.srcStart, q.one.srcEnd, newText])) out.push({ el: q.el, html, change: [q.one.srcStart, q.one.srcEnd, newText], fields: { quote: q.one.quote, causes: q.one.causes, newText, prompt: R.c09Prompt(type, tag, q.one.quote, { newText }) } });
     }
     if (type === 'attribute' && q.any) {
       for (const a of R.safeAttrs(q.el)) {
@@ -287,15 +321,15 @@ export async function taskRule(gate, text, count) {
   const check = checker(m, count);
   const found = new Map();
   const targetsOf = async (type, n) => {
-    const k = `${type}|${gate === 'c09' && type === 'structure' ? n % 2 : 0}`;
+    const k = `${type}|${BY_PARITY.has(gate) && type === 'structure' ? n % 2 : 0}`;
     if (!found.has(k)) found.set(k, await validTargets(units(gate, type, m, n), check, 4));
     return found.get(k);
   };
-  for (const n of gate === 'c09' ? [1, 2] : [1]) {
+  for (const n of BY_PARITY.has(gate) ? [1, 2] : [1]) {
     const lists = [];
     for (const type of taskTypes(gate)) lists.push(await targetsOf(type, n));
     if (!matchingExists(lists)) {
-      const op = gate === 'c09' ? (n % 2 ? ' (structure: removal)' : ' (structure: insertion)') : '';
+      const op = BY_PARITY.has(gate) ? (n % 2 ? ' (structure: removal)' : ' (structure: insertion)') : '';
       return `cannot give the 4 tasks with 4 different targets${op}; valid targets: ${taskTypes(gate).map((t, i) => `${t} ${lists[i].length}`).join(', ')}`;
     }
   }
@@ -419,6 +453,17 @@ export async function previewTasks(gate, files, count) {
 
 // --- The command line -----------------------------------------------------------------------------------------------
 
+/**
+ * The paths of the v2 records (contract amendment "the gate text for the v2 tools", C): the v1 records of the same
+ * gates stay as they were, frozen. A preview's task set, a gate's task set, a gate's draw, and a gate's stored files.
+ */
+export const PATHS = {
+  tasks: (gate, preview) => `experiments/c07/${preview ? 'preview-' : ''}v2-${gate}-tasks.json`,
+  fileSet: (gate) => `experiments/c07/v2-${gate}-file-set.json`,
+  store: (gate) => `experiments/gate-files/c07/v2-${gate}`,
+  expected: (gate, preview) => `experiments/gate-files/c07/${preview ? 'preview-' : ''}v2-${gate}/expected`,
+};
+
 /** The stored path of a file: one folder for each file, under its base name (contract, inputs 3). */
 export const storedPath = (dir, n, name) => `${dir}/${n}/${name}`;
 
@@ -435,9 +480,9 @@ export function checkedPath(p, roots = ['experiments/gate-files/']) {
 
 async function main() {
   const [gate, flag] = process.argv.slice(2);
-  if (!GATES[gate]) throw new Error('usage: node experiments/c07/tasks.mjs <c07|c08|c09> [--preview]');
+  if (!GATES[gate]) throw new Error('usage: node experiments/c07/tasks.mjs <c07|c08|c09|c10> [--preview]');
   const preview = flag === '--preview';
-  const out = at('experiments', 'c07', `${preview ? 'preview-' : ''}${gate}-tasks.json`);
+  const out = at(PATHS.tasks(gate, preview));
   if (existsSync(out)) throw new Error(`${path.relative(ROOT, out)} exists: the task set is made once`);
   const keyFile = at('.local/anthropic-api-key');
   const count = gate === 'c07' ? tokenCounter(readFileSync(keyFile, 'utf8').trim()) : null;
@@ -452,7 +497,7 @@ async function main() {
       return { file, sha256: p.sha256 };
     });
   } else {
-    const record = JSON.parse(readFileSync(at(`experiments/c07/${gate}-file-set.json`), 'utf8'));
+    const record = JSON.parse(readFileSync(at(PATHS.fileSet(gate)), 'utf8'));
     files = record.kinds.flatMap((k) => k.picks).map((p) => ({ file: checkedPath(p.file), sha256: p.sha256 }));
   }
   for (const f of files) {
@@ -460,7 +505,7 @@ async function main() {
     if (sha(Buffer.from(f.text, 'utf8')) !== f.sha256) throw new Error(`${f.file} changed since the draw`);
   }
   const result = preview ? await previewTasks(gate, files, count) : await gateTasks(gate, files, count);
-  const expDir = `experiments/gate-files/c07/${preview ? 'preview-' : ''}${gate}/expected`;
+  const expDir = PATHS.expected(gate, preview);
   mkdirSync(at(expDir), { recursive: true });
   for (const t of result.tasks) {
     if (!t.change) continue;
@@ -469,7 +514,7 @@ async function main() {
     writeFileSync(at(t.expected), exp);
     t.expectedSha256 = sha(Buffer.from(exp, 'utf8'));
   }
-  writeFileSync(out, JSON.stringify({ gate, preview, seed: GATES[gate].seed, offsetUnit: 'UTF-16 code units of the file as text',
+  writeFileSync(out, JSON.stringify({ gate, tools: 'v2', preview, seed: GATES[gate].seed, offsetUnit: 'UTF-16 code units of the file as text',
     skipped: result.skipped, readTokens: result.readTokens, tasks: result.tasks }, null, 1) + '\n');
   console.log(`${result.tasks.length} tasks written to ${path.relative(ROOT, out)}; ${result.skipped.length} files skipped`);
 }
