@@ -1,7 +1,7 @@
 {
  "gate": "C0.1 v2",
  "date": "2026-11-12",
- "commit": "057f994feb9f113d4e47823a22f265671b5aca61",
+ "commit": "cc7a0527261681c08fbbc35ffc72b48ac6c574f6",
  "dev": false,
  "node": "v24.22.1",
  "parse5": "8.0.1",
