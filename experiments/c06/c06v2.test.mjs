@@ -2,7 +2,7 @@
 // network, no model: the runner's paid part does not run.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { MODES, EXPECTED_TOOLS, EXPECTED_TOOLS_V2, EDIT_TOOLS, checkStart, countTools, v2ServerProblem } from './run-c06.mjs';
+import { MODES, gateName, EXPECTED_TOOLS, EXPECTED_TOOLS_V2, EDIT_TOOLS, checkStart, countTools, v2ServerProblem } from './run-c06.mjs';
 
 test('the v2 modes: one preview and one gate for each of C0.7 to C0.10, with v2 paths; no v1 mode of C0.10', () => {
   for (const g of ['c07', 'c08', 'c09', 'c10']) {
@@ -41,4 +41,12 @@ test('v2ServerProblem: both gates passed and the server did not change since; ea
   assert.match(v2ServerProblem({ x: { verdict: 'FAIL', commit: 'a' } }, none), /x has not passed/);
   assert.match(v2ServerProblem({ x: null }, none), /x has not passed/);
   assert.match(v2ServerProblem({ x: pass }, () => ['server/v2.mjs']), /server changed since x passed: server\/v2.mjs/);
+});
+
+test('each gate keeps its number in its name, C0.10 too', () => {
+  assert.equal(gateName('c07'), 'C0.7');
+  assert.equal(gateName('c10'), 'C0.10');
+  for (const g of ['c07', 'c08', 'c09', 'c10']) assert.equal(MODES[`gate-v2-${g}`].gate, gateName(g));
+  assert.equal(MODES['gate-v2-c10'].label, 'C0.10 (v2 tools)');
+  assert.equal(MODES['gate-c09'].gate, 'C0.9');
 });

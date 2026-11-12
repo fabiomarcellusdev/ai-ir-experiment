@@ -64,9 +64,11 @@ export const MODES = {
   preview: { tasks: 'experiments/c03/tasks.json', record: 'experiments/c03/file-set.json', rounds: 1, result: 'experiments/c06/preview-result.json' },
   gate: { tasks: 'experiments/c05/tasks.json', record: 'experiments/c05/file-set.json', rounds: RUNS_PER_ARM, result: 'experiments/c06/c06-result.json', gate: 'C0.6' },
 };
+/** The gate's name from its key: `c07` is C0.7, `c10` is C0.10 (the C0.10 v2 result says "C0.0": the old slice). */
+export const gateName = (g) => `C0.${Number(g.slice(1))}`;
 // The v1 modes of the second rescope. They are closed: the v1 previews ran, and the gates run with the v2 tools.
 for (const g of ['c07', 'c08', 'c09']) {
-  const name = `C0.${g.slice(2)}`;
+  const name = gateName(g);
   const common = { second: g, plan: RUN_PLAN_2, seed: SEED_2, types: GATES[g].types, intervalBelow: 1 };
   MODES[`preview-${g}`] = { ...common, tasks: `experiments/c07/preview-${g}-tasks.json`, record: 'experiments/c05/file-set.json', preview: true,
     rounds: 1, result: `experiments/c07/preview-${g}-result.json`, label: `${name} PREVIEW on C0.5's files: decides nothing` };
@@ -79,7 +81,7 @@ const RUN_PLAN_V2 = 'docs/measurements/2026-11-12-c07-c10-v2-run-plan.md';
 // The v2 modes (decision 0008; contract, amendment "the gate text for the v2 tools", C): the v2 tools in arm M, the v2
 // task sets and their own freeze. A gate's result has its own name; the v1 results stay recorded.
 for (const g of Object.keys(GATES)) {
-  const name = `C0.${g.slice(2)}`;
+  const name = gateName(g);
   const common = { second: g, tools: 'v2', plan: RUN_PLAN_V2, seed: SEED_2, types: GATES[g].types, intervalBelow: 1 };
   MODES[`preview-v2-${g}`] = { ...common, tasks: PATHS.tasks(g, true), record: 'experiments/c05/file-set.json', preview: true,
     freeze: 'previews-v2', rounds: 1, result: `experiments/c07/preview-v2-${g}-result.json`, label: `${name} v2 PREVIEW on C0.5's files: decides nothing` };
