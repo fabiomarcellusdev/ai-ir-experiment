@@ -82,14 +82,18 @@ export function bootstrap(runs, tasks, seed, n = 10_000, runsPerArm = RUNS_PER_A
  * @param {object[]} runs one record for each run: {task, type, arm, k, pass, tokens, turns, mcpCalls, wholeFile, size}
  * @param {object[]} tasks the task set: {id, type}
  * @param {Record<string, number>} sizes each task's file size in bytes
+ * @param {{types?: string[], intervalBelow?: number}} [opts] the second rescope's changes (docs/contract.md, "Phase 0,
+ *   second rescope", "Allowed changes to the code", 2 and 3): the gate's task types for the 15-point rule, and the
+ *   bound that the upper end of the ratio's 95% interval must stay below. C0.6 uses neither.
  */
-export function analyze(runs, tasks, sizes, seed, runsPerArm = RUNS_PER_ARM) {
+export function analyze(runs, tasks, sizes, seed, runsPerArm = RUNS_PER_ARM, opts = {}) {
+  const types = opts.types ?? TYPES;
   const ids = tasks.map((t) => t.id);
   const ratios = taskRatios(runs, ids);
   const med = ratios.length ? median(ratios.map((r) => r.ratio)) : null;
   const arm = (a) => runs.filter((r) => r.arm === a);
   const success = Object.fromEntries(ARMS.map((a) => [a, rate(arm(a))]));
-  const byType = Object.fromEntries(TYPES.map((t) => [t, Object.fromEntries(ARMS.map((a) => [a, rate(arm(a).filter((r) => r.type === t))]))]));
+  const byType = Object.fromEntries(types.map((t) => [t, Object.fromEntries(ARMS.map((a) => [a, rate(arm(a).filter((r) => r.type === t))]))]));
   const sizeBand = (id) => (sizes[id] > 50_000 ? 'over 50 KB' : '10 KB to 50 KB');
   const bySize = {};
   for (const band of ['10 KB to 50 KB', 'over 50 KB']) {
@@ -98,11 +102,13 @@ export function analyze(runs, tasks, sizes, seed, runsPerArm = RUNS_PER_ARM) {
     bySize[band] = { tasks: bandIds.length, medianRatio: tr.length ? median(tr) : null,
       success: Object.fromEntries(ARMS.map((a) => [a, rate(arm(a).filter((r) => bandIds.includes(r.task)))])) };
   }
+  const noise = bootstrap(runs, tasks, seed, 10_000, runsPerArm);
   const checks = {
     ratio: med !== null && ratios.length >= LIMITS.minTasks && med <= LIMITS.ratio,
     enoughTasks: ratios.length >= LIMITS.minTasks,
     success: success.M !== null && success.B !== null && success.M >= success.B - LIMITS.success - 1e-12,
-    types: TYPES.every((t) => byType[t].M !== null && byType[t].B !== null && byType[t].M >= byType[t].B - LIMITS.type - 1e-12),
+    types: types.every((t) => byType[t].M !== null && byType[t].B !== null && byType[t].M >= byType[t].B - LIMITS.type - 1e-12),
+    ...(opts.intervalBelow === undefined ? {} : { interval: !!noise.ratio95 && noise.ratio95[1] < opts.intervalBelow }),
   };
   const allRatios = taskRatios(runs, ids, true).map((r) => r.ratio);
   return {
@@ -117,8 +123,8 @@ export function analyze(runs, tasks, sizes, seed, runsPerArm = RUNS_PER_ARM) {
     mcpShare: arm('M').length ? arm('M').filter((r) => r.mcpCalls > 0).length / arm('M').length : null,
     wholeFile: Object.fromEntries(ARMS.map((a) => [a, arm(a).filter((r) => r.wholeFile).length])),
     insideChanges: Object.fromEntries(ARMS.map((a) => [a, arm(a).filter((r) => r.insideChange).length])),
-    noise: bootstrap(runs, tasks, seed, 10_000, runsPerArm),
+    noise,
     checks,
-    verdict: checks.ratio && checks.success && checks.types ? 'PASS' : 'FAIL',
+    verdict: checks.ratio && checks.success && checks.types && checks.interval !== false ? 'PASS' : 'FAIL',
   };
 }

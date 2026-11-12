@@ -7,12 +7,10 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { parseStream } from './run-c06.mjs';
+import { parseStream, NOT_FOUND } from './run-c06.mjs';
 import { taskRatios, LIMITS } from './analysis.mjs';
 import { median } from '../c03/run-c03.mjs';
 
-/** The error texts for a missing file: Read and Edit, Grep, and the MCP server (`server/workspace.mjs`). */
-const NOT_FOUND = ['File does not exist', 'Path does not exist', 'the file is not found'];
 
 /**
  * The failed calls of a run whose error says the file does not exist. `dropped` counts the calls whose path is the

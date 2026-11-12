@@ -1,7 +1,11 @@
-// Gate C0.6, agent tasks with the MCP added (docs/contract.md, "C0.6"; run plan docs/measurements/2026-11-12-c06-run-plan.md).
-// PAID: each run calls the model through Claude Code. Run it only with the owner's yes for that run.
-//   node experiments/c06/run-c06.mjs --pilot   the pilot: 4 runs on C0.3 tasks (not C0.6 inputs); writes no result
-//   node experiments/c06/run-c06.mjs --gate    the gate run: 240 runs; writes experiments/c06/c06-result.json
+// Gate C0.6, agent tasks with the MCP added (docs/contract.md, "C0.6"; run plan docs/measurements/2026-11-12-c06-run-plan.md),
+// and the second rescope's gates C0.7, C0.8 and C0.9 with their previews ("Phase 0, second rescope"; run plan
+// docs/measurements/2026-11-12-c07-c09-run-plan.md). PAID: each run calls the model through Claude Code. Run it only
+// with the owner's yes for that run.
+//   node experiments/c06/run-c06.mjs --pilot        the pilot: 4 runs on C0.3 tasks (not C0.6 inputs); writes no result
+//   node experiments/c06/run-c06.mjs --gate         the gate run: 240 runs; writes experiments/c06/c06-result.json
+//   node experiments/c06/run-c06.mjs --preview-c07  (c08, c09) a preview: 1 run of each task in each arm
+//   node experiments/c06/run-c06.mjs --gate-c07     (c08, c09) a gate: 240 runs; writes experiments/c07/gate-c07-result.json
 // It reads the API key from .local/anthropic-api-key and never prints it. Raw run streams go in the git-ignored
 // experiments/gate-files/c06-runs/: they hold text of the files.
 import { readFileSync, writeFileSync, appendFileSync, mkdtempSync, mkdirSync, rmSync, readdirSync, statSync, existsSync } from 'node:fs';
@@ -14,12 +18,15 @@ import { generator, shuffle } from '../c05/draw-files.mjs';
 import { MODEL } from '../c03/run-c03.mjs';
 import { load, pageCount } from '../../server/view.mjs';
 import { analyze, runTokens, ARMS, RUNS_PER_ARM } from './analysis.mjs';
+import { GATES, gateTasks, previewTasks, tokenCounter, storedPath, checkedPath } from '../c07/tasks.mjs';
+import { applyChange } from '../c07/rules.mjs';
+import { frozenFiles } from '../c07/freeze.mjs';
 
 const ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const at = (...p) => path.join(ROOT, ...p);
 const sha = (b) => createHash('sha256').update(b).digest('hex');
-/** The expected file of an edit task. */
-export const expectedOf = (t) => t.file.replace(/\/[^/]+\/[^/]+$/, `/expected/${t.id}.html`);
+/** The expected file of an edit task: named in the task (second rescope), or beside the file (C0.6). */
+export const expectedOf = (t) => t.expected ?? t.file.replace(/\/[^/]+\/[^/]+$/, `/expected/${t.id}.html`);
 
 /** The run plan's fixed values. A change needs a new commit of the plan, before the run. */
 export const PLAN = {
@@ -40,13 +47,38 @@ export const PLAN = {
   },
 };
 const RAW = at('experiments/gate-files/c06-runs');
-/** The 3 modes: the inputs, the rounds and the result file of each. */
+const RUN_PLAN = 'docs/measurements/2026-11-12-c06-run-plan.md';
+/** The second rescope's run plan (docs/contract.md, "Phase 0, second rescope", "Allowed changes to the code"). */
+const RUN_PLAN_2 = 'docs/measurements/2026-11-12-c07-c09-run-plan.md';
+/** The run order's and the bootstrap's seed of the second rescope (allowed changes, 4). */
+export const SEED_2 = 20261112;
+/** A second-rescope preview with fewer tasks does not run. */
+export const PREVIEW_MIN_TASKS = 6;
+export const previewRuns = (taskCount) => taskCount >= PREVIEW_MIN_TASKS;
+/** The modes: the inputs, the rounds and the result file of each. C0.6's 3 modes are as they were. */
 export const MODES = {
   pilot: { tasks: 'experiments/c03/tasks.json', record: null, rounds: 1, result: null },
   preview: { tasks: 'experiments/c03/tasks.json', record: 'experiments/c03/file-set.json', rounds: 1, result: 'experiments/c06/preview-result.json' },
-  gate: { tasks: 'experiments/c05/tasks.json', record: 'experiments/c05/file-set.json', rounds: RUNS_PER_ARM, result: 'experiments/c06/c06-result.json' },
+  gate: { tasks: 'experiments/c05/tasks.json', record: 'experiments/c05/file-set.json', rounds: RUNS_PER_ARM, result: 'experiments/c06/c06-result.json', gate: 'C0.6' },
 };
-const RUN_PLAN = 'docs/measurements/2026-11-12-c06-run-plan.md';
+for (const g of Object.keys(GATES)) {
+  const name = `C0.${g.slice(2)}`;
+  const common = { second: g, plan: RUN_PLAN_2, seed: SEED_2, types: GATES[g].types, intervalBelow: 1 };
+  MODES[`preview-${g}`] = { ...common, tasks: `experiments/c07/preview-${g}-tasks.json`, record: 'experiments/c05/file-set.json', preview: true,
+    rounds: 1, result: `experiments/c07/preview-${g}-result.json`, label: `${name} PREVIEW on C0.5's files: decides nothing` };
+  MODES[`gate-${g}`] = { ...common, tasks: `experiments/c07/${g}-tasks.json`, record: `experiments/c07/${g}-file-set.json`, rounds: RUNS_PER_ARM,
+    result: `experiments/c07/gate-${g}-result.json`, gate: name, label: name };
+}
+
+/**
+ * The recorded files of a mode, each with its SHA-256: the record's picks, or for a second-rescope preview, C0.5's
+ * picks at their plain-name copies (contract, "Order of the second rescope", 4).
+ */
+export function recordedFiles(set, record) {
+  const picks = record.kinds.flatMap((x) => x.picks);
+  if (!set.preview) return picks.map((p) => ({ file: p.file, sha256: p.sha256 }));
+  return picks.map((p, i) => ({ file: storedPath('experiments/gate-files/c07/preview', i + 1, p.path.split('/').pop()), sha256: p.sha256 }));
+}
 /** C0.3 tasks, not C0.6 inputs: a text change (89 KB), a question (13 KB), an insertion (27 KB). */
 const PILOT_TASKS = ['1-text', '6-question', '2-structure'];
 /** The run folders: outside the user's home, so that no ancestor folder holds the owner's settings (review, 4). */
@@ -112,6 +144,11 @@ export function argsFor(arm, prompt, mcpConfig) {
     '--tools', PLAN.builtInTools, '--strict-mcp-config', ...(arm === 'M' ? ['--mcp-config', mcpConfig] : []),
     '--allowedTools', allowed.join(','), '--permission-prompts', 'none', '--no-session-persistence'];
 }
+
+/** The error texts for a missing file: Read and Edit, Grep, and the MCP server (`server/workspace.mjs`). */
+export const NOT_FOUND = ['File does not exist', 'Path does not exist', 'the file is not found'];
+/** The calls that failed because their file does not exist (allowed changes, 6). */
+export const missingFileErrors = (calls) => calls.filter((c) => c.isError && NOT_FOUND.some((t) => c.errorText?.includes(t))).length;
 
 /** The tool names that a record counts by name; any other name counts as "other" (security review, F2). */
 export const KNOWN_TOOLS = ['Read', 'Edit', 'Grep', 'Glob', 'mcp__html__html_outline', 'mcp__html__html_find', 'mcp__html__html_read', 'mcp__html__html_edit'];
@@ -346,6 +383,10 @@ export function checkStart(init, arm, harness) {
 async function oneRun(task, arm, k, key, label, startId) {
   const name = path.basename(task.file);
   const original = readFileSync(at(task.file));
+  // A second-rescope run checks its stored file before each run, and its expected file before the judge (security
+  // review, F5): the git-ignored inputs could change during a long gate.
+  if (task.fileSha256 && sha(original) !== task.fileSha256) throw new StopGate(`${task.id}: ${task.file} is not the recorded file`);
+  if (task.fileSha256 && task.expectedSha256 && sha(readFileSync(at(expectedOf(task)))) !== task.expectedSha256) throw new StopGate(`${task.id}: the expected file is not the recorded file`);
   const text = original.toString('utf8');
   mkdirSync(WORK, { recursive: true });
   const base = mkdtempSync(path.join(WORK, 'run-'));
@@ -410,6 +451,7 @@ async function oneRun(task, arm, k, key, label, startId) {
       pass = !reasons.length;
     } else {
       const expectedPath = at(expectedOf(task));
+      if (task.fileSha256 && sha(readFileSync(expectedPath)) !== task.expectedSha256) throw new StopGate(`${task.id}: the expected file is not the recorded file`, cost);
       const outside = result ? bytesOutsideKept(original, result, task.range, text) : false;
       if (!outside) reasons.push('a byte outside the target range changed');
       if (result) writeFileSync(path.join(base, 'result.html'), result);
@@ -433,6 +475,8 @@ async function oneRun(task, arm, k, key, label, startId) {
       firstInput: s.firstInput,
       toolCalls: countTools(s.calls),
       mcpCalls: s.calls.filter((c) => c.name.startsWith('mcp__html__')).length,
+      // The second rescope's report counts these for each arm (contract, "Pass rule of each gate").
+      missingFileErrors: missingFileErrors(s.calls),
       wholeFile: readWholeFile(s.calls, lineCount, pageCount(load(text, ''))),
       insideChange,
       tools: s.init?.tools ?? null,
@@ -481,36 +525,87 @@ function canaryTask() {
   };
 }
 
+/** The files that the second rescope freezes (contract, "The inputs", 7): their SHA-256 are in RUN_INPUTS_2. */
+export const RUN_INPUTS_2 = 'experiments/c07/run-inputs.json';
+
+/**
+ * The second rescope's freeze (contract, "The inputs", 7 and 8): every file in run-inputs.json has its recorded
+ * SHA-256, and the task set made again from the recorded files equals the committed one.
+ */
+/**
+ * What is wrong with a freeze record, or null (review, 6): its files must be exactly `expected`, each with its hash.
+ * `shaOf` gives a file's present hash.
+ */
+export function freezeProblem(frozen, expected, shaOf) {
+  const keys = Object.keys(frozen ?? {}).sort();
+  const want = [...expected].sort();
+  if (JSON.stringify(keys) !== JSON.stringify(want)) {
+    const missing = want.filter((f) => !keys.includes(f));
+    const extra = keys.filter((f) => !want.includes(f));
+    return `${RUN_INPUTS_2} does not list exactly the frozen files (missing: ${missing.join(', ') || 'none'}; extra: ${extra.join(', ') || 'none'})`;
+  }
+  for (const f of keys) if (shaOf(checkedPath(f, FROZEN_ROOTS)) !== frozen[f]) return `${f} changed since the freeze`;
+  return null;
+}
+const FROZEN_ROOTS = ['experiments/', 'server/', 'docs/', 'package.json', 'pnpm-lock.yaml'];
+
+async function checkFreeze(set, files, key) {
+  const problem = freezeProblem(JSON.parse(readFileSync(at(RUN_INPUTS_2), 'utf8')).sha256, frozenFiles(), (f) => sha(readFileSync(at(f))));
+  if (problem) throw new Error(problem);
+  const committed = JSON.parse(readFileSync(at(set.tasks), 'utf8'));
+  const texts = files.map((f) => ({ file: f.file, text: readFileSync(at(f.file), 'utf8') }));
+  const count = set.second === 'c07' ? tokenCounter(key) : null;
+  const again = set.preview ? await previewTasks(set.second, texts, count) : await gateTasks(set.second, texts, count);
+  const strip = (ts) => JSON.stringify(ts.map(({ expected, expectedSha256, ...t }) => t));
+  if (strip(again.tasks) !== strip(committed.tasks)) throw new Error('the task set made again differs from the committed one');
+  // Each expected file, made again from its change, has the recorded hash (security review, F6).
+  const textOf = new Map(texts.map((f) => [f.file, f.text]));
+  for (const t of committed.tasks) {
+    if (t.change && sha(Buffer.from(applyChange(textOf.get(t.file), t.change), 'utf8')) !== t.expectedSha256) throw new Error(`the expected file of ${t.id} does not follow from its change`);
+  }
+}
+
 /** Refuses a run that the plan does not allow (the follow-up of the C0.5 analysis check, and the run plan). */
-function preflight(mode) {
-  const gate = mode === 'gate';
+async function preflight(mode) {
   const set = MODES[mode];
+  const plan = set.plan ?? RUN_PLAN;
   // The plan names Windows; on Linux a Read of /proc/self/environ could show the key (security review, F1).
   if (process.platform !== 'win32') throw new Error('the run plan names Windows');
   // Folders of a runner that stopped hold third-party text: remove them (security review, F4).
   rmSync(WORK, { recursive: true, force: true });
-  if (set.result && existsSync(at(set.result))) throw new Error(`${set.result} exists: ${gate ? 'C0.6 runs once (contract, rescope order, 5)' : 'the preview runs once'}`);
-  if (git('status', '--porcelain', '--', 'server', 'experiments', 'docs/contract.md', RUN_PLAN)) throw new Error('the run needs committed code, inputs and run plan');
-  // The plan is final before the gate run (C0.4, "The run plan"), and the inputs are the recorded ones (review, 7).
-  if (gate && /DRAFT|\(pilot\)/.test(readFileSync(at(RUN_PLAN), 'utf8'))) throw new Error('the run plan is still a draft');
+  if (set.result && existsSync(at(set.result))) throw new Error(`${set.result} exists: ${set.gate ? `${set.gate} runs once (contract, rescope order, 5)` : 'the preview runs once'}`);
+  if (git('status', '--porcelain', '--', 'server', 'experiments', 'docs/contract.md', plan)) throw new Error('the run needs committed code, inputs and run plan');
+  // The plan is final before a gate run or a second-rescope run (C0.4, "The run plan"), and the inputs are the
+  // recorded ones (review, 7).
+  if ((set.gate || set.second) && /DRAFT|\(pilot\)/.test(readFileSync(at(plan), 'utf8'))) throw new Error('the run plan is still a draft');
+  const keyFile = at('.local/anthropic-api-key');
+  if (!existsSync(keyFile)) throw new Error('.local/anthropic-api-key is missing: the owner puts the API key there (git-ignored)');
+  const key = readFileSync(keyFile, 'utf8').trim();
   if (set.record) {
-    const picks = JSON.parse(readFileSync(at(set.record), 'utf8')).kinds.flatMap((x) => x.picks);
-    for (const p of picks) if (sha(readFileSync(at(p.file))) !== p.sha256) throw new Error(`${p.file} is not the recorded file`);
+    const files = set.second ? recordedFiles(set, JSON.parse(readFileSync(at(set.record), 'utf8')))
+      : JSON.parse(readFileSync(at(set.record), 'utf8')).kinds.flatMap((x) => x.picks);
+    // Every path from a record or a task set is checked before a read (security review, F4).
+    if (set.second) {
+      for (const p of files) checkedPath(p.file);
+      for (const t of JSON.parse(readFileSync(at(set.tasks), 'utf8')).tasks) { checkedPath(t.file); if (t.expected) checkedPath(t.expected); }
+    }
+    for (const p of files) if (sha(readFileSync(at(p.file))) !== p.sha256) throw new Error(`${p.file} is not the recorded file`);
     for (const t of JSON.parse(readFileSync(at(set.tasks), 'utf8')).tasks) {
       if (t.expectedSha256 && sha(readFileSync(at(expectedOf(t)))) !== t.expectedSha256) throw new Error(`the expected file of ${t.id} is not the recorded file`);
     }
+    if (set.second) await checkFreeze(set, files, key);
+    // A preview with fewer than 6 tasks does not run (contract, "Order of the second rescope", 4).
+    if (set.preview && !previewRuns(JSON.parse(readFileSync(at(set.tasks), 'utf8')).tasks.length)) throw new Error(`the preview has fewer than ${PREVIEW_MIN_TASKS} tasks: it does not run`);
   }
   const version = execFileSync('claude', ['--version'], { encoding: 'utf8' }).trim();
   if (!version.startsWith(PLAN.harness)) throw new Error(`the harness is ${version}; the plan names ${PLAN.harness}`);
   if (!existsSync(PYTHON)) throw new Error('the judge needs the Python oracle (.venv-oracle/)');
-  const keyFile = at('.local/anthropic-api-key');
-  if (!existsSync(keyFile)) throw new Error('.local/anthropic-api-key is missing: the owner puts the API key there (git-ignored)');
-  return { version, key: readFileSync(keyFile, 'utf8').trim() };
+  return { version, key };
 }
 
 async function main() {
   const modes = Object.keys(MODES).filter((m) => process.argv.includes(`--${m}`));
-  if (modes.length !== 1) throw new Error('give one of --pilot, --preview, --gate');
+  if (modes.length !== 1) throw new Error(`give one of ${Object.keys(MODES).map((m) => `--${m}`).join(', ')}`);
   const mode = modes[0];
   const b = process.argv.indexOf('--budget-usd');
   const budgetUsd = b === -1 ? PLAN.totalBudgetUsd : Number(process.argv[b + 1]);
@@ -550,16 +645,16 @@ export function replay(lines) {
 }
 
 async function runAll(mode, budgetUsd) {
-  const gate = mode === 'gate';
   const set = MODES[mode];
-  const { version, key } = preflight(mode);
+  const seed = set.seed ?? PLAN.seed;
+  const { version, key } = await preflight(mode);
   const commit = git('rev-parse', 'HEAD');
   runCommit = commit;
   const label = mode;
   const taskFile = set.tasks;
   const allTasks = JSON.parse(readFileSync(at(taskFile), 'utf8')).tasks;
   const tasks = mode === 'pilot' ? [...allTasks.filter((t) => PILOT_TASKS.includes(t.id)), canaryTask()] : allTasks;
-  const order = mode === 'pilot' ? tasks.flatMap((t) => ARMS.map((arm) => ({ task: t.id, arm, k: 1 }))) : schedule(tasks, PLAN.seed, set.rounds);
+  const order = mode === 'pilot' ? tasks.flatMap((t) => ARMS.map((arm) => ({ task: t.id, arm, k: 1 }))) : schedule(tasks, seed, set.rounds);
 
   // The progress file lets a stopped gate go on, on the same commit only (contract, rescope order, 5).
   const progress = path.join(RAW, `${label}-progress.jsonl`);
@@ -570,6 +665,13 @@ async function runAll(mode, budgetUsd) {
   if (open.length) throw new Error(`${open.join(', ')} started and has no outcome: the owner decides before the gate goes on`);
   const have = new Set(done.map(key3));
   const byId = new Map(tasks.map((t) => [t.id, t]));
+  if (set.second) {
+    // Each run checks its stored file against the record (security review, F5).
+    const shaOf = new Map(recordedFiles(set, JSON.parse(readFileSync(at(set.record), 'utf8'))).map((f) => [f.file, f.sha256]));
+    for (const t of tasks) t.fileSha256 = shaOf.get(t.file);
+    const missing = tasks.filter((t) => !t.fileSha256);
+    if (missing.length) throw new Error(`${missing.map((t) => t.id).join(', ')}: the file is not in the record`);
+  }
   const startId = new Date().toISOString().replace(/[-:.]/g, '').slice(0, 15);
   const starts = lines.filter((l) => l.kind === 'start');
   let lineCount = lines.length;
@@ -611,15 +713,17 @@ async function runAll(mode, budgetUsd) {
   }
   const record = JSON.parse(readFileSync(at(set.record), 'utf8'));
   const sizeOf = new Map(record.kinds.flatMap((k) => k.picks).map((p) => [p.file, p.size]));
-  const sizes = Object.fromEntries(tasks.map((t) => [t.id, sizeOf.get(t.file)]));
+  // A second-rescope file's size is the size of its stored copy, the bytes that each run gets.
+  const sizes = Object.fromEntries(tasks.map((t) => [t.id, set.second ? statSync(at(t.file)).size : sizeOf.get(t.file)]));
   // Exactly 120 runs in each arm, 3 of each task, each once (review, 2).
   for (const arm of ARMS) {
     const ks = new Set(done.filter((r) => r.arm === arm).map(key3));
     if (ks.size !== tasks.length * set.rounds || done.filter((r) => r.arm === arm).length !== ks.size) throw new Error(`arm ${arm} does not hold exactly ${tasks.length * set.rounds} runs`);
   }
-  const analysis = analyze(done, tasks, sizes, PLAN.seed, set.rounds);
+  const analysis = analyze(done, tasks, sizes, seed, set.rounds, set.second ? { types: set.types, intervalBelow: set.intervalBelow } : {});
   const result = {
-    gate: gate ? 'C0.6' : 'C0.6 PREVIEW on C0.3 tasks: decides nothing (owner, 2026-11-12)', date: new Date().toISOString().slice(0, 10), commit, harness: version, plan: PLAN,
+    gate: set.label ?? (set.gate ? 'C0.6' : 'C0.6 PREVIEW on C0.3 tasks: decides nothing (owner, 2026-11-12)'), date: new Date().toISOString().slice(0, 10), commit, harness: version,
+    plan: set.second ? { ...PLAN, seed, runPlan: set.plan } : PLAN,
     // Each start (its budget stop and harness) and each stop of the gate, with its reason (owner, 2026-11-12, rule 2).
     starts: starts.map(({ start, budgetUsd: usd, harness }) => ({ start, budgetUsd: usd, harness })),
     stops: stops.map(({ start, task, arm, k, reason, costUsd }) => ({ start, task, arm, k, reason, costUsd })),
@@ -628,7 +732,7 @@ async function runAll(mode, budgetUsd) {
   const json = JSON.stringify(result, null, 1) + '\n';
   if (holdsKey(json, key)) throw new Error('the result holds the API key: stopped, nothing written');
   writeFileSync(at(set.result), json);
-  console.log(`${gate ? 'C0.6' : 'PREVIEW (decides nothing)'} ${analysis.verdict}: median ratio ${analysis.medianRatio?.toFixed(3)} over ${analysis.qualifyingTasks} tasks; success B ${analysis.success.B} M ${analysis.success.M}; $${cost.toFixed(2)}`);
+  console.log(`${set.gate ?? 'PREVIEW (decides nothing)'} ${analysis.verdict}: median ratio ${analysis.medianRatio?.toFixed(3)} over ${analysis.qualifyingTasks} tasks; success B ${analysis.success.B} M ${analysis.success.M}; $${cost.toFixed(2)}`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

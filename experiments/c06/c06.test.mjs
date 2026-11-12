@@ -418,3 +418,84 @@ test('wrongNameCalls also counts the missing-file errors of Grep and of the MCP 
   const other = { name: 'mcp__html__html_edit', input: { file: 'index.html' }, isError: true, errorText: 'the hash is stale' };
   assert.deepEqual(wrongNameCalls([glob, other], '2-index.html'), { errors: 1, dropped: 0 });
 });
+
+import { recordedFiles, missingFileErrors, SEED_2, PREVIEW_MIN_TASKS } from './run-c06.mjs';
+
+test('the second rescope adds 6 modes and keeps C0.6\'s 3 modes as they were', () => {
+  assert.deepEqual(Object.keys(MODES), ['pilot', 'preview', 'gate', 'preview-c07', 'gate-c07', 'preview-c08', 'gate-c08', 'preview-c09', 'gate-c09']);
+  assert.deepEqual(MODES.gate, { tasks: 'experiments/c05/tasks.json', record: 'experiments/c05/file-set.json', rounds: 3, result: 'experiments/c06/c06-result.json', gate: 'C0.6' });
+  assert.equal(MODES['gate-c08'].rounds, 3);
+  assert.equal(MODES['preview-c08'].rounds, 1);
+  assert.equal(MODES['gate-c09'].seed, SEED_2);
+  assert.deepEqual(MODES['gate-c07'].types, ['removal', 'replacement']);
+  assert.equal(MODES['gate-c07'].intervalBelow, 1);
+  assert.equal(PREVIEW_MIN_TASKS, 6);
+  assert.equal(new Set(Object.values(MODES).map((m) => m.result).filter(Boolean)).size, 8);
+});
+
+test('recordedFiles: a preview uses the plain-name copies of C0.5\'s picks', () => {
+  const record = { kinds: [{ picks: [{ path: 'a/b/index.html', file: 'x/1-index.html', sha256: 'h1' }] }, { picks: [{ path: 'c.html', file: 'y/2-c.html', sha256: 'h2' }] }] };
+  assert.deepEqual(recordedFiles(MODES['preview-c07'], record), [
+    { file: 'experiments/gate-files/c07/preview/1/index.html', sha256: 'h1' }, { file: 'experiments/gate-files/c07/preview/2/c.html', sha256: 'h2' }]);
+  assert.deepEqual(recordedFiles(MODES['gate-c07'], record), [{ file: 'x/1-index.html', sha256: 'h1' }, { file: 'y/2-c.html', sha256: 'h2' }]);
+});
+
+test('missingFileErrors counts the missing-file errors of any tool, and nothing else', () => {
+  const calls = [{ isError: true, errorText: 'File does not exist.' }, { isError: true, errorText: 'Path does not exist: x' },
+    { isError: true, errorText: 'the file is not found' }, { isError: true, errorText: 'the hash is stale' }, { isError: false, errorText: null }];
+  assert.equal(missingFileErrors(calls), 3);
+});
+
+test('the analysis applies the gate\'s task types and the interval rule only when given', () => {
+  const tasks = Array.from({ length: 10 }, (_, f) => ['removal', 'replacement'].map((type, j) => ({ id: `${f + 1}-${type}-${j}`, type }))).flat();
+  const sizes = Object.fromEntries(tasks.map((t) => [t.id, 20_000]));
+  const runs = [];
+  // M uses half of B's tokens in 18 tasks and 3 times B's in 2: the median passes; the interval's upper end stays low.
+  tasks.forEach((t, i) => { for (const arm of ['B', 'M']) runs.push({ task: t.id, type: t.type, arm, k: 1, pass: true, tokens: arm === 'B' ? 1000 : (i < 18 ? 500 : 3000), turns: 3, mcpCalls: 1 }); });
+  const r = analyze(runs, tasks, sizes, 1, 1, { types: ['removal', 'replacement'], intervalBelow: 1 });
+  assert.deepEqual(Object.keys(r.byType), ['removal', 'replacement']);
+  assert.equal(r.checks.types, true);
+  assert.equal(r.checks.interval, true);
+  assert.equal(r.verdict, 'PASS');
+  // Negative control: the same runs with an impossible bound fail only by the interval rule.
+  const strict = analyze(runs, tasks, sizes, 1, 1, { types: ['removal', 'replacement'], intervalBelow: 0.1 });
+  assert.equal(strict.checks.ratio, true);
+  assert.equal(strict.checks.interval, false);
+  assert.equal(strict.verdict, 'FAIL');
+  // Without the options, C0.6's 4 types apply, and the gate's own types have no rate: the type rule fails.
+  assert.equal(analyze(runs, tasks, sizes, 1, 1).checks.types, false);
+  assert.equal('interval' in analyze(runs, tasks, sizes, 1, 1).checks, false);
+});
+
+import { freezeProblem, previewRuns } from './run-c06.mjs';
+
+test('freezeProblem: the freeze must list exactly the frozen files, each with its hash (review, 6 and 9)', () => {
+  const want = ['experiments/a.mjs', 'server/b.mjs'];
+  const shaOf = (f) => ({ 'experiments/a.mjs': 'h1', 'server/b.mjs': 'h2' })[f];
+  assert.equal(freezeProblem({ 'experiments/a.mjs': 'h1', 'server/b.mjs': 'h2' }, want, shaOf), null);
+  assert.match(freezeProblem({ 'experiments/a.mjs': 'h1' }, want, shaOf), /missing: server\/b\.mjs/);
+  assert.match(freezeProblem({ 'experiments/a.mjs': 'h1', 'server/b.mjs': 'h2', 'docs/x.md': 'h3' }, want, shaOf), /extra: docs\/x\.md/);
+  assert.match(freezeProblem({ 'experiments/a.mjs': 'h1', 'server/b.mjs': 'old' }, want, shaOf), /server\/b\.mjs changed/);
+  assert.match(freezeProblem(null, want, shaOf), /does not list exactly/);
+  assert.throws(() => freezeProblem({ '../x': 'h' }, ['../x'], shaOf), /refused path/);
+});
+
+test('previewRuns: a preview with fewer than 6 tasks does not run', () => {
+  assert.equal(previewRuns(5), false);
+  assert.equal(previewRuns(6), true);
+  assert.equal(previewRuns(0), false);
+});
+
+test('C0.6 recomputes exactly with the changed analysis (contract: C0.6 stays as it was)', () => {
+  const r = JSON.parse(readFile(path.join(ROOT, 'experiments/c06/c06-result.json'), 'utf8'));
+  const { tasks } = JSON.parse(readFile(path.join(ROOT, 'experiments/c05/tasks.json'), 'utf8'));
+  const rec = JSON.parse(readFile(path.join(ROOT, 'experiments/c05/file-set.json'), 'utf8'));
+  const sizeOf = new Map(rec.kinds.flatMap((k) => k.picks).map((p) => [p.file, p.size]));
+  const again = analyze(r.runs, tasks, Object.fromEntries(tasks.map((t) => [t.id, sizeOf.get(t.file)])), r.plan.seed, 3);
+  assert.deepEqual(again, r.analysis);
+});
+
+test('expectedOf uses the task\'s own expected path when it has one', () => {
+  assert.equal(expectedOf({ id: '1-text', file: 'experiments/gate-files/c05/blog/1-a.html' }), 'experiments/gate-files/c05/expected/1-text.html');
+  assert.equal(expectedOf({ id: '1-removal-1', file: 'x/1/a.html', expected: 'x/expected/1-removal-1.html' }), 'x/expected/1-removal-1.html');
+});
