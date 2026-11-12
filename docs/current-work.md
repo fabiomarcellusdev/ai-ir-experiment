@@ -17,9 +17,13 @@ large element), C0.8 (a target named by its position) and C0.9 (a quote not in t
 (`docs/contract.md`, "Phase 0, second rescope"). The scripts are built and reviewed. The C0.7 and C0.9 previews
 ran with the current server: 0.513 and 1.194 (`docs/measurements/2026-11-12-c07-c09-previews.md`).
 
-**Next (owner, 2026-11-12, decision 0008):** build the consolidated tools (`html_find`, `html_change` with a
-locator, `html_outline`); run C0.1 and C0.2 on them; write the gate text for the new tools and the new gate C0.10 for
-the owner's yes; then the draws (with the fill rule), previews and gates, each paid run with the owner's yes.
+**Done (decision 0008):** the v2 tools (`--tools v2`); the gate text for them (agreed); C0.1 v2 PASS
+(`docs/measurements/2026-11-12-c01-v2-result.md`); C0.2 v2 PASS on its second run, after a recorded FAIL
+(`docs/measurements/2026-11-12-c02-v2-result.md`).
+
+**Next:** the v2 task rules and C0.10's task script, the runner's v2 changes and a v2 run plan (free); then the v2
+previews of C0.7, C0.9 and C0.10 on C0.5's files (paid, with the owner's yes); then the draws, the gates' freeze and
+the gates, each paid run with the owner's yes.
 
 The owner's rule (2026-11-11, extended 2026-11-12): no push and no pull request until the owner asks for one.
 
