@@ -180,7 +180,8 @@ test('the command line: the same for both arms but the MCP server and its allow 
   const b = argsFor('B', 'p', 'cfg.json');
   const m = argsFor('M', 'p', 'cfg.json');
   for (const x of [b, m]) {
-    for (const f of ['--bare', '--strict-mcp-config', '--no-session-persistence']) assert.ok(x.includes(f), f);
+    for (const f of ['--restricted', '--disable-slash-commands', '--strict-mcp-config', '--no-session-persistence']) assert.ok(x.includes(f), f);
+    assert.ok(!x.includes('--bare')); // it removes Grep and Glob in 2.1.322 (pilot)
     assert.equal(x[x.indexOf('--tools') + 1], 'Read,Edit,Grep,Glob');
     assert.equal(x[x.indexOf('--model') + 1], 'claude-sonnet-5-5');
     assert.equal(x[x.indexOf('--max-turns') + 1], '40');
@@ -314,5 +315,31 @@ test('the judge passes each expected file of the task set and fails each origina
   for (const t of tasks) {
     assert.equal(out.edits[`e:${t.id}`], true, t.id);
     assert.equal(out.edits[`o:${t.id}`], false, t.id);
+  }
+});
+
+// --- The pilot's first finding: no --bare, so the start check and the notes check guard the isolation -------------
+import { notesAbove, BUILTIN_PLUGINS } from './run-c06.mjs';
+import { mkdirSync as mkdir } from 'node:fs';
+
+test('the start check refuses loaded skills and any plugin other than the built-in ones', () => {
+  const ok = { tools: EXPECTED_TOOLS.B, skills: [], plugins: BUILTIN_PLUGINS.map((name) => ({ name, path: 'builtin' })) };
+  assert.equal(checkStart(ok, 'B', '2.1.322'), null);
+  assert.match(checkStart({ ...ok, skills: ['debug'] }, 'B', '2.1.322'), /skills/);
+  assert.match(checkStart({ ...ok, plugins: [...ok.plugins, { name: 'x', path: 'C:/p' }] }, 'B', '2.1.322'), /plugin/);
+  assert.match(checkStart({ ...ok, plugins: [{ name: 'cc-plugin-privacy', path: 'C:/p' }] }, 'B', '2.1.322'), /plugin/);
+});
+
+test('project notes above a run folder are found (negative control)', () => {
+  const top = mkdtempSync(path.join(tmpdir(), 'hir-c06-notes-test-'));
+  try {
+    const run = path.join(top, 'a', 'run');
+    mkdir(run, { recursive: true });
+    assert.deepEqual(notesAbove(run).filter((p) => p.startsWith(top)), []);
+    writeFileSync(path.join(top, 'CLAUDE.md'), '# notes');
+    mkdir(path.join(top, 'a', '.claude'));
+    assert.deepEqual(notesAbove(run).filter((p) => p.startsWith(top)).sort(), [path.join(top, 'CLAUDE.md'), path.join(top, 'a', '.claude')].sort());
+  } finally {
+    rmSync(top, { recursive: true, force: true });
   }
 });
