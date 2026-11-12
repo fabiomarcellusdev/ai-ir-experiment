@@ -870,3 +870,22 @@ runs that read a whole file.
 4. **C0.8 has no preview:** C0.5's files give 4 C0.8 tasks, under the minimum of 6. Its cost is estimated from the
    measured cost of the C0.7 and C0.9 previews, and C0.8 runs only after the owner's yes for that estimate.
 - **No number changed.**
+
+**2026-11-12 (owner): the new tool design, a gate C0.10, and the draw's fill rule (decision 0008).** The C0.7 and
+C0.9 previews ran with the current server (`docs/measurements/2026-11-12-c07-c09-previews.md`: 0.513 and 1.194,
+$0.73). Then the owner decided:
+1. **The server changes to decision 0008, option D:** `html_find` (a text or an id), `html_change` (a ref or a
+   locator that must match exactly 1 element; remove, replace, insert after, set an attribute, replace a text) and
+   `html_outline`; `file` is optional when the workspace holds one `.html` file. C0.1 and C0.2 run again on it before
+   any gate.
+2. **Gates C0.7, C0.8 and C0.9 test the new server,** not the server of commit `d4f9927`. "What stays the same as
+   C0.6" holds except the server and its tool text, which are frozen by hash before the first preview of the new
+   server.
+3. **A new gate C0.10:** C0.6's task kind (C0.4's 4 types and templates, a quote that is in the target's source as
+   written) on its own fresh draw, with the new server and the second rescope's pass rule.
+4. **The fill rule of the draws:** when a kind gives fewer than 2 files, the missing files come from the other kinds,
+   in C0.3's kind order, with the same stream, until the gate has 10 files or the pool runs out. The report names the
+   kinds of the files. A gate with fewer than 6 files does not run.
+5. **The gate text for the new tools** (the prompts, the task rules that depend on the server, C0.10's rules, and
+   the previews of the new server) is written as an amendment before any draw, and the owner agrees to it first.
+- **No number changed:** 0.70, the interval below 1.00, 5 points and 15 points.

@@ -1,7 +1,7 @@
 # 0008. Fewer turns: consolidated tools for the HTML MCP server
 
-**Status:** Proposed (lead, 2026-11-12). It follows the owner's choice of decision 0007, option 2 (amendment of
-2026-11-12). Nothing is built until the owner agrees.
+**Status:** Accepted (owner, 2026-11-12): option D, the new gate C0.10, and the fill rule of the draws. It follows
+the owner's choice of decision 0007, option 2 (amendment of 2026-11-12).
 
 ## Context
 
@@ -49,7 +49,7 @@ back) and the final reply. Only the first two can go.
 
 `html_read` goes, because no operation needs the element's bytes; the built-in Read stays in the M arm.
 
-## Decision (proposed)
+## Decision
 
 Option D, because it removes the 2 calls that do not depend on the task. A change of a target that the prompt
 quotes would take 1 call and the reply: 2 turns, where the clean baseline takes 3. That is the lead's estimate, not

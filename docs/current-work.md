@@ -14,8 +14,12 @@ favoured the MCP arm: without the runs that misread a file name, the ratio is 1.
 
 **Now (owner, 2026-11-12): the second rescope** (decision 0007). The owner agreed to gates C0.7 (remove or replace a
 large element), C0.8 (a target named by its position) and C0.9 (a quote not in the source as written)
-(`docs/contract.md`, "Phase 0, second rescope"). Next: the draw and task scripts and the runner changes, with tests
-and a review; then the draws; then a paid preview for each gate, with the owner's yes.
+(`docs/contract.md`, "Phase 0, second rescope"). The scripts are built and reviewed. The C0.7 and C0.9 previews
+ran with the current server: 0.513 and 1.194 (`docs/measurements/2026-11-12-c07-c09-previews.md`).
+
+**Next (owner, 2026-11-12, decision 0008):** build the consolidated tools (`html_find`, `html_change` with a
+locator, `html_outline`); run C0.1 and C0.2 on them; write the gate text for the new tools and the new gate C0.10 for
+the owner's yes; then the draws (with the fill rule), previews and gates, each paid run with the owner's yes.
 
 The owner's rule (2026-11-11, extended 2026-11-12): no push and no pull request until the owner asks for one.
 
