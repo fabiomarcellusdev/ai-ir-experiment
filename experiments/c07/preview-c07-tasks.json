@@ -1,0 +1,318 @@
+{
+ "gate": "c07",
+ "preview": true,
+ "seed": 20261112,
+ "offsetUnit": "UTF-16 code units of the file as text",
+ "skipped": [
+  {
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/preview/7/preview.html",
+   "reason": "file 7: no valid target left for removal with different targets"
+  },
+  {
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/preview/9/blog.html",
+   "reason": "file 9: no valid target left for removal with different targets"
+  }
+ ],
+ "readTokens": {
+  "1": [
+   [
+    15,
+    1199
+   ],
+   [
+    16,
+    1178
+   ],
+   [
+    18,
+    1136
+   ],
+   [
+    25,
+    1022
+   ]
+  ],
+  "2": [
+   [
+    29,
+    1664
+   ],
+   [
+    87,
+    5055
+   ],
+   [
+    143,
+    1354
+   ],
+   [
+    146,
+    1280
+   ],
+   [
+    188,
+    1241
+   ],
+   [
+    193,
+    1084
+   ]
+  ],
+  "3": [
+   [
+    33,
+    7786
+   ],
+   [
+    34,
+    7772
+   ],
+   [
+    43,
+    1512
+   ],
+   [
+    119,
+    1246
+   ]
+  ],
+  "4": [
+   [
+    20,
+    3441
+   ],
+   [
+    37,
+    2930
+   ],
+   [
+    38,
+    2890
+   ]
+  ],
+  "5": [
+   [
+    15,
+    2859
+   ]
+  ],
+  "6": [
+   [
+    13,
+    3590
+   ],
+   [
+    46,
+    1397
+   ]
+  ],
+  "8": [
+   [
+    11,
+    13052
+   ],
+   [
+    59,
+    11622
+   ]
+  ],
+  "10": [
+   [
+    52,
+    10060
+   ],
+   [
+    89,
+    8136
+   ],
+   [
+    91,
+    7582
+   ],
+   [
+    134,
+    4866
+   ]
+  ]
+ },
+ "tasks": [
+  {
+   "id": "1-removal",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/preview/1/comparison.html",
+   "type": "removal",
+   "ref": 16,
+   "tag": "div",
+   "quote": "Lip Sync Quality",
+   "prompt": "Remove the `div` element that contains the text \"Lip Sync Quality\". If several `div` elements contain it, remove the innermost one.",
+   "range": [
+    9028,
+    11733
+   ],
+   "change": [
+    9028,
+    11733,
+    ""
+   ],
+   "readTokens": 1178,
+   "expected": "experiments/gate-files/c07/preview-c07/expected/1-removal.html",
+   "expectedSha256": "b2c7155031632436f2bba63173b105353e12dd2580fbfd085fdfef5285bb8351"
+  },
+  {
+   "id": "2-replacement",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/preview/2/index.html",
+   "type": "replacement",
+   "ref": 188,
+   "tag": "section",
+   "quote": "Merupakan suatu kehormatan dan kebahagiaan bagi",
+   "prompt": "Replace the `section` element that contains the text \"Merupakan suatu kehormatan dan kebahagiaan bagi\" with `<p>New text</p>`. If several `section` elements contain it, replace the innermost one.",
+   "range": [
+    15529,
+    18426
+   ],
+   "change": [
+    15529,
+    18426,
+    "<p>New text</p>"
+   ],
+   "readTokens": 1241,
+   "expected": "experiments/gate-files/c07/preview-c07/expected/2-replacement.html",
+   "expectedSha256": "6072af4a6ff313dcfd2d2b6f73860a2bab5aeba071003e27a73bd17b92a515e2"
+  },
+  {
+   "id": "3-removal",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/preview/3/signals.html",
+   "type": "removal",
+   "ref": 43,
+   "tag": "section",
+   "quote": "Everyone wants to know",
+   "prompt": "Remove the `section` element that contains the text \"Everyone wants to know\". If several `section` elements contain it, remove the innermost one.",
+   "range": [
+    3637,
+    7621
+   ],
+   "change": [
+    3637,
+    7621,
+    ""
+   ],
+   "readTokens": 1512,
+   "expected": "experiments/gate-files/c07/preview-c07/expected/3-removal.html",
+   "expectedSha256": "1f49d6ca4e1937b6b27e7fc63754fcd689f8b1b0e0d9731c39ea7084ad24601c"
+  },
+  {
+   "id": "4-replacement",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/preview/4/index.html",
+   "type": "replacement",
+   "ref": 20,
+   "tag": "div",
+   "quote": "Back to Guides",
+   "prompt": "Replace the `div` element that contains the text \"Back to Guides\" with `<p>New text</p>`. If several `div` elements contain it, replace the innermost one.",
+   "range": [
+    1141,
+    9389
+   ],
+   "change": [
+    1141,
+    9389,
+    "<p>New text</p>"
+   ],
+   "readTokens": 3441,
+   "expected": "experiments/gate-files/c07/preview-c07/expected/4-replacement.html",
+   "expectedSha256": "216caeb3be9b375da8bdab01f5790c571555dc70599219fcc64d0abc4f927117"
+  },
+  {
+   "id": "5-removal",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/preview/5/build.html",
+   "type": "removal",
+   "ref": 15,
+   "tag": "table",
+   "quote": "Sample Footer text: © 2015 Acme,",
+   "prompt": "Remove the `table` element that contains the text \"Sample Footer text: © 2015 Acme,\". If several `table` elements contain it, remove the innermost one.",
+   "range": [
+    3274,
+    10016
+   ],
+   "change": [
+    3274,
+    10016,
+    ""
+   ],
+   "readTokens": 2859,
+   "expected": "experiments/gate-files/c07/preview-c07/expected/5-removal.html",
+   "expectedSha256": "f2da6eea1d5344bcd56be76b218b9bf8cae631fe8815fc26fab09253516bfa48"
+  },
+  {
+   "id": "6-replacement",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/preview/6/progress.html",
+   "type": "replacement",
+   "ref": 13,
+   "tag": "center",
+   "quote": "You're almost finished!",
+   "prompt": "Replace the `center` element that contains the text \"You're almost finished!\" with `<p>New text</p>`. If several `center` elements contain it, replace the innermost one.",
+   "range": [
+    3517,
+    12199
+   ],
+   "change": [
+    3517,
+    12199,
+    "<p>New text</p>"
+   ],
+   "readTokens": 3590,
+   "expected": "experiments/gate-files/c07/preview-c07/expected/6-replacement.html",
+   "expectedSha256": "cd4a80506a3f0f72a9dcac53935c2b163f15a7a4841df3b90c9e9e92ac482189"
+  },
+  {
+   "id": "8-replacement",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/preview/8/playground.html",
+   "type": "replacement",
+   "ref": 59,
+   "tag": "div",
+   "quote": "Advanced form controls",
+   "prompt": "Replace the `div` element that contains the text \"Advanced form controls\" with `<p>New text</p>`. If several `div` elements contain it, replace the innermost one.",
+   "range": [
+    3591,
+    31507
+   ],
+   "change": [
+    3591,
+    31507,
+    "<p>New text</p>"
+   ],
+   "readTokens": 11622,
+   "expected": "experiments/gate-files/c07/preview-c07/expected/8-replacement.html",
+   "expectedSha256": "58238d8115474d11d08b096808572c4e3384f29c8c0ad6ccee3f57a9f84e2443"
+  },
+  {
+   "id": "10-replacement",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/preview/10/Blog1.html",
+   "type": "replacement",
+   "ref": 134,
+   "tag": "div",
+   "quote": "Index: Post Comment",
+   "prompt": "Replace the `div` element that contains the text \"Index: Post Comment\" with `<p>New text</p>`. If several `div` elements contain it, replace the innermost one.",
+   "range": [
+    16820,
+    25936
+   ],
+   "change": [
+    16820,
+    25936,
+    "<p>New text</p>"
+   ],
+   "readTokens": 4866,
+   "expected": "experiments/gate-files/c07/preview-c07/expected/10-replacement.html",
+   "expectedSha256": "38a62f49bdf167207a1598b0e3b605d90f6b50479e6def2f7237181fd0b468fc"
+  }
+ ]
+}
