@@ -28,7 +28,8 @@ export const PLAN = {
   seed: 20261111, // the rescope's seed (the run order)
   maxTurns: 40,
   timeoutMs: 10 * 60 * 1000,
-  perRunBudgetUsd: 5, // a safety stop per run; a run that reaches it counts as failed
+  perRunBudgetUsd: 5, // a run that reaches it fails (owner, 2026-11-12)
+  totalBudgetUsd: 40, // the gate stops with no verdict when the runs so far cost this much; the owner decides
   builtInTools: 'Read,Edit,Grep,Glob',
   env: {
     ENABLE_TOOL_SEARCH: 'false', // every MCP tool definition in every request (C0.6, rule 3)
@@ -131,7 +132,7 @@ function killTree(child) {
 }
 
 /** Runs Claude Code once; returns its stream lines and how it ended. */
-function runClaude(args, cwd, env) {
+export function runClaude(args, cwd, env) {
   return new Promise((resolve) => {
     const t0 = Date.now();
     const child = spawn('claude', args, { cwd, env, stdio: ['ignore', 'pipe', 'pipe'] });
@@ -511,6 +512,8 @@ async function main() {
   try {
     for (const o of order) {
       if (have.has(key3(o))) continue;
+      const spent = done.reduce((a, r) => a + (r.costUsd ?? 0), 0);
+      if (spent >= PLAN.totalBudgetUsd) throw new Error(`stopped with no verdict: the runs so far cost $${spent.toFixed(2)}, the plan's total stop is $${PLAN.totalBudgetUsd}. The owner decides; the gate goes on from here on this commit.`);
       sameFile();
       append({ commit, started: true, task: o.task, arm: o.arm, k: o.k });
       lineCount++;
