@@ -570,8 +570,8 @@ export function c10Candidates(m) {
 
 /**
  * The text-change quotes of a C0.10 target (make-tasks.mjs, the text change): each direct text node of 3 words or
- * more gives its first 6 words. Valid when the words are in the node's source as written, and no element other than
- * the target and its ancestors holds them.
+ * more gives its first 6 words. Valid when the words are in the node's source as written, occur once in the file's
+ * source, and no element other than the target and its ancestors holds them.
  */
 export function c10TextQuotes(m, el) {
   const out = [];
@@ -584,6 +584,9 @@ export function c10TextQuotes(m, el) {
     const loc = c.sourceCodeLocation;
     const at = loc ? m.text.indexOf(q, loc.startOffset) : -1;
     if (at < 0 || at + q.length > loc.endOffset) continue;
+    // The quote occurs once in the source: no attribute value or hidden text holds it too (contract amendment of
+    // 2026-11-12, "C0.10's text change"; the v2 preview's task 10-text).
+    if (count(m.text, q) !== 1) continue;
     const occ = occurrences(m, q);
     if (!occ) continue;
     if (occ.some((p) => holdersAt(m, p, q.length).some((h) => h !== el && !isAncestorOf(m, h, el)))) continue;

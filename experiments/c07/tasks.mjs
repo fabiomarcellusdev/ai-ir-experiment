@@ -32,6 +32,12 @@ export const GATES = {
 };
 /** The gates whose structure task depends on the file number: an insertion in even files, a removal in odd files. */
 const BY_PARITY = new Set(['c09', 'c10']);
+/** The fewest files with which a gate runs (contract, amendment of decision 0008, item 4). */
+export const MIN_FILES = 6;
+/** Stops a gate's task set when its draw gave fewer than MIN_FILES files. */
+export function checkFileCount(gate, n) {
+  if (n < MIN_FILES) throw new Error(`${gate}: the draw gave ${n} files, under ${MIN_FILES}: the gate does not run`);
+}
 export const READ_LIMIT = 25_000; // tokens of one Read call (C0.6 run plan)
 const MODEL = 'claude-sonnet-5-5';
 const PYTHON = at('.venv-oracle', process.platform === 'win32' ? 'Scripts/python.exe' : 'bin/python');
@@ -499,6 +505,8 @@ async function main() {
   } else {
     const record = JSON.parse(readFileSync(at(PATHS.fileSet(gate)), 'utf8'));
     files = record.kinds.flatMap((k) => k.picks).map((p) => ({ file: checkedPath(p.file), sha256: p.sha256 }));
+    // A gate with fewer than 6 files does not run (contract, amendment of decision 0008, item 4).
+    checkFileCount(gate, files.length);
   }
   for (const f of files) {
     f.text = readFileSync(at(f.file), 'utf8');

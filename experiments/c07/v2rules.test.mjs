@@ -3,8 +3,78 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import * as R from './rules.mjs';
-import { units, taskRule, previewType } from './tasks.mjs';
+import { units, taskRule, previewType, checkFileCount } from './tasks.mjs';
 import { frozenFiles } from './freeze.mjs';
+import { drawAll, GATE_FILES } from './draw-files.mjs';
+
+// The fill rule of the draws (contract, amendment of decision 0008, item 4), on a made-up pool: kind A has 7
+// repositories that pass, kind B has 2 that fail, kind C has 1 repository with 1 passing file and 1 failing file.
+const fakeC03 = { kinds: [
+  { kind: 'A', repos: Array.from({ length: 7 }, (_, i) => ({ repo: `a${i}/r`, commit: 'c' })), passPathRules: Array.from({ length: 7 }, (_, i) => [`a${i}/r`, `p${i}.html`, 1]) },
+  { kind: 'B', repos: [{ repo: 'b0/r', commit: 'c' }, { repo: 'b1/r', commit: 'c' }], passPathRules: [['b0/r', 'x.html', 1], ['b1/r', 'y.html', 1]] },
+  { kind: 'C', repos: [{ repo: 'c0/r', commit: 'c' }], passPathRules: [['c0/r', 'good.html', 1], ['c0/r', 'bad.html', 1]] },
+] };
+const fakeC05 = { excludedOwners: [], kinds: [] };
+
+test('drawAll: the fill rule takes the missing files from the kinds in order, reads no file twice', async () => {
+  const reads = [];
+  const readText = (f) => { reads.push(`${f.repo}/${f.path}`); return f.path; };
+  const rule = async (t) => (t.startsWith('p') || t === 'good.html' ? null : 'fails');
+  const d = await drawAll(fakeC03, fakeC05, 'c10', readText, rule);
+  const [a, b, c] = d.kinds;
+  assert.equal(a.picks.filter((p) => !p.fill).length, 2);
+  assert.equal(b.picks.length, 0);
+  assert.equal(c.picks.length, 1);
+  // 3 files after the first pass; the fill takes A's other 5 repositories; B and C have nothing left.
+  assert.equal(a.picks.filter((p) => p.fill).length, 5);
+  assert.equal(d.kinds.reduce((n, k) => n + k.picks.length, 0), 8);
+  assert.equal(new Set(reads).size, reads.length); // no file read twice
+  assert.equal(new Set(d.kinds.flatMap((k) => k.picks.map((p) => p.repo))).size, 8); // no repository twice
+  // The same seed gives the same draw.
+  const again = await drawAll(fakeC03, fakeC05, 'c10', (f) => f.path, rule);
+  assert.deepEqual(again.kinds.map((k) => k.picks.map((p) => p.repo)), d.kinds.map((k) => k.picks.map((p) => p.repo)));
+});
+
+const kindOf = (k, n, files = 1) => ({ kind: k, repos: Array.from({ length: n }, (_, i) => ({ repo: `${k}${i}/r`, commit: 'c' })),
+  passPathRules: Array.from({ length: n }, (_, i) => Array.from({ length: files }, (_, j) => [`${k}${i}/r`, `f${j}.html`, 1])).flat() });
+
+test('drawAll: a fill takes 1 file a turn, one kind after the other (owner, 2026-11-12); the draw is pinned', async () => {
+  const c03 = { kinds: [kindOf('A', 10), kindOf('B', 10), kindOf('C', 0), kindOf('D', 0), kindOf('E', 0)] };
+  const d = await drawAll(c03, fakeC05, 'c10', (f) => f.path, async () => null);
+  // Each kind in turn: A and B each give 3 fill files, in rounds 1, 2, 3 (one kind first would give A 6 and B 0).
+  // The repositories are pinned: a fill with a new stream, or another order, gives others.
+  assert.deepEqual(d.kinds.map((k) => k.picks.map((p) => [p.repo, p.fill ?? 0])), [
+    [['A7/r', 0], ['A1/r', 0], ['A9/r', 1], ['A6/r', 2], ['A2/r', 3]],
+    [['B9/r', 0], ['B0/r', 0], ['B5/r', 1], ['B4/r', 2], ['B3/r', 3]], [], [], []]);
+});
+
+test('drawAll: a fill never takes a repository twice (review of the fill rule, 1)', async () => {
+  // Kind A: 3 repositories with 1 file and big/r with 6 files; kind B: 4 repositories with 1 file; kind C fails.
+  const a = kindOf('a', 3);
+  a.repos.push({ repo: 'big/r', commit: 'c' });
+  a.passPathRules.push(...Array.from({ length: 6 }, (_, j) => ['big/r', `g${j}.html`, 1]));
+  const c03 = { kinds: [a, kindOf('b', 4), kindOf('c', 2)] };
+  const d = await drawAll(c03, fakeC05, 'c07', (f) => `${f.repo}/${f.path}`, async (t) => (t.startsWith('c') ? 'fails' : null));
+  const repos = d.kinds.flatMap((k) => k.picks.map((p) => p.repo));
+  assert.equal(new Set(repos).size, repos.length);
+  assert.ok(repos.filter((r) => r === 'big/r').length <= 1);
+  assert.equal(repos.length, 8); // 4 of kind a and 4 of kind b: the pools run out before 10
+});
+
+test('checkFileCount: a gate needs 6 files', () => {
+  assert.throws(() => checkFileCount('c10', 5), /5 files, under 6: the gate does not run/);
+  assert.doesNotThrow(() => checkFileCount('c10', 6));
+});
+
+test('drawAll: the fill stops at 10 files; control: a full first pass has no fill', async () => {
+  const big = { kinds: [{ kind: 'A', repos: Array.from({ length: 20 }, (_, i) => ({ repo: `a${i}/r`, commit: 'c' })), passPathRules: Array.from({ length: 20 }, (_, i) => [`a${i}/r`, `p${i}.html`, 1]) }] };
+  const d = await drawAll(big, fakeC05, 'c10', (f) => f.path, async () => null);
+  assert.equal(d.kinds[0].picks.length, GATE_FILES);
+  const five = { kinds: ['A', 'B', 'C', 'D', 'E'].map((k) => ({ kind: k, repos: [0, 1, 2].map((i) => ({ repo: `${k}${i}/r`, commit: 'c' })), passPathRules: [0, 1, 2].map((i) => [`${k}${i}/r`, 'f.html', 1]) })) };
+  const full = await drawAll(five, fakeC05, 'c10', (f) => f.path, async () => null);
+  assert.deepEqual(full.kinds.map((k) => k.picks.length), [2, 2, 2, 2, 2]);
+  assert.ok(full.kinds.every((k) => !k.fillRead && k.picks.every((p) => !p.fill)));
+});
 
 const page = (body) => `<!DOCTYPE html>\n<html>\n<head><title>t</title></head>\n<body>\n${body}\n</body>\n</html>\n`;
 const el = (m, tag, nth = 0) => m.els.filter((e) => e.tagName === tag)[nth];
@@ -54,6 +124,13 @@ test('c10TextQuotes: 3 words or more, as written, held by no element outside the
   assert.deepEqual(R.c10TextQuotes(m, el(m, 'p', 1)), []); // only 2 words
   const ok = R.view(page('<p>change these words please</p>'));
   assert.deepEqual(R.c10TextQuotes(ok, el(ok, 'p')).map((x) => x.quote), ['change these words please']);
+});
+
+test('c10TextQuotes: the quote occurs once in the source (the v2 preview\'s task 10-text)', () => {
+  const m = R.view(page('<button title="Share on Facebook now"><span>Share on Facebook now</span></button>'));
+  assert.deepEqual(R.c10TextQuotes(m, el(m, 'span')), []); // the same words are an attribute value
+  const ok = R.view(page('<button title="Share"><span>Share on Facebook now</span></button>'));
+  assert.deepEqual(R.c10TextQuotes(ok, el(ok, 'span')).map((x) => x.quote), ['Share on Facebook now']); // control
 });
 
 // Review of the v2 task rules, finding 1: tests that fail when a C0.10 rule or a v2 freeze scope is broken.

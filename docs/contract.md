@@ -1049,3 +1049,23 @@ run.
    stream picks one of the two (one more draw). As written, rule 2 could never be drawn: a deepest holder is also the
    innermost holder of its own tag.
 - **No number changed.**
+
+**2026-11-12 (owner): C0.10's text change needs a quote that occurs once in the file's source.** The v2 preview of
+C0.10 (`docs/measurements/2026-11-12-c07-c10-v2-previews.md`) had an ambiguous task: `10-text` asked to change "Share
+on Facebook" in a `span`, and the same words are the `aria-label` and the `title` of the next button. Both arms
+changed them too, and both failed. C0.3's text rule checks only the visible text of other elements. The owner agreed
+to the lead's proposal:
+1. **A C0.10 text change** also needs its quote to occur exactly once in the file's source, as written. The other
+   rules of C0.10 (amendment "the gate text for the v2 tools", C.4) stay.
+2. **The rule changes after C0.10's preview.** The preview's task set and result stay as they were. The rule "a change
+   after a preview makes the result weaker" applies: the C0.10 gate report names this change.
+- **No number changed.**
+
+**2026-11-12 (owner): the fill rule takes one file from each kind in turn.** The fill rule (amendment of decision
+0008, item 4) says that the missing files come "from the other kinds, in C0.3's kind order". An independent review
+found two readings: each kind until it runs out, or one file from each kind in turn. C0.3's first kind (marketing)
+has 20 repositories, so the first reading could give a gate mostly marketing files. The owner chose the second
+reading: in rounds, each kind in C0.3's order gives at most 1 file, until the gate has 10 files or a full round gives
+no file. A fill takes no repository that the draw already picked, so the same-repository fallback of "The inputs", 2
+does not apply in a fill.
+- **No number changed.**

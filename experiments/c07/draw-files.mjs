@@ -12,7 +12,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { contentRule } from '../c03/select-files.mjs';
 import { generator, shuffle, templateRule } from '../c05/draw-files.mjs';
-import { GATES, taskRule, tokenCounter, storedPath, PATHS } from './tasks.mjs';
+import { GATES, taskRule, tokenCounter, storedPath, PATHS, MIN_FILES } from './tasks.mjs';
 
 const ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const at = (...p) => path.join(ROOT, ...p);
@@ -108,23 +108,50 @@ export async function drawKind(repos, rnd, readText, rule, want = 2) {
 export const fileRule = (gate, count) => async (text) => (text === null ? 'not valid UTF-8'
   : contentRule(text) ?? templateRule(text) ?? await taskRule(gate, text, count));
 
-/** The whole draw of a gate: the kinds in C0.3's order, one stream of the gate's seed. A kind with 0 picks gives none
- * (the gate then has 8 files); a kind with 1 pick after the fallback stops the draw (C0.5's rule: an amendment). */
+/** The files of a gate (contract, amendment of decision 0008, item 4). The fewest with which a gate runs: MIN_FILES. */
+export const GATE_FILES = 10;
+
+/**
+ * The whole draw of a gate: the kinds in C0.3's order, one stream of the gate's seed, 2 files of each kind. Then the
+ * fill rule (contract, amendment of decision 0008, item 4): when the gate has fewer than 10 files, the missing files
+ * come from the kinds in C0.3's order, one file from each kind in turn (owner, 2026-11-12), with the same stream,
+ * until the gate has 10 files or a full round gives no file. Each turn draws 1 file, so the same-repository fallback
+ * of drawKind never runs in a fill: a fill never reads a file again, and never takes a repository that the draw
+ * already picked (review of the fill rule, 1). Each fill pick is marked with its round, and stays under its own
+ * kind. A gate with fewer than 6 files gets no task set (tasks.mjs).
+ */
 export async function drawAll(c03, c05, gate, readText, rule) {
   const excluded = excludedOwners(c05);
   const rnd = generator(GATES[gate].seed);
   const used = new Set();
+  const seen = new Set();
   const kinds = [];
-  for (const kind of c03.kinds) {
+  const draw = async (kind, repos, want) => {
     const commitOf = new Map(kind.repos.map((r) => [r.repo, r.commit]));
-    const repos = pool(kind, excluded, used);
-    const { picks, read } = await drawKind(repos, rnd, (f) => readText({ ...f, commit: commitOf.get(f.repo) }), rule);
-    if (picks.length === 1) throw new Error(`${kind.kind}: only 1 file passes the rules; the rescope needs an amendment`);
-    // The contract covers one kind with 0 picks (8 files); a second one needs an amendment.
-    if (!picks.length && kinds.some((k) => !k.picks.length)) throw new Error(`${kind.kind}: a second kind with no file; the rescope needs an amendment`);
+    const { picks, read } = await drawKind(repos, rnd, (f) => readText({ ...f, commit: commitOf.get(f.repo) }), rule, want);
+    for (const [repo, p] of read) seen.add(`${repo}\n${p}`);
     for (const p of picks) used.add(p.repo);
-    kinds.push({ kind: kind.kind, repositories: repos.length, files: repos.reduce((n, r) => n + r.files.length, 0), read,
-      picks: picks.map((p) => ({ ...p, commit: commitOf.get(p.repo) })) });
+    return { read, picks: picks.map((p) => ({ ...p, commit: commitOf.get(p.repo) })) };
+  };
+  for (const kind of c03.kinds) {
+    const repos = pool(kind, excluded, used);
+    const { read, picks } = await draw(kind, repos, 2);
+    kinds.push({ kind: kind.kind, repositories: repos.length, files: repos.reduce((n, r) => n + r.files.length, 0), read, picks });
+  }
+  let missing = GATE_FILES - kinds.reduce((n, k) => n + k.picks.length, 0);
+  for (let round = 1, gave = true; missing > 0 && gave; round++) {
+    gave = false;
+    for (const [i, kind] of c03.kinds.entries()) {
+      if (missing <= 0) break;
+      const repos = pool(kind, excluded, used).map((r) => ({ repo: r.repo, files: r.files.filter((f) => !seen.has(`${f.repo}\n${f.path}`)) }))
+        .filter((r) => r.files.length);
+      if (!repos.length) continue;
+      const { read, picks } = await draw(kind, repos, 1);
+      (kinds[i].fillRead ??= []).push(...read);
+      kinds[i].picks.push(...picks.map((p) => ({ ...p, fill: round })));
+      missing -= picks.length;
+      if (picks.length) gave = true;
+    }
   }
   return { excludedOwners: [...excluded].sort(byCodeUnits), kinds };
 }
@@ -156,12 +183,13 @@ async function main() {
       const file = storedPath(dir, ++n, p.path.split('/').pop());
       mkdirSync(at(path.dirname(file)), { recursive: true });
       writeFileSync(at(file), p.text);
-      return { repo: p.repo, commit: p.commit, path: p.path, size: p.size, sameRepository: !!p.sameRepository, sha256: sha(Buffer.from(p.text, 'utf8')), file };
+      return { repo: p.repo, commit: p.commit, path: p.path, size: p.size, sameRepository: !!p.sameRepository, fill: p.fill ?? false, sha256: sha(Buffer.from(p.text, 'utf8')), file };
     });
-    record.kinds.push({ kind: k.kind, repositories: k.repositories, files: k.files, readInDrawOrder: k.read, picks: rows });
-    console.log(`${k.kind}: ${k.repositories} repositories; ${k.read.length} files read; ${rows.length} picks: ${rows.map((p) => `${p.repo}/${p.path}`).join(', ')}`);
+    record.kinds.push({ kind: k.kind, repositories: k.repositories, files: k.files, readInDrawOrder: k.read, ...(k.fillRead ? { fillReadInDrawOrder: k.fillRead } : {}), picks: rows });
+    console.log(`${k.kind}: ${k.repositories} repositories; ${k.read.length + (k.fillRead?.length ?? 0)} files read; ${rows.length} picks: ${rows.map((p) => `${p.repo}/${p.path}${p.fill ? ' (fill)' : ''}`).join(', ')}`);
   }
   writeFileSync(out, JSON.stringify(record, null, 1) + '\n');
+  if (n < MIN_FILES) console.log(`${n} files, under ${MIN_FILES}: the gate does not run (the record stays)`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) await main();
