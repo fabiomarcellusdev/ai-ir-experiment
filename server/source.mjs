@@ -25,7 +25,16 @@ export function charMap(text, tn) {
     if (src[i] === '&') {
       const r = /^&(?:#[0-9]+;?|#[xX][0-9a-fA-F]+;?|[A-Za-z][A-Za-z0-9]*;?)/.exec(src.slice(i, i + 40));
       const d = r && decodeRef(r[0]);
-      if (d !== null && d !== undefined) { push(d, i, i + r[0].length); i += r[0].length; continue; }
+      if (d !== null && d !== undefined) {
+        // A legacy reference with no ";" ends before the text that follows it: "&copy2024" is "&copy" (©) and the
+        // plain text "2024". The parser keeps that text as written, so it is the common end of source and decoded.
+        let k = 0;
+        while (k < d.length - 1 && k < r[0].length - 1 && d[d.length - 1 - k] === r[0][r[0].length - 1 - k]) k++;
+        const len = r[0].length - k;
+        push(d.slice(0, d.length - k), i, i + len);
+        i += len;
+        continue;
+      }
     }
     if (src[i] === '\r') { const n = src[i + 1] === '\n' ? 2 : 1; push('\n', i, i + n); i += n; continue; }
     const ch = String.fromCodePoint(src.codePointAt(i));

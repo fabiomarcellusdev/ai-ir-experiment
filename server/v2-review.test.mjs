@@ -57,11 +57,23 @@ test('review 3: n without child is refused, not ignored', () => {
 });
 
 test('review 4: replace_text refuses half of a reference and a lone surrogate; control: a whole reference', () => {
-  const s = space('<p>&copy2024 Acme</p><p>x\u{1F600}y</p><p>Tom &amp; Jerry</p>');
-  refuses(() => s.call('html_change', { operation: 'replace_text', text: 'Acme', old: '2024', new: '2025' }), /inside one character reference/);
+  const s = space('<p>x&fjlig;ord here</p><p>x\u{1F600}y</p><p>Tom &amp; Jerry</p>');
+  // "&fjlig;" is one reference that decodes to 2 characters, "fj": a change cannot start at its "j".
+  refuses(() => s.call('html_change', { operation: 'replace_text', text: 'here', old: 'jord', new: 'x' }), /inside one character reference/);
   refuses(() => s.call('html_change', { operation: 'replace_text', text: 'x\u{1F600}y', old: '\uDE00y', new: 'z' }), /lone surrogate/);
   s.call('html_change', { operation: 'replace_text', text: 'Jerry', old: 'Tom & Jerry', new: 'Tom and Jerry' });
-  assert.equal(s.read(), '<p>&copy2024 Acme</p><p>x\u{1F600}y</p><p>Tom and Jerry</p>');
+  assert.equal(s.read(), '<p>x&fjlig;ord here</p><p>x\u{1F600}y</p><p>Tom and Jerry</p>');
+  s.done();
+});
+
+test('a legacy reference with no ";" ends before the plain text after it (&copy2024 is © and "2024")', () => {
+  const s = space('<p>&copy2024 Acme</p><p>&notit; x</p>');
+  s.call('html_change', { operation: 'replace_text', text: 'Acme', old: '2024', new: '2025' });
+  s.call('html_change', { operation: 'replace_text', text: 'x', tag: 'p', old: 'it;', new: 'in' });
+  assert.equal(s.read(), '<p>&copy2025 Acme</p><p>&notin x</p>');
+  // The parsed text is what the agent asked for: © then 2025, and ¬ then "in".
+  const ps = load(s.read(), 'h').els.filter((e) => e.tagName === 'p').map((e) => e.childNodes[0].value);
+  assert.deepEqual(ps, ['©2025 Acme', '¬in x']);
   s.done();
 });
 
