@@ -36,11 +36,11 @@ ran with the current server: 0.513 and 1.194 (`docs/measurements/2026-11-12-c07-
   (`docs/measurements/2026-11-12-size-vs-ratio.md`). Research on deferred tool loading: tool search is on by default
   in Claude Code, and the gates turned it off.
 
-**Now:** the server has decision 0010's shorter tool text (1,161 tokens, from the gates' 1,337) and no size field:
-the owner removed it on 2026-11-13 (decision 0009, withdrawn). C0.1 v2 and C0.2 v2 passed again on this server
-(`docs/measurements/2026-11-13-c01-c02-v2-rerun-2.md`). Next, with the owner's yes (2026-11-13): 3 arm-M checks (the current server, tool search on, decision 0011's
-direct-locator sentence; `docs/measurements/2026-11-13-check-ts-loc-run-plan.md`, about $4.90), then a mixed gate on
-small and large edits, then the publish.
+**Now:** the server has decision 0010's shorter text and decision 0011's direct-locator sentence (1,210 tokens), for
+the "loc" check; C0.1 v2 and C0.2 v2 must pass on it before that check. The checks "now" (the current server without
+the sentence) and "ts" (tool search on) ran: tool search is out by the plan's rule 3
+(`docs/measurements/2026-11-13-check-ts-loc-run-plan.md`). Then: the mixed gate C0.11 (decision 0012, mix A, total
+tokens), and the publish.
 
 **Done after the gates:** the size field built, checked and removed (decision 0009); the shorter tool text (decision
 0010); C0.1 v2 and C0.2 v2 passed with both (`docs/measurements/2026-11-13-c01-c02-v2-rerun.md`); the paid arm-M check

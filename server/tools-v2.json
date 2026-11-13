@@ -13,7 +13,7 @@
  },
  {
   "name": "mcp__html__html_change",
-  "description": "Changes one element of an HTML file and saves it; all other bytes stay the same. Name the element by `ref` and `hash`; or by `text` (the deepest element whose visible text contains it; with `tag`, the innermost of that tag); or by `id`, with `child` and `n` for its n-th child of that tag. If the name fits several elements, nothing changes and the matches are listed. Operations: remove; replace (`html`); insert_after (`html`); set_attribute (`attribute`, `value`); replace_text (`old` is visible text in one text node, with entities decoded and whitespace runs as one space; `new` replaces it). `value` and `new` are plain text. Not for html, head or body.",
+  "description": "Changes one element of an HTML file and saves it; all other bytes stay the same. Name the element by `ref` and `hash`; or by `text` (the deepest element whose visible text contains it; with `tag`, the innermost of that tag); or by `id`, with `child` and `n` for its n-th child of that tag. If the name fits several elements, nothing changes and the matches are listed. Operations: remove; replace (`html`); insert_after (`html`); set_attribute (`attribute`, `value`); replace_text (`old` is visible text in one text node, with entities decoded and whitespace runs as one space; `new` replaces it). `value` and `new` are plain text. Not for html, head or body. When the task quotes visible text inside the element, call html_change with that `text`, and with `tag` when the task names the element's tag; html_find is not needed first.",
   "input_schema": {
    "type": "object",
    "properties": {

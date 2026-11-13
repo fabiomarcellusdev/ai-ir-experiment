@@ -205,4 +205,6 @@ test('the v2 schema is pinned apart from the descriptions, and the kept replace_
   ]);
   assert.match(TOOLS_V2[1].description, /with entities decoded and whitespace runs as one space/);
   assert.match(TOOLS_V2[1].description, /whose visible text contains it/);
+  // Decision 0011, for its check: the agent may skip html_find when the task quotes the text.
+  assert.match(TOOLS_V2[1].description, /call html_change with that `text`, and with `tag` when the task names the element's tag; html_find is not needed first\.$/);
 });

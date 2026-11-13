@@ -242,7 +242,9 @@ test('the runner wires tool search from the mode to the env, the arguments, the 
 });
 
 test('each check refuses the wrong tool text: "loc" needs decision 0011\'s sentence, "now" and "ts" refuse it', () => {
-  const plain = readFileSync(new URL('../../server/tools-v2.json', import.meta.url), 'utf8');
+  // Both texts, whichever the server holds now: decision 0011's sentence follows "Not for html, head or body.".
+  const now = readFileSync(new URL('../../server/tools-v2.json', import.meta.url), 'utf8');
+  const plain = now.replace(` ${LOCATOR_SENTENCE}`, '');
   const withIt = plain.replace('Not for html, head or body.', `Not for html, head or body. ${LOCATOR_SENTENCE}`);
   assert.notEqual(withIt, plain);
   for (const g of ['c07', 'c10']) {
@@ -253,6 +255,8 @@ test('each check refuses the wrong tool text: "loc" needs decision 0011\'s sente
     assert.match(sentenceProblem(MODES[`check-ts-v2-${g}`], withIt), /holds decision 0011/);
   }
   assert.equal(sentenceProblem(MODES['gate-v2-c07'], withIt), null); // a gate has no sentence rule
+  // While decision 0011's sentence is in the server, the server's text and the runner's constant agree (review, 2).
+  if (now.includes('html_find is not needed first')) assert.equal(sentenceProblem(MODES['check-loc-v2-c07'], now), null);
 });
 
 test('the 6 later check modes: the baseline, tool search on and the direct-locator sentence, on C0.7 and C0.10, with their own freezes', () => {

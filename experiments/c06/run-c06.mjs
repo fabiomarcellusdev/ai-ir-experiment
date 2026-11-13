@@ -137,7 +137,7 @@ for (const g of ['c07', 'c10']) {
 /** The plan of the 3 later arm-M checks: the baseline, tool search on, and the direct-locator sentence (owner, 2026-11-13). */
 export const RUN_PLAN_CHECK_2 = 'docs/measurements/2026-11-13-check-ts-loc-run-plan.md';
 /** Decision 0011's sentence in html_change's text. */
-export const LOCATOR_SENTENCE = 'When the task quotes visible text inside the element, call html_change with `text` (and `tag`) directly; html_find is not needed first.';
+export const LOCATOR_SENTENCE = "When the task quotes visible text inside the element, call html_change with that `text`, and with `tag` when the task names the element's tag; html_find is not needed first.";
 /**
  * Why the server's tool text does not fit a check, or null: "loc" needs decision 0011's sentence, "now" and "ts" need
  * the text without it (review of the "ts" check, 3). Other modes have no `sentence`.

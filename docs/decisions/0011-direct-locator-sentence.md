@@ -40,3 +40,14 @@ pass again on the server with the sentence before the check.
   the lead proposes to remove it.
 
 ## Amendments
+
+**2026-11-13 (lead): the sentence as committed for the "loc" check, corrected after its review.** The independent
+review replayed the 3 task sets with `text` only: on C0.7 v2, 39 of 40 tasks changed a wrong element with no error,
+because the deepest element that holds a quote is usually a heading inside the `section` or `div` that the task
+names. With `tag`, all 40 were right (C0.10 v2: 30 of 30; C0.9 v2: 30 of 30). "(and `tag`)" read as optional, so the
+lead changed the sentence to: "When the task quotes visible text inside the element, call html_change with that
+`text`, and with `tag` when the task names the element's tag; html_find is not needed first." It ends html_change's
+description. The 3 tools' text is 1,210 tokens with it, against 1,161 without (`count_tokens`, `claude-sonnet-5-5`, by
+`experiments/c07/analysis/count-tools.mjs`): **49 tokens** in every turn, against "about 20" in option A's estimate.
+The check "loc" runs after C0.1 v2 and C0.2 v2 pass on this server. The baseline "now" (the same server without the
+sentence) ran first: arm M ÷ recorded arm B 0.363 (C0.7 tasks) and 1.180 (C0.10 tasks), 3 turns on both.
