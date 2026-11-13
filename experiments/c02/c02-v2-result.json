@@ -1,7 +1,7 @@
 {
  "gate": "C0.2 v2",
  "date": "2026-11-13",
- "commit": "192e68dd952cfbf0fc0c0e28f75b2f252096bb88",
+ "commit": "b694646cc5182ea43e42a9f08740e936f8161db9",
  "dev": false,
  "node": "v24.22.1",
  "machine": {
@@ -129,30 +129,30 @@
  "streamCase": true,
  "calls": 1290,
  "ms": {
-  "p50": 3,
-  "p99": 390,
-  "max": 1073
+  "p50": 2,
+  "p99": 295,
+  "max": 438
  },
  "slowestCases": [
   [
    "fostered-2mb.html:outline",
-   1073
+   438
   ],
   [
    "fostered-2mb.html:remove",
-   959
+   408
   ],
   [
    "time:long-text",
-   691
+   303
   ],
   [
    "long-text.html:replace_text",
-   529
+   295
   ],
   [
-   "time:tag-locator",
-   471
+   "fostered-2mb.html:replace_text",
+   273
   ]
  ],
  "noWrongEdit": {
