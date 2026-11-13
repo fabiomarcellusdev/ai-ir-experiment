@@ -36,10 +36,13 @@ ran with the current server: 0.513 and 1.194 (`docs/measurements/2026-11-12-c07-
   (`docs/measurements/2026-11-12-size-vs-ratio.md`). Research on deferred tool loading: tool search is on by default
   in Claude Code, and the gates turned it off.
 
-**Now:** gate C0.11, a mix of small and large edits (decision 0012; `docs/contract.md`, "Gate C0.11", agreed by the
-owner on 2026-11-13): build the task draw and the runner mode, review, freeze, run (about $3.20), report. Arm M uses
-the "loc" setup: decision 0010's text with decision 0011's sentence, tool search off
-(`docs/measurements/2026-11-13-check-now-ts-loc-result.md`). Then the publish.
+**Now:** the publish of this branch (the owner's yes, 2026-11-13): a push and a pull request into `main`, then CI and
+the owner's review and merge.
+
+**Done on 2026-11-13:** gate C0.11, a mix of small and large edits, **PASS**: ratio of total tokens 0.465 (0.313 to
+0.649), arm M 100% success (`docs/measurements/2026-11-13-c11-gate.md`). Arm M ran with decision 0011's direct-locator
+sentence, which the arm-M checks selected; tool search on did not pay
+(`docs/measurements/2026-11-13-check-now-ts-loc-result.md`).
 
 **Done after the gates:** the size field built, checked and removed (decision 0009); the shorter tool text (decision
 0010); C0.1 v2 and C0.2 v2 passed with both (`docs/measurements/2026-11-13-c01-c02-v2-rerun.md`); the paid arm-M check
