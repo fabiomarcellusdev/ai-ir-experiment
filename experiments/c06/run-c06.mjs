@@ -20,7 +20,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { generator, shuffle } from '../c05/draw-files.mjs';
 import { MODEL } from '../c03/run-c03.mjs';
 import { load, pageCount } from '../../server/view.mjs';
-import { analyze, compareM, runTokens, ARMS, RUNS_PER_ARM } from './analysis.mjs';
+import { analyze, analyzeMix, compareM, runTokens, ARMS, RUNS_PER_ARM } from './analysis.mjs';
+import { mixProblem, committedSets, C11_PATHS } from '../c11/draw-tasks.mjs';
 import { GATES, gateTasks, previewTasks, tokenCounter, storedPath, checkedPath, PATHS } from '../c07/tasks.mjs';
 import { applyChange } from '../c07/rules.mjs';
 import { frozenFiles, OUT as FREEZE_OUT } from '../c07/freeze.mjs';
@@ -134,6 +135,9 @@ for (const g of ['c07', 'c10']) {
     baseline: `experiments/c07/gate-v2-${g}-result.json`, result: `experiments/c07/check-m-v2-${g}-result.json`,
     label: `${name} arm-M check of decisions 0009 and 0010: decides nothing` };
 }
+/** Gate C0.11's plan: the contract's gate text, with the run's details (owner, 2026-11-13; decision 0012). */
+export const RUN_PLAN_C11 = 'docs/measurements/2026-11-13-c11-run-plan.md';
+
 /** The plan of the 3 later arm-M checks: the baseline, tool search on, and the direct-locator sentence (owner, 2026-11-13). */
 export const RUN_PLAN_CHECK_2 = 'docs/measurements/2026-11-13-check-ts-loc-run-plan.md';
 /** Decision 0011's sentence in html_change's text. */
@@ -158,6 +162,11 @@ for (const [v, extra, what] of [['now', { sentence: false }, 'the current server
       result: `experiments/c07/check-${v}-v2-${g}-result.json`, label: `${gateName(g)} arm-M check of ${what}: decides nothing` };
   }
 }
+// Gate C0.11 (docs/contract.md, "Gate C0.11"): the mix drawn from the 4 v2 task sets, both arms, arm M in the "loc"
+// setup (decision 0011's sentence, tool search off). `second` is the gate's key; `mix` selects its draw and analysis.
+MODES['gate-v2-c11'] = { second: 'c11', mix: true, tools: 'v2', plan: RUN_PLAN_C11, seed: SEED_2, types: ['c10', 'c07', 'c08', 'c09'],
+  intervalBelow: 1, sentence: true, tasks: C11_PATHS.tasks, record: C11_PATHS.fileSet, freeze: 'gates-v2-c11', rounds: RUNS_PER_ARM,
+  result: 'experiments/c11/gate-c11-result.json', gate: 'C0.11', label: 'C0.11 (v2 tools, mix A, total tokens)' };
 
 /**
  * The recorded files of a mode, each with its SHA-256: the record's picks, or for a second-rescope preview, C0.5's
@@ -691,9 +700,14 @@ async function checkFreeze(set, files, key) {
   if (problem) throw new Error(problem);
   const committed = JSON.parse(readFileSync(at(set.tasks), 'utf8'));
   const texts = files.map((f) => ({ file: f.file, text: readFileSync(at(f.file), 'utf8') }));
-  const count = set.second === 'c07' ? tokenCounter(key) : null;
-  const again = set.preview ? await previewTasks(set.second, texts, count) : await gateTasks(set.second, texts, count);
   const strip = (ts) => JSON.stringify(ts.map(({ expected, expectedSha256, ...t }) => t));
+  if (set.mix) {
+    // C0.11: the draw from the 4 frozen v2 sets, made again from its seed; the file set too (review of C0.11, 2).
+    const problem = mixProblem(committed, JSON.parse(readFileSync(at(set.record), 'utf8')), committedSets());
+    if (problem) throw new Error(problem);
+  }
+  const count = set.second === 'c07' ? tokenCounter(key) : null;
+  const again = set.mix ? { tasks: committed.tasks } : set.preview ? await previewTasks(set.second, texts, count) : await gateTasks(set.second, texts, count);
   if (strip(again.tasks) !== strip(committed.tasks)) throw new Error('the task set made again differs from the committed one');
   // Each expected file, made again from its change, has the recorded hash (security review, F6).
   const textOf = new Map(texts.map((f) => [f.file, f.text]));
@@ -901,7 +915,9 @@ async function runAll(mode, budgetUsd) {
     console.log(`${set.label}: new M ÷ recorded M ${c.medianNewOverOldM?.toFixed(3)} over ${c.tasks} tasks; first input ${c.firstInput.old} to ${c.firstInput.new}; turns ${c.turns.old} to ${c.turns.new}; success ${c.success.old} to ${c.success.new}; $${cost.toFixed(2)}`);
     return;
   }
-  const analysis = analyze(done, tasks, sizes, seed, set.rounds, analysisOptions(set));
+  // C0.11 has its own measure, the ratio of total tokens (decision 0012); the other gates keep `analyze`.
+  const analysis = set.mix ? analyzeMix(done, tasks, seed, set.rounds, { intervalBelow: analysisOptions(set).intervalBelow })
+    : analyze(done, tasks, sizes, seed, set.rounds, analysisOptions(set));
   const result = {
     gate: set.label ?? (set.gate ? 'C0.6' : 'C0.6 PREVIEW on C0.3 tasks: decides nothing (owner, 2026-11-12)'), date: new Date().toISOString().slice(0, 10), commit, harness: version,
     plan: set.second ? { ...PLAN, seed, runPlan: set.plan } : PLAN,
@@ -913,7 +929,8 @@ async function runAll(mode, budgetUsd) {
   const json = JSON.stringify(result, null, 1) + '\n';
   if (holdsKey(json, key)) throw new Error('the result holds the API key: stopped, nothing written');
   writeFileSync(at(set.result), json);
-  console.log(`${set.gate ?? 'PREVIEW (decides nothing)'} ${analysis.verdict}: median ratio ${analysis.medianRatio?.toFixed(3)} over ${analysis.qualifyingTasks} tasks; success B ${analysis.success.B} M ${analysis.success.M}; $${cost.toFixed(2)}`);
+  const measure = set.mix ? `ratio of total tokens ${analysis.totalRatio?.toFixed(3)}` : `median ratio ${analysis.medianRatio?.toFixed(3)}`;
+  console.log(`${set.gate ?? 'PREVIEW (decides nothing)'} ${analysis.verdict}: ${measure} over ${analysis.qualifyingTasks} tasks; success B ${analysis.success.B} M ${analysis.success.M}; $${cost.toFixed(2)}`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

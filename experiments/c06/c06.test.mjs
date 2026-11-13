@@ -424,7 +424,7 @@ import { recordedFiles, missingFileErrors, SEED_2, PREVIEW_MIN_TASKS } from './r
 test('the second rescope adds 6 v1 modes, 8 v2 modes and 8 arm-M checks, and keeps C0.6\'s 3 modes as they were', () => {
   assert.deepEqual(Object.keys(MODES), ['pilot', 'preview', 'gate', 'preview-c07', 'gate-c07', 'preview-c08', 'gate-c08', 'preview-c09', 'gate-c09',
     ...['c07', 'c08', 'c09', 'c10'].flatMap((g) => [`preview-v2-${g}`, `gate-v2-${g}`]), 'check-m-v2-c07', 'check-m-v2-c10',
-    ...['now', 'ts', 'loc'].flatMap((v) => [`check-${v}-v2-c07`, `check-${v}-v2-c10`])]);
+    ...['now', 'ts', 'loc'].flatMap((v) => [`check-${v}-v2-c07`, `check-${v}-v2-c10`]), 'gate-v2-c11']);
   assert.deepEqual(MODES.gate, { tasks: 'experiments/c05/tasks.json', record: 'experiments/c05/file-set.json', rounds: 3, result: 'experiments/c06/c06-result.json', gate: 'C0.6' });
   assert.equal(MODES['gate-c08'].rounds, 3);
   assert.equal(MODES['preview-c08'].rounds, 1);
@@ -432,7 +432,7 @@ test('the second rescope adds 6 v1 modes, 8 v2 modes and 8 arm-M checks, and kee
   assert.deepEqual(MODES['gate-c07'].types, ['removal', 'replacement']);
   assert.equal(MODES['gate-c07'].intervalBelow, 1);
   assert.equal(PREVIEW_MIN_TASKS, 6);
-  assert.equal(new Set(Object.values(MODES).map((m) => m.result).filter(Boolean)).size, 24); // 2 + 6 v1 + 8 v2 + 8 checks, all different
+  assert.equal(new Set(Object.values(MODES).map((m) => m.result).filter(Boolean)).size, 25); // 2 + 6 v1 + 8 v2 + 8 checks + C0.11, all different
 });
 
 test('recordedFiles: a preview uses the plain-name copies of C0.5\'s picks', () => {

@@ -12,6 +12,8 @@
 //   node experiments/c07/freeze.mjs --check-now-v2   (--check-ts-v2, --check-loc-v2) the same for the baseline check and
 //                                                the checks of tool search on and of the direct-locator sentence, also
 //                                                with the first check's results
+//   node experiments/c07/freeze.mjs --gates-v2-c11   experiments/c11/run-inputs-c11.json: the gates-v2 files, and C0.11's
+//                                                task set, file set and plan (decision 0012)
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -25,7 +27,7 @@ export const OUT = { gates: 'experiments/c07/run-inputs.json', previews: 'experi
   'previews-v2': 'experiments/c07/run-inputs-previews-v2.json', 'gates-v2': 'experiments/c07/run-inputs-v2.json',
   'gates-v2-c08': 'experiments/c07/run-inputs-v2-c08.json', 'check-m-v2': 'experiments/c07/run-inputs-check-m-v2.json',
   'check-now-v2': 'experiments/c07/run-inputs-check-now-v2.json', 'check-ts-v2': 'experiments/c07/run-inputs-check-ts-v2.json',
-  'check-loc-v2': 'experiments/c07/run-inputs-check-loc-v2.json' };
+  'check-loc-v2': 'experiments/c07/run-inputs-check-loc-v2.json', 'gates-v2-c11': 'experiments/c11/run-inputs-c11.json' };
 const GATE_RESULTS = ['experiments/c07/gate-v2-c07-result.json', 'experiments/c07/gate-v2-c10-result.json'];
 const CHECK_PLAN_2 = 'docs/measurements/2026-11-13-check-ts-loc-run-plan.md';
 const FIRST_CHECKS = ['experiments/c07/check-m-v2-c07-result.json', 'experiments/c07/check-m-v2-c10-result.json'];
@@ -35,6 +37,9 @@ const CHECK_INPUTS = {
   'check-now-v2': [CHECK_PLAN_2, ...GATE_RESULTS, ...FIRST_CHECKS],
   'check-ts-v2': [CHECK_PLAN_2, ...GATE_RESULTS, ...FIRST_CHECKS],
   'check-loc-v2': [CHECK_PLAN_2, ...GATE_RESULTS, ...FIRST_CHECKS],
+  // Gate C0.11: its task set, file set and plan (decision 0012). Its draw script is in the common list (the runner loads
+  // it), and the 4 v2 sets come with gates-v2.
+  'gates-v2-c11': ['experiments/c11/c11-tasks.json', 'experiments/c11/c11-file-set.json', 'docs/measurements/2026-11-13-c11-run-plan.md'],
 };
 const GATES_V2 = ['c07', 'c08', 'c09', 'c10'];
 const RUN_PLAN_V2 = 'docs/measurements/2026-11-12-c07-c10-v2-run-plan.md';
@@ -59,7 +64,7 @@ export function frozenFiles(scope = 'gates') {
   return [
     ...records,
     'experiments/c07/draw-files.mjs', 'experiments/c07/tasks.mjs', 'experiments/c07/rules.mjs', 'experiments/c07/oracle_c07.py',
-    'experiments/c07/freeze.mjs',
+    'experiments/c07/freeze.mjs', 'experiments/c11/draw-tasks.mjs', // the runner loads the C0.11 draw (decision 0012)
     'experiments/c05/file-set.json', 'experiments/c05/draw-files.mjs', 'experiments/c05/run-c05.mjs',
     'experiments/c03/select-files.mjs', 'experiments/c03/run-c03.mjs',
     'experiments/c03/make-tasks.mjs', 'experiments/c03/html.mjs', 'experiments/c03/mcp-tools.json',
@@ -71,7 +76,7 @@ export function frozenFiles(scope = 'gates') {
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const scope = ['previews-v2', 'gates-v2-c08', 'check-m-v2', 'check-now-v2', 'check-ts-v2', 'check-loc-v2', 'gates-v2', 'previews', 'gates'].find((x) => process.argv.includes(`--${x}`)) ?? null;
+  const scope = ['previews-v2', 'gates-v2-c08', 'gates-v2-c11', 'check-m-v2', 'check-now-v2', 'check-ts-v2', 'check-loc-v2', 'gates-v2', 'previews', 'gates'].find((x) => process.argv.includes(`--${x}`)) ?? null;
   if (!scope) throw new Error(`give one of ${Object.keys(OUT).map((x) => `--${x}`).join(', ')}`);
   if (existsSync(at(OUT[scope]))) throw new Error(`${OUT[scope]} exists: the freeze is written once`);
   const files = frozenFiles(scope);

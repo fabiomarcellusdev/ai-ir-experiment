@@ -169,3 +169,87 @@ export function compareM(freshRuns, recordedRuns, tasks, seed, runsPerArm = RUNS
     failures: fresh.filter((r) => !r.pass).map(({ task, k, reasons }) => ({ task, k, reasons })),
   };
 }
+
+/**
+ * The analysis of gate C0.11 (docs/contract.md, "Gate C0.11"; decision 0012): a mix of task kinds, measured by the
+ * ratio of total tokens. A task qualifies when each arm passed at least once; its value in an arm is the median tokens
+ * of that arm's passed runs. The ratio is the sum of arm M's values over the qualifying tasks ÷ the sum of arm B's.
+ * The interval resamples files, where tasks whose files have the same SHA-256 (`fileSha256`) are one file.
+ * @param {object[]} runs @param {{id: string, kind: string, fileSha256?: string, file: string}[]} tasks
+ */
+export function analyzeMix(runs, tasks, seed, runsPerArm = RUNS_PER_ARM, opts = {}) {
+  const limit = opts.limit ?? LIMITS.ratio;
+  const intervalBelow = opts.intervalBelow ?? 1;
+  const ids = tasks.map((t) => t.id);
+  const inSet = new Set(ids);
+  const rs = runs.filter((r) => inSet.has(r.task));
+  const valueOf = (id, arm, all = false) => {
+    const t = rs.filter((r) => r.task === id && r.arm === arm && (all || r.pass)).map((r) => r.tokens);
+    return t.length ? median(t) : null;
+  };
+  const qualifying = ids.filter((id) => valueOf(id, 'B') !== null && valueOf(id, 'M') !== null);
+  const total = (which, all = false) => {
+    let m = 0;
+    let b = 0;
+    for (const id of which) { m += valueOf(id, 'M', all); b += valueOf(id, 'B', all); }
+    return b ? m / b : null;
+  };
+  const ratio = qualifying.length ? total(qualifying) : null;
+  // The interval: resample the files (by SHA-256), each with all its qualifying tasks; a file drawn twice counts twice.
+  // The contract groups by SHA-256: a task without its file's hash is an error, not a fallback (review of C0.11, 4).
+  const missing = tasks.filter((t) => !t.fileSha256).map((t) => t.id);
+  if (missing.length) throw new Error(`no file SHA-256 for ${missing.join(', ')}`);
+  const keyOf = (t) => t.fileSha256;
+  const keys = [...new Set(tasks.map(keyOf))];
+  const groups = keys.map((k) => tasks.filter((t) => keyOf(t) === k && qualifying.includes(t.id)).map((t) => [valueOf(t.id, 'M'), valueOf(t.id, 'B')]));
+  const rnd = generator(seed);
+  const n = opts.resamples ?? 10_000;
+  const vals = [];
+  for (let i = 0; i < n; i++) {
+    let m = 0;
+    let b = 0;
+    for (const g of resampleFiles(groups, rnd)) for (const [x, y] of g) { m += x; b += y; }
+    if (b) vals.push(m / b);
+  }
+  vals.sort((a, b) => a - b);
+  const ratio95 = vals.length ? [vals[Math.floor(0.025 * (vals.length - 1))], vals[Math.ceil(0.975 * (vals.length - 1))]] : null;
+  const arm = (a) => rs.filter((r) => r.arm === a);
+  const success = Object.fromEntries(ARMS.map((a) => [a, rate(arm(a))]));
+  const kindOf = new Map(tasks.map((t) => [t.id, t.kind]));
+  const kinds = [...new Set(tasks.map((t) => t.kind))];
+  const byKind = Object.fromEntries(kinds.map((k) => {
+    const kq = qualifying.filter((id) => kindOf.get(id) === k);
+    return [k, { tasks: ids.filter((id) => kindOf.get(id) === k).length, qualifying: kq.length, ratio: kq.length ? total(kq) : null,
+      success: Object.fromEntries(ARMS.map((a) => [a, rate(arm(a).filter((r) => kindOf.get(r.task) === k))])) }];
+  }));
+  const perTask = qualifying.map((id) => valueOf(id, 'M') / valueOf(id, 'B'));
+  const calls = (rr) => { const c = {}; for (const r of rr) for (const [k, v] of Object.entries(r.toolCalls ?? {})) c[k] = (c[k] ?? 0) + v; return c; };
+  const both = ids.filter((id) => valueOf(id, 'B', true) !== null && valueOf(id, 'M', true) !== null);
+  const checks = {
+    ratio: ratio !== null && qualifying.length >= LIMITS.minTasks && ratio <= limit,
+    enoughTasks: qualifying.length >= LIMITS.minTasks,
+    interval: !!ratio95 && ratio95[1] < intervalBelow,
+    success: success.M !== null && success.B !== null && success.M >= success.B - LIMITS.success - 1e-12,
+    kinds: kinds.every((k) => byKind[k].success.M !== null && byKind[k].success.B !== null && byKind[k].success.M >= byKind[k].success.B - LIMITS.type - 1e-12),
+  };
+  return {
+    totalRatio: ratio,
+    totalRatioAllRuns: both.length ? total(both, true) : null,
+    qualifyingTasks: qualifying.length,
+    medianTaskRatio: perTask.length ? median(perTask) : null,
+    noise: { ratio95, resamples: vals.length, files: groups.length },
+    success,
+    byKind,
+    turns: Object.fromEntries(ARMS.map((a) => { const t = arm(a).map((r) => r.turns).filter((x) => Number.isFinite(x)); return [a, t.length ? median(t) : null]; })),
+    mcpShare: arm('M').length ? arm('M').filter((r) => r.mcpCalls > 0).length / arm('M').length : null,
+    wholeFile: Object.fromEntries(ARMS.map((a) => [a, arm(a).filter((r) => r.wholeFile).length])),
+    insideChanges: Object.fromEntries(ARMS.map((a) => [a, arm(a).filter((r) => r.insideChange).length])),
+    missingFileErrors: Object.fromEntries(ARMS.map((a) => [a, arm(a).reduce((x, r) => x + (r.missingFileErrors ?? 0), 0)])),
+    toolCalls: Object.fromEntries(ARMS.map((a) => [a, calls(arm(a))])),
+    // The cost of each arm's recorded runs (the contract's report list; review of C0.11, 5). A stopped attempt's cost
+    // is in the result's total, not here.
+    costUsd: Object.fromEntries(ARMS.map((a) => [a, arm(a).reduce((x, r) => x + (r.costUsd ?? 0), 0)])),
+    checks,
+    verdict: Object.values(checks).every(Boolean) ? 'PASS' : 'FAIL',
+  };
+}
