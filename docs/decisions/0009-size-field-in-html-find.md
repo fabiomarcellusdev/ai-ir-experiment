@@ -1,6 +1,7 @@
 # 0009. A size field for each element that html_find shows
 
-**Status:** Accepted (owner, 2026-11-12): option B, with the 1 KB threshold. The owner asked for the design
+**Status:** Withdrawn (owner, 2026-11-13): the field is removed (see "Amendments"). It was accepted on 2026-11-12:
+option B, with the 1 KB threshold. The owner asked for the design
 (2026-11-12: "yes we can design a size field for html_find") and then chose B ("Go with B").
 
 ## Context
@@ -129,3 +130,8 @@ warn about the targets it was designed for, and the check could not measure it. 
 a size on the outline lines of ancestors of 1 KB or more (but `html` and `body` are almost always 1 KB or more, so
 every result would carry 2 sizes or more); a size only on the nearest such ancestor; or no size field (undo option B).
 
+**2026-11-13 (owner): the size field is removed (option 1 of the amendment above).** The lead recommended it: the
+field cost 52 tokens of tool text in every turn (48 in decision 0010's shorter text) and never showed in the arm-M check. The code of `beabbc3` is undone
+(`server/v2.mjs`, the C0.2 v2 harness and its test as at `a05993a`), and the size sentence leaves html_find's text.
+The 3 tools' text is now 1,161 tokens (`count_tokens`, `claude-sonnet-5-5`). C0.1 v2 and C0.2 v2 must run again
+before a v2 run.

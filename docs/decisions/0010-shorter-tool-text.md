@@ -132,3 +132,6 @@ gates' 1,337. Two accepted cuts carry a risk that no error teaches, so the paid 
 `new` with `&amp;` is escaped again and written as `&amp;amp;` (cut 4); html_outline and html_change no longer say
 that `file` can be left out (cut 5; the error teaches it when it matters).
 
+**2026-11-13 (lead): the text without decision 0009's size sentence.** The owner removed the size field (decision
+0009, amendment of 2026-11-13), and its sentence leaves html_find's text. The 3 tools' text is now **1,161** tokens
+(html_find 487, html_change 776, html_outline 470): 176 fewer a turn than the gates' 1,337.

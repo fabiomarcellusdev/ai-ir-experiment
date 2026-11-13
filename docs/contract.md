@@ -1100,3 +1100,9 @@ before C0.2 v2 runs again.** `html_find` now ends the line of an element of 1 KB
 2. **The control "an id listing that shows hidden children" (B.9):** it changes one exact line of `server/v2.mjs`,
    and decision 0009 changed that line. The control now names the new line, and still drops only the hidden branch.
 - **No condition and no number changed.** C0.1 v2 and C0.2 v2 must pass again on the changed server before a v2 run.
+
+**2026-11-13 (lead, from the owner's removal of the size field, decision 0009): C0.2 v2's harness as before the
+size field, before C0.2 v2 runs again.** The note of 2026-11-12 ("C0.2 v2's harness reads the size field") is undone:
+the output check and the control "an id listing that shows hidden children" are again as at `a05993a`, because
+`server/v2.mjs` is again as at `a05993a`.
+- **No condition and no number changed.** C0.1 v2 and C0.2 v2 must pass again before a v2 run.

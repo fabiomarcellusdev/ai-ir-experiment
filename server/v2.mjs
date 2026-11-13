@@ -12,29 +12,6 @@ export const OPERATIONS = ['remove', 'replace', 'insert_after', 'set_attribute',
 /** The longest attribute value that html_find shows in full; a longer one is cut, with its length named. */
 export const MAX_VALUE_SHOWN = 200;
 const MAX_MATCHES = 20;
-/** html_find shows the source size of an element of this many bytes or more (decision 0009, option B). */
-export const SIZE_SHOWN_FROM = 1024;
-
-/**
- * The size of an element's source, as " [12.4 KB, 310 lines]", when it is SIZE_SHOWN_FROM bytes or more; else "". The
- * span is parse5's: from the start tag to the end tag, or to the end of the content when the end tag is implied. It
- * also shows in the match lists of html_change's locator errors, which use the same lines. html_change can still
- * refuse an element that shows a size, when the element has no clean range (`docs/follow-ups.md`).
- */
-export function sizeNote(m, el) {
-  const l = el.sourceCodeLocation;
-  if (!l) return '';
-  const src = m.text.slice(l.startOffset, l.endOffset);
-  const bytes = Buffer.byteLength(src);
-  if (bytes < SIZE_SHOWN_FROM) return '';
-  // CRLF counts once; a lone CR or a lone LF also ends a line, as in the HTML parser (review of 0009, 4).
-  let lines = 1;
-  for (let i = 0; i < src.length; i++) {
-    const c = src.charCodeAt(i);
-    if (c === 10 || (c === 13 && src.charCodeAt(i + 1) !== 10)) lines++;
-  }
-  return ` [${(bytes / 1024).toFixed(1)} KB, ${lines} line${lines === 1 ? '' : 's'}]`;
-}
 const NOT_VISIBLE = new Set(['script', 'style', 'svg', 'template', 'noscript']); // as server/view.mjs
 /** Elements whose text the parser reads raw: an entity in them is not decoded. */
 const RAWTEXT = new Set(['xmp', 'iframe', 'noembed', 'noframes', 'plaintext']);
@@ -71,7 +48,7 @@ function linesOf(m, els) {
   const out = [];
   let size = 0;
   for (const [ref, p] of [...refs].sort((a, b) => a[0] - b[0])) {
-    const l = full.has(p) ? indentOf(m, p) + fullHead(p) + sizeNote(m, p) : m.lineOf.get(ref);
+    const l = full.has(p) ? indentOf(m, p) + fullHead(p) : m.lineOf.get(ref);
     if (size + l.length + 1 > PAGE_CHARS) { out.push(`… output cut at ${PAGE_CHARS.toLocaleString('en-US')} characters`); break; }
     out.push(l);
     size += l.length + 1;
@@ -96,12 +73,12 @@ function findId(m, id) {
   const el = byId(m, id);
   // At most one page of output, with the real child count (security review of v2, 3).
   const children = kids(el).filter((c) => c.tagName);
-  const lines = [fullHead(el) + sizeNote(m, el)];
+  const lines = [fullHead(el)];
   let size = lines[0].length + 1;
   for (const c of children) {
     // A child that the outline does not show is listed by its ref and tag only, marked (hidden): its place keeps the
     // count of `child` and `n` right, and none of its attributes or text is shown.
-    const l = m.shown.has(c) ? ` ${fullHead(c)}${sizeNote(m, c)}` : ` @${c.ref} ${escTag(c.tagName)} (hidden)`;
+    const l = m.shown.has(c) ? ` ${fullHead(c)}` : ` @${c.ref} ${escTag(c.tagName)} (hidden)`;
     if (size + l.length + 1 > PAGE_CHARS) { lines.push(`… output cut at ${PAGE_CHARS.toLocaleString('en-US')} characters`); break; }
     lines.push(l);
     size += l.length + 1;

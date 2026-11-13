@@ -31,20 +31,19 @@ ran with the current server: 0.513 and 1.194 (`docs/measurements/2026-11-12-c07-
 - C0.10 v2 (control, C0.6's task kind): **FAIL**, median 1.207 (`docs/measurements/2026-11-12-c10-v2-gate.md`).
 - C0.8 v2 (H2, a target named by its position): **PASS**, median 0.517, after the runner fixes and its own freeze
   (`docs/measurements/2026-11-12-c08-v2-gate.md`).
-- In all, $16.12. C0.9 and C0.10 each stopped once and went on at their start commit, with the owner's choices.
+- In all, $16.13. C0.9 and C0.10 each stopped once and went on at their start commit, with the owner's choices.
 - Exploratory: the file's size does not predict the ratio; a large change does
   (`docs/measurements/2026-11-12-size-vs-ratio.md`). Research on deferred tool loading: tool search is on by default
   in Claude Code, and the gates turned it off.
 
-**Now:** built and committed: the size field for large elements in `html_find` (decision 0009, option B) and the
-shorter tool text (decision 0010, option B: 1,209 tokens, from 1,389). C0.1 v2 and C0.2 v2 passed again on that
-server (`docs/measurements/2026-11-13-c01-c02-v2-rerun.md`). The paid arm-M check (owner's option A,
-$1.50): the text saves 128 tokens a request with no harm; the size note never showed, so its effect is not measured
-(`docs/measurements/2026-11-13-check-m-v2-result.md`; decision 0009, amendment of 2026-11-13). Next (owner's
-decisions): what to do with the size field, and whether to measure arm M with tool search on (paid).
+**Now:** the server has decision 0010's shorter tool text (1,161 tokens, from the gates' 1,337) and no size field:
+the owner removed it on 2026-11-13 (decision 0009, withdrawn). C0.1 v2 and C0.2 v2 must run again on this server; they
+are not yet run again. The owner chose not to measure tool search on.
 
-**Later (owner's decisions):** whether to measure arm M with tool search at its default (paid). No push and no pull
-request until the owner asks for one (owner, 2026-11-12).
+**Done after the gates:** the size field built, checked and removed (decision 0009); the shorter tool text (decision
+0010); C0.1 v2 and C0.2 v2 passed with both (`docs/measurements/2026-11-13-c01-c02-v2-rerun.md`); the paid arm-M check
+($1.50): the text saves 128 tokens a request with no harm, and the size note never showed
+(`docs/measurements/2026-11-13-check-m-v2-result.md`).
 
 The owner's rule (2026-11-11, extended 2026-11-12): no push and no pull request until the owner asks for one.
 

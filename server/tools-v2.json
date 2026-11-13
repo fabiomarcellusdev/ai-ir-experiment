@@ -1,7 +1,7 @@
 [
  {
   "name": "mcp__html__html_find",
-  "description": "Finds elements in an HTML file by `text` (literal visible text, case-sensitive; the deepest matches, at most 20, with their ancestors as outline lines) or by `id` (the element and its child elements). Each element shows its @n ref and all its attributes. An element of 1 KB or more also shows its size, as [12.4 KB, 310 lines]: change it with html_change by ref, not with Edit. Ends with the match count and the file hash.",
+  "description": "Finds elements in an HTML file by `text` (literal visible text, case-sensitive; the deepest matches, at most 20, with their ancestors as outline lines) or by `id` (the element and its child elements). Each element shows its @n ref and all its attributes. Ends with the match count and the file hash.",
   "input_schema": {
    "type": "object",
    "properties": {

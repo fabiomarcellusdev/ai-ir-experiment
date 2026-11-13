@@ -14,8 +14,8 @@ with a record that says why. The project's own records start at 0005.
 | [0006](0006-html-mcp-server-design.md) | The HTML MCP server's design: a small stdio server, parse5, a worker with a hard time limit, an edit checked by a second parse, html5lib as the C0.1 oracle | Accepted (owner, 2026-11-11) |
 | [0007](0007-task-kinds-where-the-view-should-win.md) | After C0.6: test 3 task kinds where the reading view should do better (gates C0.7, C0.8, C0.9), with the server unchanged | Accepted (owner, 2026-11-12) |
 | [0008](0008-consolidated-tools.md) | Fewer turns: consolidated tools (`html_find`, `html_change` with a locator, `html_outline`), tested by gates C0.7 to C0.10 | Accepted (owner, 2026-11-12) |
-| [0009](0009-size-field-in-html-find.md) | A size field for each large element that `html_find` shows (option B, 1 KB) | Accepted (owner, 2026-11-12) |
-| [0010](0010-shorter-tool-text.md) | Shorter text for the v2 tools: the same facts in fewer words (option B, with the replace_text note kept: 1,209 tokens, −180 a turn) | Accepted (owner, 2026-11-12) |
+| [0009](0009-size-field-in-html-find.md) | A size field for each large element that `html_find` shows (option B, 1 KB); removed after the arm-M check | Withdrawn (owner, 2026-11-13) |
+| [0010](0010-shorter-tool-text.md) | Shorter text for the v2 tools: the same facts in fewer words (option B, with the replace_text note kept; 1,161 tokens without 0009's sentence, −176 a turn against the gates) | Accepted (owner, 2026-11-12) |
 
 ## Template
 
