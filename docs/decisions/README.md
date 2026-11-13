@@ -17,6 +17,7 @@ with a record that says why. The project's own records start at 0005.
 | [0009](0009-size-field-in-html-find.md) | A size field for each large element that `html_find` shows (option B, 1 KB); removed after the arm-M check | Withdrawn (owner, 2026-11-13) |
 | [0010](0010-shorter-tool-text.md) | Shorter text for the v2 tools: the same facts in fewer words (option B, with the replace_text note kept; 1,161 tokens without 0009's sentence, −176 a turn against the gates) | Accepted (owner, 2026-11-12) |
 | [0011](0011-direct-locator-sentence.md) | One sentence that tells the agent to call `html_change` with the quoted text directly (a check, then keep or remove) | Accepted for a check (owner, 2026-11-13) |
+| [0012](0012-mixed-gate.md) | A gate on a mix of small and large edits (C0.11): mix A from the 4 v2 task sets, measured by the ratio of total tokens | Accepted (owner, 2026-11-13) |
 
 ## Template
 
