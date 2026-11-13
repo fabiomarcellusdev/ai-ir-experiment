@@ -111,3 +111,73 @@ test("C0.8 has its own freeze, and the 3 gates that ran keep theirs", () => {
   assert.equal(FREEZE_SCOPES['gates-v2-c08'], 'experiments/c07/run-inputs-v2-c08.json');
   assert.deepEqual(frozenFiles('gates-v2-c08'), frozenFiles('gates-v2'));
 });
+
+// --- The arm-M check of decisions 0009 and 0010 (owner, 2026-11-13: option A) ---------------------------------------
+import { compareM } from './analysis.mjs';
+import { schedule, checkResult, RUN_PLAN_CHECK } from './run-c06.mjs';
+
+test('compareM: the new arm M against the recorded arm M, per task, with no verdict', () => {
+  const tasks = [{ id: '1-a', type: 'removal' }, { id: '2-a', type: 'removal' }, { id: '3-b', type: 'replacement' }];
+  const run = (task, arm, k, tokens, extra = {}) => ({ task, type: tasks.find((t) => t.id === task).type, arm, k, pass: true, tokens, turns: 3, firstInput: 5000, wholeFile: false, insideChange: false, toolCalls: {}, reasons: [], ...extra });
+  const recorded = [];
+  const fresh = [];
+  for (const t of tasks) for (let k = 1; k <= 3; k++) {
+    // Arm B differs from arm M in every field, so a mix-up of the arms changes a number (review of the check, 1).
+    recorded.push(run(t.id, 'B', k, 1000, { firstInput: 4000, turns: 5, wholeFile: true, pass: k !== 3 }), run(t.id, 'M', k, 1200));
+    fresh.push(run(t.id, 'M', k, t.id === '3-b' ? 600 : 900, { firstInput: 4800, turns: 2 }));
+  }
+  // A recorded run of a task outside the set never counts (review of the check, 2).
+  recorded.push(run('1-a', 'M', 4, 1200, { task: '9-z', pass: false, firstInput: 9999, turns: 40 }));
+  fresh[0] = { ...fresh[0], pass: false, reasons: ['the canonical DOM is not the expected file\'s'] };
+  const c = compareM(fresh, recorded, tasks, 1);
+  assert.equal(c.verdict, undefined); // decides nothing
+  assert.equal(c.tasks, 3);
+  assert.equal(c.medianNewOverOldM, 0.75); // 900/1200 for 2 tasks, 600/1200 for 1
+  // The 3 files resampled: the median is 0.5 when 3-b is drawn twice or more (7 in 27), else 0.75. With recorded B as
+  // the reference by mistake, the interval would be 0.6 to 0.9.
+  assert.deepEqual(c.noise.ratio95, [0.5, 0.75]);
+  assert.deepEqual(c.wholeFile, { old: 0, new: 0 });
+  assert.equal(c.medianNewOverRecordedB, 0.9);
+  assert.equal(c.recordedGateMedian, 1.2);
+  assert.deepEqual(c.firstInput, { old: 5000, new: 4800 });
+  assert.deepEqual(c.turns, { old: 3, new: 2 });
+  assert.deepEqual(c.success, { old: 1, new: 8 / 9 });
+  assert.equal(c.failures.length, 1);
+  assert.equal(c.byType.replacement.medianNewOverOldM, 0.5);
+  // A recorded run of arm B never counts as old arm M (the control).
+  assert.equal(compareM(fresh, recorded.filter((r) => r.arm === 'B'), tasks, 1).medianNewOverOldM, null);
+});
+
+test('the check modes run arm M only on the gates C0.7 and C0.10, with their own freeze and plan', () => {
+  for (const g of ['c07', 'c10']) {
+    const s = MODES[`check-m-v2-${g}`];
+    assert.deepEqual(s.arms, ['M']);
+    assert.equal(s.tools, 'v2');
+    assert.equal(s.freeze, 'check-m-v2');
+    assert.equal(s.plan, RUN_PLAN_CHECK);
+    assert.equal(s.baseline, `experiments/c07/gate-v2-${g}-result.json`);
+    assert.equal(s.tasks, MODES[`gate-v2-${g}`].tasks);
+    assert.equal(s.gate, undefined); // not a gate
+    assert.notEqual(s.result, MODES[`gate-v2-${g}`].result);
+    assert.equal(s.seed, MODES[`gate-v2-${g}`].seed); // the plan's seed 20261112, not C0.6's
+    assert.equal(s.seed, 20261112);
+    assert.equal(s.rounds, 3);
+    assert.equal(s.record, MODES[`gate-v2-${g}`].record);
+  }
+  // The check's inputs stay out of every other scope.
+  for (const scope of ['gates-v2', 'gates-v2-c08', 'previews-v2']) assert.ok(!frozenFiles(scope).includes(RUN_PLAN_CHECK), scope);
+  // The result of a check has no gate and no verdict.
+  const r = checkResult({ label: 'x', commit: 'c', version: 'v', baseline: 'b', runPlan: 'p', seed: 1, starts: [], stops: [], cost: 0, done: [], comparison: {} });
+  assert.equal(r.check, 'x');
+  assert.equal(r.gate, undefined);
+  assert.equal(r.verdict, undefined);
+  assert.equal(r.analysis, undefined);
+  assert.equal(MODES['check-m-v2-c08'], undefined);
+  const order = schedule([{ id: '1-a' }, { id: '2-a' }], 5, 3, ['M']);
+  assert.equal(order.length, 6);
+  assert.ok(order.every((o) => o.arm === 'M'));
+  assert.equal(schedule([{ id: '1-a' }], 5, 3).length, 6); // the default is still both arms
+  const frozen = frozenFiles('check-m-v2');
+  for (const f of ['experiments/c07/gate-v2-c07-result.json', 'experiments/c07/gate-v2-c10-result.json', RUN_PLAN_CHECK]) assert.ok(frozen.includes(f), f);
+  assert.equal(FREEZE_SCOPES['check-m-v2'], 'experiments/c07/run-inputs-check-m-v2.json');
+});

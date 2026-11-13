@@ -7,6 +7,8 @@
 //                                                run-inputs-previews-v2.json and run-inputs-v2.json
 //   node experiments/c07/freeze.mjs --gates-v2-c08   run-inputs-v2-c08.json: the gates-v2 files again, for C0.8, after
 //                                                the runner changed (owner, 2026-11-12)
+//   node experiments/c07/freeze.mjs --check-m-v2     run-inputs-check-m-v2.json: the gates-v2 files, the check's plan and
+//                                                the 2 gate results it compares with (owner, 2026-11-13)
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -18,7 +20,10 @@ const at = (...p) => path.join(ROOT, ...p);
 /** The freeze file of each scope. */
 export const OUT = { gates: 'experiments/c07/run-inputs.json', previews: 'experiments/c07/run-inputs-previews.json',
   'previews-v2': 'experiments/c07/run-inputs-previews-v2.json', 'gates-v2': 'experiments/c07/run-inputs-v2.json',
-  'gates-v2-c08': 'experiments/c07/run-inputs-v2-c08.json' };
+  'gates-v2-c08': 'experiments/c07/run-inputs-v2-c08.json', 'check-m-v2': 'experiments/c07/run-inputs-check-m-v2.json' };
+/** The plan of the arm-M check, and the 2 gate results it compares with (owner, 2026-11-13). */
+const CHECK_INPUTS = ['docs/measurements/2026-11-13-check-m-v2-run-plan.md', 'experiments/c07/gate-v2-c07-result.json',
+  'experiments/c07/gate-v2-c10-result.json'];
 const GATES_V2 = ['c07', 'c08', 'c09', 'c10'];
 const RUN_PLAN_V2 = 'docs/measurements/2026-11-12-c07-c10-v2-run-plan.md';
 const GATES = ['c07', 'c08', 'c09'];
@@ -26,7 +31,8 @@ const GATES = ['c07', 'c08', 'c09'];
 /**
  * The frozen files of a scope: the scripts and modules of the draw, the tasks, the oracle, the runner, the judge and
  * the server; the previews' task sets; the run plan; and, for the gates, their records and task sets.
- * @param {'gates' | 'previews' | 'gates-v2' | 'previews-v2' | 'gates-v2-c08'} [scope] the v2 scopes freeze the v2 records and run plan
+ * @param {'gates' | 'previews' | 'gates-v2' | 'previews-v2' | 'gates-v2-c08' | 'check-m-v2'} [scope] the v2 scopes freeze the v2
+ *   records and run plan; 'check-m-v2' also freezes the check's plan and the 2 gate results it compares with
  */
 export function frozenFiles(scope = 'gates') {
   if (!OUT[scope]) throw new Error(`no freeze scope ${scope}`);
@@ -35,7 +41,7 @@ export function frozenFiles(scope = 'gates') {
   const v2 = scope.includes('-v2');
   const records = v2
     ? [...GATES_V2.map((g) => `experiments/c07/preview-v2-${g}-tasks.json`),
-      ...(scope.startsWith('gates-v2') ? GATES_V2.flatMap((g) => [`experiments/c07/v2-${g}-file-set.json`, `experiments/c07/v2-${g}-tasks.json`]) : [])]
+      ...(scope.startsWith('gates-v2') || scope === 'check-m-v2' ? GATES_V2.flatMap((g) => [`experiments/c07/v2-${g}-file-set.json`, `experiments/c07/v2-${g}-tasks.json`]) : [])]
     : [...GATES.map((g) => `experiments/c07/preview-${g}-tasks.json`),
       ...(scope === 'gates' ? GATES.flatMap((g) => [`experiments/c07/${g}-file-set.json`, `experiments/c07/${g}-tasks.json`]) : [])];
   return [
@@ -48,13 +54,13 @@ export function frozenFiles(scope = 'gates') {
     'experiments/c01/oracle.py', 'experiments/c01/tree.mjs', 'experiments/c01/run-c01.mjs',
     'experiments/c06/run-c06.mjs', 'experiments/c06/analysis.mjs', 'experiments/c06/judge.py',
     // A v2 scope also pins the second rescope's plan: the v2 plan keeps its other points (review of the v2 rules, 2).
-    ...server, ...(v2 ? [RUN_PLAN_V2] : []), 'docs/measurements/2026-11-12-c07-c09-run-plan.md', 'package.json', 'pnpm-lock.yaml',
+    ...server, ...(v2 ? [RUN_PLAN_V2] : []), ...(scope === 'check-m-v2' ? CHECK_INPUTS : []), 'docs/measurements/2026-11-12-c07-c09-run-plan.md', 'package.json', 'pnpm-lock.yaml',
   ];
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const scope = ['previews-v2', 'gates-v2-c08', 'gates-v2', 'previews', 'gates'].find((x) => process.argv.includes(`--${x}`)) ?? null;
-  if (!scope) throw new Error('give --previews-v2, --gates-v2, --gates-v2-c08, --previews or --gates');
+  const scope = ['previews-v2', 'gates-v2-c08', 'check-m-v2', 'gates-v2', 'previews', 'gates'].find((x) => process.argv.includes(`--${x}`)) ?? null;
+  if (!scope) throw new Error('give --previews-v2, --gates-v2, --gates-v2-c08, --check-m-v2, --previews or --gates');
   if (existsSync(at(OUT[scope]))) throw new Error(`${OUT[scope]} exists: the freeze is written once`);
   const files = frozenFiles(scope);
   const missing = files.filter((f) => !existsSync(at(f)));

@@ -20,7 +20,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { generator, shuffle } from '../c05/draw-files.mjs';
 import { MODEL } from '../c03/run-c03.mjs';
 import { load, pageCount } from '../../server/view.mjs';
-import { analyze, runTokens, ARMS, RUNS_PER_ARM } from './analysis.mjs';
+import { analyze, compareM, runTokens, ARMS, RUNS_PER_ARM } from './analysis.mjs';
 import { GATES, gateTasks, previewTasks, tokenCounter, storedPath, checkedPath, PATHS } from '../c07/tasks.mjs';
 import { applyChange } from '../c07/rules.mjs';
 import { frozenFiles, OUT as FREEZE_OUT } from '../c07/freeze.mjs';
@@ -103,6 +103,25 @@ for (const g of Object.keys(GATES)) {
   // C0.8 runs after the runner changed (owner, 2026-11-12), so it has its own freeze; the 3 gates that ran keep theirs.
   MODES[`gate-v2-${g}`] = { ...common, tasks: PATHS.tasks(g, false), record: PATHS.fileSet(g), freeze: g === 'c08' ? 'gates-v2-c08' : 'gates-v2', rounds: RUNS_PER_ARM,
     result: `experiments/c07/gate-v2-${g}-result.json`, gate: name, label: `${name} (v2 tools)` };
+}
+
+/** The plan of the arm-M check of decisions 0009 and 0010 (owner, 2026-11-13: option A). */
+export const RUN_PLAN_CHECK = 'docs/measurements/2026-11-13-check-m-v2-run-plan.md';
+/** The result file of an arm-M check: a `check` field, never a `gate`, a `verdict` or an `analysis` (review of the check, 3). */
+export function checkResult({ label, commit, version, baseline, runPlan, seed, starts, stops, cost, done, comparison }) {
+  return { check: label, date: new Date().toISOString().slice(0, 10), commit, harness: version, baseline,
+    plan: { ...PLAN, seed, runPlan }, starts: starts.map(({ start, budgetUsd: usd, harness }) => ({ start, budgetUsd: usd, harness })),
+    stops: stops.map(({ start, task, arm, k, reason, costUsd }) => ({ start, task, arm, k, reason, costUsd })),
+    costUsd: cost, costEstimatedRuns: done.filter((r) => r.costEstimated).length, runs: done, comparison };
+}
+// The arm-M check: arm M only, on a v2 gate's frozen task set and files, against the arm M that the gate recorded. It
+// decides nothing and has no `gate`. Only C0.7 (large targets) and C0.10 (the tool text on small tasks).
+for (const g of ['c07', 'c10']) {
+  const name = gateName(g);
+  MODES[`check-m-v2-${g}`] = { second: g, tools: 'v2', plan: RUN_PLAN_CHECK, seed: SEED_2, types: GATES[g].types, arms: ['M'],
+    tasks: PATHS.tasks(g, false), record: PATHS.fileSet(g), freeze: 'check-m-v2', rounds: RUNS_PER_ARM,
+    baseline: `experiments/c07/gate-v2-${g}-result.json`, result: `experiments/c07/check-m-v2-${g}-result.json`,
+    label: `${name} arm-M check of decisions 0009 and 0010: decides nothing` };
 }
 
 /**
@@ -555,10 +574,10 @@ async function oneRun(task, arm, k, key, label, startId) {
  * Every run of the gate (C0.4, "The runs"): each task 3 times in each arm. Run k of all tasks is round k; the rounds
  * run in turn, and the order inside each round is random with the seed (one stream).
  */
-export function schedule(tasks, seed, rounds = RUNS_PER_ARM) {
+export function schedule(tasks, seed, rounds = RUNS_PER_ARM, arms = ARMS) {
   const rnd = generator(seed);
   const out = [];
-  for (let k = 1; k <= rounds; k++) out.push(...shuffle(tasks.flatMap((t) => ARMS.map((arm) => ({ task: t.id, arm, k }))), rnd));
+  for (let k = 1; k <= rounds; k++) out.push(...shuffle(tasks.flatMap((t) => arms.map((arm) => ({ task: t.id, arm, k }))), rnd));
   return out;
 }
 
@@ -644,7 +663,8 @@ async function preflight(mode) {
   if (process.platform !== 'win32') throw new Error('the run plan names Windows');
   // Folders of a runner that stopped hold third-party text: remove them (security review, F4).
   rmSync(WORK, { recursive: true, force: true });
-  if (set.result && existsSync(at(set.result))) throw new Error(`${set.result} exists: ${set.gate ? `${set.gate} runs once (contract, rescope order, 5)` : 'the preview runs once'}`);
+  if (set.baseline && !existsSync(at(set.baseline))) throw new Error(`${set.baseline} is missing: the check compares with it`);
+  if (set.result && existsSync(at(set.result))) throw new Error(`${set.result} exists: ${set.gate ? `${set.gate} runs once (contract, rescope order, 5)` : set.baseline ? 'the check runs once' : 'the preview runs once'}`);
   if (git('status', '--porcelain', '--', 'server', 'experiments', 'docs/contract.md', plan, RUN_PLAN_2)) throw new Error('the run needs committed code, inputs and run plan');
   // The plan is final before a gate run or a second-rescope run (C0.4, "The run plan"), and the inputs are the
   // recorded ones (review, 7).
@@ -738,7 +758,7 @@ async function runAll(mode, budgetUsd) {
   const taskFile = set.tasks;
   const allTasks = JSON.parse(readFileSync(at(taskFile), 'utf8')).tasks;
   const tasks = mode === 'pilot' ? [...allTasks.filter((t) => PILOT_TASKS.includes(t.id)), canaryTask()] : allTasks;
-  const order = mode === 'pilot' ? tasks.flatMap((t) => ARMS.map((arm) => ({ task: t.id, arm, k: 1 }))) : schedule(tasks, seed, set.rounds);
+  const order = mode === 'pilot' ? tasks.flatMap((t) => ARMS.map((arm) => ({ task: t.id, arm, k: 1 }))) : schedule(tasks, seed, set.rounds, set.arms ?? ARMS);
 
   // The progress file lets a stopped gate go on, on the same commit only (contract, rescope order, 5).
   const progress = path.join(RAW, `${label}-progress.jsonl`);
@@ -800,9 +820,20 @@ async function runAll(mode, budgetUsd) {
   // A second-rescope file's size is the size of its stored copy, the bytes that each run gets.
   const sizes = Object.fromEntries(tasks.map((t) => [t.id, set.second ? statSync(at(t.file)).size : sizeOf.get(t.file)]));
   // Exactly 120 runs in each arm, 3 of each task, each once (review, 2).
-  for (const arm of ARMS) {
+  for (const arm of set.arms ?? ARMS) {
     const ks = new Set(done.filter((r) => r.arm === arm).map(key3));
     if (ks.size !== tasks.length * set.rounds || done.filter((r) => r.arm === arm).length !== ks.size) throw new Error(`arm ${arm} does not hold exactly ${tasks.length * set.rounds} runs`);
+  }
+  if (set.baseline) {
+    // The arm-M check: no verdict; the comparison with the gate's recorded runs.
+    const comparison = compareM(done, JSON.parse(readFileSync(at(set.baseline), 'utf8')).runs, tasks, seed, set.rounds);
+    const checked = checkResult({ label: set.label, commit, version, baseline: set.baseline, runPlan: set.plan, seed, starts, stops, cost, done, comparison });
+    const text = `${JSON.stringify(checked, null, 1)}\n`;
+    if (holdsKey(text, key)) throw new Error('the result holds the API key: stopped, nothing written');
+    writeFileSync(at(set.result), text);
+    const c = comparison;
+    console.log(`${set.label}: new M ÷ recorded M ${c.medianNewOverOldM?.toFixed(3)} over ${c.tasks} tasks; first input ${c.firstInput.old} to ${c.firstInput.new}; turns ${c.turns.old} to ${c.turns.new}; success ${c.success.old} to ${c.success.new}; $${cost.toFixed(2)}`);
+    return;
   }
   const analysis = analyze(done, tasks, sizes, seed, set.rounds, set.second ? { types: set.types, intervalBelow: set.intervalBelow } : {});
   const result = {

@@ -128,3 +128,44 @@ export function analyze(runs, tasks, sizes, seed, runsPerArm = RUNS_PER_ARM, opt
     verdict: checks.ratio && checks.success && checks.types && checks.interval !== false ? 'PASS' : 'FAIL',
   };
 }
+
+/**
+ * The arm-M check of decisions 0009 and 0010 (owner, 2026-11-13; `docs/measurements/2026-11-13-check-m-v2-run-plan.md`):
+ * the new arm M against the arm M that a v2 gate recorded, on the same tasks and files. It decides nothing. The
+ * recorded M runs take the place of arm B in `taskRatios` and `bootstrap`, so each task's ratio is the median tokens
+ * of the new passed runs ÷ the median of the recorded passed runs.
+ * @param {object[]} fresh the new runs (arm M) @param {object[]} recorded the gate's runs (arms B and M)
+ */
+export function compareM(freshRuns, recordedRuns, tasks, seed, runsPerArm = RUNS_PER_ARM) {
+  const ids = tasks.map((t) => t.id);
+  // Only the runs of the task set count, on both sides (review of the check, 2).
+  const inSet = new Set(ids);
+  const fresh = freshRuns.filter((r) => inSet.has(r.task));
+  const recorded = recordedRuns.filter((r) => inSet.has(r.task));
+  const oldM = recorded.filter((r) => r.arm === 'M').map((r) => ({ ...r, arm: 'B' }));
+  const pair = [...oldM, ...fresh];
+  const med = (a) => (a.length ? median(a) : null);
+  const ratioOf = (runs, which) => med(taskRatios(runs, which).map((r) => r.ratio));
+  const finite = (rs, k) => rs.map((r) => r[k]).filter((x) => Number.isFinite(x));
+  const calls = (rs) => { const c = {}; for (const r of rs) for (const [k, n] of Object.entries(r.toolCalls ?? {})) c[k] = (c[k] ?? 0) + n; return c; };
+  const types = [...new Set(tasks.map((t) => t.type))];
+  return {
+    tasks: taskRatios(pair, ids).length,
+    medianNewOverOldM: ratioOf(pair, ids),
+    medianNewOverOldMAllRuns: med(taskRatios(pair, ids, true).map((r) => r.ratio)),
+    noise: bootstrap(pair, tasks, seed, 10_000, runsPerArm),
+    // A comparison across 2 commits and 2 runs, not a gate ratio.
+    medianNewOverRecordedB: ratioOf([...recorded.filter((r) => r.arm === 'B'), ...fresh], ids),
+    recordedGateMedian: ratioOf(recorded, ids),
+    byType: Object.fromEntries(types.map((t) => [t, { medianNewOverOldM: ratioOf(pair, tasks.filter((x) => x.type === t).map((x) => x.id)) }])),
+    tokens: { old: med(finite(oldM, 'tokens')), new: med(finite(fresh, 'tokens')) },
+    firstInput: { old: med(finite(oldM, 'firstInput')), new: med(finite(fresh, 'firstInput')) },
+    turns: { old: med(finite(oldM, 'turns')), new: med(finite(fresh, 'turns')) },
+    success: { old: rate(oldM), new: rate(fresh) },
+    wholeFile: { old: oldM.filter((r) => r.wholeFile).length, new: fresh.filter((r) => r.wholeFile).length },
+    insideChanges: { old: oldM.filter((r) => r.insideChange).length, new: fresh.filter((r) => r.insideChange).length },
+    missingFileErrors: { old: oldM.reduce((a, r) => a + (r.missingFileErrors ?? 0), 0), new: fresh.reduce((a, r) => a + (r.missingFileErrors ?? 0), 0) },
+    toolCalls: { old: calls(oldM), new: calls(fresh) },
+    failures: fresh.filter((r) => !r.pass).map(({ task, k, reasons }) => ({ task, k, reasons })),
+  };
+}
