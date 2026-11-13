@@ -30,7 +30,10 @@ test('reads a relative path and an absolute path inside the root', () => {
   try {
     assert.equal(t.ws.read('a.html').text, '<p>a</p>');
     assert.equal(t.ws.read('sub/b.htm').text, '<p>b</p>');
-    assert.equal(t.ws.read('sub\\b.htm').text, '<p>b</p>');
+    // A backslash separates folders on Windows only; elsewhere it is a character of a file name, so "sub\b.htm" names
+    // a file that does not exist (CI of pull request #4, 2026-11-13).
+    if (process.platform === 'win32') assert.equal(t.ws.read('sub\\b.htm').text, '<p>b</p>');
+    else refuses(() => t.ws.read('sub\\b.htm'), /not found/);
     assert.equal(t.ws.read('./a.html').text, '<p>a</p>');
     assert.equal(t.ws.read(path.join(t.root, 'a.html')).text, '<p>a</p>');
   } finally { t.done(); }

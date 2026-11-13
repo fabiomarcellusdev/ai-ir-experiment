@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { guardProblems, settingsProblems, REQUIRED_SETTINGS, gitHookProblems, privateHits, folderDiff } from "./check.mjs";
+import { guardProblems, settingsProblems, REQUIRED_SETTINGS, gitHookProblems, privateHits, folderDiff, failureDetail } from "./check.mjs";
 import { lint, BANNED } from "./voice-lint.mjs";
 import { evaluate, clean } from "./vet-package.mjs";
 
@@ -149,4 +149,19 @@ test("a change of publisher is flagged", () => {
 test("untrusted text loses control and direction characters and is cut", () => {
   assert.equal(clean("a\u001b[31mb‮c"), "a [31mb c");
   assert.equal(clean("x".repeat(200), 10).length, 10);
+});
+
+test("a failed test run shows each failure's message and its own stack lines, not Node's frames", () => {
+  const out = [
+    "✔ one (1ms)", "✖ two (2ms)", "ℹ tests 2", "ℹ fail 1", "", "✖ failing tests:", "", "test at x.test.mjs:5:1",
+    "✖ two (2ms)", "  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:", "  1 !== 2",
+    "      at TestContext.<anonymous> (file:///repo/x.test.mjs:6:10)", "      at Test.runInAsyncScope (node:async_hooks:214:14)",
+    "      at Test.run (node:internal/test_runner/test:1047:25)",
+  ].join("\n");
+  const d = failureDetail(out);
+  assert.match(d, /AssertionError/);
+  assert.match(d, /1 !== 2/);
+  assert.match(d, /x\.test\.mjs:6:10/);
+  assert.doesNotMatch(d, /node:internal|node:async_hooks/);
+  assert.equal(failureDetail("✔ one (1ms)\nℹ tests 1\nℹ fail 0"), ""); // no failure, no block
 });

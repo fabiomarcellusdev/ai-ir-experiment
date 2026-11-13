@@ -209,10 +209,22 @@ const run = (args, opts = {}) => spawnSync(process.execPath, args, { cwd: ROOT, 
 const read = (p) => fs.readFileSync(path.join(ROOT, p), "utf8");
 const config = () => JSON.parse(read("tools/check.config.json"));
 
+/**
+ * The reporter's "failing tests" block, with each failure's message and the test's own stack lines, but no frame of
+ * Node itself; at most 400 lines. A failure in CI then shows its error, not only its name (AGENTS.md, "Report
+ * faithfully"; CI of pull request #4, 2026-11-13).
+ */
+export function failureDetail(stdout) {
+  const lines = (stdout ?? "").split("\n");
+  const at = lines.findIndex((l) => /✖ failing tests:/.test(l));
+  if (at === -1) return "";
+  return lines.slice(at).filter((l) => !/^\s*at .*(node:internal|node:test|\(node:)/.test(l)).slice(0, 400).join("\n");
+}
+
 function unitTests(cfg) {
   const r = run(["--test", ...cfg.unitTests]);
   const summary = (r.stdout ?? "").split("\n").filter((l) => /^ℹ (tests|pass|fail)|✖/.test(l)).join("\n");
-  record("unit tests", r.status === 0, r.status === 0 ? summary : `${summary}\n${r.stderr ?? ""}`.trim());
+  record("unit tests", r.status === 0, r.status === 0 ? summary : `${summary}\n${failureDetail(r.stdout)}\n${r.stderr ?? ""}`.trim());
 }
 
 function voiceLint() {

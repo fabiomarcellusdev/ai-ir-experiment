@@ -89,7 +89,10 @@ test('review 6 and security 2: the tag locator is linear; 20,000 matches answer 
   const s = space(`<table>${'<tr><td>cell</td></tr>'.repeat(20_000)}</table>`);
   const t0 = Date.now();
   refuses(() => s.call('html_change', { operation: 'remove', text: 'cell', tag: 'td' }), /^20000 elements match; give a ref:/);
-  assert.ok(Date.now() - t0 < 1500, `took ${Date.now() - t0} ms`);
+  // CI checks correctness, not time (AGENTS.md, "Version control and CI"): a shared runner took 1,508 ms (pull request
+  // #4, 2026-11-13). There, the bound only catches a quadratic slowdown; the server's 1.5 s limit is checked locally.
+  const limit = process.env.CI ? 5000 : 1500;
+  assert.ok(Date.now() - t0 < limit, `took ${Date.now() - t0} ms`);
   s.done();
 });
 

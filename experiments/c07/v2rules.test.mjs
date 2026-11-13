@@ -2,6 +2,7 @@
 // acceptance and C0.10's rules, each with a negative control. No network, no model.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { existsSync } from 'node:fs';
 import * as R from './rules.mjs';
 import { units, taskRule, previewType, checkFileCount } from './tasks.mjs';
 import { frozenFiles } from './freeze.mjs';
@@ -144,7 +145,12 @@ test('C0.10 structure: removal in odd files, insertion after the element in even
   assert.equal(units('c10', 'structure', m, 2)[0].fields.op, 'insertion');
 });
 
-test('C0.10 task rule: a file must give the 4 tasks as an odd and as an even file', async () => {
+// The task rule calls the Python oracle (.venv-oracle/, git-ignored), which CI does not install; as in c07.test.mjs,
+// the test then skips with the reason (CI of pull request #4, 2026-11-13).
+const noOracle = existsSync(new URL(`../../.venv-oracle/${process.platform === 'win32' ? 'Scripts/python.exe' : 'bin/python'}`, import.meta.url))
+  ? false : 'the Python oracle is not installed (.venv-oracle/)';
+
+test('C0.10 task rule: a file must give the 4 tasks as an odd and as an even file', { skip: noOracle }, async () => {
   // Options in a select take a removal, but the parser drops an inserted p: the file fails as an even file.
   assert.match(await taskRule('c10', fourOptions, null), /structure: insertion/);
   const ok = page(['one', 'two', 'three', 'four'].map((w, i) => `<div title="t${i}">block ${w} words here</div>`).join('\n'));
