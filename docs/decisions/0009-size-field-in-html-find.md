@@ -120,3 +120,12 @@ text, so that one C0.1 v2 and C0.2 v2 rerun covers both.
 parser; CRLF counts once. C0.2 v2's harness changed to read the size note (contract, note of 2026-11-12). An element
 with no clean range can show a size that `html_change` then refuses (`docs/follow-ups.md`).
 
+**2026-11-13 (lead): the size note did not reach the large targets.** The arm-M check
+(`docs/measurements/2026-11-13-check-m-v2-result.md`) found 0 size notes in 238 `html_find` results. Option B puts
+the size on the elements that `html_find` shows in full: with `text`, the deepest elements that hold the text; with
+`id`, the element and its children. A large target that the agent finds by a quote inside it, as in C0.7, is an
+ancestor of the match, and an ancestor shows only as an outline line, with no size. So the field, as built, cannot
+warn about the targets it was designed for, and the check could not measure it. Options for the owner, none built:
+a size on the outline lines of ancestors of 1 KB or more (but `html` and `body` are almost always 1 KB or more, so
+every result would carry 2 sizes or more); a size only on the nearest such ancestor; or no size field (undo option B).
+

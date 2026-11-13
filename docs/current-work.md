@@ -38,8 +38,10 @@ ran with the current server: 0.513 and 1.194 (`docs/measurements/2026-11-12-c07-
 
 **Now:** built and committed: the size field for large elements in `html_find` (decision 0009, option B) and the
 shorter tool text (decision 0010, option B: 1,209 tokens, from 1,389). C0.1 v2 and C0.2 v2 passed again on that
-server (`docs/measurements/2026-11-13-c01-c02-v2-rerun.md`). Next: a paid check of arm M with the changed server,
-which needs a plan and the owner's yes.
+server (`docs/measurements/2026-11-13-c01-c02-v2-rerun.md`). The paid arm-M check (owner's option A,
+$1.50): the text saves 128 tokens a request with no harm; the size note never showed, so its effect is not measured
+(`docs/measurements/2026-11-13-check-m-v2-result.md`; decision 0009, amendment of 2026-11-13). Next (owner's
+decisions): what to do with the size field, and whether to measure arm M with tool search on (paid).
 
 **Later (owner's decisions):** whether to measure arm M with tool search at its default (paid). No push and no pull
 request until the owner asks for one (owner, 2026-11-12).
