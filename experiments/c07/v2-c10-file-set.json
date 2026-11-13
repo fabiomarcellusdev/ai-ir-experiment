@@ -1,0 +1,2623 @@
+{
+ "gate": "c10",
+ "date": "2026-11-12",
+ "seed": 20261115,
+ "commit": "c02cd74a52c36ff95223c8f86987e91f3dfead28",
+ "rules": {
+  "experiments/c07/draw-files.mjs": "b9a44ed1f33998765214454fa214a603a4f385a4c2a35f58b519c166a381a347",
+  "experiments/c07/tasks.mjs": "2c91cadfcd4db749cd1c0138e6189a91ead2e5fed62b2e4e6445bf0406ee3358",
+  "experiments/c07/rules.mjs": "6696cd2d1ebe556179e4cbb950450f27006f05541c6c866b874f1fec22854762",
+  "experiments/c07/oracle_c07.py": "affa06ca64ca4b9601657853b002266d294e5c3854dbfc9137a4310ddd929355",
+  "experiments/c01/oracle.py": "1a254320bc1d21ee641c2755f47fbf887259064828043653f0ce3ba7212b4df0",
+  "experiments/c01/tree.mjs": "03f6673a7f950cfbd4c9ffc401c1eddfd1e67b8df33cd8c3aa927746a88a9751",
+  "experiments/c01/run-c01.mjs": "2462f491629064f8144096c0e5c715e547c319795ce1f967f1964d4c87f6fff5",
+  "experiments/c03/select-files.mjs": "9ae1b6076efd2ef29655115fd6fbe0a2f1fedf8f4b4f2bd6b53e7f3610b51d7a",
+  "experiments/c03/make-tasks.mjs": "67f0c74e6ac9808952b27f0eef26e6099dd11688f2c35668271c4584b235d51b",
+  "experiments/c03/html.mjs": "6504f992f94c55372beec1fe376b770960a0472f2466ae11a2fe85f8839b1cac",
+  "experiments/c05/draw-files.mjs": "2739930ac6b921fa4e5541e40059382f292be87dd83a02f4f5f09bb1c4f2b71e",
+  "server/view.mjs": "580c6401db707aba8eff1860dfc4675b100bdc2f4e11c9725c2d0650fc9b1c39",
+  "server/edit.mjs": "c0933eee6f4c020f61f4c58be5271175722147496dac8aa1900dc5e7d89ec165",
+  "server/errors.mjs": "871d3921e782db838d2b0970ab2aadfda33e2321c3e95f40808f58c617c17916",
+  "server/v2.mjs": "04d08db8acd7ede5e6d3655a5f21ebbf3b7cd404579cf66e2e8886da6456576b",
+  "server/source.mjs": "326ec6a73b45e665a838363e45bc45f312b0f0c952065fe3e441ab608651a60a",
+  "server/workspace.mjs": "b1dbadf0d0ef0942f560167ec7fad0545c56f2daf1583354d46142f60efc8122"
+ },
+ "parse5": "8.0.1",
+ "from": "experiments/c03/file-set.json",
+ "excludedOwners": [
+  "activecampaign",
+  "affitor",
+  "ahmadhuss",
+  "ampersandjs",
+  "ash-project",
+  "bootstrapdash",
+  "brazil-data-cube",
+  "colorlibhq",
+  "coreui",
+  "davidgrzyb",
+  "elhakimyasya",
+  "internations",
+  "puikinsh",
+  "pulkitxm",
+  "retros-id",
+  "sendwithus",
+  "stixproject"
+ ],
+ "kinds": [
+  {
+   "kind": "marketing",
+   "repositories": 11,
+   "files": 411,
+   "readInDrawOrder": [
+    [
+     "apu52/Travel_Website",
+     "dedicated-destinations/brazil/start.html",
+     "pass"
+    ],
+    [
+     "AlexBSoft/win95.css",
+     "index.html",
+     "pass"
+    ]
+   ],
+   "picks": [
+    {
+     "repo": "apu52/Travel_Website",
+     "commit": "69995732da24e46a0a9e493fb4b3401bbe45821b",
+     "path": "dedicated-destinations/brazil/start.html",
+     "size": 14679,
+     "sameRepository": false,
+     "fill": false,
+     "sha256": "9b5f4e9e05eb4b2649edf01909389a390eca5da271599e8bee4612705cfe85fa",
+     "file": "experiments/gate-files/c07/v2-c10/1/start.html"
+    },
+    {
+     "repo": "AlexBSoft/win95.css",
+     "commit": "faff13b2788e9b44e92ac0d51433d2d878907f50",
+     "path": "index.html",
+     "size": 16746,
+     "sameRepository": false,
+     "fill": false,
+     "sha256": "fefde7ca0eac0755b49e081c0f1633297ff3b39ed2aa243658633304dc84f800",
+     "file": "experiments/gate-files/c07/v2-c10/2/index.html"
+    }
+   ]
+  },
+  {
+   "kind": "documentation",
+   "repositories": 10,
+   "files": 2471,
+   "readInDrawOrder": [
+    [
+     "pocketbase/site",
+     "static/old/jsvm/interfaces/os.stat.html",
+     "pass"
+    ],
+    [
+     "mmistakes/minimal-mistakes",
+     "_includes/author-profile.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "mmistakes/minimal-mistakes",
+     "_includes/comments.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.3/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.18/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "0.11.1/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.23/partials/migration.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.3/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.10/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.7/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.15/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.17/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "0.11.0/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.11/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.12/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.17/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.0-rc.5/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.2/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.14/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.3/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.18/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "0.11.4/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.25/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.6/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.20/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.6/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.19/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.15/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.24/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.16/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.2/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.24/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.8/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.3/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.20/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.5/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.10/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.2/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.19/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.23/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.12/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22-rc.0/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.9/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.16/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.9/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.18/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "HEAD/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.2/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.13/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.11/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.4/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.23/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.11/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.2/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.9/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.26/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.24/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.2/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.3/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22-rc.0/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.10/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.24/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.26/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.1/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "HEAD/partials/migration.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.4/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.24/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.2/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.8/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.23/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.1/partials/migration.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.0/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.6/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.1/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "latest/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.19/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.3/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.20/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.10/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.15/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "HEAD/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.15/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "latest/partials/migration.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.14/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.1/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.24/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.7/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.15/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.8/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.18/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.14/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.15/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.8/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.14/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "0.11.0/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.0-rc4/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.1/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "0.10.0/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.1/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.3/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.2/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.7/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.13/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.26/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.13/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.12/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.2/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.1/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.9/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.12/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.17/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.14/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.1/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "HEAD/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.7/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.16/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.2/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.3/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.25/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.18/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.20/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.9/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.23/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "HEAD/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.2/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.1/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.26/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.16/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.26/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.11/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.19/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.2/partials/migration.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22-rc.0/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.9/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "0.10.1/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.18/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.5/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.10/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.8/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22-rc.0/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.23/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.4/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22-rc.0/partials/migration.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.6/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.1/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.10/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.3/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.16/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.1/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.15/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.19/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "0.11.3/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.2/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "latest/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.20/partials/migration.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.1/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.25/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.14/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.17/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.5/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.3/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.5/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.14/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.5/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.3/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.19/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.0/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.1/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.1/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.6/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.0/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22/partials/migration.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.3/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.7/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.15/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "0.11.1/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.1/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "latest/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.18/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.13/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.2/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.7/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.10/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.12/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.21/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.5/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.17/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.13/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.3/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.12/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.13/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.21/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "HEAD/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.2/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.5/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.0/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.1/partials/migration.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.21/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "0.9.8/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.9/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.26/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.26/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "0.10.1/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.23/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.5/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.0-rc.5/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.8/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "HEAD/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "latest/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.0/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.2/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.23/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.2/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.1/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.7/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.7/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.14/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.11/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.15/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.18/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.4/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.1/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.0-rc4/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.26/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.16/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.24/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.25/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.5/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.11/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22-rc.0/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.6/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.13/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.2/partials/migration.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.2/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.1/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.3/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.4/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.24/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.23/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.19/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.1/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.5/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.11/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.5/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.26/partials/migration.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.4/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.13/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.12/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.0/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.0/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.2/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.24/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.0/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.2/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.1/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.20/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.8/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.19/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.3/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.5/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.20/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.1/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.25/partials/migration.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.11/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.21/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.21/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.24/partials/migration.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.1/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.25/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.3/partials/migration.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.20/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.4/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22-rc.0/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.3/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.2/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.0-rc.5/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.5/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.25/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.11/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.16/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.2/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.25/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.14/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.23/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.1/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.0-rc.5/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.4/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.0-rc4/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.6/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.9/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.6/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "HEAD/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.25/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "latest/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "0.9.7/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.4/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.13/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.4/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.9/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.8/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.17/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.17/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.9/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.5/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.24/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.9/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.5/partials/migration.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "0.11.2/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.2/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.3/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.3/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.6/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.21/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22-rc.0/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.18/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.0-rc4/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.18/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.18/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.8/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.1/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.8/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.11/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.20/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.8/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.17/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.1/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.7/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.2/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.4/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.14/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.5/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.7/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.0-rc.5/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.2/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.15/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.4/partials/migration.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.12/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.1/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.20/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.9/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.16/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.9/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "latest/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.16/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.4/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.16/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.2/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.4/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.24/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.1/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.4/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.2/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.14/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.25/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.4/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.25/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.5/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.6/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.2/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.4/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "latest/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.4/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.13/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.3/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.6/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.1/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.19/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.25/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.2/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.26/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.1/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.17/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "0.11.3/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.4/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.2/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "HEAD/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.19/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.5/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.10/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.9/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "HEAD/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.20/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "0.11.2/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.0.1/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.26/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.21/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.21/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.21/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.15/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.6/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.21/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.3/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.13/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.5/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.7/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.19/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22-rc.0/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.2/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "0.11.4/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.2/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.4/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.4/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.21/partials/migration.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.12/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "latest/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.5/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.3/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.0-rc.5/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.21/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.0/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.5/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.8/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.5/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "HEAD/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.26/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.0/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.12/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.1/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.2/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.5/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.23/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.7/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.10/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.7/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.4/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.16/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.3/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0/partials/migration.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.4/partials/api/material.components.input/directive/mdInput.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "latest/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.23/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "latest/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22-rc.0/partials/api/material.components.tabs/directive/mdTabs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.8/partials/api/material.components.chips/directive/mdChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0-rc.1/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.20/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "latest/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.0/partials/api/material.components.chips/directive/mdContactChips.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "HEAD/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.2/partials/api/material.components.panel/type/MdPanelRef.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.1/partials/api/material.components.select/directive/mdSelect.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.2.5/partials/api/material.components.panel/type/MdPanelPosition.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.19/partials/migration.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22-rc.0/partials/api/material.components.menu/directive/mdMenu.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.17/partials/api/material.components.autocomplete/directive/mdAutocomplete.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.22-rc.0/partials/api/material.components.icon/directive/mdIcon.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "angular/code.material.angularjs.org",
+     "1.1.17/partials/api/material.components.datepicker/directive/mdDatepicker.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "KineticEnforcer/MarkStack",
+     "editor.html",
+     "pass"
+    ]
+   ],
+   "picks": [
+    {
+     "repo": "pocketbase/site",
+     "commit": "1bad7c0237ca8a9ca432154f736f3426104cedd2",
+     "path": "static/old/jsvm/interfaces/os.stat.html",
+     "size": 61589,
+     "sameRepository": false,
+     "fill": false,
+     "sha256": "3c0b97fd4e8947d6af28728fd95c77fae32f3a8c35be6962faeb37d5773dcb28",
+     "file": "experiments/gate-files/c07/v2-c10/3/os.stat.html"
+    },
+    {
+     "repo": "KineticEnforcer/MarkStack",
+     "commit": "9117bb9aef1a783d5d4ccc1a31d6ba6eabb279fa",
+     "path": "editor.html",
+     "size": 79927,
+     "sameRepository": false,
+     "fill": false,
+     "sha256": "285d6306190d8fdd2de43385b2aa28635f43d48c75c929bb17c4539cc7ec4ebb",
+     "file": "experiments/gate-files/c07/v2-c10/4/editor.html"
+    }
+   ]
+  },
+  {
+   "kind": "email",
+   "repositories": 10,
+   "files": 46,
+   "readInDrawOrder": [
+    [
+     "adityajha2005/yc-outreach",
+     "index.html",
+     "pass"
+    ],
+    [
+     "mysigmail/html-email-templates",
+     "request-reset-password-1/index.html",
+     "pass"
+    ]
+   ],
+   "picks": [
+    {
+     "repo": "adityajha2005/yc-outreach",
+     "commit": "2e0f26ec1b0812b6031a39d236e911649ce6b67f",
+     "path": "index.html",
+     "size": 24266,
+     "sameRepository": false,
+     "fill": false,
+     "sha256": "0008d51dd8b97a994ed5759ad6f414fbbf59df368612da2c0689967853c96ae5",
+     "file": "experiments/gate-files/c07/v2-c10/5/index.html"
+    },
+    {
+     "repo": "mysigmail/html-email-templates",
+     "commit": "91d643e4b40ff1e6bf8bdab1469f3539659f1b6e",
+     "path": "request-reset-password-1/index.html",
+     "size": 14804,
+     "sameRepository": false,
+     "fill": false,
+     "sha256": "2a56e7bc24321e96db716c1d8b563075501e9582b429641882ff24f4cc22480b",
+     "file": "experiments/gate-files/c07/v2-c10/6/index.html"
+    }
+   ]
+  },
+  {
+   "kind": "app",
+   "repositories": 12,
+   "files": 279,
+   "readInDrawOrder": [
+    [
+     "moesaid/cleopatra",
+     "src/components/widgets/crm/crm-map.html",
+     "line 18 is longer than 2,000 characters"
+    ],
+    [
+     "moesaid/cleopatra",
+     "src/components/widgets/crypto/trending-tokens.html",
+     "cannot give the 4 tasks with 4 different targets (structure: removal); valid targets: question 4, text 0, attribute 4, structure 4"
+    ],
+    [
+     "moesaid/cleopatra",
+     "src/index.html",
+     "pass"
+    ],
+    [
+     "silverbux/laravel-angular-admin",
+     "angular/app/components/ui-icons/ui-icons.component.html",
+     "pass"
+    ]
+   ],
+   "picks": [
+    {
+     "repo": "moesaid/cleopatra",
+     "commit": "40c56983999a139741a441d279a8335ff159fad2",
+     "path": "src/index.html",
+     "size": 29805,
+     "sameRepository": false,
+     "fill": false,
+     "sha256": "0d7aafbeceec8aa86b2836fa1e69f00ef4328c0d4aae15b33893962b0c4d997b",
+     "file": "experiments/gate-files/c07/v2-c10/7/index.html"
+    },
+    {
+     "repo": "silverbux/laravel-angular-admin",
+     "commit": "edf8c77220befe83cbd6b10c1fa463b8d8c76738",
+     "path": "angular/app/components/ui-icons/ui-icons.component.html",
+     "size": 156835,
+     "sameRepository": false,
+     "fill": false,
+     "sha256": "08aff9cd2e11ad3f10dbb28f8ea278517986d27b15e8be23cb0056103e22f296",
+     "file": "experiments/gate-files/c07/v2-c10/8/ui-icons.component.html"
+    }
+   ]
+  },
+  {
+   "kind": "blog",
+   "repositories": 8,
+   "files": 12,
+   "readInDrawOrder": [
+    [
+     "charlola/hugo-theme-charlolamode",
+     "layouts/partials/share_icons.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "charlola/hugo-theme-charlolamode",
+     "layouts/partials/svg.html",
+     "line 67 is longer than 2,000 characters"
+    ],
+    [
+     "tailwindtoolbox/Minimal-Blog",
+     "index.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "bjacquemet/personal-web",
+     "layouts/partials/svg.html",
+     "line 8 is longer than 2,000 characters"
+    ],
+    [
+     "gurusabarish/hugo-profile",
+     "layouts/partials/sections/hero/index.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "gurusabarish/hugo-profile",
+     "layouts/partials/sections/header.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "thepuskar/Personal-Portfolio-v1",
+     "index.html",
+     "pass"
+    ],
+    [
+     "salatine/neopost",
+     "layouts/partials/style.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "MarketingPipeline/Simply-Docs",
+     "pages/documentation.html",
+     "pass"
+    ]
+   ],
+   "picks": [
+    {
+     "repo": "thepuskar/Personal-Portfolio-v1",
+     "commit": "aecc2432979136fe1d28067760ba8880f02751ee",
+     "path": "index.html",
+     "size": 20193,
+     "sameRepository": false,
+     "fill": false,
+     "sha256": "5fe45d12c14931f9d1127617ae30fda031b9321cab43d2bb4d683b94532ad843",
+     "file": "experiments/gate-files/c07/v2-c10/9/index.html"
+    },
+    {
+     "repo": "MarketingPipeline/Simply-Docs",
+     "commit": "b50d2a8bf2528af6fa8aaf891d8668348d38f477",
+     "path": "pages/documentation.html",
+     "size": 12089,
+     "sameRepository": false,
+     "fill": false,
+     "sha256": "116b6c82b178a5419a758557c33aa2bf5cf14ec0810474be95b1736eabf7ff9d",
+     "file": "experiments/gate-files/c07/v2-c10/10/documentation.html"
+    }
+   ]
+  }
+ ]
+}

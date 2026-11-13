@@ -19,8 +19,9 @@ holds for every spelling.
 
 ## 1. Branch
 
-1. `git status` must be clean. `git switch main` and `git pull --ff-only`.
-2. `git switch -c p<phase>/<type>-<short-name>` (decision 0003). One task, one branch.
+1. Continue on the milestone's work branch (decision 0004, amendment of 2026-11-10). `git status` must be clean.
+2. Only for a new milestone: `git switch main`, `git pull --ff-only`, then `git switch -c p<phase>/<type>-<short-name>`.
+   One milestone, one branch.
 
 ## 2. Build
 
@@ -48,7 +49,10 @@ holds for every spelling.
 1. Stage files by name, and commit with a message that says why: `TZ=UTC git commit -F <message file>`. The commit
    hook checks the branch, the quiet hours, the UTC dates and `check.mjs fast`.
 
-## 6. Publish: one approval from the owner
+## 6. Publish at a milestone: one approval from the owner
+
+A task that is not a milestone ends after step 5, with a local commit. Report it to the owner, and go to the next task.
+Steps 6 to 8 run once, when the owner's milestone is reached.
 
 1. Write the pull request text from `.github/pull_request_template.md` into a file in the scratchpad. It must hold
    nothing private: no private names, hours, time zone, machine details or paths.

@@ -218,6 +218,41 @@ test("end to end: a push that rewrites the remote branch is refused", () => {
   cleanup(r);
 });
 
+// 2026-11-13 (owner's yes): merging main into a pushed task branch brought in main's squash commit, which GitHub had
+// dated in the owner's time zone; the guard checked it again, though the remote already held it.
+test("end to end: a merge of the remote's main into a pushed branch skips main's commits; a new non-UTC commit is still refused", () => {
+  const r = repo();
+  commit(r, "a.md", "1\n");
+  r.run(["branch", "main"]);
+  r.run(["checkout", "-q", "main"]);
+  commit(r, "m.md", "from main\n", "2026-11-10T20:46:37-0600"); // as GitHub dates a web merge
+  r.run(["push", "-q", "origin", "main"]);
+  r.run(["checkout", "-q", "p0/feat-x"]);
+  const tip = commit(r, "f.md", "feature\n");
+  r.run(["push", "-q", "origin", "p0/feat-x"]);
+  const utc = { GIT_AUTHOR_DATE: "2026-11-13T15:00:00+0000", GIT_COMMITTER_DATE: "2026-11-13T15:00:00+0000" };
+  r.run(["merge", "-q", "--no-edit", "main"], utc);
+  const merge = r.run(["rev-parse", "HEAD"]).stdout.trim();
+  const ok = prePush(r, `refs/heads/p0/feat-x ${merge} refs/heads/p0/feat-x ${tip}\n`);
+  assert.equal(ok.status, 0, ok.stderr);
+  // The control: a non-UTC commit that the remote does not hold is still refused, after the merge too.
+  const own = commit(r, "g.md", "mine\n", "2026-11-13T09:00:00-0600");
+  assert.match(prePush(r, `refs/heads/p0/feat-x ${own} refs/heads/p0/feat-x ${tip}\n`).stderr, /not in UTC/);
+  // The control: a remote-tracking ref faked to hold that commit does not hide it (the guard asks the remote).
+  r.run(["update-ref", "refs/remotes/origin/zz", own]);
+  assert.match(prePush(r, `refs/heads/p0/feat-x ${own} refs/heads/p0/feat-x ${tip}\n`).stderr, /not in UTC/);
+  // The control: a non-UTC commit on the local main that the remote does not hold is still refused after a merge, so
+  // the skip comes from the remote's branches, not from local ones (security review, 2).
+  r.run(["checkout", "-q", "main"]);
+  commit(r, "n.md", "local main only\n", "2026-11-13T10:00:00-0600");
+  r.run(["checkout", "-q", "p0/feat-x"]);
+  r.run(["reset", "-q", "--hard", merge]);
+  r.run(["merge", "-q", "--no-edit", "main"], utc);
+  const local = r.run(["rev-parse", "HEAD"]).stdout.trim();
+  assert.match(prePush(r, `refs/heads/p0/feat-x ${local} refs/heads/p0/feat-x ${tip}\n`).stderr, /not in UTC/);
+  cleanup(r);
+});
+
 // The four ways the re-review skipped the scan of pushed commits (2026-11-07):
 test("end to end: a faked remote-tracking ref does not hide commits from the scan", () => {
   const r = repo();

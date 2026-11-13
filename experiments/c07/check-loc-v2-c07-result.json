@@ -1,0 +1,4554 @@
+{
+ "check": "C0.7 arm-M check of the direct-locator sentence: decides nothing",
+ "date": "2026-11-13",
+ "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+ "harness": "2.1.322 (Claude Code)",
+ "baseline": "experiments/c07/gate-v2-c07-result.json",
+ "plan": {
+  "harness": "2.1.322",
+  "harnessSha256": "345996b4bdbae21d817f750fae2f34cbf8d81224a5444c78136091d121beb298",
+  "model": "claude-sonnet-5-5",
+  "seed": 20261112,
+  "maxTurns": 40,
+  "timeoutMs": 600000,
+  "perRunBudgetUsd": 5,
+  "totalBudgetUsd": 40,
+  "builtInTools": "Read,Edit,Grep,Glob",
+  "env": {
+   "ENABLE_TOOL_SEARCH": "false",
+   "MAX_MCP_OUTPUT_TOKENS": "25000",
+   "DISABLE_AUTOUPDATER": "1",
+   "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+   "CLAUDE_CODE_DISABLE_BACKGROUND_TASKS": "1"
+  },
+  "toolSearch": false,
+  "runPlan": "docs/measurements/2026-11-13-check-ts-loc-run-plan.md"
+ },
+ "starts": [
+  {
+   "start": "20261113T034354",
+   "budgetUsd": 2.5,
+   "harness": "2.1.322 (Claude Code)"
+  }
+ ],
+ "stops": [],
+ "costUsd": 0.5405071,
+ "costEstimatedRuns": 0,
+ "runs": [
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "6-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10947,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.015757,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5317,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3390
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "8-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11080,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0048383,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5334,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3187
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "3-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10960,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0041642,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5318,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3117
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "6-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11045,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0045831,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5332,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3971
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "10-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10968,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0041869,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5320,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3860
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "8-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10957,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0041168,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5319,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2311
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "7-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10956,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0040918000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5319,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3848
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "10-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11062,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0046808,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5334,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3789
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "7-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10965,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0040822,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5323,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2426
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "2-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11037,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0045379,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5330,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3827
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "10-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10965,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004162,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5321,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3772
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "3-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11001,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043999,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5325,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2683
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "2-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11052,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0046132,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5333,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2543
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "4-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10957,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0041218999999999995,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5320,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2497
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "1-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10994,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043398,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5324,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2438
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "1-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16903,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0071251000000000005,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5339,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 6206
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "5-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10975,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0041498,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5324,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3091
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "9-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11056,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0046481000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5332,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3944
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "4-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10970,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004197,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5321,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3214
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "9-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11060,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004685700000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5333,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2629
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "1-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11101,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0049139000000000006,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5340,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3708
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "3-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11093,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0048189,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5340,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2627
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "4-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11104,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0048941,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5342,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3703
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "5-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11085,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0047962000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5338,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3793
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "4-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11069,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0047583,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5334,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3944
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "10-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11058,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0046483,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5334,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3703
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "7-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11041,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0045905,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5331,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2605
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "5-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11050,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0046106,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5332,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4115
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "2-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10945,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0039992000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5318,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2914
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "9-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10969,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0041945,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5321,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3573
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "7-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11046,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0045979,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5330,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4242
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "6-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11044,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004583,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5331,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3466
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "1-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16829,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0065179999999999995,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5338,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4429
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "6-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10955,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0041616,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5317,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2341
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "3-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11032,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0045353,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5329,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2547
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "8-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10971,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004234300000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5319,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3390
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "5-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10956,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0040993,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5319,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4124
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "9-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16826,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.006486500000000001,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5321,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4638
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "8-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11087,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0049857,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5333,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3046
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "2-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10967,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0041721,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5322,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2432
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "5-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11051,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004333200000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5331,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4293
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "1-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11092,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0044999,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5340,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3706
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "1-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11090,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0045393,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5337,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3967
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "3-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11094,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0045049,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5340,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2714
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "1-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10987,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0039944,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5325,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2549
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "5-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11080,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004457,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5338,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4004
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "8-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11057,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004343700000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5334,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3229
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "3-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10960,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0038633000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5320,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3796
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "9-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11048,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043155,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5330,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3559
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "4-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10957,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0038458999999999998,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5320,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2474
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "4-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11104,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0045653,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5342,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2686
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "6-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11061,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004450600000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5331,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2771
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "10-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10964,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0038712,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5321,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3783
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "3-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10998,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0040321,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5326,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3872
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "8-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10935,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0036631,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5318,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3056
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "6-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11047,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043157000000000004,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5331,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2722
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "4-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10987,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0040586,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5321,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3222
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "5-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10963,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0037892000000000004,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5324,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3265
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "3-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11041,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0042629,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5331,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2694
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "2-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10959,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0038782,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5319,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3418
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "8-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10955,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0038532,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5319,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3730
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "10-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11058,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043537,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5334,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3959
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "2-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10961,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0038511,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5321,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3169
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "9-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10967,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0038910000000000004,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5320,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3014
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "2-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11037,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0042577,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5329,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3578
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "7-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11040,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0042781,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5331,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3353
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "7-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10963,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0037790000000000002,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5323,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3897
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "9-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11060,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043635,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5333,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2732
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "10-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11060,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004366200000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5334,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3940
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "4-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11059,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043637,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5334,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3166
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "7-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10976,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0040482,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5319,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2533
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "8-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11062,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0044159,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5332,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3213
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "1-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16901,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0067115,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5341,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 5236
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "2-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11052,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043306,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5330,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3205
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "6-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10947,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0038203,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5317,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3636
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "10-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10961,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0038907,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5319,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3897
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "6-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10947,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0038301999999999998,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5316,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2509
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "9-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10986,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0040663,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5322,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3169
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "5-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10941,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0037057,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5319,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2863
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "7-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11045,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0042981,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5331,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3129
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "9-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10970,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0039237000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5321,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3220
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "3-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10981,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0038795,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5325,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3964
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "10-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11061,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043762,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5334,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3179
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "6-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11032,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0041657000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5331,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2612
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "9-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16794,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0059712,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5322,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4559
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "4-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10966,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0038710999999999997,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5322,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3219
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "7-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11045,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0042981,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5331,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4104
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "2-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10962,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0039082,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5319,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3045
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "5-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10937,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0036981,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5318,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3118
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "7-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16881,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0064638000000000004,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5331,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4940
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "4-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11080,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0045737,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5334,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3353
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "4-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11092,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0044453,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5342,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3341
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "2-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11052,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043257999999999994,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5332,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2583
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "10-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10955,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0038307000000000003,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5319,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3880
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "3-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11094,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0045049,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5340,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3314
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "4-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10973,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0039186,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5321,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3019
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "3-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10940,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0037032000000000002,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5319,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3505
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "1-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11091,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0045073000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5339,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3834
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "1-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11001,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0041218,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5324,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3136
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "9-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11050,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004335500000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5330,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3611
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "6-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10965,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0039927999999999995,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5317,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3498
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "8-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10961,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0038907,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5319,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2569
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "5-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11062,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004425800000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5332,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4148
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "1-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16821,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.006219000000000001,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5341,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4891
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "7-removal-1",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16859,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0060914,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5319,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4033
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "5-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10982,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0039792000000000004,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5324,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3931
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "9-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11057,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043509,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5332,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2729
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "5-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11079,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0044469999999999996,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5338,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4087
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "2-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11038,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0042677,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5329,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3930
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "6-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10954,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0038903,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5317,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3491
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "10-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11063,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043713,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5335,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3034
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "8-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16979,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0065293999999999994,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5334,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4913
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "2-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10968,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0039211,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5321,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3180
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "8-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10956,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0038956,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5318,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2964
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "10-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10972,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0039164000000000004,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5323,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2739
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "7-removal-2",
+   "type": "removal",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10965,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0037816000000000004,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5324,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3863
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "1-replacement-2",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11091,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004549300000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5337,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3232
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "3-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11032,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0042377000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5329,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4261
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "8-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11062,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0044159,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5332,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3445
+  },
+  {
+   "commit": "b36e8f9b3312e212607577189c89fe57a8bbd5b5",
+   "kind": "record",
+   "task": "6-replacement-1",
+   "type": "replacement",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11055,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043732,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5332,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3499
+  }
+ ],
+ "comparison": {
+  "tasks": 40,
+  "medianNewOverOldM": 0.6382804096752515,
+  "medianNewOverOldMAllRuns": 0.6382804096752515,
+  "noise": {
+   "successDiff95": [
+    0,
+    0
+   ],
+   "ratio95": [
+    0.6363018259194426,
+    0.6399899785294119
+   ],
+   "resamplesWithRatio": 10000
+  },
+  "medianNewOverRecordedB": 0.25937566462650946,
+  "recordedGateMedian": 0.40280415465053576,
+  "byType": {
+   "removal": {
+    "medianNewOverOldM": 0.6379300262362816
+   },
+   "replacement": {
+    "medianNewOverOldM": 0.6393726916177305
+   }
+  },
+  "tokens": {
+   "old": 17251,
+   "new": 11039
+  },
+  "firstInput": {
+   "old": 5456,
+   "new": 5329
+  },
+  "turns": {
+   "old": 3,
+   "new": 2
+  },
+  "success": {
+   "old": 1,
+   "new": 1
+  },
+  "wholeFile": {
+   "old": 1,
+   "new": 0
+  },
+  "insideChanges": {
+   "old": 0,
+   "new": 0
+  },
+  "missingFileErrors": {
+   "old": 0,
+   "new": 0
+  },
+  "toolCalls": {
+   "old": {
+    "mcp__html__html_find": 111,
+    "mcp__html__html_change": 130,
+    "mcp__html__html_outline": 1
+   },
+   "new": {
+    "mcp__html__html_change": 120,
+    "mcp__html__html_find": 9
+   }
+  },
+  "failures": []
+ }
+}

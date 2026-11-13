@@ -1,0 +1,136 @@
+{
+ "gate": "c08",
+ "tools": "v2",
+ "preview": true,
+ "seed": 20261113,
+ "offsetUnit": "UTF-16 code units of the file as text",
+ "skipped": [
+  {
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/preview/1/comparison.html",
+   "reason": "file 1: no valid target left for question with different targets"
+  },
+  {
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/preview/4/index.html",
+   "reason": "file 4: no valid target left for insertion with different targets"
+  },
+  {
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/preview/5/build.html",
+   "reason": "file 5: no valid target left for question with different targets"
+  },
+  {
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/preview/6/progress.html",
+   "reason": "file 6: no valid target left for attribute with different targets"
+  },
+  {
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/preview/7/preview.html",
+   "reason": "file 7: no valid target left for removal with different targets"
+  },
+  {
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/preview/9/blog.html",
+   "reason": "file 9: no valid target left for question with different targets"
+  }
+ ],
+ "readTokens": {},
+ "tasks": [
+  {
+   "id": "2-attribute",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/preview/2/index.html",
+   "type": "attribute",
+   "ref": 95,
+   "tag": "span",
+   "parentId": "regular-section",
+   "k": 2,
+   "attr": "class",
+   "newValue": "updated-value-2",
+   "prompt": "In the element with id \"regular-section\", take the 2nd child element that is a `span` element. Set its `class` attribute to \"updated-value-2\". Change nothing else.",
+   "range": [
+    7494,
+    7525
+   ],
+   "change": [
+    7500,
+    7517,
+    "class=\"updated-value-2\""
+   ],
+   "expected": "experiments/gate-files/c07/preview-v2-c08/expected/2-attribute.html",
+   "expectedSha256": "1e7917583875b183829c0b387e6797db037283d4cd06bd269e8e748367cc9a97"
+  },
+  {
+   "id": "3-removal",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/preview/3/signals.html",
+   "type": "removal",
+   "ref": 48,
+   "tag": "div",
+   "parentId": "untangle",
+   "k": 2,
+   "op": "removal",
+   "prompt": "In the element with id \"untangle\", remove the 2nd child element that is a `div` element.",
+   "range": [
+    3927,
+    7602
+   ],
+   "change": [
+    3927,
+    7602,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/preview-v2-c08/expected/3-removal.html",
+   "expectedSha256": "4db5d91a575ffa2ba0139f270aefc936febf944e92c69a1ff96d5758494a58ec"
+  },
+  {
+   "id": "8-insertion",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/preview/8/playground.html",
+   "type": "insertion",
+   "ref": 172,
+   "tag": "section",
+   "parentId": "pg-content",
+   "k": 7,
+   "op": "insertion",
+   "prompt": "In the element with id \"pg-content\", take the 7th child element that is a `section` element. After it, add `<p>New text</p>`.",
+   "range": [
+    12269,
+    12269
+   ],
+   "change": [
+    12269,
+    12269,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/preview-v2-c08/expected/8-insertion.html",
+   "expectedSha256": "701e475704987f33ee3600185e8bb0c2ae0fcac4ccdaf9430410a529557cc745"
+  },
+  {
+   "id": "10-attribute",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/preview/10/Blog1.html",
+   "type": "attribute",
+   "ref": 244,
+   "tag": "button",
+   "parentId": "sharingButtons",
+   "k": 4,
+   "attr": "title",
+   "newValue": "updated-value-10",
+   "prompt": "In the element with id \"sharingButtons\", take the 4th child element that is a `button` element. Set its `title` attribute to \"updated-value-10\". Change nothing else.",
+   "range": [
+    37515,
+    39598
+   ],
+   "change": [
+    37555,
+    37567,
+    "title=\"updated-value-10\""
+   ],
+   "expected": "experiments/gate-files/c07/preview-v2-c08/expected/10-attribute.html",
+   "expectedSha256": "50cdb4fd33a32f3f48c4de2e72f25c72cc86ed6509a859caa5783559127e882f"
+  }
+ ]
+}

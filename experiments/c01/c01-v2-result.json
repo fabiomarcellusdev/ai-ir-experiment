@@ -1,0 +1,187 @@
+{
+ "gate": "C0.1 v2",
+ "date": "2026-11-13",
+ "commit": "2fb5748d643a29a84cf3838903967c010ebc53b5",
+ "dev": false,
+ "node": "v24.22.1",
+ "parse5": "8.0.1",
+ "python": "3.14.8 1.1",
+ "seed": 20261116,
+ "random": 1500,
+ "parserOnly": {
+  "files": [
+   "experiments/c01/oracle.py",
+   "experiments/c01/oracle_v2.py",
+   "experiments/c02/oracle_c02.py"
+  ],
+  "forbiddenNames": [],
+  "controlFinds": [
+   "serializer",
+   "serialize"
+  ]
+ },
+ "files": [
+  {
+   "name": "1.html",
+   "sha256": "3433ff10817b3fbadb1c41e0083d43f94ebb9f7cc38f3695e3fe507837be44a2",
+   "refs": 166
+  },
+  {
+   "name": "2.html",
+   "sha256": "73c0b3d1aa90d201b24e5ca6dce308ae6515f1630615724eea26276703a2743d",
+   "refs": 232
+  },
+  {
+   "name": "3.html",
+   "sha256": "6e4a86c55d095fabab14ac087e4451c39c4802b7a0053fc1db0776f57ce299a5",
+   "refs": 235
+  },
+  {
+   "name": "4.html",
+   "sha256": "346657093e97b00d63bc8cdd688d49f2d5cc1dcfe3b1888283161b6b87920b12",
+   "refs": 159
+  },
+  {
+   "name": "5.html",
+   "sha256": "b2800fd1535180a5fa8e620ab6aca2c52592aea02e5f6e146dff9ef39a8e8723",
+   "refs": 93
+  },
+  {
+   "name": "6.html",
+   "sha256": "4fbcec45f5a8f38486a045957bef78561bb6b3b0b7e1ef2b2dde8562845a7528",
+   "refs": 97
+  },
+  {
+   "name": "7.html",
+   "sha256": "fc19beb4dce3846540cefe6a35836a55348b56485c301609519069894583d69f",
+   "refs": 82
+  },
+  {
+   "name": "8.html",
+   "sha256": "f418048974f152552f65b7c51c6752499f5ca274727de3e7287592a8723c1969",
+   "refs": 488
+  },
+  {
+   "name": "9.html",
+   "sha256": "72c74ac456ac227aaf6a38da041d560321fca4d1d5f223b0bfa6899cb6ecc3f4",
+   "refs": 117
+  },
+  {
+   "name": "10.html",
+   "sha256": "90a93b972c03f146b8efb75e985fb3903552461757506225e79779fc1077f494",
+   "refs": 427
+  },
+  {
+   "name": "8-crlf.html",
+   "sha256": "79a68ae4c89d55052f164948d121031ef8a22563d79357206b13b2e1e3cc6109",
+   "refs": 488
+  },
+  {
+   "name": "8-bom.html",
+   "sha256": "66e3d942c78f369e46434a9d38c1e8ea04a4a91bc129d085e17f8505762e3704",
+   "refs": 488
+  },
+  {
+   "name": "8-nonbmp.html",
+   "sha256": "2345337c25488850bb826bcd2c5adeeaead0a74b1c371f29f03dc983546a3856",
+   "refs": 488
+  },
+  {
+   "name": "5-crlf.html",
+   "sha256": "016c70440109bac9a8b72b95281069733fb0fc02ffa7746644c8e89336ff67ab",
+   "refs": 93
+  },
+  {
+   "name": "5-bom.html",
+   "sha256": "928387c0c824122031a3b27ad04f5aece4794ea3838d73aaed93d52bff882e1b",
+   "refs": 93
+  },
+  {
+   "name": "5-nonbmp.html",
+   "sha256": "8553d6d78d0302899cd5b4be1d963100278bb75ea2192044a4e366045a98c7dd",
+   "refs": 93
+  }
+ ],
+ "changes": {
+  "task": 30,
+  "random": 1500,
+  "skipped": 0,
+  "noRange": 124,
+  "cases": 10,
+  "randomByOp": {
+   "remove": 290,
+   "replace": 295,
+   "insert_after": 311,
+   "set_attribute": 302,
+   "replace_text": 302
+  },
+  "acceptedByOp": {
+   "remove": 275,
+   "replace": 135,
+   "insert_after": 152,
+   "set_attribute": 302,
+   "replace_text": 300
+  },
+  "byLocator": {
+   "ref": 1192,
+   "text+tag": 166,
+   "text": 106,
+   "id": 7,
+   "id+child+n": 29
+  },
+  "refusals": {
+   "replace: outside": 160,
+   "insert_after: outside": 148,
+   "insert_after: noend": 11,
+   "remove: outside": 15,
+   "replace_text: rawtext": 1,
+   "replace_text: nomap": 1
+  }
+ },
+ "parsersDisagree": [],
+ "failures": [],
+ "controls": {
+  "moves the node by 1 byte": {
+   "failures": 1155,
+   "caseFailed": null,
+   "ok": true
+  },
+  "writes the whole file again from the tree": {
+   "failures": 1196,
+   "caseFailed": null,
+   "ok": true
+  },
+  "changes CRLF to LF": {
+   "failures": 281,
+   "caseFailed": null,
+   "ok": true
+  },
+  "calls every located range clean": {
+   "failures": 14,
+   "caseFailed": null,
+   "ok": true
+  },
+  "set_attribute that adds before />": {
+   "failures": 128,
+   "caseFailed": true,
+   "ok": true
+  },
+  "insert_after without the end-tag check": {
+   "failures": 6,
+   "caseFailed": true,
+   "ok": true
+  },
+  "replace_text that ignores the bounds of a character reference": {
+   "failures": 1,
+   "caseFailed": true,
+   "ok": true
+  },
+  "a text locator that takes the first of several matches": {
+   "failures": 1,
+   "caseFailed": true,
+   "ok": true
+  }
+ },
+ "minimumOk": true,
+ "verdict": "PASS"
+}

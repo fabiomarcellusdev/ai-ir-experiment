@@ -94,3 +94,17 @@ Option B.
   `.claude/hooks/` no longer exists. The permission rules still ask before an edit of a `.git` file or folder, and
   `check.mjs fast` still fails in a worktree that lacks the owner's local files. The worktree defence is weaker: the
   owner's approval of each push is now the main control.
+- **2026-11-10, one work branch per milestone** (owner; decision 0004, amendment of 2026-11-10). "Each task has a
+  short branch" now reads "each milestone has one work branch". The branch names, the protection of `main` and the
+  owner's merge are unchanged.
+- **2026-11-13, a push skips the commits that the remote already holds** (owner). Pull request #4 conflicted with
+  `main`, which holds pull request #3 as one squash commit that GitHub made in the web interface. The fix is a merge
+  of `main` into the work branch (a rebase would rewrite a pushed branch). The push guard then refused the merge's
+  push: it scanned `main`'s squash commit again, and GitHub had dated that commit -06:00. **Decision:** for a push to
+  an existing branch, the guard leaves out the commits that the remote's branches already hold, read from the remote
+  with `git ls-remote` (the rule it already used for a new branch). Every commit that the push publishes is still
+  scanned. **What is lost:** a commit that someone pushed to another remote branch without the hook is not scanned
+  again; that was already true for a new branch, and the hooks guard against mistakes, not a hostile process.
+  **Noted:** GitHub's web merges date their commits in a local time zone (4e4579d: -06:00), so `main`'s public history
+  already shows the owner's offset (`docs/follow-ups.md`).
+

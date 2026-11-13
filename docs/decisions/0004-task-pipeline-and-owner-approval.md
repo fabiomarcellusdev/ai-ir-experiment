@@ -85,3 +85,9 @@ hooks that failed open, and time-zone details in messages and commit dates. Each
   them to agents" for the override variables (Limits); and "Each finding is now a test" (How this design was tested:
   the hook tests are deleted). The deny rules in `.claude/settings.json` still refuse `gh pr merge` and force pushes
   in their plain spelling, and the git hooks still refuse commits and pushes on `main`.
+- **2026-11-10, one work branch per milestone** (owner). The owner found one branch and one pull request for each
+  small change too slow. **Decision:** the work for one milestone goes on one work branch. Each task still runs the
+  quiet-hours check, the local checks and the independent review, and ends with a local commit. The push, the pull
+  request, CI and the owner's merge happen once, at a significant milestone (for example a gate result or a go or
+  no-go decision). **What is lost:** CI runs less often, so a failure on macOS or Linux shows later; and a pull request
+  is larger to review. **Rejected:** a pull request for each task (the old rule; too slow for the owner).

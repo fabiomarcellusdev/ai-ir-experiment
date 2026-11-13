@@ -1,0 +1,11 @@
+{
+ "frozen": "2026-11-11",
+ "sha256": {
+  "experiments/c03/tasks.json": "f8995ebcebaed11c0341ea1fd2abe966173f421c5b8d27abcd87b3e93b518708",
+  "experiments/c03/baseline-tools.json": "c36657860ae12104e3d8598d30351afa192dc0ba750e70cbaa5e2005ed771e84",
+  "experiments/c03/mcp-tools.json": "1f1f9f4fe591834ad5ea6427b40e7c7b5aa4d470eb36849dd011a247daf1bef5",
+  "experiments/c03/html.mjs": "6504f992f94c55372beec1fe376b770960a0472f2466ae11a2fe85f8839b1cac",
+  "experiments/c03/make-tasks.mjs": "f2a72386d1a1eb8acab0a424039f82984b4ca91363cda8275c3f5fc840d4f173",
+  "experiments/c03/run-c03.mjs": "5a7401547e7bd8f78d5a94844974e5c520ea11e9658775bf4974a3821803019b"
+ }
+}

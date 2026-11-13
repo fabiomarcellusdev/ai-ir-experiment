@@ -1,0 +1,227 @@
+{
+ "gate": "C0.2 v2",
+ "date": "2026-11-13",
+ "commit": "f2474355083bab06ac0ea58173d4246c5d8a8285",
+ "dev": false,
+ "node": "v24.22.1",
+ "machine": {
+  "platform": "win32 10.0.26300",
+  "cpu": "AMD Ryzen 9 9950X3D 16-Core Processor          ",
+  "cores": 32,
+  "memoryGB": 66
+ },
+ "files": [
+  {
+   "name": "pre-text.html",
+   "bytes": 631,
+   "sha256": "c96a777b718fe191bded98e6d9fc9391945621116a9c30996d9ba59c4e8fb0d2"
+  },
+  {
+   "name": "hidden.html",
+   "bytes": 653,
+   "sha256": "64d376b1e19b3afab6906ac35072f40bdcd9bf162bb6275a14715ece0c812f97"
+  },
+  {
+   "name": "markup-join.html",
+   "bytes": 150,
+   "sha256": "218b58180b8dbc43e33a2f24b1b55c681ae1c7fe01c85e68b7334b0a75cf3ead"
+  },
+  {
+   "name": "attributes.html",
+   "bytes": 297,
+   "sha256": "3cda58bd60ce2c7070def5b51c972056a19831a1f6d4efdff0366caf232ab9ce"
+  },
+  {
+   "name": "unclosed-comment.html",
+   "bytes": 102,
+   "sha256": "8ab70bb555ac6723cba2686d240f5689f2f0d103afda368e4afbd475244bcdcd"
+  },
+  {
+   "name": "unclosed-script.html",
+   "bytes": 100,
+   "sha256": "cf4c9392e2cf2d6bd7b9faf0f4ba5a2df3badcbe4e9eaa33c61731c1f3fd0ea7"
+  },
+  {
+   "name": "nest-513.html",
+   "bytes": 5647,
+   "sha256": "0da20b47c797a524dfce3a0351dc0220ee7d39b7c3964a348f9856fef67ec2c9"
+  },
+  {
+   "name": "backtrack-1.html",
+   "bytes": 242,
+   "sha256": "c3522d02fb3c037045a1ac18a07c5dbcf4b11a5f4328da46eb5d98da75f40385"
+  },
+  {
+   "name": "backtrack-2.html",
+   "bytes": 261,
+   "sha256": "d83ef97bfbc591fc09f4a9728a107bdb52df38225b21383c45bbc73cffc09bb6"
+  },
+  {
+   "name": "regex.html",
+   "bytes": 141,
+   "sha256": "ad18c76b1eb679847ced74ae042ce68ba34b3494e1186fb994fb2615222c2773"
+  },
+  {
+   "name": "data-uri.html",
+   "bytes": 100154,
+   "sha256": "d7d032274bdc712812285ae7cb06429fc90aebeb6cd4d5c2bd0e593bf1818a90"
+  },
+  {
+   "name": "ten-thousand.html",
+   "bytes": 250097,
+   "sha256": "054104f197585120d08cb52494b74217ca3146fe1e5dcc00636966ff4db32077"
+  },
+  {
+   "name": "fostered-2mb.html",
+   "bytes": 1900134,
+   "sha256": "ea013872d4b6a8bd85e14f9ecd0d3996f17d2f2b3ddc664f2aa8dc9c629abea0"
+  },
+  {
+   "name": "large-25mb.html",
+   "bytes": 25000132,
+   "sha256": "f915d5d29e051f7d00c9e87698c57158663cc3b1d3c70766fbc76dd95aa5fae1"
+  },
+  {
+   "name": "ids.html",
+   "bytes": 532,
+   "sha256": "9a0e08b745855d4986a9d5aafd5e6ecca734987d83e96d6677cdc7b179958138"
+  },
+  {
+   "name": "data-id.html",
+   "bytes": 100169,
+   "sha256": "1c78ff5a04b599d8f4c121c475e736cee18a9de387c206446d43efb26803b25c"
+  },
+  {
+   "name": "tags-20000.html",
+   "bytes": 460103,
+   "sha256": "b2241f44ff3178269c3dcbb2ba15adb777dd98144a2379bb81fd965285eb2b9d"
+  },
+  {
+   "name": "id-80000.html",
+   "bytes": 560107,
+   "sha256": "b13e9ae07591066b4d12b283c31a247e128f37b964b3686d80c45dad5c1636c5"
+  },
+  {
+   "name": "long-text.html",
+   "bytes": 1500113,
+   "sha256": "135b52b179fe8bf57b7e932f0b79229301317da0fc04162004cd55fb4d8c0bec"
+  }
+ ],
+ "oracleModules": [
+  "html5lib",
+  "html5lib._ihatexml",
+  "html5lib._inputstream",
+  "html5lib._tokenizer",
+  "html5lib._trie",
+  "html5lib._trie._base",
+  "html5lib._trie.py",
+  "html5lib._utils",
+  "html5lib.constants",
+  "html5lib.html5parser",
+  "html5lib.serializer",
+  "html5lib.treebuilders",
+  "html5lib.treebuilders.base",
+  "html5lib.treebuilders.etree",
+  "html5lib.treewalkers"
+ ],
+ "runs": 5,
+ "linkCase": true,
+ "streamCase": true,
+ "calls": 1290,
+ "ms": {
+  "p50": 2,
+  "p99": 299,
+  "max": 424
+ },
+ "slowestCases": [
+  [
+   "fostered-2mb.html:outline",
+   424
+  ],
+  [
+   "fostered-2mb.html:remove",
+   397
+  ],
+  [
+   "time:long-text",
+   303
+  ],
+  [
+   "long-text.html:replace_text",
+   285
+  ],
+  [
+   "fostered-2mb.html:replace_text",
+   271
+  ]
+ ],
+ "noWrongEdit": {
+  "changes": 76,
+  "accepted": 70
+ },
+ "failures": [],
+ "controls": {
+  "a planted backtracking regex": {
+   "condition": "c7",
+   "cases": [
+    "backtrack-"
+   ],
+   "failures": 6,
+   "ok": true
+  },
+  "html_find reads its search text as a regular expression": {
+   "condition": "c4",
+   "cases": [
+    "find:regex"
+   ],
+   "failures": 3,
+   "ok": true
+  },
+  "html_find matches hidden content": {
+   "condition": "c3",
+   "cases": [
+    "find:hidden"
+   ],
+   "failures": 12,
+   "ok": true
+  },
+  "html_find with no limit on matches": {
+   "condition": "c4",
+   "cases": [
+    "find:10000"
+   ],
+   "failures": 4,
+   "ok": true
+  },
+  "an id listing with no output cap": {
+   "condition": "c1",
+   "cases": [
+    "time:id-listing"
+   ],
+   "failures": 1,
+   "ok": true
+  },
+  "a locator that ignores the hash": {
+   "condition": "c6",
+   "cases": [
+    "stale:text"
+   ],
+   "failures": 7,
+   "ok": true
+  },
+  "an id listing that shows hidden children": {
+   "condition": "c3",
+   "cases": [
+    "ids:shown-parent"
+   ],
+   "failures": 4,
+   "ok": true
+  },
+  "the POC view on the nested pre case": {
+   "condition": "c1",
+   "failures": 1,
+   "ok": true
+  }
+ },
+ "verdict": "PASS"
+}

@@ -1,0 +1,215 @@
+{
+ "gate": "c10",
+ "tools": "v2",
+ "preview": true,
+ "seed": 20261115,
+ "offsetUnit": "UTF-16 code units of the file as text",
+ "skipped": [],
+ "readTokens": {},
+ "tasks": [
+  {
+   "id": "1-question",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/preview/1/comparison.html",
+   "type": "question",
+   "ref": 74,
+   "tag": "td",
+   "quote": "Creators & small teams",
+   "attr": "data-label",
+   "answer": "HeyGen",
+   "prompt": "What is the value of the `data-label` attribute of the `td` element that contains the text \"Creators & small teams\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    11507,
+    11558
+   ]
+  },
+  {
+   "id": "2-text",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/preview/2/index.html",
+   "type": "text",
+   "ref": 49,
+   "tag": "h2",
+   "quote": "Nama Wanita & Nama Pria",
+   "newText": "Updated wording 2",
+   "prompt": "Change the text \"Nama Wanita & Nama Pria\" to \"Updated wording 2\". Change nothing else.",
+   "range": [
+    4021,
+    4067
+   ],
+   "change": [
+    4039,
+    4062,
+    "Updated wording 2"
+   ],
+   "expected": "experiments/gate-files/c07/preview-v2-c10/expected/2-text.html",
+   "expectedSha256": "3b16ed8bd48ef83ef44409cef4dfb1bc709547477da434348a12169177b458d7"
+  },
+  {
+   "id": "3-attribute",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/preview/3/signals.html",
+   "type": "attribute",
+   "ref": 230,
+   "tag": "a",
+   "quote": "Discord",
+   "attr": "href",
+   "newValue": "updated-value-3",
+   "prompt": "In the `a` element that contains the text \"Discord\", set the `href` attribute to \"updated-value-3\". Change nothing else.",
+   "range": [
+    22061,
+    22109
+   ],
+   "change": [
+    22064,
+    22097,
+    "href=\"updated-value-3\""
+   ],
+   "expected": "experiments/gate-files/c07/preview-v2-c10/expected/3-attribute.html",
+   "expectedSha256": "d2935cd782d716b4bb1fd82a720068f74408ba17fbf1700aeed744ded2906087"
+  },
+  {
+   "id": "4-structure",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/preview/4/index.html",
+   "type": "structure",
+   "ref": 101,
+   "tag": "li",
+   "quote": "— when a model is destroyed.",
+   "op": "insertion",
+   "prompt": "After the `li` element that contains the text \"— when a model is destroyed.\", add `<p>New text</p>`.",
+   "range": [
+    7580,
+    7580
+   ],
+   "change": [
+    7580,
+    7580,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/preview-v2-c10/expected/4-structure.html",
+   "expectedSha256": "1f5e5e85df90f1c4dc23e4f4992da3523d3c8dca5d794c08bea67379314be105"
+  },
+  {
+   "id": "5-question",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/preview/5/build.html",
+   "type": "question",
+   "ref": 72,
+   "tag": "div",
+   "quote": "And somehow, at the time, I",
+   "attr": "class",
+   "answer": "col-copy",
+   "prompt": "What is the value of the `class` attribute of the `div` element that contains the text \"And somehow, at the time, I\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    8607,
+    8975
+   ]
+  },
+  {
+   "id": "6-text",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/preview/6/progress.html",
+   "type": "text",
+   "ref": 67,
+   "tag": "span",
+   "quote": "two last step and you're done!",
+   "newText": "Updated wording 6",
+   "prompt": "Change the text \"two last step and you're done!\" to \"Updated wording 6\". Change nothing else.",
+   "range": [
+    9227,
+    9327
+   ],
+   "change": [
+    9290,
+    9320,
+    "Updated wording 6"
+   ],
+   "expected": "experiments/gate-files/c07/preview-v2-c10/expected/6-text.html",
+   "expectedSha256": "b80fe5d54b87ab6da5bed92a1f203c389c551a07eea6b1215a74352a380c41a9"
+  },
+  {
+   "id": "7-attribute",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/preview/7/preview.html",
+   "type": "attribute",
+   "ref": 57,
+   "tag": "p",
+   "quote": "We do not include the ability",
+   "attr": "class",
+   "newValue": "updated-value-7",
+   "prompt": "In the `p` element that contains the text \"We do not include the ability\", set the `class` attribute to \"updated-value-7\". Change nothing else.",
+   "range": [
+    7172,
+    7323
+   ],
+   "change": [
+    7175,
+    7187,
+    "class=\"updated-value-7\""
+   ],
+   "expected": "experiments/gate-files/c07/preview-v2-c10/expected/7-attribute.html",
+   "expectedSha256": "b69bdf66d544cb0ac58deaa70b3623763a297bb2de8b54af347ad80b9a42301f"
+  },
+  {
+   "id": "8-structure",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/preview/8/playground.html",
+   "type": "structure",
+   "ref": 32,
+   "tag": "a",
+   "quote": "Buttons",
+   "op": "insertion",
+   "prompt": "After the `a` element that contains the text \"Buttons\", add `<p>New text</p>`.",
+   "range": [
+    1888,
+    1888
+   ],
+   "change": [
+    1888,
+    1888,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/preview-v2-c10/expected/8-structure.html",
+   "expectedSha256": "7154dcc9af68866a2f672ae7dd322c66ea56ac4815c134b426a7a7649f0c906a"
+  },
+  {
+   "id": "9-question",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/preview/9/blog.html",
+   "type": "question",
+   "ref": 114,
+   "tag": "a",
+   "quote": "Contact Us",
+   "attr": "href",
+   "answer": "#",
+   "prompt": "What is the value of the `href` attribute of the `a` element that contains the text \"Contact Us\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    11805,
+    11854
+   ]
+  },
+  {
+   "id": "10-text",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/preview/10/Blog1.html",
+   "type": "text",
+   "ref": 162,
+   "tag": "span",
+   "quote": "Share on Facebook",
+   "newText": "Updated wording 10",
+   "prompt": "Change the text \"Share on Facebook\" to \"Updated wording 10\". Change nothing else.",
+   "range": [
+    23176,
+    23232
+   ],
+   "change": [
+    23208,
+    23225,
+    "Updated wording 10"
+   ],
+   "expected": "experiments/gate-files/c07/preview-v2-c10/expected/10-text.html",
+   "expectedSha256": "226895ddafa507374555db0473f74dbf5bf9c03d1bfe3312bb5b96d9ab9b65e5"
+  }
+ ]
+}

@@ -16,3 +16,10 @@ coverage/
 # Third-party pages and source files for experiments and gates: other people's content, never committed
 experiments/**/pages/
 experiments/gate-files/
+experiments/c03/baseline-tools.json
+
+# The Python virtual environment of the C0.1 oracle (tests/gates/oracle-requirements.txt)
+.venv-oracle/
+
+# Python bytecode caches (the oracles run with -B; this catches a run without it)
+__pycache__/

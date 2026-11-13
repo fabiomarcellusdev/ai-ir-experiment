@@ -1,0 +1,1607 @@
+{
+ "gate": "c08",
+ "date": "2026-11-12",
+ "seed": 20261113,
+ "commit": "d95aba8f75f5479a720ff0e20d83b454090ea999",
+ "rules": {
+  "experiments/c07/draw-files.mjs": "b9a44ed1f33998765214454fa214a603a4f385a4c2a35f58b519c166a381a347",
+  "experiments/c07/tasks.mjs": "2c91cadfcd4db749cd1c0138e6189a91ead2e5fed62b2e4e6445bf0406ee3358",
+  "experiments/c07/rules.mjs": "6696cd2d1ebe556179e4cbb950450f27006f05541c6c866b874f1fec22854762",
+  "experiments/c07/oracle_c07.py": "affa06ca64ca4b9601657853b002266d294e5c3854dbfc9137a4310ddd929355",
+  "experiments/c01/oracle.py": "1a254320bc1d21ee641c2755f47fbf887259064828043653f0ce3ba7212b4df0",
+  "experiments/c01/tree.mjs": "03f6673a7f950cfbd4c9ffc401c1eddfd1e67b8df33cd8c3aa927746a88a9751",
+  "experiments/c01/run-c01.mjs": "2462f491629064f8144096c0e5c715e547c319795ce1f967f1964d4c87f6fff5",
+  "experiments/c03/select-files.mjs": "9ae1b6076efd2ef29655115fd6fbe0a2f1fedf8f4b4f2bd6b53e7f3610b51d7a",
+  "experiments/c03/make-tasks.mjs": "67f0c74e6ac9808952b27f0eef26e6099dd11688f2c35668271c4584b235d51b",
+  "experiments/c03/html.mjs": "6504f992f94c55372beec1fe376b770960a0472f2466ae11a2fe85f8839b1cac",
+  "experiments/c05/draw-files.mjs": "2739930ac6b921fa4e5541e40059382f292be87dd83a02f4f5f09bb1c4f2b71e",
+  "server/view.mjs": "580c6401db707aba8eff1860dfc4675b100bdc2f4e11c9725c2d0650fc9b1c39",
+  "server/edit.mjs": "c0933eee6f4c020f61f4c58be5271175722147496dac8aa1900dc5e7d89ec165",
+  "server/errors.mjs": "871d3921e782db838d2b0970ab2aadfda33e2321c3e95f40808f58c617c17916",
+  "server/v2.mjs": "04d08db8acd7ede5e6d3655a5f21ebbf3b7cd404579cf66e2e8886da6456576b",
+  "server/source.mjs": "326ec6a73b45e665a838363e45bc45f312b0f0c952065fe3e441ab608651a60a",
+  "server/workspace.mjs": "b1dbadf0d0ef0942f560167ec7fad0545c56f2daf1583354d46142f60efc8122"
+ },
+ "parse5": "8.0.1",
+ "from": "experiments/c03/file-set.json",
+ "excludedOwners": [
+  "activecampaign",
+  "affitor",
+  "ahmadhuss",
+  "ampersandjs",
+  "ash-project",
+  "bootstrapdash",
+  "brazil-data-cube",
+  "colorlibhq",
+  "coreui",
+  "davidgrzyb",
+  "elhakimyasya",
+  "internations",
+  "puikinsh",
+  "pulkitxm",
+  "retros-id",
+  "sendwithus",
+  "stixproject"
+ ],
+ "kinds": [
+  {
+   "kind": "marketing",
+   "repositories": 11,
+   "files": 411,
+   "readInDrawOrder": [
+    [
+     "PaulleDemon/awesome-landing-pages",
+     "src/others/carwash/index.html",
+     "pass"
+    ],
+    [
+     "zuramai/mazer",
+     "src/table-datatable-jquery.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/component-button.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/component-modal.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/layout-horizontal.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/form-element-checkbox.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/component-card.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/component-list-group.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/extra-component-glightbox.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/form-layout.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/layout-rtl-backup.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/table.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/application-email.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/ui-widgets-todolist.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/layout-rtl.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/component-navs.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/table-datatable.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/component-pagination.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/form-element-input.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/ui-file-uploader.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/index.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/form-element-input-group.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/form-element-select.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/ui-icons-dripicons.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "zuramai/mazer",
+     "src/component-dropdown.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "AlexBSoft/win95.css",
+     "index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "AlexBSoft/win95.css",
+     "cloud.html",
+     "pass"
+    ]
+   ],
+   "fillReadInDrawOrder": [
+    [
+     "faizmalkani/appsite",
+     "bower_components/iron-icons/editor-icons.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/iron-icons/communication-icons.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/core-icons/device-icons.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/paper-ripple/paper-ripple.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/core-icons/maps-icons.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/paper-styles/color.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/core-icons/editor-icons.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/core-selector/core-selector.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/iron-icons/device-icons.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/core-icons/core-icons.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/iron-icons/image-icons.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/iron-icons/notification-icons.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/iron-icons/av-icons.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/polymer/polymer.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/iron-icons/maps-icons.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/core-icons/social-icons.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/polymer/polymer-mini.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/core-icons/image-icons.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/iron-icons/iron-icons.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/paper-styles/demo/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 2, attribute 2, removal 3, insertion 3"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/core-icons/notification-icons.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/core-icons/av-icons.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/polymer/polymer-micro.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "faizmalkani/appsite",
+     "bower_components/core-icons/communication-icons.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "tailwindtoolbox/Landing-Page",
+     "index.html",
+     "line 273 is longer than 2,000 characters"
+    ],
+    [
+     "themesberg/landwind",
+     "index.html",
+     "line 112 is longer than 2,000 characters"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/blox/resume-experience/block.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/layouts/_partials/functions/notebook/render.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/layouts/_partials/functions/parse_block_v3.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/blox/logos/block.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/blox/help-questions/block.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/layouts/_partials/hooks/body-end/hbx-debug-hud.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/blox/resume-biography-3/block.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/layouts/_partials/views/slides-gallery.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/blox/resume-biography/block.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/layouts/_partials/views/card.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/slides/layouts/slides/single.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/blox/team-showcase/block.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/layouts/_partials/site_head.html",
+     "meta name=\"generator\""
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/blox/portfolio/block.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/blox/content-collection/block.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/layouts/single.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/blox/contact-info/block.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/layouts/_partials/components/search-modal.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/layouts/events/page.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/layouts/_partials/functions/generate_color_scale.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/blox/focus-areas/block.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/blox/dev-hero/block.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/layouts/_partials/components/cover.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "HugoBlox/kit",
+     "modules/blox/layouts/_partials/functions/build_links.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "apu52/Travel_Website",
+     "dedicated-destinations/santorini-aegean-sea/start.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 4, insertion 4"
+    ],
+    [
+     "apu52/Travel_Website",
+     "faq.html",
+     "pass"
+    ],
+    [
+     "feimacode/open-design-agent-kit",
+     "packages/content/assets/open-design/examples/deck-swiss-international/example.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "feimacode/open-design-agent-kit",
+     "packages/vscode/assets/open-design/examples/huashu-luxe-whitespace/example.html",
+     "pass"
+    ]
+   ],
+   "picks": [
+    {
+     "repo": "PaulleDemon/awesome-landing-pages",
+     "commit": "6b3b758aa6038333f8673640902d3d8387653be1",
+     "path": "src/others/carwash/index.html",
+     "size": 35381,
+     "sameRepository": false,
+     "fill": false,
+     "sha256": "cfc5f566abcb8f8b3149e9efa9fc75ccce532e930bfbf42e347c8e01e66303e5",
+     "file": "experiments/gate-files/c07/v2-c08/1/index.html"
+    },
+    {
+     "repo": "AlexBSoft/win95.css",
+     "commit": "faff13b2788e9b44e92ac0d51433d2d878907f50",
+     "path": "cloud.html",
+     "size": 10158,
+     "sameRepository": false,
+     "fill": false,
+     "sha256": "01bf34894a322ead700c31f95019996f5a9149c0b3c597bd3cb98dbeecfc1bde",
+     "file": "experiments/gate-files/c07/v2-c08/2/cloud.html"
+    },
+    {
+     "repo": "apu52/Travel_Website",
+     "commit": "69995732da24e46a0a9e493fb4b3401bbe45821b",
+     "path": "faq.html",
+     "size": 17908,
+     "sameRepository": false,
+     "fill": 1,
+     "sha256": "dfba4e98a3e23f54b4739d3c0c1b03cd48910e198eea5cc1d339b35d3d3e0d7a",
+     "file": "experiments/gate-files/c07/v2-c08/3/faq.html"
+    },
+    {
+     "repo": "feimacode/open-design-agent-kit",
+     "commit": "17902da98b993e6b0da7b69ac4ffb8301045b638",
+     "path": "packages/vscode/assets/open-design/examples/huashu-luxe-whitespace/example.html",
+     "size": 37956,
+     "sameRepository": false,
+     "fill": 2,
+     "sha256": "60e94611cbdb1831bbf4a1b7c5809f0b1ae8b19dbc7ddea0eca3b63aa485d091",
+     "file": "experiments/gate-files/c07/v2-c08/4/example.html"
+    }
+   ]
+  },
+  {
+   "kind": "documentation",
+   "repositories": 10,
+   "files": 2471,
+   "readInDrawOrder": [
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Hotels/Sheraton/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 1, attribute 1, removal 1, insertion 1"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Fast Foods & coffeeshops/Starbucks Coffee/starb.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 1, attribute 1, removal 1, insertion 1"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Theme Parks/Efteling/WithForgotCredentials/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 1, attribute 1, removal 1, insertion 1"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Supermarkets/Tesco/WithForgotCredentials/index.html",
+     "line 113 is longer than 2,000 characters"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Hotels/Best Western Hotels/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 1, attribute 1, removal 1, insertion 1"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Gyms/McFIT/index.html",
+     "line 130 is longer than 2,000 characters"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Supermarkets/Tesco/index.html",
+     "line 101 is longer than 2,000 characters"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Theme Parks/Disneyland Paris/WithForgotCredentials/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 1, attribute 1, removal 1, insertion 1"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Gyms/Anytime Fitness/WithForgotCredentials/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 1, attribute 1, removal 1, insertion 1"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Hotels/Best Western Hotels/WithForgottenCredentials/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 1, attribute 1, removal 1, insertion 1"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Brands/Carlsberg/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 1, attribute 1, removal 1, insertion 1"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/ByMe/index.html",
+     "line 195 is longer than 2,000 characters"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Hotels/Sheraton/WithForgotCredentials/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 1, attribute 1, removal 1, insertion 1"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Brands/Carlsberg/WithForgotCredentials/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 1, attribute 1, removal 1, insertion 1"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Theme Parks/Disneyland Paris/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 1, attribute 1, removal 1, insertion 1"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Internet Providers/Nos/index.html",
+     "line 8 is longer than 2,000 characters"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Gyms/Anytime Fitness/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 1, attribute 1, removal 1, insertion 1"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Fast Foods & coffeeshops/Starbucks Coffee/WithForgotCredentials/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 1, attribute 1, removal 1, insertion 1"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Gyms/McFIT/WithForgotCredentials/index.html",
+     "line 130 is longer than 2,000 characters"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Hotels/Novotel/WithForgotCredentials/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 1, attribute 1, removal 1, insertion 1"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Theme Parks/Efteling/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 1, attribute 1, removal 1, insertion 1"
+    ],
+    [
+     "soynx/Hacking-PenTesting-Utils",
+     "EvilPortalHTML/Hotels/Novotel/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 1, attribute 1, removal 1, insertion 1"
+    ],
+    [
+     "medic/cht-docs",
+     "layouts/_default/_markup/render-link.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "medic/cht-docs",
+     "layouts/partials/custom/head-end.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "pocketbase/site",
+     "static/old/jsvm/types/CoreApp.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 3, attribute 3, removal 3, insertion 1"
+    ],
+    [
+     "pocketbase/site",
+     "static/jsvm/functions/onCollectionUpdateExecute.html",
+     "pass"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Unix.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Int32.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/type_MoreLabels.Set.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Format.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/type_MoreLabels.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Buffer.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Thread.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/type_MoreLabels.Map.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/type_Bytes.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Map.S.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Float.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.ArrayLabels.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Array.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/type_Ephemeron.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/In_channel.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/StdLabels.String.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Arg.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Bigarray.Array2.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Marshal.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.ListLabels.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Nativeint.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Out_channel.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Printexc.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/MoreLabels.Map.S.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/type_CamlinternalFormatBasics.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/ListLabels.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/UnixLabels.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Array.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Int32.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Str.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.StringLabels.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Set.Make.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Sys.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.String.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Bigarray.Array3.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.List.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/CamlinternalFormatBasics.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Hashtbl.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/index_modules.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Scanf.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Filename.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/MoreLabels.Set.Make.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Int64.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Nativeint.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Map.Make.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Bigarray.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Printf.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Marshal.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Printf.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Sys.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/type_Map.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Seq.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Bigarray.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Format_tutorial.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/StdLabels.Bytes.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Set.S.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/type_Hashtbl.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/type_BytesLabels.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Hashtbl.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Arg.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/type_Set.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Float.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/MoreLabels.Map.Make.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/type_Bigarray.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Filename.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Buffer.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/MoreLabels.Set.S.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/StringLabels.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.In_channel.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/StdLabels.List.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Float.ArrayLabels.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Scanf.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/MoreLabels.Hashtbl.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Format.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Printexc.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.BytesLabels.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/type_Format.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Bytes.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/type_Unix.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/type_UnixLabels.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/StdLabels.Array.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/ArrayLabels.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Out_channel.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Gc.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Int64.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Gc.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Bigarray.Genarray.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Seq.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Lexing.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/BytesLabels.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/type_Stdlib.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/String.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Lexing.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Float.Array.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/index_types.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/List.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Runtime_events.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/Stdlib.Bytes.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/type_MoreLabels.Hashtbl.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "reasonml/reasonml.github.io",
+     "website/pages/api/type_Float.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "mmistakes/minimal-mistakes",
+     "_includes/comments.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "mmistakes/minimal-mistakes",
+     "_includes/author-profile.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "rapidsai/docs",
+     "_includes/selector.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "rapidsai/docs",
+     "_includes/bokeh.html",
+     "line 10 is longer than 2,000 characters"
+    ],
+    [
+     "rapidsai/docs",
+     "_includes/hvplot.html",
+     "line 10 is longer than 2,000 characters"
+    ],
+    [
+     "rapidsai/docs",
+     "_includes/datashader.html",
+     "line 10 is longer than 2,000 characters"
+    ],
+    [
+     "rapidsai/docs",
+     "_includes/holoviews.html",
+     "line 10 is longer than 2,000 characters"
+    ],
+    [
+     "rapidsai/docs",
+     "_includes/plotly.html",
+     "line 10 is longer than 2,000 characters"
+    ],
+    [
+     "rapidsai/docs",
+     "_includes/seaborn.html",
+     "line 10 is longer than 2,000 characters"
+    ],
+    [
+     "KineticEnforcer/MarkStack",
+     "editor.html",
+     "pass"
+    ]
+   ],
+   "fillReadInDrawOrder": [
+    [
+     "spinnaker/spinnaker.github.io",
+     "reference/api/service-plugin-apis/orca-api/master/html/orca-api/index.html",
+     "pass"
+    ]
+   ],
+   "picks": [
+    {
+     "repo": "pocketbase/site",
+     "commit": "1bad7c0237ca8a9ca432154f736f3426104cedd2",
+     "path": "static/jsvm/functions/onCollectionUpdateExecute.html",
+     "size": 44189,
+     "sameRepository": false,
+     "fill": false,
+     "sha256": "95219cfe19065e2b31ae441ef7863a8942d6e54b83c810a92f063f849c2e3240",
+     "file": "experiments/gate-files/c07/v2-c08/5/onCollectionUpdateExecute.html"
+    },
+    {
+     "repo": "KineticEnforcer/MarkStack",
+     "commit": "9117bb9aef1a783d5d4ccc1a31d6ba6eabb279fa",
+     "path": "editor.html",
+     "size": 79927,
+     "sameRepository": false,
+     "fill": false,
+     "sha256": "285d6306190d8fdd2de43385b2aa28635f43d48c75c929bb17c4539cc7ec4ebb",
+     "file": "experiments/gate-files/c07/v2-c08/6/editor.html"
+    },
+    {
+     "repo": "spinnaker/spinnaker.github.io",
+     "commit": "0cdd37af7541293a810494a1bb4d7df9ef553d60",
+     "path": "reference/api/service-plugin-apis/orca-api/master/html/orca-api/index.html",
+     "size": 14128,
+     "sameRepository": false,
+     "fill": 1,
+     "sha256": "91d806abcc18a42fcc8d33c03f33825d389545fc6e33a0d871a275ff0ab510d1",
+     "file": "experiments/gate-files/c07/v2-c08/7/index.html"
+    }
+   ]
+  },
+  {
+   "kind": "email",
+   "repositories": 10,
+   "files": 46,
+   "readInDrawOrder": [
+    [
+     "sendgrid/email-templates",
+     "dynamic-templates/transactional-actions/call_to_action.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "sendgrid/email-templates",
+     "dynamic-templates/newsletter/news_feed.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "sendgrid/email-templates",
+     "dynamic-templates/different-languages/different_languages.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "sendgrid/email-templates",
+     "use-cases/sendgrid-design-editor/merriweather-password-reset.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "sendgrid/email-templates",
+     "use-cases/sendgrid-design-editor/paste-password-reset.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "sendgrid/email-templates",
+     "paste-templates/digest.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "sendgrid/email-templates",
+     "merriweather-templates/receipt.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "sendgrid/email-templates",
+     "merriweather-templates/digest.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "sendgrid/email-templates",
+     "dynamic-templates/receipt/receipt.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "sendgrid/email-templates",
+     "dynamic-templates/special-sale/special_sale.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "sendgrid/email-templates",
+     "paste-templates/receipt.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "mailgun/transactional-email-templates",
+     "templates/billing.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "mailgun/transactional-email-templates",
+     "templates/inlined/billing.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "emailmonday/Cerberus",
+     "archived-versions/version 2/template-without-media-queries.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "emailmonday/Cerberus",
+     "cerberus-fluid.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "emailmonday/Cerberus",
+     "cerberus-responsive.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "emailmonday/Cerberus",
+     "archived-versions/version 1/template-default.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "emailmonday/Cerberus",
+     "archived-versions/version 1/template-fluid.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "emailmonday/Cerberus",
+     "archived-versions/version 2/template-with-media-queries.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "emailmonday/Cerberus",
+     "docs/templates/index.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "emailmonday/Cerberus",
+     "cerberus-hybrid.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "mysigmail/html-email-templates",
+     "request-reset-password-1/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "mysigmail/html-email-templates",
+     "request-reset-password-2/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "mysigmail/html-email-templates",
+     "newsletter-2/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "mysigmail/html-email-templates",
+     "ecommerce-1/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "mysigmail/html-email-templates",
+     "newsletter-1/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "mysigmail/html-email-templates",
+     "ecommerce-2/index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "charlesmudy/responsive-html-email-template",
+     "index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 2, attribute 2, removal 2, insertion 2"
+    ],
+    [
+     "threeheartsdigital/emailoctopus-templates",
+     "abacus/transactional.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "threeheartsdigital/emailoctopus-templates",
+     "abacus/product.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "threeheartsdigital/emailoctopus-templates",
+     "wayfair/newsletter.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "threeheartsdigital/emailoctopus-templates",
+     "wayfair/transactional.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "threeheartsdigital/emailoctopus-templates",
+     "karakol/product.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "threeheartsdigital/emailoctopus-templates",
+     "abacus/re-opt-in.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "threeheartsdigital/emailoctopus-templates",
+     "karakol/blog.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "threeheartsdigital/emailoctopus-templates",
+     "karakol/transactional.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "threeheartsdigital/emailoctopus-templates",
+     "abacus/blog.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "threeheartsdigital/emailoctopus-templates",
+     "wayfair/blog.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "adityajha2005/yc-outreach",
+     "index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 4, attribute 4, removal 4, insertion 0"
+    ],
+    [
+     "voidlabs/mosaico",
+     "templates/tedc15/template-tedc15.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "voidlabs/mosaico",
+     "templates/versafix-1/template-versafix-1.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "voidlabs/mosaico",
+     "spec/data/template-versafix-1.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "konsav/email-templates",
+     "promotional.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "konsav/email-templates",
+     "explorational.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "konsav/email-templates",
+     "general.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "danmindru/responsive-html-email-signature",
+     "tests/sample/light/full-mail-light.html",
+     "line 1 is longer than 2,000 characters"
+    ]
+   ],
+   "picks": []
+  },
+  {
+   "kind": "app",
+   "repositories": 12,
+   "files": 279,
+   "readInDrawOrder": [
+    [
+     "themefisher/sleek-bootstrap",
+     "theme/calendar.html",
+     "pass"
+    ],
+    [
+     "TailAdmin/tailadmin-free-tailwind-dashboard-template",
+     "src/partials/layout/app-layout/header/user-dropdown.html",
+     "pass"
+    ]
+   ],
+   "fillReadInDrawOrder": [
+    [
+     "dropways/deskapp",
+     "ui-cards.html",
+     "pass"
+    ]
+   ],
+   "picks": [
+    {
+     "repo": "themefisher/sleek-bootstrap",
+     "commit": "ac1cc2dcd5d279e840d8ccd362407e06651852e9",
+     "path": "theme/calendar.html",
+     "size": 69023,
+     "sameRepository": false,
+     "fill": false,
+     "sha256": "857cc2d642f2b3c406f95b14afb6d6acb8f5f3de4a5cf7611f853882fb339ed3",
+     "file": "experiments/gate-files/c07/v2-c08/8/calendar.html"
+    },
+    {
+     "repo": "TailAdmin/tailadmin-free-tailwind-dashboard-template",
+     "commit": "3e00e324f3e9dc6eb0cd89f79d00adca4e1c0c83",
+     "path": "src/partials/layout/app-layout/header/user-dropdown.html",
+     "size": 15926,
+     "sameRepository": false,
+     "fill": false,
+     "sha256": "c11c2d0d6819d74614792730ede5ae713463105a347708be19e6ac3e3c4465cd",
+     "file": "experiments/gate-files/c07/v2-c08/9/user-dropdown.html"
+    },
+    {
+     "repo": "dropways/deskapp",
+     "commit": "a4d9f84d11ce280a5a21f244764aef9ce6dd185f",
+     "path": "ui-cards.html",
+     "size": 44647,
+     "sameRepository": false,
+     "fill": 1,
+     "sha256": "d63656633c59026ce7fdbba69a3f7648a6cbe0a5369107a8b2ede2e6178f231e",
+     "file": "experiments/gate-files/c07/v2-c08/10/ui-cards.html"
+    }
+   ]
+  },
+  {
+   "kind": "blog",
+   "repositories": 8,
+   "files": 12,
+   "readInDrawOrder": [
+    [
+     "salatine/neopost",
+     "layouts/partials/style.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "tailwindtoolbox/Ghostwind",
+     "index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "tailwindtoolbox/Ghostwind",
+     "post.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "tailwindtoolbox/Ghostwind",
+     "post_vue.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "bjacquemet/personal-web",
+     "layouts/partials/svg.html",
+     "line 8 is longer than 2,000 characters"
+    ],
+    [
+     "thepuskar/Personal-Portfolio-v1",
+     "index.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 3, attribute 3, removal 3, insertion 3"
+    ],
+    [
+     "tailwindtoolbox/Minimal-Blog",
+     "index.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "MarketingPipeline/Simply-Docs",
+     "pages/documentation.html",
+     "cannot give the 4 tasks with 4 different targets; valid targets: question 0, attribute 0, removal 0, insertion 0"
+    ],
+    [
+     "gurusabarish/hugo-profile",
+     "layouts/partials/sections/header.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "gurusabarish/hugo-profile",
+     "layouts/partials/sections/hero/index.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "charlola/hugo-theme-charlolamode",
+     "layouts/partials/share_icons.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "charlola/hugo-theme-charlolamode",
+     "layouts/partials/svg.html",
+     "line 67 is longer than 2,000 characters"
+    ]
+   ],
+   "picks": []
+  }
+ ]
+}

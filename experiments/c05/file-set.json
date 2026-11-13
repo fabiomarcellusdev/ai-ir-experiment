@@ -1,0 +1,249 @@
+{
+ "date": "2026-11-11",
+ "seed": 20261111,
+ "commit": "6dd22eea147a837edc089802d69f0f2c86a8d259",
+ "rules": {
+  "experiments/c05/draw-files.mjs": "2739930ac6b921fa4e5541e40059382f292be87dd83a02f4f5f09bb1c4f2b71e",
+  "experiments/c03/select-files.mjs": "9ae1b6076efd2ef29655115fd6fbe0a2f1fedf8f4b4f2bd6b53e7f3610b51d7a",
+  "experiments/c03/make-tasks.mjs": "67f0c74e6ac9808952b27f0eef26e6099dd11688f2c35668271c4584b235d51b",
+  "experiments/c03/html.mjs": "6504f992f94c55372beec1fe376b770960a0472f2466ae11a2fe85f8839b1cac"
+ },
+ "parse5": "8.0.1",
+ "from": "experiments/c03/file-set.json",
+ "excludedOwners": [
+  "activecampaign",
+  "ahmadhuss",
+  "brazil-data-cube",
+  "coreui",
+  "puikinsh",
+  "pulkitxm",
+  "stixproject"
+ ],
+ "kinds": [
+  {
+   "kind": "marketing",
+   "repositories": 13,
+   "files": 414,
+   "readInDrawOrder": [
+    [
+     "Affitor/affiliate-skills",
+     "skills/landing/landing-page-creator/templates/comparison.html",
+     "pass"
+    ],
+    [
+     "tailwindtoolbox/Landing-Page",
+     "index.html",
+     "line 273 is longer than 2,000 characters"
+    ],
+    [
+     "retros-id/simple-wedding-invitation",
+     "index.html",
+     "pass"
+    ]
+   ],
+   "picks": [
+    {
+     "repo": "Affitor/affiliate-skills",
+     "commit": "f4cb063a0ee83b1b9e5167e396ab46cc9123dadc",
+     "path": "skills/landing/landing-page-creator/templates/comparison.html",
+     "size": 17643,
+     "sameRepository": false,
+     "sha256": "3433ff10817b3fbadb1c41e0083d43f94ebb9f7cc38f3695e3fe507837be44a2",
+     "file": "experiments/gate-files/c05/marketing/1-comparison.html"
+    },
+    {
+     "repo": "retros-id/simple-wedding-invitation",
+     "commit": "e5a92cfbcd7286227ae935a53407794b6b5459ac",
+     "path": "index.html",
+     "size": 19612,
+     "sameRepository": false,
+     "sha256": "73c0b3d1aa90d201b24e5ca6dce308ae6515f1630615724eea26276703a2743d",
+     "file": "experiments/gate-files/c05/marketing/2-index.html"
+    }
+   ]
+  },
+  {
+   "kind": "documentation",
+   "repositories": 12,
+   "files": 3198,
+   "readInDrawOrder": [
+    [
+     "ash-project/ash_hq",
+     "templates/components/tool-derivation.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "ash-project/ash_hq",
+     "templates/articles/signals.html",
+     "pass"
+    ],
+    [
+     "AmpersandJS/ampersandjs.com",
+     "docs/index.html",
+     "line 16 is longer than 2,000 characters"
+    ],
+    [
+     "AmpersandJS/ampersandjs.com",
+     "learn/events/index.html",
+     "pass"
+    ]
+   ],
+   "picks": [
+    {
+     "repo": "ash-project/ash_hq",
+     "commit": "52238b115fc6e7ba3b27e008b1bf702eb42e419b",
+     "path": "templates/articles/signals.html",
+     "size": 22407,
+     "sameRepository": false,
+     "sha256": "6e4a86c55d095fabab14ac087e4451c39c4802b7a0053fc1db0776f57ce299a5",
+     "file": "experiments/gate-files/c05/documentation/1-signals.html"
+    },
+    {
+     "repo": "AmpersandJS/ampersandjs.com",
+     "commit": "705c2b36137f8a97e8274787af052b7a052e71af",
+     "path": "learn/events/index.html",
+     "size": 10959,
+     "sameRepository": false,
+     "sha256": "346657093e97b00d63bc8cdd688d49f2d5cc1dcfe3b1888283161b6b87920b12",
+     "file": "experiments/gate-files/c05/documentation/2-index.html"
+    }
+   ]
+  },
+  {
+   "kind": "email",
+   "repositories": 13,
+   "files": 162,
+   "readInDrawOrder": [
+    [
+     "InterNations/antwort",
+     "three-cols-images/build.html",
+     "pass"
+    ],
+    [
+     "sendwithus/templates",
+     "templates/sunday/progress.html",
+     "pass"
+    ]
+   ],
+   "picks": [
+    {
+     "repo": "InterNations/antwort",
+     "commit": "ff8b8d697d687c8e3d0a4e49fcc718dc7568861b",
+     "path": "three-cols-images/build.html",
+     "size": 10121,
+     "sameRepository": false,
+     "sha256": "b2800fd1535180a5fa8e620ab6aca2c52592aea02e5f6e146dff9ef39a8e8723",
+     "file": "experiments/gate-files/c05/email/1-build.html"
+    },
+    {
+     "repo": "sendwithus/templates",
+     "commit": "f555e49038ed9ac05a39bf7048a73616f69680ac",
+     "path": "templates/sunday/progress.html",
+     "size": 12256,
+     "sameRepository": false,
+     "sha256": "4fbcec45f5a8f38486a045957bef78561bb6b3b0b7e1ef2b2dde8562845a7528",
+     "file": "experiments/gate-files/c05/email/2-progress.html"
+    }
+   ]
+  },
+  {
+   "kind": "app",
+   "repositories": 14,
+   "files": 317,
+   "readInDrawOrder": [
+    [
+     "farridav/django-jazzmin",
+     "jazzmin/templates/admin/import_export/import.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "farridav/django-jazzmin",
+     "jazzmin/templates/admin/filer/folder/directory_listing.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "farridav/django-jazzmin",
+     "jazzmin/templates/jazzmin/includes/ui_builder_panel.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "farridav/django-jazzmin",
+     "jazzmin/templates/admin/base.html",
+     "a template ({{, {%, <% or <?php)"
+    ],
+    [
+     "BootstrapDash/StarAdmin-Free-Bootstrap-Admin-Template",
+     "src/assets/vendors/iconfonts/mdi/preview.html",
+     "pass"
+    ],
+    [
+     "ColorlibHQ/gentelella",
+     "production/playground.html",
+     "pass"
+    ]
+   ],
+   "picks": [
+    {
+     "repo": "BootstrapDash/StarAdmin-Free-Bootstrap-Admin-Template",
+     "commit": "7ab3570e1a87586ff9d067dfd171ade3be1d7056",
+     "path": "src/assets/vendors/iconfonts/mdi/preview.html",
+     "size": 296365,
+     "sameRepository": false,
+     "sha256": "fc19beb4dce3846540cefe6a35836a55348b56485c301609519069894583d69f",
+     "file": "experiments/gate-files/c05/app/1-preview.html"
+    },
+    {
+     "repo": "ColorlibHQ/gentelella",
+     "commit": "02936f9003baa8473aa39dadd4ce23b679961d53",
+     "path": "production/playground.html",
+     "size": 48175,
+     "sameRepository": false,
+     "sha256": "f418048974f152552f65b7c51c6752499f5ca274727de3e7287592a8723c1969",
+     "file": "experiments/gate-files/c05/app/2-playground.html"
+    }
+   ]
+  },
+  {
+   "kind": "blog",
+   "repositories": 10,
+   "files": 17,
+   "readInDrawOrder": [
+    [
+     "bjacquemet/personal-web",
+     "layouts/partials/svg.html",
+     "line 8 is longer than 2,000 characters"
+    ],
+    [
+     "davidgrzyb/tailwind-blog-template",
+     "blog.html",
+     "pass"
+    ],
+    [
+     "elhakimyasya/Webium-Blogger-Theme",
+     "src/partials/widgets/Blog1.html",
+     "pass"
+    ]
+   ],
+   "picks": [
+    {
+     "repo": "davidgrzyb/tailwind-blog-template",
+     "commit": "a1ee1d3bcad9bb434875a386666e4ff7fef08b19",
+     "path": "blog.html",
+     "size": 13253,
+     "sameRepository": false,
+     "sha256": "72c74ac456ac227aaf6a38da041d560321fca4d1d5f223b0bfa6899cb6ecc3f4",
+     "file": "experiments/gate-files/c05/blog/1-blog.html"
+    },
+    {
+     "repo": "elhakimyasya/Webium-Blogger-Theme",
+     "commit": "5c07db44cd559716c775e2eec4697d325babbd6a",
+     "path": "src/partials/widgets/Blog1.html",
+     "size": 60403,
+     "sameRepository": false,
+     "sha256": "90a93b972c03f146b8efb75e985fb3903552461757506225e79779fc1077f494",
+     "file": "experiments/gate-files/c05/blog/2-Blog1.html"
+    }
+   ]
+  }
+ ]
+}

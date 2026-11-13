@@ -1,0 +1,6 @@
+# The oracle of gate C0.1 (decision 0006): html5lib and its 2 dependencies, pinned with hashes.
+# Vetted 2026-11-11 (docs/third-party.md). Install only with the owner's yes, into the git-ignored .venv-oracle/:
+#   python -m pip install --require-hashes --only-binary :all: --no-deps --uploaded-prior-to P60D -r tests/gates/oracle-requirements.txt
+html5lib==1.1 --hash=sha256:0d78f8fde1c230e99fe37986a60526d7049ed4bf8a9fadbad5f00e22e58e041d
+six==1.17.0 --hash=sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274
+webencodings==0.5.1 --hash=sha256:a0af1213f3c2226497a97e2b3aa01a7e4bee4f403f95be16fc9acd2947514a78

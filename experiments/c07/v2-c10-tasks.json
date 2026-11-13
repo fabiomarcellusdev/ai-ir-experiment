@@ -1,0 +1,841 @@
+{
+ "gate": "c10",
+ "tools": "v2",
+ "preview": false,
+ "seed": 20261115,
+ "offsetUnit": "UTF-16 code units of the file as text",
+ "skipped": [],
+ "readTokens": {},
+ "tasks": [
+  {
+   "id": "1-question",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/v2-c10/1/start.html",
+   "type": "question",
+   "ref": 20,
+   "tag": "a",
+   "quote": "Destinations",
+   "attr": "href",
+   "answer": "../../index.html#Destinations",
+   "prompt": "What is the value of the `href` attribute of the `a` element that contains the text \"Destinations\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    1043,
+    1099
+   ]
+  },
+  {
+   "id": "1-text",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/v2-c10/1/start.html",
+   "type": "text",
+   "ref": 63,
+   "tag": "h3",
+   "quote": "Free pickup & drop-off",
+   "newText": "Updated wording 1",
+   "prompt": "Change the text \"Free pickup & drop-off\" to \"Updated wording 1\". Change nothing else.",
+   "range": [
+    4254,
+    4317
+   ],
+   "change": [
+    4290,
+    4312,
+    "Updated wording 1"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/1-text.html",
+   "expectedSha256": "81240fa87506aaeb36ef0601f167fb6560c565286c727a1248966aa73dce6df2"
+  },
+  {
+   "id": "1-attribute",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/v2-c10/1/start.html",
+   "type": "attribute",
+   "ref": 32,
+   "tag": "button",
+   "quote": "Contact Us",
+   "attr": "id",
+   "newValue": "updated-value-1",
+   "prompt": "In the `button` element that contains the text \"Contact Us\", set the `id` attribute to \"updated-value-1\". Change nothing else.",
+   "range": [
+    1738,
+    1895
+   ],
+   "change": [
+    1779,
+    1793,
+    "id=\"updated-value-1\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/1-attribute.html",
+   "expectedSha256": "614d580dfa85738177311f5ce250bc080e5629f17f9853124d5bd06315eedcef"
+  },
+  {
+   "id": "1-structure",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/v2-c10/1/start.html",
+   "type": "structure",
+   "ref": 80,
+   "tag": "button",
+   "quote": "Submit",
+   "op": "removal",
+   "prompt": "Remove the `button` element that contains the text \"Submit\".",
+   "range": [
+    5444,
+    5479
+   ],
+   "change": [
+    5444,
+    5479,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/1-structure.html",
+   "expectedSha256": "5c312b191b51535c5cb4a2fabbf8f83d2df22e88bec3ab1fda92c8cc55de2c4b"
+  },
+  {
+   "id": "2-question",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/v2-c10/2/index.html",
+   "type": "question",
+   "ref": 108,
+   "tag": "label",
+   "quote": "Email",
+   "attr": "for",
+   "answer": "inputEmail3",
+   "prompt": "What is the value of the `for` attribute of the `label` element that contains the text \"Email\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    7482,
+    7617
+   ]
+  },
+  {
+   "id": "2-text",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/v2-c10/2/index.html",
+   "type": "text",
+   "ref": 48,
+   "tag": "li",
+   "quote": "It is very cool",
+   "newText": "Updated wording 2",
+   "prompt": "Change the text \"It is very cool\" to \"Updated wording 2\". Change nothing else.",
+   "range": [
+    3503,
+    3527
+   ],
+   "change": [
+    3507,
+    3522,
+    "Updated wording 2"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/2-text.html",
+   "expectedSha256": "ad7609df6736699848f74f289e2c7410c4d71e3f5b91a2e8eb05197a284fb1b7"
+  },
+  {
+   "id": "2-attribute",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/v2-c10/2/index.html",
+   "type": "attribute",
+   "ref": 192,
+   "tag": "h4",
+   "quote": "Other things",
+   "attr": "class",
+   "newValue": "updated-value-2",
+   "prompt": "In the `h4` element that contains the text \"Other things\", set the `class` attribute to \"updated-value-2\". Change nothing else.",
+   "range": [
+    14653,
+    14706
+   ],
+   "change": [
+    14657,
+    14688,
+    "class=\"updated-value-2\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/2-attribute.html",
+   "expectedSha256": "124297b323e1a55769710eba39b86f95294684036e165fe1666cf897a85b78b7"
+  },
+  {
+   "id": "2-structure",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/v2-c10/2/index.html",
+   "type": "structure",
+   "ref": 176,
+   "tag": "p",
+   "quote": "Click button to show modal.",
+   "op": "insertion",
+   "prompt": "After the `p` element that contains the text \"Click button to show modal.\", add `<p>New text</p>`.",
+   "range": [
+    13416,
+    13416
+   ],
+   "change": [
+    13416,
+    13416,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/2-structure.html",
+   "expectedSha256": "ebbc5d59509f2256a255fcf71d823bc850c8a1e7cc99755a168bea164e188acb"
+  },
+  {
+   "id": "3-question",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/v2-c10/3/os.stat.html",
+   "type": "question",
+   "ref": 57,
+   "tag": "span",
+   "quote": ")",
+   "attr": "class",
+   "answer": "tsd-signature-symbol",
+   "prompt": "What is the value of the `class` attribute of the `span` element that contains the text \")\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    3293,
+    3336
+   ]
+  },
+  {
+   "id": "3-text",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/v2-c10/3/os.stat.html",
+   "type": "text",
+   "ref": 27,
+   "tag": "li",
+   "quote": "The search index is not available",
+   "newText": "Updated wording 3",
+   "prompt": "Change the text \"The search index is not available\" to \"Updated wording 3\". Change nothing else.",
+   "range": [
+    2004,
+    2068
+   ],
+   "change": [
+    2030,
+    2063,
+    "Updated wording 3"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/3-text.html",
+   "expectedSha256": "add3d2152f955ee1dbba24a82e2c71c84092665254037a52a9e3a54dc0ed3cb5"
+  },
+  {
+   "id": "3-attribute",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/v2-c10/3/os.stat.html",
+   "type": "attribute",
+   "ref": 108,
+   "tag": "h4",
+   "quote": "Theme",
+   "attr": "class",
+   "newValue": "updated-value-3",
+   "prompt": "In the `h4` element that contains the text \"Theme\", set the `class` attribute to \"updated-value-3\". Change nothing else.",
+   "range": [
+    6054,
+    6086
+   ],
+   "change": [
+    6058,
+    6075,
+    "class=\"updated-value-3\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/3-attribute.html",
+   "expectedSha256": "541002db294bb88ac1d3e4c8a54235ece07018fa090cc7064c0b43e960d2fb01"
+  },
+  {
+   "id": "3-structure",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/v2-c10/3/os.stat.html",
+   "type": "structure",
+   "ref": 1962,
+   "tag": "span",
+   "quote": "truncate",
+   "op": "removal",
+   "prompt": "Remove the `span` element that contains the text \"truncate\".",
+   "range": [
+    55624,
+    55645
+   ],
+   "change": [
+    55624,
+    55645,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/3-structure.html",
+   "expectedSha256": "76fad3b4409df975f9e16e9d12508e394d8371ffcf312e233073269bd3c58820"
+  },
+  {
+   "id": "4-question",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/v2-c10/4/editor.html",
+   "type": "question",
+   "ref": 50,
+   "tag": "span",
+   "quote": "Unsaved",
+   "attr": "id",
+   "answer": "unsaved-indicator",
+   "prompt": "What is the value of the `id` attribute of the `span` element that contains the text \"Unsaved\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    29182,
+    29248
+   ]
+  },
+  {
+   "id": "4-text",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/v2-c10/4/editor.html",
+   "type": "text",
+   "ref": 117,
+   "tag": "p",
+   "quote": "Are you sure?",
+   "newText": "Updated wording 4",
+   "prompt": "Change the text \"Are you sure?\" to \"Updated wording 4\". Change nothing else.",
+   "range": [
+    36403,
+    36480
+   ],
+   "change": [
+    36463,
+    36476,
+    "Updated wording 4"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/4-text.html",
+   "expectedSha256": "64834486658ee9ee228c016641a8e49b2f8a20bfd617902458422b5c52fb56cd"
+  },
+  {
+   "id": "4-attribute",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/v2-c10/4/editor.html",
+   "type": "attribute",
+   "ref": 20,
+   "tag": "button",
+   "quote": "Refresh",
+   "attr": "class",
+   "newValue": "updated-value-4",
+   "prompt": "In the `button` element that contains the text \"Refresh\", set the `class` attribute to \"updated-value-4\". Change nothing else.",
+   "range": [
+    25775,
+    26155
+   ],
+   "change": [
+    25783,
+    25801,
+    "class=\"updated-value-4\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/4-attribute.html",
+   "expectedSha256": "83524a270fdaa4e501b35dd8c7664f7ae51ed5e677e5838314e928f13e5c339f"
+  },
+  {
+   "id": "4-structure",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/v2-c10/4/editor.html",
+   "type": "structure",
+   "ref": 84,
+   "tag": "span",
+   "quote": "Words: 0",
+   "op": "insertion",
+   "prompt": "After the `span` element that contains the text \"Words: 0\", add `<p>New text</p>`.",
+   "range": [
+    33241,
+    33241
+   ],
+   "change": [
+    33241,
+    33241,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/4-structure.html",
+   "expectedSha256": "848b3e1120fc5e033c3a043c2ebe17bc8ca821964bdbaa5e9d0407f5401cf97e"
+  },
+  {
+   "id": "5-question",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/v2-c10/5/index.html",
+   "type": "question",
+   "ref": 74,
+   "tag": "label",
+   "quote": "hiring",
+   "attr": "class",
+   "answer": "chk",
+   "prompt": "What is the value of the `class` attribute of the `label` element that contains the text \"hiring\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    7283,
+    7352
+   ]
+  },
+  {
+   "id": "5-text",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/v2-c10/5/index.html",
+   "type": "text",
+   "ref": 37,
+   "tag": "p",
+   "quote": "is the most common pattern (right",
+   "newText": "Updated wording 5",
+   "prompt": "Change the text \"is the most common pattern (right\" to \"Updated wording 5\". Change nothing else.",
+   "range": [
+    5061,
+    5482
+   ],
+   "change": [
+    5406,
+    5439,
+    "Updated wording 5"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/5-text.html",
+   "expectedSha256": "b45192da6f4b7df03e01b12859f09791f6d0a620c6bc6c64a33b12986b563d91"
+  },
+  {
+   "id": "5-attribute",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/v2-c10/5/index.html",
+   "type": "attribute",
+   "ref": 40,
+   "tag": "span",
+   "quote": "unverified",
+   "attr": "class",
+   "newValue": "updated-value-5",
+   "prompt": "In the `span` element that contains the text \"unverified\", set the `class` attribute to \"updated-value-5\". Change nothing else.",
+   "range": [
+    5219,
+    5264
+   ],
+   "change": [
+    5225,
+    5246,
+    "class=\"updated-value-5\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/5-attribute.html",
+   "expectedSha256": "e26ca7db1907e41556bf011ca6e5a211a2ff0f48cc20074c5de1b28479cdc72e"
+  },
+  {
+   "id": "5-structure",
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/v2-c10/5/index.html",
+   "type": "structure",
+   "ref": 9,
+   "tag": "h1",
+   "quote": "YC Founder Outreach",
+   "op": "removal",
+   "prompt": "Remove the `h1` element that contains the text \"YC Founder Outreach\".",
+   "range": [
+    3907,
+    3935
+   ],
+   "change": [
+    3907,
+    3935,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/5-structure.html",
+   "expectedSha256": "f5b76dd2e486815fb89e5a7984f2d5aea84f369eca2a21c9a063e91b82c81f64"
+  },
+  {
+   "id": "6-question",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/v2-c10/6/index.html",
+   "type": "question",
+   "ref": 103,
+   "tag": "a",
+   "quote": "hello@example.com",
+   "attr": "href",
+   "answer": "https://example.com",
+   "prompt": "What is the value of the `href` attribute of the `a` element that contains the text \"hello@example.com\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    13423,
+    13527
+   ]
+  },
+  {
+   "id": "6-text",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/v2-c10/6/index.html",
+   "type": "text",
+   "ref": 100,
+   "tag": "span",
+   "quote": "500 Howard Street San Francisco, CA",
+   "newText": "Updated wording 6",
+   "prompt": "Change the text \"500 Howard Street San Francisco, CA\" to \"Updated wording 6\". Change nothing else.",
+   "range": [
+    13288,
+    13566
+   ],
+   "change": [
+    13345,
+    13380,
+    "Updated wording 6"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/6-text.html",
+   "expectedSha256": "dacb92c4e8543ad45051ff71772e5717117f12d6873c2af399f7c7d118389539"
+  },
+  {
+   "id": "6-attribute",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/v2-c10/6/index.html",
+   "type": "attribute",
+   "ref": 51,
+   "tag": "span",
+   "quote": "Need to reset your password? No",
+   "attr": "style",
+   "newValue": "updated-value-6",
+   "prompt": "In the `span` element that contains the text \"Need to reset your password? No\", set the `style` attribute to \"updated-value-6\". Change nothing else.",
+   "range": [
+    8833,
+    9036
+   ],
+   "change": [
+    8839,
+    8873,
+    "style=\"updated-value-6\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/6-attribute.html",
+   "expectedSha256": "ec358289c7424fd428a8ddf268f4fe3bc11d0803d232db3e21bd6582ec7a286f"
+  },
+  {
+   "id": "6-structure",
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/v2-c10/6/index.html",
+   "type": "structure",
+   "ref": 69,
+   "tag": "span",
+   "quote": "RESET YOUT PASSSWORD",
+   "op": "insertion",
+   "prompt": "After the `span` element that contains the text \"RESET YOUT PASSSWORD\", add `<p>New text</p>`.",
+   "range": [
+    10513,
+    10513
+   ],
+   "change": [
+    10513,
+    10513,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/6-structure.html",
+   "expectedSha256": "47b550a93c1e42f8efd4de2b9c6d1933f7eae9fa553ae80655fcb8c97ce7d5f9"
+  },
+  {
+   "id": "7-question",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/v2-c10/7/index.html",
+   "type": "question",
+   "ref": 263,
+   "tag": "p",
+   "quote": "Beautifully designed admin dashboard components.",
+   "attr": "class",
+   "answer": "text-muted text-sm! mt-3",
+   "prompt": "What is the value of the `class` attribute of the `p` element that contains the text \"Beautifully designed admin dashboard components.\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    24745,
+    24879
+   ]
+  },
+  {
+   "id": "7-text",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/v2-c10/7/index.html",
+   "type": "text",
+   "ref": 109,
+   "tag": "p",
+   "quote": "Clean, readable code with sensible conventions.",
+   "newText": "Updated wording 7",
+   "prompt": "Change the text \"Clean, readable code with sensible conventions.\" to \"Updated wording 7\". Change nothing else.",
+   "range": [
+    10766,
+    10953
+   ],
+   "change": [
+    10815,
+    10862,
+    "Updated wording 7"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/7-text.html",
+   "expectedSha256": "d3bb644d62013920da2d5b7d118413dbebdc02d614ba8ec28c5b1df68c303e12"
+  },
+  {
+   "id": "7-attribute",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/v2-c10/7/index.html",
+   "type": "attribute",
+   "ref": 153,
+   "tag": "span",
+   "quote": "Avatar",
+   "attr": "class",
+   "newValue": "updated-value-7",
+   "prompt": "In the `span` element that contains the text \"Avatar\", set the `class` attribute to \"updated-value-7\". Change nothing else.",
+   "range": [
+    14810,
+    14858
+   ],
+   "change": [
+    14816,
+    14844,
+    "class=\"updated-value-7\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/7-attribute.html",
+   "expectedSha256": "d51a67f592670a82e97448a4e256a1b0310f4c28bccdf3b20ec74fa150f4461d"
+  },
+  {
+   "id": "7-structure",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/v2-c10/7/index.html",
+   "type": "structure",
+   "ref": 243,
+   "tag": "span",
+   "quote": "Tailwind CSS — utility-first styling",
+   "op": "removal",
+   "prompt": "Remove the `span` element that contains the text \"Tailwind CSS — utility-first styling\".",
+   "range": [
+    22793,
+    22870
+   ],
+   "change": [
+    22793,
+    22870,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/7-structure.html",
+   "expectedSha256": "d5f6a3259816c95e74636fdf18f40f72505c6a8dfb60e808d24346c72cbdd3b0"
+  },
+  {
+   "id": "8-question",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/v2-c10/8/ui-icons.component.html",
+   "type": "question",
+   "ref": 2599,
+   "tag": "span",
+   "quote": "glyphicon glyphicon-btc",
+   "attr": "class",
+   "answer": "glyphicon-class",
+   "prompt": "What is the value of the `class` attribute of the `span` element that contains the text \"glyphicon glyphicon-btc\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    149041,
+    149101
+   ]
+  },
+  {
+   "id": "8-text",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/v2-c10/8/ui-icons.component.html",
+   "type": "text",
+   "ref": 1588,
+   "tag": "li",
+   "quote": "The use of these trademarks does",
+   "newText": "Updated wording 8",
+   "prompt": "Change the text \"The use of these trademarks does\" to \"Updated wording 8\". Change nothing else.",
+   "range": [
+    84861,
+    85007
+   ],
+   "change": [
+    84865,
+    84897,
+    "Updated wording 8"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/8-text.html",
+   "expectedSha256": "e81ae99199f09702cae2428a05429a7b9919d4f85efe9151a7298e54f6789ea6"
+  },
+  {
+   "id": "8-attribute",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/v2-c10/8/ui-icons.component.html",
+   "type": "attribute",
+   "ref": 1192,
+   "tag": "h4",
+   "quote": "Form Control Icons",
+   "attr": "class",
+   "newValue": "updated-value-8",
+   "prompt": "In the `h4` element that contains the text \"Form Control Icons\", set the `class` attribute to \"updated-value-8\". Change nothing else.",
+   "range": [
+    63266,
+    63313
+   ],
+   "change": [
+    63270,
+    63289,
+    "class=\"updated-value-8\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/8-attribute.html",
+   "expectedSha256": "dce02326508e150a309136cc315aada0852dc6a1001d1a3da2f266150b5a8937"
+  },
+  {
+   "id": "8-structure",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/v2-c10/8/ui-icons.component.html",
+   "type": "structure",
+   "ref": 2029,
+   "tag": "span",
+   "quote": "glyphicon glyphicon-repeat",
+   "op": "insertion",
+   "prompt": "After the `span` element that contains the text \"glyphicon glyphicon-repeat\", add `<p>New text</p>`.",
+   "range": [
+    110099,
+    110099
+   ],
+   "change": [
+    110099,
+    110099,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/8-structure.html",
+   "expectedSha256": "afb9420a48fb6690a6a1a44cff547b333f4aa526892def4459f499ffc19d29f8"
+  },
+  {
+   "id": "9-question",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/v2-c10/9/index.html",
+   "type": "question",
+   "ref": 30,
+   "tag": "a",
+   "quote": "Home",
+   "attr": "href",
+   "answer": "#home",
+   "prompt": "What is the value of the `href` attribute of the `a` element that contains the text \"Home\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    1513,
+    1552
+   ]
+  },
+  {
+   "id": "9-text",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/v2-c10/9/index.html",
+   "type": "text",
+   "ref": 125,
+   "tag": "p",
+   "quote": "From single landing pages to a",
+   "newText": "Updated wording 9",
+   "prompt": "Change the text \"From single landing pages to a\" to \"Updated wording 9\". Change nothing else.",
+   "range": [
+    6050,
+    6216
+   ],
+   "change": [
+    6053,
+    6083,
+    "Updated wording 9"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/9-text.html",
+   "expectedSha256": "35ea802db74903ef5df62d84972d9cc671e18b9899961a003368d7a3bf64fed5"
+  },
+  {
+   "id": "9-attribute",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/v2-c10/9/index.html",
+   "type": "attribute",
+   "ref": 161,
+   "tag": "li",
+   "quote": "App Interface",
+   "attr": "data-target",
+   "newValue": "updated-value-9",
+   "prompt": "In the `li` element that contains the text \"App Interface\", set the `data-target` attribute to \"updated-value-9\". Change nothing else.",
+   "range": [
+    8766,
+    8806
+   ],
+   "change": [
+    8770,
+    8787,
+    "data-target=\"updated-value-9\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/9-attribute.html",
+   "expectedSha256": "8e0ecb077e27542fbcf010c0592cb8886e4b2f800147df582f97c44cfc1c27c4"
+  },
+  {
+   "id": "9-structure",
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/v2-c10/9/index.html",
+   "type": "structure",
+   "ref": 243,
+   "tag": "p",
+   "quote": "Front-End Developer",
+   "op": "removal",
+   "prompt": "Remove the `p` element that contains the text \"Front-End Developer\".",
+   "range": [
+    14698,
+    14724
+   ],
+   "change": [
+    14698,
+    14724,
+    ""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/9-structure.html",
+   "expectedSha256": "a6ac30dc0e0bcaf47f02ae88ce1c051f0d2a6fea40063c9a6dc03875abb46175"
+  },
+  {
+   "id": "10-question",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/v2-c10/10/documentation.html",
+   "type": "question",
+   "ref": 29,
+   "tag": "a",
+   "quote": "Download",
+   "attr": "href",
+   "answer": "https://github.com/MarketingPipeline/Simply-Docs/archive/refs/heads/main.zip",
+   "prompt": "What is the value of the `href` attribute of the `a` element that contains the text \"Download\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    1916,
+    2015
+   ]
+  },
+  {
+   "id": "10-text",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/v2-c10/10/documentation.html",
+   "type": "text",
+   "ref": 38,
+   "tag": "legend",
+   "quote": "Table Of Contents",
+   "newText": "Updated wording 10",
+   "prompt": "Change the text \"Table Of Contents\" to \"Updated wording 10\". Change nothing else.",
+   "range": [
+    3295,
+    3329
+   ],
+   "change": [
+    3303,
+    3320,
+    "Updated wording 10"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/10-text.html",
+   "expectedSha256": "4d3e82492cf6130c3d0c0041047ec13b298018da4c048ebbab6b95c4566bcd37"
+  },
+  {
+   "id": "10-attribute",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/v2-c10/10/documentation.html",
+   "type": "attribute",
+   "ref": 69,
+   "tag": "kbd",
+   "quote": "GET /HelloWorld",
+   "attr": "id",
+   "newValue": "updated-value-10",
+   "prompt": "In the `kbd` element that contains the text \"GET /HelloWorld\", set the `id` attribute to \"updated-value-10\". Change nothing else.",
+   "range": [
+    4461,
+    4504
+   ],
+   "change": [
+    4466,
+    4482,
+    "id=\"updated-value-10\""
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/10-attribute.html",
+   "expectedSha256": "dcdf2941a4a8a48a0b87aeefc51b311fe3364317d77fec68b88804d99683e14f"
+  },
+  {
+   "id": "10-structure",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/v2-c10/10/documentation.html",
+   "type": "structure",
+   "ref": 34,
+   "tag": "h1",
+   "quote": "Documentation",
+   "op": "insertion",
+   "prompt": "After the `h1` element that contains the text \"Documentation\", add `<p>New text</p>`.",
+   "range": [
+    3082,
+    3082
+   ],
+   "change": [
+    3082,
+    3082,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/v2-c10/expected/10-structure.html",
+   "expectedSha256": "1d4913c31769b2910ad2a31b8390b8a7c5d70ab4ab8b04126c172751ea422d47"
+  }
+ ]
+}

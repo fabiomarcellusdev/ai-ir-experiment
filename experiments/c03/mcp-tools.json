@@ -1,0 +1,22 @@
+[
+  {
+    "name": "mcp__html__html_outline",
+    "description": "The reading view of an HTML file: one element per line, indented one space per level, each with an @n ref, and text as \"| text\" lines. Scripts, styles, comments, SVG content, hidden content and most attributes are left out. Returns one page of at most 20,000 tokens and the file hash. Use html_find instead when you know some of the text you want.",
+    "input_schema": {"type": "object", "properties": {"file": {"type": "string", "description": "Path of the .html file"}, "page": {"type": "integer", "description": "Page number, from 1"}}, "required": ["file"]}
+  },
+  {
+    "name": "mcp__html__html_find",
+    "description": "Finds the elements whose visible text contains a literal, case-sensitive string. For each deepest match (at most 20), returns its outline line and its ancestors' lines, with @n refs, then the total count of matches and the file hash.",
+    "input_schema": {"type": "object", "properties": {"file": {"type": "string"}, "text": {"type": "string", "description": "Literal text to find"}}, "required": ["file", "text"]}
+  },
+  {
+    "name": "mcp__html__html_read",
+    "description": "Returns one element, by its @n ref, as the exact bytes of the file, with all attributes.",
+    "input_schema": {"type": "object", "properties": {"file": {"type": "string"}, "ref": {"type": "integer"}, "hash": {"type": "string", "description": "The hash from html_outline or html_find"}}, "required": ["file", "ref", "hash"]}
+  },
+  {
+    "name": "mcp__html__html_edit",
+    "description": "Replaces one element, by its @n ref, with new HTML (an empty string removes it). The rest of the file keeps its bytes. Fails if the file changed since the hash, or if the HTML is not a balanced fragment.",
+    "input_schema": {"type": "object", "properties": {"file": {"type": "string"}, "ref": {"type": "integer"}, "hash": {"type": "string"}, "html": {"type": "string"}}, "required": ["file", "ref", "hash", "html"]}
+  }
+]

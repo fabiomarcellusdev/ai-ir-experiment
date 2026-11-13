@@ -1,0 +1,198 @@
+{
+ "gate": "c09",
+ "preview": true,
+ "seed": 20261114,
+ "offsetUnit": "UTF-16 code units of the file as text",
+ "skipped": [
+  {
+   "fileNumber": 5,
+   "file": "experiments/gate-files/c07/preview/5/build.html",
+   "reason": "file 5: no valid target left for question with different targets"
+  },
+  {
+   "fileNumber": 6,
+   "file": "experiments/gate-files/c07/preview/6/progress.html",
+   "reason": "file 6: no valid target left for text with different targets"
+  },
+  {
+   "fileNumber": 9,
+   "file": "experiments/gate-files/c07/preview/9/blog.html",
+   "reason": "file 9: no valid target left for question with different targets"
+  }
+ ],
+ "readTokens": {},
+ "tasks": [
+  {
+   "id": "1-question",
+   "fileNumber": 1,
+   "file": "experiments/gate-files/c07/preview/1/comparison.html",
+   "type": "question",
+   "ref": 164,
+   "tag": "footer",
+   "quote": "Built with Affiliate Skills by Affitor",
+   "causes": [
+    "inline tag"
+   ],
+   "attr": "class",
+   "answer": "page-footer",
+   "prompt": "What is the value of the `class` attribute of the `footer` element that contains the text \"Built with Affiliate Skills by Affitor\"? End your reply with the line `ANSWER: <value>`.",
+   "range": [
+    17442,
+    17565
+   ]
+  },
+  {
+   "id": "2-text",
+   "fileNumber": 2,
+   "file": "experiments/gate-files/c07/preview/2/index.html",
+   "type": "text",
+   "ref": 194,
+   "tag": "p",
+   "quote": "apabila Bapak/Ibu/Saudara/Saudari berkenan hadir memberikan doa",
+   "causes": [
+    "whitespace"
+   ],
+   "newText": "Updated wording 2",
+   "prompt": "Change the text \"apabila Bapak/Ibu/Saudara/Saudari berkenan hadir memberikan doa\" to \"Updated wording 2\". Change nothing else.",
+   "range": [
+    15986,
+    16754
+   ],
+   "change": [
+    16116,
+    16195,
+    "Updated wording 2"
+   ],
+   "expected": "experiments/gate-files/c07/preview-c09/expected/2-text.html",
+   "expectedSha256": "28c8d69aa4bf0e9de5a5e0832b12cc8aa9bb2c955f9b2b2b38fb886b845cfd03"
+  },
+  {
+   "id": "3-attribute",
+   "fileNumber": 3,
+   "file": "experiments/gate-files/c07/preview/3/signals.html",
+   "type": "attribute",
+   "ref": 36,
+   "tag": "p",
+   "quote": "creates an order. Then the loyalty",
+   "causes": [
+    "whitespace"
+   ],
+   "attr": "class",
+   "newValue": "updated-value-3",
+   "prompt": "In the `p` element that contains the text \"creates an order. Then the loyalty\", set the `class` attribute to \"updated-value-3\". Change nothing else.",
+   "range": [
+    2139,
+    2780
+   ],
+   "change": [
+    2142,
+    2154,
+    "class=\"updated-value-3\""
+   ],
+   "expected": "experiments/gate-files/c07/preview-c09/expected/3-attribute.html",
+   "expectedSha256": "8cc3be7c982c658bac97a8453efd069df4b67677f75a162da68fecbf4ca02375"
+  },
+  {
+   "id": "4-structure",
+   "fileNumber": 4,
+   "file": "experiments/gate-files/c07/preview/4/index.html",
+   "type": "structure",
+   "ref": 103,
+   "tag": "li",
+   "quote": "(model\\_or\\_collection, xhr, options) — when a",
+   "causes": [
+    "inline tag"
+   ],
+   "op": "insertion",
+   "prompt": "After the `li` element that contains the text \"(model\\_or\\_collection, xhr, options) — when a\", add `<p>New text</p>`.",
+   "range": [
+    7726,
+    7726
+   ],
+   "change": [
+    7726,
+    7726,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/preview-c09/expected/4-structure.html",
+   "expectedSha256": "5e5db0c9225f7d2d4ed76f8f067ca373fd2fbf568c8d15fa0199ad87c8f366ed"
+  },
+  {
+   "id": "7-attribute",
+   "fileNumber": 7,
+   "file": "experiments/gate-files/c07/preview/7/preview.html",
+   "type": "attribute",
+   "ref": 68,
+   "tag": "p",
+   "quote": "mdi-light mdi-light mdi-inactive mdi-dark mdi-dark mdi-inactive",
+   "causes": [
+    "inline tag",
+    "whitespace"
+   ],
+   "attr": "style",
+   "newValue": "updated-value-7",
+   "prompt": "In the `p` element that contains the text \"mdi-light mdi-light mdi-inactive mdi-dark mdi-dark mdi-inactive\", set the `style` attribute to \"updated-value-7\". Change nothing else.",
+   "range": [
+    7542,
+    7976
+   ],
+   "change": [
+    7545,
+    7573,
+    "style=\"updated-value-7\""
+   ],
+   "expected": "experiments/gate-files/c07/preview-c09/expected/7-attribute.html",
+   "expectedSha256": "c05fc9a486de7aa7d1aa79d8dfefd0aa23e1474a32057404749ba2bc4c97bde5"
+  },
+  {
+   "id": "8-structure",
+   "fileNumber": 8,
+   "file": "experiments/gate-files/c07/preview/8/playground.html",
+   "type": "structure",
+   "ref": 393,
+   "tag": "p",
+   "quote": "state. This is exactly what orders.html",
+   "causes": [
+    "inline tag"
+   ],
+   "op": "insertion",
+   "prompt": "After the `p` element that contains the text \"state. This is exactly what orders.html\", add `<p>New text</p>`.",
+   "range": [
+    23287,
+    23287
+   ],
+   "change": [
+    23287,
+    23287,
+    "<p>New text</p>"
+   ],
+   "expected": "experiments/gate-files/c07/preview-c09/expected/8-structure.html",
+   "expectedSha256": "0d05704ef870e0b0f8170c5b625f8036edd0ede5a3983168189418ceac1d097c"
+  },
+  {
+   "id": "10-text",
+   "fileNumber": 10,
+   "file": "experiments/gate-files/c07/preview/10/Blog1.html",
+   "type": "text",
+   "ref": 424,
+   "tag": "iframe",
+   "quote": "BLOG_CMT_createIframe('<data:post.appRpcRelayPath/>'); </script> </div>",
+   "causes": [
+    "whitespace"
+   ],
+   "newText": "Updated wording 10",
+   "prompt": "Change the text \"BLOG_CMT_createIframe('<data:post.appRpcRelayPath/>'); </script> </div>\" to \"Updated wording 10\". Change nothing else.",
+   "range": [
+    58135,
+    60308
+   ],
+   "change": [
+    58470,
+    58561,
+    "Updated wording 10"
+   ],
+   "expected": "experiments/gate-files/c07/preview-c09/expected/10-text.html",
+   "expectedSha256": "062dc8f254e797fd5ba3183e9e83c7aa1499287b2a83dfccc2987f9663fc93cd"
+  }
+ ]
+}

@@ -151,20 +151,26 @@ function prePush(remoteUrl, stdinText) {
   const terms = privacyTerms();
   // The remote's real branches, read from the remote itself: local remote-tracking refs can be faked
   // (git update-ref refs/remotes/origin/x ...) to hide commits from the scan.
-  let remoteTips = null;
+  // The tips of the remote's branches that exist here: their commits are on the remote already, so a push does not
+  // publish them again (a merge of main brings in main's commits; owner, 2026-11-13, decision 0003). Read once.
+  let tips = null;
+  const knownTips = () => {
+    tips ??= git(["ls-remote", "--heads", remoteUrl]).split("\n").map((l) => l.split("\t")[0]).filter((s) => /^[0-9a-f]{40,64}$/.test(s))
+      .filter((s) => spawnSync("git", ["cat-file", "-e", `${s}^{commit}`]).status === 0);
+    return tips;
+  };
   for (const line of stdinText.split(/\r?\n/).filter(Boolean)) {
     const [, localSha, , remoteSha] = line.trim().split(/\s+/);
     if (ZERO.test(localSha ?? "")) continue;
     let range;
     if (ZERO.test(remoteSha ?? "")) {
-      remoteTips ??= git(["ls-remote", "--heads", remoteUrl]).split("\n").map((l) => l.split("\t")[0]).filter((s) => /^[0-9a-f]{40,64}$/.test(s));
-      const known = remoteTips.filter((s) => spawnSync("git", ["cat-file", "-e", `${s}^{commit}`]).status === 0);
+      const known = knownTips();
       range = known.length ? [localSha, "--not", ...known] : [localSha];
     } else {
       const known = spawnSync("git", ["cat-file", "-e", `${remoteSha}^{commit}`]).status === 0;
       const ff = known && spawnSync("git", ["merge-base", "--is-ancestor", remoteSha, localSha]).status === 0;
       if (!ff) { problems.push("This push rewrites the remote branch (it is not a fast-forward). Only the owner rewrites a pushed branch."); continue; }
-      range = [`${remoteSha}..${localSha}`];
+      range = [localSha, "--not", remoteSha, ...knownTips()];
     }
     const commits = git(["rev-list", ...range]).split("\n").filter(Boolean);
     if (!commits.length) continue;
