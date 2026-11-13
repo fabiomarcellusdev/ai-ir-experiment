@@ -1,0 +1,4567 @@
+{
+ "check": "C0.10 arm-M check of the direct-locator sentence: decides nothing",
+ "date": "2026-11-13",
+ "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+ "harness": "2.1.322 (Claude Code)",
+ "baseline": "experiments/c07/gate-v2-c10-result.json",
+ "plan": {
+  "harness": "2.1.322",
+  "harnessSha256": "345996b4bdbae21d817f750fae2f34cbf8d81224a5444c78136091d121beb298",
+  "model": "claude-sonnet-5-5",
+  "seed": 20261112,
+  "maxTurns": 40,
+  "timeoutMs": 600000,
+  "perRunBudgetUsd": 5,
+  "totalBudgetUsd": 40,
+  "builtInTools": "Read,Edit,Grep,Glob",
+  "env": {
+   "ENABLE_TOOL_SEARCH": "false",
+   "MAX_MCP_OUTPUT_TOKENS": "25000",
+   "DISABLE_AUTOUPDATER": "1",
+   "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+   "CLAUDE_CODE_DISABLE_BACKGROUND_TASKS": "1"
+  },
+  "toolSearch": false,
+  "runPlan": "docs/measurements/2026-11-13-check-ts-loc-run-plan.md"
+ },
+ "starts": [
+  {
+   "start": "20261113T035320",
+   "budgetUsd": 1.5,
+   "harness": "2.1.322 (Claude Code)"
+  }
+ ],
+ "stops": [],
+ "costUsd": 0.5337563000000002,
+ "costEstimatedRuns": 0,
+ "runs": [
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "6-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11077,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0048596,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5322,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4304
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "8-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 17009,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0074447,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5315,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4358
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "3-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11044,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0046367000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5318,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3181
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "6-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 17390,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0076553,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5317,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3945
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "10-question",
+   "type": "question",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10968,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0040573,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5324,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3170
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "8-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11059,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0047345,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5321,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2682
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "7-question",
+   "type": "question",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10978,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0038284999999999994,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5336,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3600
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "10-text",
+   "type": "text",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10991,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0044055,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5306,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2503
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "7-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11065,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0048542,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5318,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2761
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "2-text",
+   "type": "text",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10982,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0044004000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5305,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2949
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "10-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11079,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0047875,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5326,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3042
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "3-question",
+   "type": "question",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10928,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0036146999999999998,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5323,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2777
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "2-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10991,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004398300000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5309,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2528
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "4-question",
+   "type": "question",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10945,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0037751,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5327,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2327
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "1-question",
+   "type": "question",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10945,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0037925,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5326,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2864
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "1-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11040,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0046267,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5318,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2794
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "5-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16753,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0062956,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5317,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3498
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "9-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10914,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.003979900000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5300,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3016
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "4-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11056,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0047591000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5317,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2510
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "9-text",
+   "type": "text",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16762,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0064444,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5308,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3841
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "1-text",
+   "type": "text",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11019,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004578400000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5310,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3324
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "3-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10869,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0037069,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5295,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2932
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "4-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10993,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004468100000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5307,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3094
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "5-text",
+   "type": "text",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16699,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.006208300000000001,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5309,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3567
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "4-text",
+   "type": "text",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10979,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043404,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5305,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2803
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "10-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10988,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004443000000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5306,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3283
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "7-text",
+   "type": "text",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11049,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0047563,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5314,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3121
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "5-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10919,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0040599,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5300,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2690
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "2-question",
+   "type": "question",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10992,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0039223,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5324,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3400
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "9-question",
+   "type": "question",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10927,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0036572,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5323,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3564
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "7-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10940,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0041007,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5308,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2504
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "6-text",
+   "type": "text",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11067,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0049264,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5315,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2764
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "1-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10887,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0038944,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5295,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2545
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "6-question",
+   "type": "question",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11162,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0045528,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5329,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3354
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "3-text",
+   "type": "text",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10995,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0044482,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5308,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2548
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "8-question",
+   "type": "question",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10999,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0037259,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5335,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3766
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "5-question",
+   "type": "question",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10893,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0034375000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5326,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3266
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "9-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11049,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0046519000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5320,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3128
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "8-text",
+   "type": "text",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16833,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0064125,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5309,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4393
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "2-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 1,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11045,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0046467,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5318,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2507
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "5-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10909,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0036623000000000003,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5302,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2296
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "1-text",
+   "type": "text",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11017,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004323800000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5309,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3208
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "1-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10880,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0035784000000000002,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5295,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2240
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "3-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10875,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0035383000000000003,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5294,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2280
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "1-question",
+   "type": "question",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10933,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0033994999999999997,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5325,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2744
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "5-text",
+   "type": "text",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16699,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0059563,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5308,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 5256
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "8-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16977,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0069285,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5316,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 5945
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "3-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11040,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043429,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5317,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2527
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "9-text",
+   "type": "text",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16795,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.006412600000000001,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5308,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4636
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "4-question",
+   "type": "question",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10944,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0035071,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5325,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3696
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "4-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10986,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0041833,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5307,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3288
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "6-text",
+   "type": "text",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11048,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004442400000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5315,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3345
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "10-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11091,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0046243000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5324,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4209
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "3-question",
+   "type": "question",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10942,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0034541,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5324,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3954
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "8-question",
+   "type": "question",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10997,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0034238999999999997,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5335,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3720
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "6-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 17393,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.007485800000000001,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5316,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4214
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "4-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11043,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043579000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5317,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2689
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "5-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11057,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0045228,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5317,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3165
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "3-text",
+   "type": "text",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11005,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043232,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5307,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3288
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "2-question",
+   "type": "question",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10968,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0033841,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5323,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2788
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "8-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11056,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0044063,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5322,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4136
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "10-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10985,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0041982,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5306,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3198
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "2-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11041,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043655000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5318,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2624
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "9-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11047,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004355899999999999,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5320,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3200
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "2-text",
+   "type": "text",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10973,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004100400000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5305,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3129
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "7-text",
+   "type": "text",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11048,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0044922,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5314,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3100
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "7-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11039,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043404,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5317,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2564
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "9-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10893,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0035917,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5299,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2211
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "10-text",
+   "type": "text",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10989,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0041533,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5307,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3387
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "4-text",
+   "type": "text",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10981,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0041006,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5306,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2547
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "7-question",
+   "type": "question",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10978,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0035141,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5336,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3588
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "8-text",
+   "type": "text",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16944,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0068454,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5310,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 5740
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "1-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11040,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004340500000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5317,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3206
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "2-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10997,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0042363,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5309,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3799
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "6-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11066,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0044838,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5321,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3916
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "10-question",
+   "type": "question",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10946,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0035667,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5324,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2919
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "6-question",
+   "type": "question",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11120,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.003855,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5328,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3282
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "9-question",
+   "type": "question",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10909,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0031892,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5324,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2693
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "5-question",
+   "type": "question",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10884,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0031243,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5324,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3196
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "7-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 2,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10943,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0039033,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5307,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2405
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "9-question",
+   "type": "question",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10925,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0033216,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5323,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2786
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "3-question",
+   "type": "question",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10926,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0032941000000000003,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5324,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3611
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "10-text",
+   "type": "text",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10994,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0042033,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5307,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2482
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "6-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 17364,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0072108,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5314,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3969
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "9-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11049,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043759,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5320,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3204
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "4-question",
+   "type": "question",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10942,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0034523,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5327,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2318
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "7-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10944,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0039307000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5306,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2436
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "2-question",
+   "type": "question",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11047,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0041294,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5326,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3450
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "5-question",
+   "type": "question",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10886,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0031269,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5325,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3218
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "7-text",
+   "type": "text",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11030,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004322100000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5313,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3497
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "4-text",
+   "type": "text",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10981,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004118,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5305,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3056
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "4-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10985,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0041733,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5307,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3231
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "2-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16686,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.005844,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5309,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3820
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "10-question",
+   "type": "question",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10937,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0034767,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5324,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3857
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "3-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10889,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0036783000000000002,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5294,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2342
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "4-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11035,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0042905,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5318,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2454
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "3-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11042,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043581,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5319,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2451
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "1-text",
+   "type": "text",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11023,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043490000000000004,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5311,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3412
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "1-question",
+   "type": "question",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10939,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0034120999999999995,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5326,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2788
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "9-text",
+   "type": "text",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16768,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.006247600000000001,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5308,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4632
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "6-question",
+   "type": "question",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11128,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0039524,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5327,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2881
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "8-question",
+   "type": "question",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10995,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0034387000000000003,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5333,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2879
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "5-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10925,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0038349,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5303,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3310
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "1-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11054,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0044732999999999995,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5320,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2620
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "7-question",
+   "type": "question",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10978,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0035141,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5336,
+   "toolCalls": {
+    "mcp__html__html_find": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3770
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "5-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11039,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004342800000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5317,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3213
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "9-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10911,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0037717000000000002,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5299,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3252
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "5-text",
+   "type": "text",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16685,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0058411999999999995,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5309,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3339
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "2-text",
+   "type": "text",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10977,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0041404,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5305,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3077
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "6-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11087,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0046890000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5323,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4061
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "10-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10987,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0042008,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5307,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3199
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "8-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16974,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0068685,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5316,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4166
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "2-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11041,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043655000000000005,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5318,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2679
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "8-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11057,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0044163,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5322,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3833
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "10-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11084,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0045495,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5326,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3015
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "7-attribute",
+   "type": "attribute",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11040,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0043630000000000006,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5318,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2489
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "1-structure",
+   "type": "structure",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10893,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.0037084000000000006,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5295,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2296
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "3-text",
+   "type": "text",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 10988,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004188000000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5305,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 3289
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "8-text",
+   "type": "text",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 16823,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.006040400000000001,
+   "costEstimated": false,
+   "turns": 3,
+   "firstInput": 5309,
+   "toolCalls": {
+    "mcp__html__html_find": 1,
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 2,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 4345
+  },
+  {
+   "commit": "370cf03af833abbf70e770f3dac8e6d57f79b0f3",
+   "kind": "record",
+   "task": "6-text",
+   "type": "text",
+   "arm": "M",
+   "k": 3,
+   "attempts": 1,
+   "pass": true,
+   "reasons": [],
+   "tokens": 11046,
+   "tokensFrom": "modelUsage",
+   "models": [
+    "claude-sonnet-5-5"
+   ],
+   "costUsd": 0.004439800000000001,
+   "costEstimated": false,
+   "turns": 2,
+   "firstInput": 5314,
+   "toolCalls": {
+    "mcp__html__html_change": 1
+   },
+   "mcpCalls": 1,
+   "missingFileErrors": 0,
+   "wholeFile": false,
+   "insideChange": false,
+   "tools": [
+    "Edit",
+    "Glob",
+    "Grep",
+    "Read",
+    "mcp__html__html_change",
+    "mcp__html__html_find",
+    "mcp__html__html_outline"
+   ],
+   "ms": 2567
+  }
+ ],
+ "comparison": {
+  "tasks": 40,
+  "medianNewOverOldM": 0.6824717569324583,
+  "medianNewOverOldMAllRuns": 0.6824717569324583,
+  "noise": {
+   "successDiff95": [
+    0,
+    0
+   ],
+   "ratio95": [
+    0.6432387839959735,
+    0.9756797014048035
+   ],
+   "resamplesWithRatio": 10000
+  },
+  "medianNewOverRecordedB": 0.7866499574688866,
+  "recordedGateMedian": 1.2065505219516486,
+  "byType": {
+   "question": {
+    "medianNewOverOldM": 0.9775506332422039
+   },
+   "text": {
+    "medianNewOverOldM": 0.6432984300865601
+   },
+   "attribute": {
+    "medianNewOverOldM": 0.6441840422552825
+   },
+   "structure": {
+    "medianNewOverOldM": 0.6417568172198108
+   }
+  },
+  "tokens": {
+   "old": 17080.5,
+   "new": 11002
+  },
+  "firstInput": {
+   "old": 5443,
+   "new": 5317
+  },
+  "turns": {
+   "old": 3,
+   "new": 2
+  },
+  "success": {
+   "old": 1,
+   "new": 1
+  },
+  "wholeFile": {
+   "old": 0,
+   "new": 0
+  },
+  "insideChanges": {
+   "old": 0,
+   "new": 0
+  },
+  "missingFileErrors": {
+   "old": 0,
+   "new": 0
+  },
+  "toolCalls": {
+   "old": {
+    "mcp__html__html_find": 107,
+    "mcp__html__html_change": 101
+   },
+   "new": {
+    "mcp__html__html_change": 90,
+    "mcp__html__html_find": 47
+   }
+  },
+  "failures": []
+ }
+}
