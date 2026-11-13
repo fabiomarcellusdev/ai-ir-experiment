@@ -181,3 +181,15 @@ test('the check modes run arm M only on the gates C0.7 and C0.10, with their own
   for (const f of ['experiments/c07/gate-v2-c07-result.json', 'experiments/c07/gate-v2-c10-result.json', RUN_PLAN_CHECK]) assert.ok(frozen.includes(f), f);
   assert.equal(FREEZE_SCOPES['check-m-v2'], 'experiments/c07/run-inputs-check-m-v2.json');
 });
+
+test('a second-rescope mode cannot reach the verdict without its interval limit (follow-up of the C0.8 v2 check)', async () => {
+  const { analysisOptions } = await import('./run-c06.mjs');
+  for (const [name, set] of Object.entries(MODES)) {
+    if (set.baseline) continue; // an arm-M check returns before the analysis (compareM)
+    if (!set.second) { assert.deepEqual(analysisOptions(set), {}, name); continue; }
+    assert.equal(analysisOptions(set).intervalBelow, 1, name);
+  }
+  // The control: a second-rescope mode that forgot its limit is refused, not passed.
+  const { intervalBelow, ...forgot } = MODES['gate-v2-c07'];
+  assert.throws(() => analysisOptions(forgot), /needs its interval limit/);
+});

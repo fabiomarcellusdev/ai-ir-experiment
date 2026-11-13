@@ -105,6 +105,17 @@ for (const g of Object.keys(GATES)) {
     result: `experiments/c07/gate-v2-${g}-result.json`, gate: name, label: `${name} (v2 tools)` };
 }
 
+/**
+ * The analysis options of a mode. A second-rescope mode must name its interval limit: `analyze` leaves the interval
+ * check out when the limit is missing, and the verdict would then pass without it (analysis check of C0.8 v2; owner,
+ * 2026-11-13). C0.6's modes have no interval rule.
+ */
+export function analysisOptions(set) {
+  if (!set.second) return {};
+  if (!Number.isFinite(set.intervalBelow)) throw new Error('a second-rescope mode needs its interval limit (intervalBelow)');
+  return { types: set.types, intervalBelow: set.intervalBelow };
+}
+
 /** The plan of the arm-M check of decisions 0009 and 0010 (owner, 2026-11-13: option A). */
 export const RUN_PLAN_CHECK = 'docs/measurements/2026-11-13-check-m-v2-run-plan.md';
 /** The result file of an arm-M check: a `check` field, never a `gate`, a `verdict` or an `analysis` (review of the check, 3). */
@@ -835,7 +846,7 @@ async function runAll(mode, budgetUsd) {
     console.log(`${set.label}: new M ÷ recorded M ${c.medianNewOverOldM?.toFixed(3)} over ${c.tasks} tasks; first input ${c.firstInput.old} to ${c.firstInput.new}; turns ${c.turns.old} to ${c.turns.new}; success ${c.success.old} to ${c.success.new}; $${cost.toFixed(2)}`);
     return;
   }
-  const analysis = analyze(done, tasks, sizes, seed, set.rounds, set.second ? { types: set.types, intervalBelow: set.intervalBelow } : {});
+  const analysis = analyze(done, tasks, sizes, seed, set.rounds, analysisOptions(set));
   const result = {
     gate: set.label ?? (set.gate ? 'C0.6' : 'C0.6 PREVIEW on C0.3 tasks: decides nothing (owner, 2026-11-12)'), date: new Date().toISOString().slice(0, 10), commit, harness: version,
     plan: set.second ? { ...PLAN, seed, runPlan: set.plan } : PLAN,
