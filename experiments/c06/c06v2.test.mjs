@@ -193,3 +193,85 @@ test('a second-rescope mode cannot reach the verdict without its interval limit 
   const { intervalBelow, ...forgot } = MODES['gate-v2-c07'];
   assert.throws(() => analysisOptions(forgot), /needs its interval limit/);
 });
+
+// --- The checks of tool search on and of the direct-locator sentence (owner, 2026-11-13) ----------------------------
+import { cleanEnv, argsFor, KNOWN_TOOLS, sentenceProblem, LOCATOR_SENTENCE, EXPECTED_TOOLS_V2_SEARCH, RUN_PLAN_CHECK_2 } from './run-c06.mjs';
+
+test('the tool-search check sets ENABLE_TOOL_SEARCH to true; every gate and the other checks keep it false', () => {
+  assert.equal(cleanEnv('k', 'c', {}, true).ENABLE_TOOL_SEARCH, 'true');
+  assert.equal(cleanEnv('k', 'c', {}, false).ENABLE_TOOL_SEARCH, 'false');
+  assert.equal(cleanEnv('k', 'c', {}).ENABLE_TOOL_SEARCH, 'false'); // the default outside a run is off
+  for (const [name, set] of Object.entries(MODES)) assert.equal(!!set.toolSearch, name.startsWith('check-ts-'), name);
+  const r = checkResult({ label: 'x', commit: 'c', version: 'v', baseline: 'b', runPlan: 'p', seed: 1, starts: [], stops: [], cost: 0, done: [], comparison: {}, search: true });
+  assert.equal(r.plan.env.ENABLE_TOOL_SEARCH, 'true'); // the result records the setting that ran
+  assert.equal(r.plan.toolSearch, true);
+});
+
+test('with tool search on, arm M may list the deferred tools or not, plus ToolSearch; nothing else', () => {
+  const v = { claude_code_version: '2.1.322', mcp_servers: [{ name: 'html', status: 'connected' }] };
+  const M = (tools, extra = {}) => checkStart({ ...v, tools, ...extra }, 'M', '2.1.322', EXPECTED_TOOLS_V2_SEARCH);
+  assert.equal(M([...EXPECTED_TOOLS_V2.M, 'ToolSearch']), null);
+  assert.equal(M(['Read', 'Edit', 'Grep', 'Glob', 'ToolSearch']), null);
+  assert.match(M(EXPECTED_TOOLS_V2.M), /tool list/); // control: no ToolSearch means tool search is off
+  assert.match(M([...EXPECTED_TOOLS_V2.M, 'ToolSearch', 'Bash']), /tool list/);
+  // The server's status must show the connection, which the short list cannot (review of the "ts" check, 4).
+  assert.match(M(['Read', 'Edit', 'Grep', 'Glob', 'ToolSearch'], { mcp_servers: [{ name: 'html', status: 'failed' }] }), /did not connect/);
+  assert.match(M(['Read', 'Edit', 'Grep', 'Glob', 'ToolSearch'], { mcp_servers: [] }), /did not connect/);
+  assert.equal(checkStart({ claude_code_version: '2.1.322', tools: EXPECTED_TOOLS_V2.M }, 'M', '2.1.322', EXPECTED_TOOLS_V2), null); // the gates' list still holds
+});
+
+test('with tool search on, arm M gets ToolSearch in --tools and --allowedTools; every other run is as before', () => {
+  const on = argsFor('M', 'p', 'cfg.json', true);
+  assert.equal(on[on.indexOf('--tools') + 1], 'Read,Edit,Grep,Glob,ToolSearch');
+  assert.ok(on[on.indexOf('--allowedTools') + 1].split(',').includes('ToolSearch'));
+  for (const [arm, search] of [['M', false], ['B', true], ['B', false]]) {
+    const a = argsFor(arm, 'p', 'cfg.json', search);
+    assert.equal(a[a.indexOf('--tools') + 1], 'Read,Edit,Grep,Glob', `${arm} ${search}`);
+    assert.ok(!a.join(' ').includes('ToolSearch'), `${arm} ${search}`);
+  }
+  assert.ok(KNOWN_TOOLS.includes('ToolSearch')); // a ToolSearch call is counted by name, not as "other"
+});
+
+test('the runner wires tool search from the mode to the env, the arguments, the start check and the result', () => {
+  // A text check of run-c06.mjs, where a unit test cannot reach (review of the "ts" check, 7).
+  const src = readFileSync(new URL('./run-c06.mjs', import.meta.url), 'utf8');
+  assert.match(src, /\n {2}toolSearch = !!set\.toolSearch;\n/);
+  assert.match(src, /toolSearch \? EXPECTED_TOOLS_V2_SEARCH : EXPECTED_TOOLS_V2/);
+  assert.match(src, /comparison, search: toolSearch \}\);/);
+  assert.match(src, /if \(!set\.baseline\) analysisOptions\(set\);/); // the interval guard runs before any paid run
+});
+
+test('each check refuses the wrong tool text: "loc" needs decision 0011\'s sentence, "now" and "ts" refuse it', () => {
+  const plain = readFileSync(new URL('../../server/tools-v2.json', import.meta.url), 'utf8');
+  const withIt = plain.replace('Not for html, head or body.', `Not for html, head or body. ${LOCATOR_SENTENCE}`);
+  assert.notEqual(withIt, plain);
+  for (const g of ['c07', 'c10']) {
+    assert.equal(sentenceProblem(MODES[`check-now-v2-${g}`], plain), null);
+    assert.equal(sentenceProblem(MODES[`check-ts-v2-${g}`], plain), null);
+    assert.match(sentenceProblem(MODES[`check-loc-v2-${g}`], plain), /lacks decision 0011/);
+    assert.equal(sentenceProblem(MODES[`check-loc-v2-${g}`], withIt), null);
+    assert.match(sentenceProblem(MODES[`check-ts-v2-${g}`], withIt), /holds decision 0011/);
+  }
+  assert.equal(sentenceProblem(MODES['gate-v2-c07'], withIt), null); // a gate has no sentence rule
+});
+
+test('the 6 later check modes: the baseline, tool search on and the direct-locator sentence, on C0.7 and C0.10, with their own freezes', () => {
+  for (const v of ['now', 'ts', 'loc']) for (const g of ['c07', 'c10']) {
+    const s = MODES[`check-${v}-v2-${g}`];
+    const first = MODES[`check-m-v2-${g}`];
+    assert.deepEqual(s.arms, ['M']);
+    assert.equal(s.plan, RUN_PLAN_CHECK_2);
+    assert.equal(s.freeze, `check-${v}-v2`);
+    assert.equal(s.baseline, first.baseline);
+    assert.equal(s.tasks, first.tasks);
+    assert.equal(s.seed, 20261112);
+    assert.equal(s.gate, undefined);
+    assert.equal(s.result, `experiments/c07/check-${v}-v2-${g}-result.json`);
+  }
+  for (const scope of ['check-now-v2', 'check-ts-v2', 'check-loc-v2']) {
+    const f = frozenFiles(scope);
+    for (const x of [RUN_PLAN_CHECK_2, 'experiments/c07/check-m-v2-c07-result.json', 'experiments/c07/gate-v2-c10-result.json']) assert.ok(f.includes(x), `${scope} ${x}`);
+    assert.ok(f.includes('server/tools-v2.json'));
+  }
+  assert.ok(!frozenFiles('check-m-v2').includes(RUN_PLAN_CHECK_2)); // the first check's freeze is as it was
+});

@@ -119,9 +119,9 @@ export function analysisOptions(set) {
 /** The plan of the arm-M check of decisions 0009 and 0010 (owner, 2026-11-13: option A). */
 export const RUN_PLAN_CHECK = 'docs/measurements/2026-11-13-check-m-v2-run-plan.md';
 /** The result file of an arm-M check: a `check` field, never a `gate`, a `verdict` or an `analysis` (review of the check, 3). */
-export function checkResult({ label, commit, version, baseline, runPlan, seed, starts, stops, cost, done, comparison }) {
+export function checkResult({ label, commit, version, baseline, runPlan, seed, starts, stops, cost, done, comparison, search = false }) {
   return { check: label, date: new Date().toISOString().slice(0, 10), commit, harness: version, baseline,
-    plan: { ...PLAN, seed, runPlan }, starts: starts.map(({ start, budgetUsd: usd, harness }) => ({ start, budgetUsd: usd, harness })),
+    plan: { ...PLAN, env: planEnv(search), toolSearch: search, seed, runPlan }, starts: starts.map(({ start, budgetUsd: usd, harness }) => ({ start, budgetUsd: usd, harness })),
     stops: stops.map(({ start, task, arm, k, reason, costUsd }) => ({ start, task, arm, k, reason, costUsd })),
     costUsd: cost, costEstimatedRuns: done.filter((r) => r.costEstimated).length, runs: done, comparison };
 }
@@ -133,6 +133,30 @@ for (const g of ['c07', 'c10']) {
     tasks: PATHS.tasks(g, false), record: PATHS.fileSet(g), freeze: 'check-m-v2', rounds: RUNS_PER_ARM,
     baseline: `experiments/c07/gate-v2-${g}-result.json`, result: `experiments/c07/check-m-v2-${g}-result.json`,
     label: `${name} arm-M check of decisions 0009 and 0010: decides nothing` };
+}
+/** The plan of the 3 later arm-M checks: the baseline, tool search on, and the direct-locator sentence (owner, 2026-11-13). */
+export const RUN_PLAN_CHECK_2 = 'docs/measurements/2026-11-13-check-ts-loc-run-plan.md';
+/** Decision 0011's sentence in html_change's text. */
+export const LOCATOR_SENTENCE = 'When the task quotes visible text inside the element, call html_change with `text` (and `tag`) directly; html_find is not needed first.';
+/**
+ * Why the server's tool text does not fit a check, or null: "loc" needs decision 0011's sentence, "now" and "ts" need
+ * the text without it (review of the "ts" check, 3). Other modes have no `sentence`.
+ */
+export function sentenceProblem(set, toolsJson) {
+  if (set.sentence === undefined) return null;
+  const has = toolsJson.includes(JSON.stringify(LOCATOR_SENTENCE).slice(1, -1));
+  if (has === set.sentence) return null;
+  return set.sentence ? 'the server\'s tool text lacks decision 0011\'s sentence: commit it before the "loc" check' : 'the server\'s tool text holds decision 0011\'s sentence: this check needs the text without it';
+}
+// "now": the current server, tool search off (the baseline; owner, 2026-11-13). "ts": tool search on, with the same
+// text. "loc": tool search off, with decision 0011's sentence (committed before its run). Each against the gate's
+// recorded runs, like the first check; the report also sets "ts" and "loc" against "now".
+for (const [v, extra, what] of [['now', { sentence: false }, 'the current server, tool search off'],
+  ['ts', { toolSearch: true, sentence: false }, 'tool search on'], ['loc', { sentence: true }, 'the direct-locator sentence']]) {
+  for (const g of ['c07', 'c10']) {
+    MODES[`check-${v}-v2-${g}`] = { ...MODES[`check-m-v2-${g}`], ...extra, plan: RUN_PLAN_CHECK_2, freeze: `check-${v}-v2`,
+      result: `experiments/c07/check-${v}-v2-${g}-result.json`, label: `${gateName(g)} arm-M check of ${what}: decides nothing` };
+  }
 }
 
 /**
@@ -158,8 +182,19 @@ export const EXPECTED_TOOLS_V2 = {
   B: EXPECTED_TOOLS.B,
   M: ['Edit', 'Glob', 'Grep', 'Read', 'mcp__html__html_change', 'mcp__html__html_find', 'mcp__html__html_outline'],
 };
+/**
+ * The tool lists of a run with tool search on (owner, 2026-11-13): Claude Code adds its `ToolSearch` tool. Whether its
+ * start message still lists the deferred MCP tools is not documented, so arm M may show either list; any other list
+ * stops the run (`docs/measurements/2026-11-13-check-ts-loc-run-plan.md`).
+ */
+export const EXPECTED_TOOLS_V2_SEARCH = {
+  B: EXPECTED_TOOLS.B,
+  M: [[...EXPECTED_TOOLS_V2.M, 'ToolSearch'].sort(), [...EXPECTED_TOOLS.B, 'ToolSearch'].sort()],
+};
 /** The tools of the present run's MCP server: 'v1' or 'v2'; set in runAll from the mode. */
 let toolsVersion = 'v1';
+/** Tool search on (a check mode's `toolSearch`); off in every gate (C0.6, rule 3). */
+let toolSearch = false;
 /** The tool calls that change the file: a question run that made one "edited the file" (C.5). */
 export const EDIT_TOOLS = ['Edit', 'mcp__html__html_edit', 'mcp__html__html_change'];
 /** The plugins that Claude Code 2.1.322 builds in; no other plugin may load (pilot, 2026-11-12). */
@@ -201,21 +236,29 @@ export function systemEnv(parent = process.env) {
 }
 
 /** The environment of a run: the system's variables, the API key, the plan's settings and a new config folder. */
-export function cleanEnv(key, configDir, parent = process.env) {
-  return { ...systemEnv(parent), ...PLAN.env, ANTHROPIC_API_KEY: key, CLAUDE_CONFIG_DIR: configDir };
+export function cleanEnv(key, configDir, parent = process.env, search = toolSearch) {
+  return { ...systemEnv(parent), ...planEnv(search), ANTHROPIC_API_KEY: key, CLAUDE_CONFIG_DIR: configDir };
 }
+/**
+ * The plan's variables; with tool search on, ENABLE_TOOL_SEARCH is "true". Claude Code's tool-search page (read
+ * 2026-11-12) says that "true" and an unset variable both turn it on; not checked for 2.1.322.
+ */
+export const planEnv = (search) => ({ ...PLAN.env, ...(search ? { ENABLE_TOOL_SEARCH: 'true' } : {}) });
 
 /**
  * The command line of one run. `--restricted` confines the file tools to the run folder (security review, F1): a
  * file of the set may hold text that tells the agent to read files outside it.
  */
-export function argsFor(arm, prompt, mcpConfig) {
-  const allowed = ['Read', 'Edit', 'Grep', 'Glob', ...(arm === 'M' ? ['mcp__html__*'] : [])];
+export function argsFor(arm, prompt, mcpConfig, search = toolSearch) {
+  // With tool search on, arm M also gets Claude Code's ToolSearch tool, named in `--tools` and allowed: without it the
+  // agent could not load the deferred MCP tools (review of the "ts" check, 5).
+  const extra = search && arm === 'M' ? ['ToolSearch'] : [];
+  const allowed = ['Read', 'Edit', 'Grep', 'Glob', ...extra, ...(arm === 'M' ? ['mcp__html__*'] : [])];
   // No `--bare`: in 2.1.322 it removes Grep and Glob even when `--tools` names them (pilot, 2026-11-12).
   // `--disable-slash-commands` removes the built-in skills and commands.
   return ['-p', prompt, '--model', PLAN.model, '--restricted', '--disable-slash-commands', '--output-format', 'stream-json', '--verbose',
     '--max-turns', String(PLAN.maxTurns), '--max-budget-usd', String(PLAN.perRunBudgetUsd),
-    '--tools', PLAN.builtInTools, '--strict-mcp-config', ...(arm === 'M' ? ['--mcp-config', mcpConfig] : []),
+    '--tools', [PLAN.builtInTools, ...extra].join(','), '--strict-mcp-config', ...(arm === 'M' ? ['--mcp-config', mcpConfig] : []),
     '--allowedTools', allowed.join(','), '--permission-prompts', 'none', '--no-session-persistence'];
 }
 
@@ -226,7 +269,7 @@ export const missingFileErrors = (calls) => calls.filter((c) => c.isError && NOT
 
 /** The tool names that a record counts by name; any other name counts as "other" (security review, F2). */
 export const KNOWN_TOOLS = ['Read', 'Edit', 'Grep', 'Glob', 'mcp__html__html_outline', 'mcp__html__html_find', 'mcp__html__html_read', 'mcp__html__html_edit',
-  'mcp__html__html_change'];
+  'mcp__html__html_change', 'ToolSearch'];
 
 /** The number of calls of each tool. A name that the model made up is never written: it could carry any text. */
 export function countTools(calls) {
@@ -457,8 +500,14 @@ export function apiErrorText(s) {
 export function checkStart(init, arm, harness, expected = EXPECTED_TOOLS) {
   if (!init) return 'the run gave no start message';
   if (String(init.claude_code_version ?? '') !== harness) return `the harness became ${init.claude_code_version ?? 'unknown (no version in the start message)'}`;
-  const tools = [...(init.tools ?? [])].sort();
-  if (JSON.stringify(tools) !== JSON.stringify(expected[arm])) return `arm ${arm} had another tool list`;
+  const tools = JSON.stringify([...(init.tools ?? [])].sort());
+  // `expected[arm]` is one list, or (tool search on) a list of allowed lists.
+  const several = Array.isArray(expected[arm][0]);
+  const allowed = several ? expected[arm] : [expected[arm]];
+  if (!allowed.some((l) => JSON.stringify([...l].sort()) === tools)) return `arm ${arm} had another tool list`;
+  // With tool search on, the list may lack the MCP tools, so it no longer shows that the server connected: the start
+  // message's server status must (review of the "ts" check, 4).
+  if (several && arm === 'M' && !(init.mcp_servers ?? []).some((x) => x.name === 'html' && x.status === 'connected')) return 'the MCP server did not connect';
   if ((init.skills ?? []).length) return 'skills loaded';
   if ((init.plugins ?? []).some((p) => !BUILTIN_PLUGINS.includes(p.name) || p.path !== 'builtin')) return 'a plugin other than the built-in ones loaded';
   return null;
@@ -502,7 +551,7 @@ async function oneRun(task, arm, k, key, label, startId) {
       attempts.push({ s, run, end: endOf(s, run) });
       const spent = () => attempts.reduce((a, x) => a + attemptCost(x.s).usd, 0);
       if (canaryHit(run.lines, canaryFile)) throw new StopGate(`${task.id} ${arm}${k}: the agent reached the canary outside its folder`, spent());
-      const startProblem = checkStart(s.init, arm, PLAN.harness, toolsVersion === 'v2' ? EXPECTED_TOOLS_V2 : EXPECTED_TOOLS);
+      const startProblem = checkStart(s.init, arm, PLAN.harness, toolsVersion === 'v2' ? (toolSearch ? EXPECTED_TOOLS_V2_SEARCH : EXPECTED_TOOLS_V2) : EXPECTED_TOOLS);
       if (startProblem && attempts.at(-1).end !== 'api-error') throw new StopGate(`${task.id} ${arm}${k}: ${startProblem}`, spent());
       // One more run only for an API error before the first tool call (C0.4, "Limits").
       if (!(attempts.at(-1).end === 'api-error' && !s.calls.length)) break;
@@ -702,6 +751,10 @@ async function preflight(mode) {
       if (t.expectedSha256 && sha(readFileSync(at(expectedOf(t)))) !== t.expectedSha256) throw new Error(`the expected file of ${t.id} is not the recorded file`);
     }
     if (set.second) await checkFreeze(set, files, key);
+    // Before any paid run: the interval limit (review of the "ts" check, 6) and the tool text that the check names (3).
+    if (!set.baseline) analysisOptions(set);
+    const problem = sentenceProblem(set, readFileSync(at('server/tools-v2.json'), 'utf8'));
+    if (problem) throw new Error(problem);
     // A preview with fewer than 6 tasks does not run (contract, "Order of the second rescope", 4).
     if (set.preview && !previewRuns(JSON.parse(readFileSync(at(set.tasks), 'utf8')).tasks.length)) throw new Error(`the preview has fewer than ${PREVIEW_MIN_TASKS} tasks: it does not run`);
   }
@@ -765,6 +818,7 @@ async function runAll(mode, budgetUsd) {
   const commit = git('rev-parse', 'HEAD');
   runCommit = commit;
   toolsVersion = set.tools ?? 'v1';
+  toolSearch = !!set.toolSearch;
   const label = mode;
   const taskFile = set.tasks;
   const allTasks = JSON.parse(readFileSync(at(taskFile), 'utf8')).tasks;
@@ -838,7 +892,8 @@ async function runAll(mode, budgetUsd) {
   if (set.baseline) {
     // The arm-M check: no verdict; the comparison with the gate's recorded runs.
     const comparison = compareM(done, JSON.parse(readFileSync(at(set.baseline), 'utf8')).runs, tasks, seed, set.rounds);
-    const checked = checkResult({ label: set.label, commit, version, baseline: set.baseline, runPlan: set.plan, seed, starts, stops, cost, done, comparison });
+    // The setting that ran: the module value that cleanEnv, argsFor and checkStart used (review of the "ts" check, 7).
+    const checked = checkResult({ label: set.label, commit, version, baseline: set.baseline, runPlan: set.plan, seed, starts, stops, cost, done, comparison, search: toolSearch });
     const text = `${JSON.stringify(checked, null, 1)}\n`;
     if (holdsKey(text, key)) throw new Error('the result holds the API key: stopped, nothing written');
     writeFileSync(at(set.result), text);
