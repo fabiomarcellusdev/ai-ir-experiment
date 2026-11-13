@@ -37,8 +37,8 @@ ran with the current server: 0.513 and 1.194 (`docs/measurements/2026-11-12-c07-
   in Claude Code, and the gates turned it off.
 
 **Now:** the server has decision 0010's shorter tool text (1,161 tokens, from the gates' 1,337) and no size field:
-the owner removed it on 2026-11-13 (decision 0009, withdrawn). C0.1 v2 and C0.2 v2 must run again on this server; they
-are not yet run again. The owner chose not to measure tool search on.
+the owner removed it on 2026-11-13 (decision 0009, withdrawn). C0.1 v2 and C0.2 v2 passed again on this server
+(`docs/measurements/2026-11-13-c01-c02-v2-rerun-2.md`). The owner chose not to measure tool search on.
 
 **Done after the gates:** the size field built, checked and removed (decision 0009); the shorter tool text (decision
 0010); C0.1 v2 and C0.2 v2 passed with both (`docs/measurements/2026-11-13-c01-c02-v2-rerun.md`); the paid arm-M check
