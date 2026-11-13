@@ -1106,3 +1106,53 @@ size field, before C0.2 v2 runs again.** The note of 2026-11-12 ("C0.2 v2's harn
 the output check and the control "an id listing that shows hidden children" are again as at `a05993a`, because
 `server/v2.mjs` is again as at `a05993a`.
 - **No condition and no number changed.** C0.1 v2 and C0.2 v2 must pass again before a v2 run.
+
+## Gate C0.11: a mix of small and large edits (decision 0012)
+
+**Status: Agreed (owner, 2026-11-13): "Agree, build and run it".** The owner chose the mix (A) and the measure (total
+tokens), then agreed to this text, and said yes to the paid run (about $3.20, budget stop $7) after the build, its
+review and the freeze, with no further question.
+
+**The question.** On a mix of the task kinds that the v2 gates tested, does arm M use at most 0.70 times arm B's total
+tokens, at equal success? Nobody measured how often developers make each kind of edit: the mix is the owner's
+assumption, and the report says so.
+
+### The inputs
+
+1. **The tasks:** 40 tasks, drawn with the seed `20261117` from the 4 frozen v2 task sets
+   (`experiments/c07/v2-<gate>-tasks.json`): 20 from C0.10 v2 (small edits named by a quote), 8 from C0.7 v2 (large
+   elements), 6 from C0.8 v2 (a target by position) and 6 from C0.9 v2 (a quote not in the source as written). From
+   each set, the draw is uniform and without replacement. Each task keeps its prompt, file, change and expected file;
+   its id gets its set's name in front (`c10.3-text`). A script writes the task set (`experiments/c11/c11-tasks.json`),
+   and the runner makes it again from the seed before the run.
+2. **The files:** the stored files of the drawn tasks, checked by their SHA-256 as in the v2 gates. For the interval,
+   files with the same SHA-256 are one file (C0.7 v2 and C0.9 v2 share 2 pages; C0.8 v2 and C0.10 v2 share 1; C0.9 v2
+   and C0.10 v2 share 1).
+3. **The server:** the v2 tools with decision 0010's text and decision 0011's sentence (1,210 tokens), tool search
+   off: the setup that the arm-M checks selected (`docs/measurements/2026-11-13-check-now-ts-loc-result.md`). C0.1 v2
+   and C0.2 v2 must have passed on it.
+4. **The rest as in the v2 gates:** arms B (Read, Edit, Grep, Glob) and M (also `html_find`, `html_change`,
+   `html_outline`); Claude Code 2.1.322 from the pinned copy; `claude-sonnet-5-5`; 3 runs of each task in each arm (240
+   runs); the run order with the seed `20261112`, round by round; the judge; the limits; the stop rules; the freeze;
+   and the run once rule.
+
+### The pass rule
+
+A task qualifies when each arm passed at least 1 of its 3 runs. All 5 must hold:
+
+1. **The ratio of total tokens** is 0.70 or less: the sum, over the qualifying tasks, of the median tokens of arm M's
+   passed runs, divided by the same sum for arm B.
+2. **The upper end of its 95% interval is below 1.00:** a bootstrap over files (10,000 resamples, the seed
+   `20261112`, the percentile rule of the v2 gates), each file with all its tasks and runs.
+3. **Success:** arm M's share of passed runs is no more than 5 points below arm B's.
+4. **Each kind** (the set that a task comes from): arm M's success is no more than 15 points below arm B's.
+5. **At least 20 tasks qualify.**
+
+The report also gives: the median of per-task ratios (as in the earlier gates), the ratio of total tokens for each
+kind, turns, tool calls, missing-file errors, whole-file reads, and the cost of each arm.
+
+### Cost and order
+
+About **$3.20** (from the v2 gates' cost per run of each kind; arm B about $2.66). Budget stop: `--budget-usd 7`.
+Order: the owner agrees to this text; the task script and the runner mode are built, reviewed and tested; the task
+set and the freeze are committed; the run (the owner's yes is above); the report with an independent check.
