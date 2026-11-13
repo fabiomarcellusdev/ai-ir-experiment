@@ -168,10 +168,23 @@ test('F2: the write refuses when a folder became a junction, or the file another
     symlinkSync(path.join(t.outside, 'o2'), path.join(t.root, 'sub'), 'junction');
     refuses(() => t.ws.write(f.real, Buffer.from('<p>WRITTEN</p>'), f.hash, f.id), /outside the workspace/);
     assert.equal(readFileSync(path.join(t.outside, 'o2', 'b.htm'), 'utf8'), '<p>b</p>');
+    // Another file renamed over the read one, with the same bytes: both files exist at once, so their inodes differ
+    // on every file system, and the write is refused.
     const g = t.ws.read('a.html');
-    rmSync(path.join(t.root, 'a.html'));
-    writeFileSync(path.join(t.root, 'a.html'), '<p>a</p>'); // the same bytes, but another file
+    writeFileSync(path.join(t.root, 'other.tmp'), '<p>a</p>');
+    renameSync(path.join(t.root, 'other.tmp'), path.join(t.root, 'a.html'));
     refuses(() => t.ws.write(g.real, Buffer.from('<p>x</p>'), g.hash, g.id), /changed since the hash/);
+    // Deleted and written again: a file system that reuses the freed inode number (Linux in CI, pull request #4) gives
+    // the new file the old identity, which the check cannot see. The write then goes to a file with the same bytes at
+    // the same path, as over the old one (docs/follow-ups.md). Elsewhere it is refused.
+    const h = t.ws.read('a.html');
+    rmSync(path.join(t.root, 'a.html'));
+    writeFileSync(path.join(t.root, 'a.html'), '<p>a</p>');
+    const st = statSync(path.join(t.root, 'a.html'), { bigint: true });
+    if (st.dev === h.id.dev && st.ino === h.id.ino) {
+      t.ws.write(h.real, Buffer.from('<p>x</p>'), h.hash, h.id);
+      assert.equal(readFileSync(path.join(t.root, 'a.html'), 'utf8'), '<p>x</p>');
+    } else refuses(() => t.ws.write(h.real, Buffer.from('<p>x</p>'), h.hash, h.id), /changed since the hash/);
   } finally { t.done(); }
 });
 
